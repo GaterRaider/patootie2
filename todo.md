@@ -49,3 +49,8 @@
 - [x] Add colored accent bar at top
 - [x] Enhance navigation with hover effects
 - [x] Add prominent CTA button in header
+
+## Mobile Header Fixes
+- [x] Fix long site title wrapping on mobile (use shorter version or logo only)
+- [x] Fix language toggle and theme toggle overlapping on mobile
+- [x] Reorganize header controls for better mobile layout

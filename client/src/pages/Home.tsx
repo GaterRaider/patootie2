@@ -87,11 +87,15 @@ export default function Home() {
 
       {/* Header */}
       <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60 shadow-sm">
-        <div className="container flex h-20 items-center justify-between">
-          <div className="flex items-center gap-3">
-            <img src="/images/logo-icon.png" alt="Logo" className="h-10 w-10" />
-            <div>
-              <h1 className="text-lg md:text-xl font-bold leading-tight">{t.siteTitle}</h1>
+        <div className="container flex h-20 items-center justify-between gap-4">
+          <div className="flex items-center gap-2 md:gap-3 min-w-0">
+            <img src="/images/logo-icon.png" alt="Logo" className="h-8 w-8 md:h-10 md:w-10 flex-shrink-0" />
+            <div className="min-w-0">
+              {/* Show full title on desktop, short version on mobile */}
+              <h1 className="text-base md:text-xl font-bold leading-tight">
+                <span className="hidden sm:inline">{t.siteTitle}</span>
+                <span className="sm:hidden">Patootie</span>
+              </h1>
             </div>
           </div>
           
@@ -126,19 +130,19 @@ export default function Home() {
             </Button>
           </nav>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
             {/* Language Toggle */}
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary/50">
+            <div className="flex items-center gap-1 md:gap-2 px-2 md:px-3 py-1 md:py-1.5 rounded-full bg-secondary/50">
               <button
                 onClick={() => setLanguage("en")}
-                className={`text-sm font-medium transition-colors px-2 py-0.5 rounded ${language === "en" ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground"}`}
+                className={`text-xs md:text-sm font-medium transition-colors px-1.5 md:px-2 py-0.5 rounded ${language === "en" ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground"}`}
               >
                 EN
               </button>
               <span className="text-muted-foreground text-xs">|</span>
               <button
                 onClick={() => setLanguage("ko")}
-                className={`text-sm font-medium transition-colors px-2 py-0.5 rounded ${language === "ko" ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground"}`}
+                className={`text-xs md:text-sm font-medium transition-colors px-1.5 md:px-2 py-0.5 rounded ${language === "ko" ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground"}`}
               >
                 KO
               </button>
@@ -148,7 +152,7 @@ export default function Home() {
             {toggleTheme && (
               <button
                 onClick={toggleTheme}
-                className="p-2 rounded-full hover:bg-secondary/80 transition-colors"
+                className="p-1.5 md:p-2 rounded-full hover:bg-secondary/80 transition-colors flex-shrink-0"
                 title={`Current theme: ${theme}`}
               >
                 {getThemeIcon()}
