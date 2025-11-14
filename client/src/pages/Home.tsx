@@ -12,6 +12,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { FileText, Users, Plane, HelpCircle, CheckCircle, Send, Mail, Moon, Sun, Monitor, MapPin, Phone } from "lucide-react";
 import { ServiceCard } from "@/components/ServiceCard";
+import { ContactForm } from "@/components/ContactForm";
 import { countries } from "@/lib/countries";
 import { useLocation } from "wouter";
 
@@ -324,195 +325,19 @@ export default function Home() {
 
       {/* Contact Form Section */}
       <section id="contact" className="py-8 md:py-14">
-        <div className="container max-w-3xl">
+        <div className="container max-w-4xl">
           <h2 className="text-2xl md:text-4xl font-bold text-center mb-8 md:mb-12">{t.contactHeading}</h2>
           
-          <Card className="shadow-xl">
-            <CardContent className="pt-6">
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Honeypot field - hidden from users */}
-                <input type="text" name="honeypot" className="hidden" tabIndex={-1} autoComplete="off" />
-
-                {/* Service */}
-                <div className="space-y-2">
-                  <Label htmlFor="service">{t.formService} *</Label>
-                  <Select name="service" value={selectedService} onValueChange={setSelectedService} required>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value={t.serviceCard1Title}>{t.serviceCard1Title}</SelectItem>
-                      <SelectItem value={t.serviceCard2Title}>{t.serviceCard2Title}</SelectItem>
-                      <SelectItem value={t.serviceCard3Title}>{t.serviceCard3Title}</SelectItem>
-                      <SelectItem value={t.serviceCard4Title}>{t.serviceCard4Title}</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                {/* Salutation */}
-                <div className="space-y-2">
-                  <Label htmlFor="salutation">{t.formSalutation} *</Label>
-                  <Select name="salutation" required>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Mr">{t.formSalutationMr}</SelectItem>
-                      <SelectItem value="Ms">{t.formSalutationMs}</SelectItem>
-                      <SelectItem value="Mx">{t.formSalutationMx}</SelectItem>
-                      <SelectItem value="Prefer not to say">{t.formSalutationPreferNot}</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                {/* Name */}
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="firstName">{t.formFirstName} *</Label>
-                    <Input id="firstName" name="firstName" required />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="lastName">{t.formLastName} *</Label>
-                    <Input id="lastName" name="lastName" required />
-                  </div>
-                </div>
-
-                {/* Date of Birth */}
-                <div className="space-y-2">
-                  <Label htmlFor="dateOfBirth">{t.formDateOfBirth} *</Label>
-                  <Input id="dateOfBirth" name="dateOfBirth" type="date" required />
-                </div>
-
-                {/* Contact Info */}
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="email">{t.formEmail} *</Label>
-                    <Input id="email" name="email" type="email" required />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="phoneNumber">{t.formPhone} *</Label>
-                    <Input id="phoneNumber" name="phoneNumber" type="tel" required placeholder="+49 123 456789" />
-                  </div>
-                </div>
-
-                {/* Address */}
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="street">{t.formStreet} *</Label>
-                    <Input id="street" name="street" required />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="addressLine2">{t.formAddressLine2}</Label>
-                    <Input id="addressLine2" name="addressLine2" />
-                  </div>
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="postalCode">{t.formPostalCode} *</Label>
-                      <Input id="postalCode" name="postalCode" required />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="city">{t.formCity} *</Label>
-                      <Input id="city" name="city" required />
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="stateProvince">{t.formStateProvince}</Label>
-                    <Input id="stateProvince" name="stateProvince" />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="country">{t.formCountry} *</Label>
-                    <Select name="country" required>
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {countries.map((country) => (
-                          <SelectItem key={country.code} value={country.name}>
-                            {country.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-
-                {/* Current Residence and Language */}
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="currentResidence">{t.formCurrentResidence} *</Label>
-                    <Select name="currentResidence" required>
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {countries.map((country) => (
-                          <SelectItem key={country.code} value={country.name}>
-                            {country.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="preferredLanguage">{t.formPreferredLanguage} *</Label>
-                    <Select name="preferredLanguage" required>
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="English">English</SelectItem>
-                        <SelectItem value="Korean">Korean (한국어)</SelectItem>
-                        <SelectItem value="German">German (Deutsch)</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-
-                {/* Message */}
-                <div className="space-y-2">
-                  <Label htmlFor="message">{t.formMessage} *</Label>
-                  <Textarea id="message" name="message" rows={6} required minLength={10} />
-                </div>
-
-                {/* Consent Checkboxes */}
-                <div className="space-y-4">
-                  <div className="flex items-start gap-3">
-                    <Checkbox id="contactConsent" name="contactConsent" required />
-                    <label htmlFor="contactConsent" className="text-sm leading-relaxed cursor-pointer">
-                      {t.formContactConsent} *
-                    </label>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <Checkbox id="privacyConsent" name="privacyConsent" required />
-                    <label htmlFor="privacyConsent" className="text-sm leading-relaxed cursor-pointer">
-                      {t.formPrivacyConsent}{" "}
-                      <button
-                        type="button"
-                        onClick={() => setLocation("/privacy-policy")}
-                        className="text-primary hover:underline"
-                      >
-                        {t.formPrivacyConsentLink}
-                      </button>{" "}
-                      *
-                    </label>
-                  </div>
-                </div>
-
-                {/* Submit Button */}
-                <Button type="submit" size="lg" className="w-full shadow-lg hover:shadow-xl transition-shadow" disabled={isSubmitting}>
-                  {isSubmitting ? (
-                    <>
-                      <Send className="mr-2 h-4 w-4 animate-spin" />
-                      {t.formSubmitting}
-                    </>
-                  ) : (
-                    <>
-                      <Send className="mr-2 h-4 w-4" />
-                      {t.formSubmit}
-                    </>
-                  )}
-                </Button>
-              </form>
+          <Card className="shadow-xl border-2">
+            <CardContent className="pt-8 px-6 md:px-10">
+              <ContactForm
+                t={t}
+                selectedService={selectedService}
+                setSelectedService={setSelectedService}
+                onSubmit={handleSubmit}
+                isSubmitting={isSubmitting}
+                onLocationChange={setLocation}
+              />
             </CardContent>
           </Card>
         </div>

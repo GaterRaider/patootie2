@@ -53,7 +53,9 @@ export interface Translations {
   // Contact Form
   contactHeading: string;
   formService: string;
+  formServicePlaceholder: string;
   formSalutation: string;
+  formSalutationPlaceholder: string;
   formSalutationMr: string;
   formSalutationMs: string;
   formSalutationMx: string;
@@ -69,8 +71,11 @@ export interface Translations {
   formCity: string;
   formStateProvince: string;
   formCountry: string;
+  formCountryPlaceholder: string;
   formCurrentResidence: string;
+  formCurrentResidencePlaceholder: string;
   formPreferredLanguage: string;
+  formPreferredLanguagePlaceholder: string;
   formMessage: string;
   formContactConsent: string;
   formPrivacyConsent: string;
@@ -159,7 +164,9 @@ export const translations: Record<Language, Translations> = {
     // Contact Form
     contactHeading: "Get in Touch",
     formService: "Service",
+    formServicePlaceholder: "Select a service",
     formSalutation: "Salutation",
+    formSalutationPlaceholder: "Select salutation",
     formSalutationMr: "Mr",
     formSalutationMs: "Ms",
     formSalutationMx: "Mx",
@@ -175,8 +182,11 @@ export const translations: Record<Language, Translations> = {
     formCity: "City",
     formStateProvince: "State/Province (optional)",
     formCountry: "Country",
+    formCountryPlaceholder: "Select country",
     formCurrentResidence: "Country of Current Residence",
+    formCurrentResidencePlaceholder: "Select country",
     formPreferredLanguage: "Preferred Contact Language",
+    formPreferredLanguagePlaceholder: "Select language",
     formMessage: "Describe your situation",
     formContactConsent: "I agree to be contacted by email or phone",
     formPrivacyConsent: "I have read and agree to the",
@@ -263,7 +273,9 @@ export const translations: Record<Language, Translations> = {
     // Contact Form
     contactHeading: "문의하기",
     formService: "서비스",
+    formServicePlaceholder: "서비스 선택",
     formSalutation: "호칭",
+    formSalutationPlaceholder: "호칭 선택",
     formSalutationMr: "Mr",
     formSalutationMs: "Ms",
     formSalutationMx: "Mx",
@@ -279,8 +291,11 @@ export const translations: Record<Language, Translations> = {
     formCity: "도시",
     formStateProvince: "주/도 (선택사항)",
     formCountry: "국가",
+    formCountryPlaceholder: "국가 선택",
     formCurrentResidence: "현재 거주 국가",
+    formCurrentResidencePlaceholder: "국가 선택",
     formPreferredLanguage: "선호 연락 언어",
+    formPreferredLanguagePlaceholder: "언어 선택",
     formMessage: "상황을 설명해주세요",
     formContactConsent: "이메일 또는 전화로 연락받는 것에 동의합니다",
     formPrivacyConsent: "개인정보 처리방침을 읽고 동의합니다",
