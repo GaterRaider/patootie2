@@ -54,3 +54,7 @@
 - [x] Fix long site title wrapping on mobile (use shorter version or logo only)
 - [x] Fix language toggle and theme toggle overlapping on mobile
 - [x] Reorganize header controls for better mobile layout
+
+## Navigation Enhancement
+- [x] Add enhanced hover animations to navigation links
+- [x] Improve transition smoothness and visual feedback

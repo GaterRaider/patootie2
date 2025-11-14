@@ -102,29 +102,29 @@ export default function Home() {
           <nav className="hidden md:flex items-center gap-6">
             <button 
               onClick={() => scrollToSection("services")} 
-              className="text-sm font-medium hover:text-primary transition-colors relative group"
+              className="text-sm font-medium hover:text-primary transition-all duration-300 relative group hover:-translate-y-0.5"
             >
               {t.navServices}
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 ease-out group-hover:w-full"></span>
             </button>
             <button 
               onClick={() => scrollToSection("process")} 
-              className="text-sm font-medium hover:text-primary transition-colors relative group"
+              className="text-sm font-medium hover:text-primary transition-all duration-300 relative group hover:-translate-y-0.5"
             >
               {t.navProcess}
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 ease-out group-hover:w-full"></span>
             </button>
             <button 
               onClick={() => scrollToSection("about")} 
-              className="text-sm font-medium hover:text-primary transition-colors relative group"
+              className="text-sm font-medium hover:text-primary transition-all duration-300 relative group hover:-translate-y-0.5"
             >
               {t.navAbout}
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 ease-out group-hover:w-full"></span>
             </button>
             <Button 
               onClick={() => scrollToSection("contact")} 
               size="sm"
-              className="shadow-md hover:shadow-lg transition-shadow"
+              className="shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:scale-105"
             >
               {t.navContact}
             </Button>
