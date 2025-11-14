@@ -172,74 +172,74 @@ export default function Home() {
             )}
           </div>
         </div>
-
-        {/* Mobile Slide-out Menu */}
-        {mobileMenuOpen && (
-          <>
-            {/* Overlay */}
-            <div 
-              className="fixed inset-0 bg-black/50 z-[100] md:hidden"
-              onClick={() => setMobileMenuOpen(false)}
-            />
-            
-            {/* Slide-out Panel */}
-            <div className="fixed top-0 left-0 h-full w-64 bg-background border-r shadow-xl z-[110] md:hidden animate-in slide-in-from-left duration-300">
-              <div className="flex flex-col h-full">
-                {/* Menu Header */}
-                <div className="flex items-center justify-between p-4 border-b">
-                  <h2 className="font-semibold text-lg">Menu</h2>
-                  <button
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="p-2 rounded-md hover:bg-secondary/80 transition-colors"
-                  >
-                    <X className="h-5 w-5" />
-                  </button>
-                </div>
-
-                {/* Navigation Links */}
-                <nav className="flex flex-col p-4 gap-2">
-                  <button
-                    onClick={() => {
-                      scrollToSection("services");
-                      setMobileMenuOpen(false);
-                    }}
-                    className="text-left px-4 py-3 rounded-md hover:bg-secondary/80 transition-colors font-medium"
-                  >
-                    {t.navServices}
-                  </button>
-                  <button
-                    onClick={() => {
-                      scrollToSection("process");
-                      setMobileMenuOpen(false);
-                    }}
-                    className="text-left px-4 py-3 rounded-md hover:bg-secondary/80 transition-colors font-medium"
-                  >
-                    {t.navProcess}
-                  </button>
-                  <button
-                    onClick={() => {
-                      scrollToSection("about");
-                      setMobileMenuOpen(false);
-                    }}
-                    className="text-left px-4 py-3 rounded-md hover:bg-secondary/80 transition-colors font-medium"
-                  >
-                    {t.navAbout}
-                  </button>
-                  <Button
-                    onClick={() => {
-                      scrollToSection("contact");
-                      setMobileMenuOpen(false);
-                    }}
-                    className="mt-2 w-full"
-                  >
-                    {t.navContact}
-                  </Button>
-                </nav>
-              </div>
-            </div>
-          </>
-        )}
       </header>
+
+      {/* Mobile Slide-out Menu - Outside Header */}
+      {mobileMenuOpen && (
+        <>
+          {/* Overlay */}
+          <div 
+            className="fixed inset-0 bg-black/50 z-[9999] md:hidden"
+            onClick={() => setMobileMenuOpen(false)}
+          />
+          
+          {/* Slide-out Panel */}
+          <div className="fixed top-0 left-0 h-full w-64 bg-background border-r shadow-xl z-[10000] md:hidden animate-in slide-in-from-left duration-300">
+            <div className="flex flex-col h-full">
+              {/* Menu Header */}
+              <div className="flex items-center justify-between p-4 border-b">
+                <h2 className="font-semibold text-lg">Menu</h2>
+                <button
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="p-2 rounded-md hover:bg-secondary/80 transition-colors"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+
+              {/* Navigation Links */}
+              <nav className="flex flex-col p-4 gap-2">
+                <button
+                  onClick={() => {
+                    scrollToSection("services");
+                    setMobileMenuOpen(false);
+                  }}
+                  className="text-left px-4 py-3 rounded-md hover:bg-secondary/80 transition-colors font-medium"
+                >
+                  {t.navServices}
+                </button>
+                <button
+                  onClick={() => {
+                    scrollToSection("process");
+                    setMobileMenuOpen(false);
+                  }}
+                  className="text-left px-4 py-3 rounded-md hover:bg-secondary/80 transition-colors font-medium"
+                >
+                  {t.navProcess}
+                </button>
+                <button
+                  onClick={() => {
+                    scrollToSection("about");
+                    setMobileMenuOpen(false);
+                  }}
+                  className="text-left px-4 py-3 rounded-md hover:bg-secondary/80 transition-colors font-medium"
+                >
+                  {t.navAbout}
+                </button>
+                <Button
+                  onClick={() => {
+                    scrollToSection("contact");
+                    setMobileMenuOpen(false);
+                  }}
+                  className="mt-2 w-full"
+                >
+                  {t.navContact}
+                </Button>
+              </nav>
+            </div>
+          </div>
+        </>
+      )}
 
       {/* Success Message */}
       {showSuccess && (
