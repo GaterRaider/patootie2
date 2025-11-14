@@ -1,6 +1,6 @@
-import { eq } from "drizzle-orm";
+import { eq, and, gt } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { InsertUser, users, contactSubmissions, InsertContactSubmission, submissionRateLimits, InsertSubmissionRateLimit } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -89,4 +89,71 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+/**
+ * Create a new contact form submission
+ */
+export async function createContactSubmission(submission: InsertContactSubmission) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  const result = await db.insert(contactSubmissions).values(submission);
+  return result;
+}
+
+/**
+ * Check if email and IP combination is rate limited
+ * Returns true if they can submit (not rate limited)
+ */
+export async function checkRateLimit(email: string, ipAddress: string): Promise<boolean> {
+  const db = await getDb();
+  if (!db) {
+    // If DB is unavailable, allow submission
+    return true;
+  }
+
+  const thirtySecondsAgo = new Date(Date.now() - 30 * 1000);
+
+  const recentSubmissions = await db
+    .select()
+    .from(submissionRateLimits)
+    .where(
+      and(
+        eq(submissionRateLimits.email, email),
+        eq(submissionRateLimits.ipAddress, ipAddress),
+        gt(submissionRateLimits.lastSubmission, thirtySecondsAgo)
+      )
+    )
+    .limit(1);
+
+  return recentSubmissions.length === 0;
+}
+
+/**
+ * Record a submission attempt for rate limiting
+ */
+export async function recordSubmissionAttempt(email: string, ipAddress: string) {
+  const db = await getDb();
+  if (!db) {
+    return;
+  }
+
+  await db.insert(submissionRateLimits).values({
+    email,
+    ipAddress,
+    lastSubmission: new Date(),
+  });
+}
+
+/**
+ * Get all contact submissions (admin only)
+ */
+export async function getAllContactSubmissions() {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  return await db.select().from(contactSubmissions).orderBy(contactSubmissions.createdAt);
+}
