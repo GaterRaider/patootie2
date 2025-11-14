@@ -104,3 +104,9 @@
 - [x] Add centered copyright line at bottom
 - [x] Ensure mobile stacking order: About, Quick Links, Legal
 - [x] Use minimal design with soft spacing and subtle colors
+
+## Hero Section Content Update
+- [x] Update hero headline to "Your support for dealing with German authorities"
+- [x] Update hero description with new text about German bureaucracy
+- [x] Keep existing bullet points unchanged
+- [x] Update Korean translations for headline and description

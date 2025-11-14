@@ -125,8 +125,8 @@ export const translations: Record<Language, Translations> = {
     navLegal: "Impressum / Privacy",
 
     // Hero Section
-    heroTitle: "Support for everything involving German authorities – no matter where you live.",
-    heroDescription: "Many processes with German authorities (Bürgeramt, Ausländerbehörde, insurance offices, pension offices, etc.) are confusing, document-heavy, and often overwhelming. Forms are complicated, requirements are unclear, and many tasks cannot be done remotely unless someone inside Germany handles them. Patootie helps individuals worldwide deal with German bureaucracy — whether it's immigration matters, official certificates, residence-related paperwork, pension requests, or any situation where the German system requires precise steps.",
+    heroTitle: "Your support for dealing with German authorities",
+    heroDescription: "German bureaucracy can be overwhelming, especially when you're not in the country. Patootie assists with immigration matters, official certificates, paperwork, pension requests, and any task that requires someone in Germany to handle the process for you.",
     heroBullet1: "For clients inside and outside Germany",
     heroBullet2: "Assistance with authorities, documents, and official procedures",
     heroBullet3: "Fixed price, hourly rate, or percentage depending on service",
@@ -238,8 +238,8 @@ export const translations: Record<Language, Translations> = {
     navLegal: "법적 고지 / 개인정보",
 
     // Hero Section
-    heroTitle: "독일 관공서 업무 지원 – 어디에 계시든 도와드립니다.",
-    heroDescription: "독일 관공서(주민등록사무소, 외국인청, 보험공단, 연금공단 등)와의 업무는 복잡하고 서류가 많으며 부담스러운 경우가 많습니다. 양식은 어렵고, 요구사항은 불명확하며, 많은 업무는 독일 내에서 직접 처리해야 합니다. Patootie는 전 세계 어디에 계시든 독일 관료제 업무를 도와드립니다 — 이민 문제, 공식 증명서, 거주 관련 서류, 연금 신청 등 독일 시스템이 요구하는 정확한 절차를 지원합니다.",
+    heroTitle: "독일 관공서 업무 처리를 위한 당신의 파트너",
+    heroDescription: "독일 관료주의는 특히 현지에 있지 않을 때 부담스러울 수 있습니다. Patootie는 이민 문제, 공식 증명서, 서류 작업, 연금 신청, 그리고 독일 현지에서 누군가가 처리해야 하는 모든 업무를 도와드립니다.",
     heroBullet1: "독일 내외 고객 모두 지원",
     heroBullet2: "관공서, 서류, 공식 절차 지원",
     heroBullet3: "서비스에 따라 고정 가격, 시간당 요금 또는 비율",
