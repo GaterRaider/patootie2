@@ -178,12 +178,12 @@ export default function Home() {
           <>
             {/* Overlay */}
             <div 
-              className="fixed inset-0 bg-black/50 z-40 md:hidden"
+              className="fixed inset-0 bg-black/50 z-[100] md:hidden"
               onClick={() => setMobileMenuOpen(false)}
             />
             
             {/* Slide-out Panel */}
-            <div className="fixed top-0 left-0 h-full w-64 bg-background border-r shadow-xl z-50 md:hidden animate-in slide-in-from-left duration-300">
+            <div className="fixed top-0 left-0 h-full w-64 bg-background border-r shadow-xl z-[110] md:hidden animate-in slide-in-from-left duration-300">
               <div className="flex flex-col h-full">
                 {/* Menu Header */}
                 <div className="flex items-center justify-between p-4 border-b">

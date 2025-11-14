@@ -132,3 +132,7 @@
 - [x] Include Services, Process, About, Contact links
 - [x] Add smooth open/close animations
 - [x] Close menu when clicking outside or on a link
+
+## Mobile Menu Z-Index Fix
+- [x] Fix z-index layering so mobile menu appears above all website content
+- [x] Ensure overlay covers entire page
