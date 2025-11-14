@@ -10,12 +10,14 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { trpc } from "@/lib/trpc";
 import { useState } from "react";
 import { toast } from "sonner";
-import { FileText, Users, Plane, HelpCircle, CheckCircle, Send, Mail, Moon, Sun, Monitor } from "lucide-react";
+import { FileText, Users, Plane, HelpCircle, CheckCircle, Send, Mail, Moon, Sun, Monitor, MapPin, Phone } from "lucide-react";
 import { countries } from "@/lib/countries";
+import { useLocation } from "wouter";
 
 export default function Home() {
   const { language, setLanguage, t } = useLanguage();
   const { theme, toggleTheme } = useTheme();
+  const [, setLocation] = useLocation();
   const [selectedService, setSelectedService] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -178,29 +180,29 @@ export default function Home() {
       )}
 
       {/* Hero Section */}
-      <section className="py-16 md:py-24 bg-gradient-to-b from-secondary/50 to-background">
+      <section className="py-12 md:py-20 bg-gradient-to-b from-secondary/50 to-background">
         <div className="container">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
             <div>
-              <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">{t.heroTitle}</h2>
-              <p className="text-lg text-muted-foreground mb-8 leading-relaxed">{t.heroDescription}</p>
+              <h2 className="text-3xl md:text-5xl font-bold mb-4 md:mb-6 leading-tight">{t.heroTitle}</h2>
+              <p className="text-base md:text-lg text-muted-foreground mb-6 md:mb-8 leading-relaxed">{t.heroDescription}</p>
               
-              <div className="space-y-3 mb-8">
+              <div className="space-y-2 md:space-y-3 mb-6 md:mb-8">
                 <div className="flex items-start gap-3">
                   <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                  <p className="text-foreground">{t.heroBullet1}</p>
+                  <p className="text-sm md:text-base text-foreground">{t.heroBullet1}</p>
                 </div>
                 <div className="flex items-start gap-3">
                   <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                  <p className="text-foreground">{t.heroBullet2}</p>
+                  <p className="text-sm md:text-base text-foreground">{t.heroBullet2}</p>
                 </div>
                 <div className="flex items-start gap-3">
                   <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                  <p className="text-foreground">{t.heroBullet3}</p>
+                  <p className="text-sm md:text-base text-foreground">{t.heroBullet3}</p>
                 </div>
                 <div className="flex items-start gap-3">
                   <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                  <p className="text-foreground">{t.heroBullet4}</p>
+                  <p className="text-sm md:text-base text-foreground">{t.heroBullet4}</p>
                 </div>
               </div>
 
@@ -223,9 +225,9 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-16 md:py-24">
+      <section id="services" className="py-12 md:py-20">
         <div className="container">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">{t.servicesHeading}</h2>
+          <h2 className="text-2xl md:text-4xl font-bold text-center mb-8 md:mb-12">{t.servicesHeading}</h2>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <Card className="cursor-pointer hover:shadow-lg hover:scale-105 transition-all" onClick={() => handleServiceCardClick(t.serviceCard1Title)}>
@@ -233,8 +235,8 @@ export default function Home() {
                 <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
                   <Plane className="h-6 w-6 text-primary" />
                 </div>
-                <CardTitle>{t.serviceCard1Title}</CardTitle>
-                <CardDescription>{t.serviceCard1Desc}</CardDescription>
+                <CardTitle className="text-lg">{t.serviceCard1Title}</CardTitle>
+                <CardDescription className="text-sm">{t.serviceCard1Desc}</CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground">{t.serviceCard1Pricing}</p>
@@ -246,8 +248,8 @@ export default function Home() {
                 <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
                   <FileText className="h-6 w-6 text-primary" />
                 </div>
-                <CardTitle>{t.serviceCard2Title}</CardTitle>
-                <CardDescription>{t.serviceCard2Desc}</CardDescription>
+                <CardTitle className="text-lg">{t.serviceCard2Title}</CardTitle>
+                <CardDescription className="text-sm">{t.serviceCard2Desc}</CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground">{t.serviceCard2Pricing}</p>
@@ -259,8 +261,8 @@ export default function Home() {
                 <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
                   <Users className="h-6 w-6 text-primary" />
                 </div>
-                <CardTitle>{t.serviceCard3Title}</CardTitle>
-                <CardDescription>{t.serviceCard3Desc}</CardDescription>
+                <CardTitle className="text-lg">{t.serviceCard3Title}</CardTitle>
+                <CardDescription className="text-sm">{t.serviceCard3Desc}</CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground">{t.serviceCard3Pricing}</p>
@@ -272,8 +274,8 @@ export default function Home() {
                 <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
                   <HelpCircle className="h-6 w-6 text-primary" />
                 </div>
-                <CardTitle>{t.serviceCard4Title}</CardTitle>
-                <CardDescription>{t.serviceCard4Desc}</CardDescription>
+                <CardTitle className="text-lg">{t.serviceCard4Title}</CardTitle>
+                <CardDescription className="text-sm">{t.serviceCard4Desc}</CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground">{t.serviceCard4Pricing}</p>
@@ -284,46 +286,46 @@ export default function Home() {
       </section>
 
       {/* Process Section */}
-      <section id="process" className="py-16 md:py-24 bg-secondary/30">
+      <section id="process" className="py-12 md:py-20 bg-secondary/30">
         <div className="container">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">{t.processHeading}</h2>
+          <h2 className="text-2xl md:text-4xl font-bold text-center mb-8 md:mb-12">{t.processHeading}</h2>
           
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             <div className="text-center">
               <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-lg">
                 1
               </div>
-              <h3 className="text-xl font-semibold mb-3">{t.processStep1Title}</h3>
-              <p className="text-muted-foreground">{t.processStep1Desc}</p>
+              <h3 className="text-lg md:text-xl font-semibold mb-2 md:mb-3">{t.processStep1Title}</h3>
+              <p className="text-sm md:text-base text-muted-foreground">{t.processStep1Desc}</p>
             </div>
 
             <div className="text-center">
               <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-lg">
                 2
               </div>
-              <h3 className="text-xl font-semibold mb-3">{t.processStep2Title}</h3>
-              <p className="text-muted-foreground">{t.processStep2Desc}</p>
+              <h3 className="text-lg md:text-xl font-semibold mb-2 md:mb-3">{t.processStep2Title}</h3>
+              <p className="text-sm md:text-base text-muted-foreground">{t.processStep2Desc}</p>
             </div>
 
             <div className="text-center">
               <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-lg">
                 3
               </div>
-              <h3 className="text-xl font-semibold mb-3">{t.processStep3Title}</h3>
-              <p className="text-muted-foreground">{t.processStep3Desc}</p>
+              <h3 className="text-lg md:text-xl font-semibold mb-2 md:mb-3">{t.processStep3Title}</h3>
+              <p className="text-sm md:text-base text-muted-foreground">{t.processStep3Desc}</p>
             </div>
           </div>
 
-          <p className="text-center text-sm text-muted-foreground mt-8 max-w-2xl mx-auto">
+          <p className="text-center text-xs md:text-sm text-muted-foreground mt-6 md:mt-8 max-w-2xl mx-auto">
             {t.processNote}
           </p>
         </div>
       </section>
 
       {/* Contact Form Section */}
-      <section id="contact" className="py-16 md:py-24">
+      <section id="contact" className="py-12 md:py-20">
         <div className="container max-w-3xl">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">{t.contactHeading}</h2>
+          <h2 className="text-2xl md:text-4xl font-bold text-center mb-8 md:mb-12">{t.contactHeading}</h2>
           
           <Card className="shadow-xl">
             <CardContent className="pt-6">
@@ -486,7 +488,7 @@ export default function Home() {
                       {t.formPrivacyConsent}{" "}
                       <button
                         type="button"
-                        onClick={() => scrollToSection("privacy")}
+                        onClick={() => setLocation("/privacy-policy")}
                         className="text-primary hover:underline"
                       >
                         {t.formPrivacyConsentLink}
@@ -517,11 +519,11 @@ export default function Home() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-16 md:py-24 bg-secondary/30">
+      <section id="about" className="py-12 md:py-20 bg-secondary/30">
         <div className="container max-w-4xl">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">{t.aboutHeading}</h2>
+          <h2 className="text-2xl md:text-4xl font-bold text-center mb-8 md:mb-12">{t.aboutHeading}</h2>
           
-          <div className="space-y-6 text-lg leading-relaxed">
+          <div className="space-y-4 md:space-y-6 text-base md:text-lg leading-relaxed">
             <p>{t.aboutParagraph1}</p>
             <p>{t.aboutParagraph2}</p>
             <p>{t.aboutParagraph3}</p>
@@ -531,29 +533,68 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer id="privacy" className="py-12 border-t bg-muted/30">
+      <footer className="py-10 md:py-12 border-t bg-muted/30">
         <div className="container">
           <div className="grid md:grid-cols-3 gap-8 mb-8">
+            {/* Contact Info */}
             <div>
-              <h3 className="font-semibold mb-3">{t.footerImpressum}</h3>
-              <p className="text-sm text-muted-foreground whitespace-pre-line">{t.impressumContent}</p>
+              <h3 className="font-semibold text-lg mb-4">{t.footerContact}</h3>
+              <div className="space-y-3">
+                <div className="flex items-start gap-3 text-sm">
+                  <Mail className="h-4 w-4 mt-0.5 flex-shrink-0 text-primary" />
+                  <a href="mailto:info@patootie-germany.com" className="hover:text-primary transition-colors">
+                    info@patootie-germany.com
+                  </a>
+                </div>
+                <div className="flex items-start gap-3 text-sm">
+                  <Phone className="h-4 w-4 mt-0.5 flex-shrink-0 text-primary" />
+                  <span className="text-muted-foreground">{language === "ko" ? "연락처는 이메일로 문의해주세요" : "Contact via email for phone number"}</span>
+                </div>
+                <div className="flex items-start gap-3 text-sm">
+                  <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0 text-primary" />
+                  <span className="text-muted-foreground">{language === "ko" ? "독일 기반 서비스" : "Germany-based service"}</span>
+                </div>
+              </div>
             </div>
+
+            {/* Quick Links */}
             <div>
-              <h3 className="font-semibold mb-3">{t.footerPrivacy}</h3>
-              <p className="text-sm text-muted-foreground whitespace-pre-line">{t.privacyContent}</p>
+              <h3 className="font-semibold text-lg mb-4">{language === "ko" ? "빠른 링크" : "Quick Links"}</h3>
+              <div className="space-y-2">
+                <button onClick={() => scrollToSection("services")} className="block text-sm text-muted-foreground hover:text-primary transition-colors">
+                  {t.navServices}
+                </button>
+                <button onClick={() => scrollToSection("process")} className="block text-sm text-muted-foreground hover:text-primary transition-colors">
+                  {t.navProcess}
+                </button>
+                <button onClick={() => scrollToSection("about")} className="block text-sm text-muted-foreground hover:text-primary transition-colors">
+                  {t.navAbout}
+                </button>
+                <button onClick={() => scrollToSection("contact")} className="block text-sm text-muted-foreground hover:text-primary transition-colors">
+                  {t.navContact}
+                </button>
+              </div>
             </div>
+
+            {/* Legal */}
             <div>
-              <h3 className="font-semibold mb-3">{t.footerContact}</h3>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Mail className="h-4 w-4" />
-                <a href="mailto:info@patootie-germany.com" className="hover:text-primary transition-colors">
-                  info@patootie-germany.com
-                </a>
+              <h3 className="font-semibold text-lg mb-4">{language === "ko" ? "법적 정보" : "Legal"}</h3>
+              <div className="space-y-2">
+                <button 
+                  onClick={() => setLocation("/privacy-policy")}
+                  className="block text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  {t.footerPrivacy}
+                </button>
+                <div className="text-sm text-muted-foreground pt-2">
+                  <p className="font-medium mb-1">{t.footerImpressum}</p>
+                  <p className="text-xs whitespace-pre-line">{t.impressumContent}</p>
+                </div>
               </div>
             </div>
           </div>
           
-          <div className="text-center text-sm text-muted-foreground pt-8 border-t">
+          <div className="text-center text-sm text-muted-foreground pt-6 border-t">
             <p>© 2025 Patootie - {t.siteTitle}</p>
           </div>
         </div>

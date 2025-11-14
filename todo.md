@@ -58,3 +58,10 @@
 ## Navigation Enhancement
 - [x] Add enhanced hover animations to navigation links
 - [x] Improve transition smoothness and visual feedback
+
+## Website Improvements
+- [x] Create dedicated Privacy Policy page with routing
+- [x] Update privacy policy content (English and Korean)
+- [x] Restructure footer with better layout and design
+- [x] Replace placeholder portrait with professional photo
+- [x] Reduce excessive spacing between sections
