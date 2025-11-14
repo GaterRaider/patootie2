@@ -120,3 +120,8 @@
 - [x] Update Korean translations with "Kwon EasyBureau" (권 이지뷰로 or keep as Kwon EasyBureau)
 - [x] Update copyright line with new company name
 - [x] Update all service descriptions mentioning Patootie
+
+## Theme Toggle Simplification
+- [x] Simplify theme toggle to only switch between dark and light (no system mode)
+- [x] Detect device preference on initial load as default
+- [x] Update ThemeContext to toggle between dark/light only

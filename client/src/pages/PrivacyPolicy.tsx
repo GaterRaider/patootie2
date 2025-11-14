@@ -1,7 +1,7 @@
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTheme } from "@/contexts/ThemeContext";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Moon, Sun, Monitor } from "lucide-react";
+import { ArrowLeft, Moon, Sun } from "lucide-react";
 import { useLocation } from "wouter";
 
 export default function PrivacyPolicy() {
@@ -10,9 +10,7 @@ export default function PrivacyPolicy() {
   const [, setLocation] = useLocation();
 
   const getThemeIcon = () => {
-    if (theme === "light") return <Sun className="h-4 w-4" />;
-    if (theme === "dark") return <Moon className="h-4 w-4" />;
-    return <Monitor className="h-4 w-4" />;
+    return theme === "light" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />;
   };
 
   const privacyContent = language === "ko" ? {

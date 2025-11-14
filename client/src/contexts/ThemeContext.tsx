@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-type Theme = "light" | "dark" | "system";
+type Theme = "light" | "dark";
 
 interface ThemeContextType {
   theme: Theme;
@@ -23,24 +23,20 @@ export function ThemeProvider({
 }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>(() => {
     if (switchable) {
-      const stored = localStorage.getItem("theme");
-      return (stored as Theme) || defaultTheme;
+      const stored = localStorage.getItem("theme") as Theme;
+      if (stored) return stored;
+      // Detect device preference on first load
+      return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
     }
     return defaultTheme;
   });
 
-  const getEffectiveTheme = (theme: Theme): "light" | "dark" => {
-    if (theme === "system") {
-      return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-    }
-    return theme;
-  };
+
 
   useEffect(() => {
     const root = document.documentElement;
-    const effectiveTheme = getEffectiveTheme(theme);
     
-    if (effectiveTheme === "dark") {
+    if (theme === "dark") {
       root.classList.add("dark");
     } else {
       root.classList.remove("dark");
@@ -49,30 +45,11 @@ export function ThemeProvider({
     if (switchable) {
       localStorage.setItem("theme", theme);
     }
-
-    // Listen for system theme changes when using system theme
-    if (theme === "system") {
-      const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-      const handleChange = () => {
-        const newEffectiveTheme = getEffectiveTheme("system");
-        if (newEffectiveTheme === "dark") {
-          root.classList.add("dark");
-        } else {
-          root.classList.remove("dark");
-        }
-      };
-      mediaQuery.addEventListener("change", handleChange);
-      return () => mediaQuery.removeEventListener("change", handleChange);
-    }
   }, [theme, switchable]);
 
   const toggleTheme = switchable
     ? () => {
-        setTheme(prev => {
-          if (prev === "light") return "dark";
-          if (prev === "dark") return "system";
-          return "light";
-        });
+        setTheme(prev => prev === "light" ? "dark" : "light");
       }
     : undefined;
 

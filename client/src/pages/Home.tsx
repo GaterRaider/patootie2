@@ -10,7 +10,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { trpc } from "@/lib/trpc";
 import { useState } from "react";
 import { toast } from "sonner";
-import { FileText, Users, Plane, HelpCircle, CheckCircle, Send, Mail, Moon, Sun, Monitor, MapPin, Phone } from "lucide-react";
+import { FileText, Users, Plane, HelpCircle, CheckCircle, Send, Mail, Moon, Sun, MapPin, Phone } from "lucide-react";
 import { ServiceCard } from "@/components/ServiceCard";
 import { ContactForm } from "@/components/ContactForm";
 import { countries } from "@/lib/countries";
@@ -79,9 +79,7 @@ export default function Home() {
   };
 
   const getThemeIcon = () => {
-    if (theme === "light") return <Sun className="h-4 w-4" />;
-    if (theme === "dark") return <Moon className="h-4 w-4" />;
-    return <Monitor className="h-4 w-4" />;
+    return theme === "light" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />;
   };
 
   return (
