@@ -21,16 +21,24 @@ export interface Translations {
   servicesHeading: string;
   serviceCard1Title: string;
   serviceCard1Desc: string;
+  serviceCard1FullDesc: string;
   serviceCard1Pricing: string;
+  serviceCard1CTA: string;
   serviceCard2Title: string;
   serviceCard2Desc: string;
+  serviceCard2FullDesc: string;
   serviceCard2Pricing: string;
+  serviceCard2CTA: string;
   serviceCard3Title: string;
   serviceCard3Desc: string;
+  serviceCard3FullDesc: string;
   serviceCard3Pricing: string;
+  serviceCard3CTA: string;
   serviceCard4Title: string;
   serviceCard4Desc: string;
+  serviceCard4FullDesc: string;
   serviceCard4Pricing: string;
+  serviceCard4CTA: string;
 
   // Process Section
   processHeading: string;
@@ -118,17 +126,25 @@ export const translations: Record<Language, Translations> = {
     // Service Cards
     servicesHeading: "Our Services",
     serviceCard1Title: "Immigration & Residence",
-    serviceCard1Desc: "Help with visas, residence permits, appointments, official documents",
-    serviceCard1Pricing: "Pricing: hourly or package",
+    serviceCard1Desc: "Help with visas, residence permits, appointments, and official documents related to living in Germany.",
+    serviceCard1FullDesc: "Navigating the Ausländerbehörde can be confusing—Patootie assists with applications, documents, translations, and scheduling appointments on your behalf.",
+    serviceCard1Pricing: "Pricing: hourly or fixed package",
+    serviceCard1CTA: "Select Immigration & Residence",
     serviceCard2Title: "Government Forms & Certificates",
-    serviceCard2Desc: "Help filling out and submitting official German documents",
-    serviceCard2Pricing: "Pricing: typically fixed package",
+    serviceCard2Desc: "Assistance with filling out and submitting official German documents and requests.",
+    serviceCard2FullDesc: "Many forms require detailed information, strict formatting, or confirmation from inside Germany. Patootie helps you complete, submit, and track your official paperwork.",
+    serviceCard2Pricing: "Pricing: fixed package",
+    serviceCard2CTA: "Select Forms & Certificates",
     serviceCard3Title: "German Pension & Social Benefits from Abroad",
-    serviceCard3Desc: "Help claiming German pension payments when living outside Germany",
+    serviceCard3Desc: "Support for receiving German pension payments or social benefits when you live outside of Germany.",
+    serviceCard3FullDesc: "Patootie helps collect the correct documents, communicate with German offices, and ensure payments are processed correctly—especially useful for former workers who moved abroad.",
     serviceCard3Pricing: "Pricing: percentage of payout amount",
+    serviceCard3CTA: "Select Pension Support",
     serviceCard4Title: "Other Requests",
-    serviceCard4Desc: "Any other request related to German authorities",
+    serviceCard4Desc: "Any situation that involves a German authority but doesn't fit in the categories above.",
+    serviceCard4FullDesc: "Whether it's a certificate, a complicated document request, or something unusual you cannot do from abroad—Patootie can handle most German bureaucratic matters.",
     serviceCard4Pricing: "Pricing: based on time required",
+    serviceCard4CTA: "Select Other Requests",
 
     // Process Section
     processHeading: "How It Works",
@@ -214,17 +230,25 @@ export const translations: Record<Language, Translations> = {
     // Service Cards
     servicesHeading: "서비스 안내",
     serviceCard1Title: "이민 및 거주",
-    serviceCard1Desc: "비자, 거주 허가, 예약, 공식 서류 지원",
-    serviceCard1Pricing: "요금: 시간당 또는 패키지",
+    serviceCard1Desc: "독일 거주와 관련된 비자, 거주 허가, 예약 및 공식 서류 지원.",
+    serviceCard1FullDesc: "외국인청(Ausländerbehörde) 업무는 복잡할 수 있습니다. Patootie가 신청서, 서류, 번역 및 예약 일정을 대신 도와드립니다.",
+    serviceCard1Pricing: "요금: 시간당 또는 고정 패키지",
+    serviceCard1CTA: "이민 및 거주 선택",
     serviceCard2Title: "정부 양식 및 증명서",
-    serviceCard2Desc: "독일 공식 서류 작성 및 제출 지원",
-    serviceCard2Pricing: "요금: 일반적으로 고정 패키지",
+    serviceCard2Desc: "독일 공식 서류 및 요청서 작성 및 제출 지원.",
+    serviceCard2FullDesc: "많은 양식은 상세한 정보, 엄격한 형식 또는 독일 내 확인이 필요합니다. Patootie가 공식 서류 작성, 제출 및 추적을 도와드립니다.",
+    serviceCard2Pricing: "요금: 고정 패키지",
+    serviceCard2CTA: "양식 및 증명서 선택",
     serviceCard3Title: "해외에서 독일 연금 및 사회 복지 수령",
-    serviceCard3Desc: "해외 거주 시 독일 연금 수령 지원",
+    serviceCard3Desc: "해외 거주 시 독일 연금 또는 사회 복지 수령 지원.",
+    serviceCard3FullDesc: "Patootie가 올바른 서류 수집, 독일 관공서와의 소통, 지급 처리를 도와드립니다. 특히 해외로 이주한 전직 근로자에게 유용합니다.",
     serviceCard3Pricing: "요금: 지급액의 일정 비율",
+    serviceCard3CTA: "연금 지원 선택",
     serviceCard4Title: "기타 요청",
-    serviceCard4Desc: "독일 관공서 관련 기타 모든 요청",
+    serviceCard4Desc: "위 카테고리에 해당하지 않는 독일 관공서 관련 모든 상황.",
+    serviceCard4FullDesc: "증명서, 복잡한 서류 요청 또는 해외에서 처리할 수 없는 특이한 상황이든, Patootie가 대부분의 독일 관료 업무를 처리할 수 있습니다.",
     serviceCard4Pricing: "요금: 소요 시간에 따라",
+    serviceCard4CTA: "기타 요청 선택",
 
     // Process Section
     processHeading: "진행 방법",

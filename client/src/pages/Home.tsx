@@ -11,6 +11,7 @@ import { trpc } from "@/lib/trpc";
 import { useState } from "react";
 import { toast } from "sonner";
 import { FileText, Users, Plane, HelpCircle, CheckCircle, Send, Mail, Moon, Sun, Monitor, MapPin, Phone } from "lucide-react";
+import { ServiceCard } from "@/components/ServiceCard";
 import { countries } from "@/lib/countries";
 import { useLocation } from "wouter";
 
@@ -227,60 +228,59 @@ export default function Home() {
       {/* Services Section */}
       <section id="services" className="py-12 md:py-20">
         <div className="container">
-          <h2 className="text-2xl md:text-4xl font-bold text-center mb-8 md:mb-12">{t.servicesHeading}</h2>
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="text-2xl md:text-4xl font-bold mb-3">{t.servicesHeading}</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              {language === "ko" 
+                ? "독일 관료 업무를 전문적으로 지원합니다. 서비스를 선택하여 자세히 알아보세요."
+                : "Professional support for German bureaucracy. Select a service to learn more."}
+            </p>
+          </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <Card className="cursor-pointer hover:shadow-lg hover:scale-105 transition-all" onClick={() => handleServiceCardClick(t.serviceCard1Title)}>
-              <CardHeader>
-                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                  <Plane className="h-6 w-6 text-primary" />
-                </div>
-                <CardTitle className="text-lg">{t.serviceCard1Title}</CardTitle>
-                <CardDescription className="text-sm">{t.serviceCard1Desc}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">{t.serviceCard1Pricing}</p>
-              </CardContent>
-            </Card>
-
-            <Card className="cursor-pointer hover:shadow-lg hover:scale-105 transition-all" onClick={() => handleServiceCardClick(t.serviceCard2Title)}>
-              <CardHeader>
-                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                  <FileText className="h-6 w-6 text-primary" />
-                </div>
-                <CardTitle className="text-lg">{t.serviceCard2Title}</CardTitle>
-                <CardDescription className="text-sm">{t.serviceCard2Desc}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">{t.serviceCard2Pricing}</p>
-              </CardContent>
-            </Card>
-
-            <Card className="cursor-pointer hover:shadow-lg hover:scale-105 transition-all" onClick={() => handleServiceCardClick(t.serviceCard3Title)}>
-              <CardHeader>
-                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                  <Users className="h-6 w-6 text-primary" />
-                </div>
-                <CardTitle className="text-lg">{t.serviceCard3Title}</CardTitle>
-                <CardDescription className="text-sm">{t.serviceCard3Desc}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">{t.serviceCard3Pricing}</p>
-              </CardContent>
-            </Card>
-
-            <Card className="cursor-pointer hover:shadow-lg hover:scale-105 transition-all" onClick={() => handleServiceCardClick(t.serviceCard4Title)}>
-              <CardHeader>
-                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                  <HelpCircle className="h-6 w-6 text-primary" />
-                </div>
-                <CardTitle className="text-lg">{t.serviceCard4Title}</CardTitle>
-                <CardDescription className="text-sm">{t.serviceCard4Desc}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">{t.serviceCard4Pricing}</p>
-              </CardContent>
-            </Card>
+          <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+            <ServiceCard
+              icon={Plane}
+              title={t.serviceCard1Title}
+              description={t.serviceCard1Desc}
+              fullDescription={t.serviceCard1FullDesc}
+              pricing={t.serviceCard1Pricing}
+              ctaText={t.serviceCard1CTA}
+              onClick={() => handleServiceCardClick(t.serviceCard1Title)}
+              language={language}
+            />
+            
+            <ServiceCard
+              icon={FileText}
+              title={t.serviceCard2Title}
+              description={t.serviceCard2Desc}
+              fullDescription={t.serviceCard2FullDesc}
+              pricing={t.serviceCard2Pricing}
+              ctaText={t.serviceCard2CTA}
+              onClick={() => handleServiceCardClick(t.serviceCard2Title)}
+              language={language}
+            />
+            
+            <ServiceCard
+              icon={Users}
+              title={t.serviceCard3Title}
+              description={t.serviceCard3Desc}
+              fullDescription={t.serviceCard3FullDesc}
+              pricing={t.serviceCard3Pricing}
+              ctaText={t.serviceCard3CTA}
+              onClick={() => handleServiceCardClick(t.serviceCard3Title)}
+              language={language}
+            />
+            
+            <ServiceCard
+              icon={HelpCircle}
+              title={t.serviceCard4Title}
+              description={t.serviceCard4Desc}
+              fullDescription={t.serviceCard4FullDesc}
+              pricing={t.serviceCard4Pricing}
+              ctaText={t.serviceCard4CTA}
+              onClick={() => handleServiceCardClick(t.serviceCard4Title)}
+              language={language}
+            />
           </div>
         </div>
       </section>
