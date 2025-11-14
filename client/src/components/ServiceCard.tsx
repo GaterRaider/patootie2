@@ -26,16 +26,26 @@ export function ServiceCard({
 }: ServiceCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
+  const handleCardClick = () => {
+    setIsExpanded(true);
+    onClick();
+  };
+
   return (
-    <Card className="group cursor-pointer hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-primary/50 relative overflow-hidden">
+    <Card 
+      className="group cursor-pointer hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-primary/50 relative overflow-hidden"
+      onClick={handleCardClick}
+    >
       {/* Background gradient on hover */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       
       <CardHeader className="relative">
-        <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-all duration-300 group-hover:scale-110">
-          <Icon className="h-7 w-7 text-primary group-hover:scale-110 transition-transform duration-300" />
+        <div className="flex items-center gap-3 mb-3">
+          <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-all duration-300 group-hover:scale-110 flex-shrink-0">
+            <Icon className="h-6 w-6 text-primary group-hover:scale-110 transition-transform duration-300" />
+          </div>
+          <CardTitle className="text-lg group-hover:text-primary transition-colors duration-300">{title}</CardTitle>
         </div>
-        <CardTitle className="text-xl mb-2 group-hover:text-primary transition-colors duration-300">{title}</CardTitle>
         <CardDescription className="text-sm leading-relaxed">{description}</CardDescription>
       </CardHeader>
       

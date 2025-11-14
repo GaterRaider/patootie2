@@ -181,7 +181,7 @@ export default function Home() {
       )}
 
       {/* Hero Section */}
-      <section className="py-12 md:py-20 bg-gradient-to-b from-secondary/50 to-background">
+      <section className="py-8 md:py-14 bg-gradient-to-b from-secondary/50 to-background">
         <div className="container">
           <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
             <div>
@@ -226,7 +226,7 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-12 md:py-20">
+      <section id="services" className="py-8 md:py-14">
         <div className="container">
           <div className="text-center mb-8 md:mb-12">
             <h2 className="text-2xl md:text-4xl font-bold mb-3">{t.servicesHeading}</h2>
@@ -286,7 +286,7 @@ export default function Home() {
       </section>
 
       {/* Process Section */}
-      <section id="process" className="py-12 md:py-20 bg-secondary/30">
+      <section id="process" className="py-8 md:py-14 bg-secondary/30">
         <div className="container">
           <h2 className="text-2xl md:text-4xl font-bold text-center mb-8 md:mb-12">{t.processHeading}</h2>
           
@@ -323,7 +323,7 @@ export default function Home() {
       </section>
 
       {/* Contact Form Section */}
-      <section id="contact" className="py-12 md:py-20">
+      <section id="contact" className="py-8 md:py-14">
         <div className="container max-w-3xl">
           <h2 className="text-2xl md:text-4xl font-bold text-center mb-8 md:mb-12">{t.contactHeading}</h2>
           
@@ -519,7 +519,7 @@ export default function Home() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-12 md:py-20 bg-secondary/30">
+      <section id="about" className="py-8 md:py-14 bg-secondary/30">
         <div className="container max-w-4xl">
           <h2 className="text-2xl md:text-4xl font-bold text-center mb-8 md:mb-12">{t.aboutHeading}</h2>
           
@@ -533,7 +533,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="py-10 md:py-12 border-t bg-muted/30">
+      <footer className="py-8 md:py-10 border-t bg-muted/30">
         <div className="container">
           <div className="grid md:grid-cols-3 gap-8 mb-8">
             {/* Contact Info */}

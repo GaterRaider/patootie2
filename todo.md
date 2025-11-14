@@ -74,3 +74,8 @@
 - [x] Implement click-to-scroll with service pre-fill in contact form
 - [x] Add optional accordion expansion for detailed service information
 - [x] Ensure professional, trust-oriented design with soft neutral tones
+
+## UI Refinements
+- [x] Move service card titles inline with icons for compact layout
+- [x] Auto-expand "Learn more" section when clicking on card
+- [x] Reduce spacing between all sections for better visual density
