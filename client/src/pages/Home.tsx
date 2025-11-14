@@ -1,4 +1,5 @@
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useTheme } from "@/contexts/ThemeContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -9,11 +10,12 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { trpc } from "@/lib/trpc";
 import { useState } from "react";
 import { toast } from "sonner";
-import { FileText, Users, Plane, HelpCircle, CheckCircle, Send, Mail } from "lucide-react";
+import { FileText, Users, Plane, HelpCircle, CheckCircle, Send, Mail, Moon, Sun, Monitor } from "lucide-react";
 import { countries } from "@/lib/countries";
 
 export default function Home() {
   const { language, setLanguage, t } = useLanguage();
+  const { theme, toggleTheme } = useTheme();
   const [selectedService, setSelectedService] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -72,46 +74,86 @@ export default function Home() {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const getThemeIcon = () => {
+    if (theme === "light") return <Sun className="h-4 w-4" />;
+    if (theme === "dark") return <Moon className="h-4 w-4" />;
+    return <Monitor className="h-4 w-4" />;
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
+      {/* Accent Bar */}
+      <div className="h-1 bg-gradient-to-r from-primary via-blue-500 to-primary"></div>
+
       {/* Header */}
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-2">
-            <h1 className="text-lg md:text-xl font-bold">{t.siteTitle}</h1>
+      <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60 shadow-sm">
+        <div className="container flex h-20 items-center justify-between">
+          <div className="flex items-center gap-3">
+            <img src="/images/logo-icon.png" alt="Logo" className="h-10 w-10" />
+            <div>
+              <h1 className="text-lg md:text-xl font-bold leading-tight">{t.siteTitle}</h1>
+            </div>
           </div>
           
           <nav className="hidden md:flex items-center gap-6">
-            <button onClick={() => scrollToSection("services")} className="text-sm font-medium hover:text-primary transition-colors">
+            <button 
+              onClick={() => scrollToSection("services")} 
+              className="text-sm font-medium hover:text-primary transition-colors relative group"
+            >
               {t.navServices}
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
             </button>
-            <button onClick={() => scrollToSection("process")} className="text-sm font-medium hover:text-primary transition-colors">
+            <button 
+              onClick={() => scrollToSection("process")} 
+              className="text-sm font-medium hover:text-primary transition-colors relative group"
+            >
               {t.navProcess}
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
             </button>
-            <button onClick={() => scrollToSection("about")} className="text-sm font-medium hover:text-primary transition-colors">
+            <button 
+              onClick={() => scrollToSection("about")} 
+              className="text-sm font-medium hover:text-primary transition-colors relative group"
+            >
               {t.navAbout}
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
             </button>
-            <button onClick={() => scrollToSection("contact")} className="text-sm font-medium hover:text-primary transition-colors">
+            <Button 
+              onClick={() => scrollToSection("contact")} 
+              size="sm"
+              className="shadow-md hover:shadow-lg transition-shadow"
+            >
               {t.navContact}
-            </button>
+            </Button>
           </nav>
 
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2">
+            {/* Language Toggle */}
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary/50">
               <button
                 onClick={() => setLanguage("en")}
-                className={`text-sm font-medium transition-colors ${language === "en" ? "text-primary" : "text-muted-foreground hover:text-foreground"}`}
+                className={`text-sm font-medium transition-colors px-2 py-0.5 rounded ${language === "en" ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground"}`}
               >
-                English
+                EN
               </button>
-              <span className="text-muted-foreground">|</span>
+              <span className="text-muted-foreground text-xs">|</span>
               <button
                 onClick={() => setLanguage("ko")}
-                className={`text-sm font-medium transition-colors ${language === "ko" ? "text-primary" : "text-muted-foreground hover:text-foreground"}`}
+                className={`text-sm font-medium transition-colors px-2 py-0.5 rounded ${language === "ko" ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground"}`}
               >
-                한국어
+                KO
               </button>
             </div>
+
+            {/* Theme Toggle */}
+            {toggleTheme && (
+              <button
+                onClick={toggleTheme}
+                className="p-2 rounded-full hover:bg-secondary/80 transition-colors"
+                title={`Current theme: ${theme}`}
+              >
+                {getThemeIcon()}
+              </button>
+            )}
           </div>
         </div>
       </header>
@@ -158,7 +200,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <Button size="lg" onClick={() => scrollToSection("contact")}>
+              <Button size="lg" onClick={() => scrollToSection("contact")} className="shadow-lg hover:shadow-xl transition-shadow">
                 {t.navContact}
               </Button>
             </div>
@@ -182,7 +224,7 @@ export default function Home() {
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">{t.servicesHeading}</h2>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => handleServiceCardClick(t.serviceCard1Title)}>
+            <Card className="cursor-pointer hover:shadow-lg hover:scale-105 transition-all" onClick={() => handleServiceCardClick(t.serviceCard1Title)}>
               <CardHeader>
                 <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
                   <Plane className="h-6 w-6 text-primary" />
@@ -195,7 +237,7 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => handleServiceCardClick(t.serviceCard2Title)}>
+            <Card className="cursor-pointer hover:shadow-lg hover:scale-105 transition-all" onClick={() => handleServiceCardClick(t.serviceCard2Title)}>
               <CardHeader>
                 <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
                   <FileText className="h-6 w-6 text-primary" />
@@ -208,7 +250,7 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => handleServiceCardClick(t.serviceCard3Title)}>
+            <Card className="cursor-pointer hover:shadow-lg hover:scale-105 transition-all" onClick={() => handleServiceCardClick(t.serviceCard3Title)}>
               <CardHeader>
                 <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
                   <Users className="h-6 w-6 text-primary" />
@@ -221,7 +263,7 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => handleServiceCardClick(t.serviceCard4Title)}>
+            <Card className="cursor-pointer hover:shadow-lg hover:scale-105 transition-all" onClick={() => handleServiceCardClick(t.serviceCard4Title)}>
               <CardHeader>
                 <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
                   <HelpCircle className="h-6 w-6 text-primary" />
@@ -244,7 +286,7 @@ export default function Home() {
           
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             <div className="text-center">
-              <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-2xl font-bold mx-auto mb-4">
+              <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-lg">
                 1
               </div>
               <h3 className="text-xl font-semibold mb-3">{t.processStep1Title}</h3>
@@ -252,7 +294,7 @@ export default function Home() {
             </div>
 
             <div className="text-center">
-              <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-2xl font-bold mx-auto mb-4">
+              <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-lg">
                 2
               </div>
               <h3 className="text-xl font-semibold mb-3">{t.processStep2Title}</h3>
@@ -260,7 +302,7 @@ export default function Home() {
             </div>
 
             <div className="text-center">
-              <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-2xl font-bold mx-auto mb-4">
+              <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-lg">
                 3
               </div>
               <h3 className="text-xl font-semibold mb-3">{t.processStep3Title}</h3>
@@ -279,7 +321,7 @@ export default function Home() {
         <div className="container max-w-3xl">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">{t.contactHeading}</h2>
           
-          <Card>
+          <Card className="shadow-xl">
             <CardContent className="pt-6">
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Honeypot field - hidden from users */}
@@ -451,7 +493,7 @@ export default function Home() {
                 </div>
 
                 {/* Submit Button */}
-                <Button type="submit" size="lg" className="w-full" disabled={isSubmitting}>
+                <Button type="submit" size="lg" className="w-full shadow-lg hover:shadow-xl transition-shadow" disabled={isSubmitting}>
                   {isSubmitting ? (
                     <>
                       <Send className="mr-2 h-4 w-4 animate-spin" />

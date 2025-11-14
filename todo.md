@@ -40,3 +40,12 @@
 - [x] Icons for services and steps
 - [x] Accessible color contrast
 - [x] Smooth scrolling navigation
+
+## New Enhancements
+- [x] Add subtle theme toggle button for manual dark/light mode switching
+- [x] Enhance header design with modern visual elements
+- [x] Add glassmorphism effect to header
+- [x] Include logo/icon next to site title
+- [x] Add colored accent bar at top
+- [x] Enhance navigation with hover effects
+- [x] Add prominent CTA button in header

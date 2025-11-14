@@ -68,7 +68,11 @@ export function ThemeProvider({
 
   const toggleTheme = switchable
     ? () => {
-        setTheme(prev => (prev === "light" ? "dark" : "light"));
+        setTheme(prev => {
+          if (prev === "light") return "dark";
+          if (prev === "dark") return "system";
+          return "light";
+        });
       }
     : undefined;
 
