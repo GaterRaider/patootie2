@@ -358,44 +358,43 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="py-8 md:py-10 border-t bg-muted/30">
+      <footer className="py-10 md:py-14 border-t bg-muted/20">
         <div className="container">
-          <div className="grid md:grid-cols-3 gap-8 mb-8">
-            {/* Contact Info */}
+          <div className="grid md:grid-cols-3 gap-10 md:gap-12 mb-10">
+            {/* About Patootie */}
             <div>
-              <h3 className="font-semibold text-lg mb-4">{t.footerContact}</h3>
-              <div className="space-y-3">
-                <div className="flex items-start gap-3 text-sm">
-                  <Mail className="h-4 w-4 mt-0.5 flex-shrink-0 text-primary" />
-                  <a href="mailto:info@patootie-germany.com" className="hover:text-primary transition-colors">
-                    info@patootie-germany.com
-                  </a>
-                </div>
-                <div className="flex items-start gap-3 text-sm">
-                  <Phone className="h-4 w-4 mt-0.5 flex-shrink-0 text-primary" />
-                  <span className="text-muted-foreground">{language === "ko" ? "연락처는 이메일로 문의해주세요" : "Contact via email for phone number"}</span>
-                </div>
-                <div className="flex items-start gap-3 text-sm">
-                  <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0 text-primary" />
-                  <span className="text-muted-foreground">{language === "ko" ? "독일 기반 서비스" : "Germany-based service"}</span>
-                </div>
-              </div>
+              <h3 className="font-semibold text-base mb-3">{t.footerAboutTitle}</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {t.footerAboutDesc}
+              </p>
             </div>
 
             {/* Quick Links */}
             <div>
-              <h3 className="font-semibold text-lg mb-4">{language === "ko" ? "빠른 링크" : "Quick Links"}</h3>
-              <div className="space-y-2">
-                <button onClick={() => scrollToSection("services")} className="block text-sm text-muted-foreground hover:text-primary transition-colors">
+              <h3 className="font-semibold text-base mb-3">{t.footerQuickLinks}</h3>
+              <div className="space-y-2.5">
+                <button 
+                  onClick={() => scrollToSection("services")} 
+                  className="block text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
                   {t.navServices}
                 </button>
-                <button onClick={() => scrollToSection("process")} className="block text-sm text-muted-foreground hover:text-primary transition-colors">
+                <button 
+                  onClick={() => scrollToSection("process")} 
+                  className="block text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
                   {t.navProcess}
                 </button>
-                <button onClick={() => scrollToSection("about")} className="block text-sm text-muted-foreground hover:text-primary transition-colors">
+                <button 
+                  onClick={() => scrollToSection("about")} 
+                  className="block text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
                   {t.navAbout}
                 </button>
-                <button onClick={() => scrollToSection("contact")} className="block text-sm text-muted-foreground hover:text-primary transition-colors">
+                <button 
+                  onClick={() => scrollToSection("contact")} 
+                  className="block text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
                   {t.navContact}
                 </button>
               </div>
@@ -403,24 +402,30 @@ export default function Home() {
 
             {/* Legal */}
             <div>
-              <h3 className="font-semibold text-lg mb-4">{language === "ko" ? "법적 정보" : "Legal"}</h3>
-              <div className="space-y-2">
+              <h3 className="font-semibold text-base mb-3">{t.footerLegal}</h3>
+              <div className="space-y-3">
                 <button 
                   onClick={() => setLocation("/privacy-policy")}
                   className="block text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                   {t.footerPrivacy}
                 </button>
-                <div className="text-sm text-muted-foreground pt-2">
-                  <p className="font-medium mb-1">{t.footerImpressum}</p>
-                  <p className="text-xs whitespace-pre-line">{t.impressumContent}</p>
+                <div className="text-sm text-muted-foreground pt-1">
+                  <p className="font-medium mb-2">{t.footerImpressum}</p>
+                  <div className="text-xs leading-relaxed space-y-0.5">
+                    <p>Soyoung Kwon</p>
+                    <p>Michaelstraße 26</p>
+                    <p>65936 Frankfurt am Main</p>
+                    <p>Germany</p>
+                    <p className="pt-1">Email: <a href="mailto:info@patootie-germany.com" className="hover:text-primary transition-colors">info@patootie-germany.com</a></p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           
-          <div className="text-center text-sm text-muted-foreground pt-6 border-t">
-            <p>© 2025 Patootie - {t.siteTitle}</p>
+          <div className="text-center text-sm text-muted-foreground pt-8 border-t">
+            <p>© 2025 Patootie — {t.footerCopyright}</p>
           </div>
         </div>
       </footer>

@@ -94,3 +94,13 @@
 - [x] Add focus states and smooth transitions
 - [x] Group related fields visually (personal info, address, contact preferences)
 - [x] Improve mobile form layout
+
+## Footer Redesign
+- [x] Redesign footer with clean 3-column layout
+- [x] Add "About Patootie" column with short description
+- [x] Add "Quick Links" column with Services, Process, About, Contact
+- [x] Add "Legal" column with Privacy Policy and full Impressum
+- [x] Update Impressum with actual address and contact info
+- [x] Add centered copyright line at bottom
+- [x] Ensure mobile stacking order: About, Quick Links, Legal
+- [x] Use minimal design with soft spacing and subtle colors

@@ -93,9 +93,13 @@ export interface Translations {
   aboutLanguages: string;
 
   // Footer
-  footerImpressum: string;
+  footerAboutTitle: string;
+  footerAboutDesc: string;
+  footerQuickLinks: string;
+  footerLegal: string;
   footerPrivacy: string;
-  footerContact: string;
+  footerImpressum: string;
+  footerCopyright: string;
 
   // Legal Pages
   impressumTitle: string;
@@ -204,9 +208,13 @@ export const translations: Record<Language, Translations> = {
     aboutLanguages: "Languages spoken: English, Korean, German",
 
     // Footer
-    footerImpressum: "Impressum",
+    footerAboutTitle: "About Patootie",
+    footerAboutDesc: "Support for handling German authorities from anywhere in the world. Assistance with forms, certificates, residence matters, pension support, and more.",
+    footerQuickLinks: "Quick Links",
+    footerLegal: "Legal",
     footerPrivacy: "Privacy Policy",
-    footerContact: "Contact: info@patootie-germany.com",
+    footerImpressum: "Impressum",
+    footerCopyright: "Support for German Authorities Worldwide",
 
     // Legal Pages
     impressumTitle: "Impressum",
@@ -313,9 +321,13 @@ export const translations: Record<Language, Translations> = {
     aboutLanguages: "사용 언어: 영어, 한국어, 독일어",
 
     // Footer
-    footerImpressum: "법적 고지",
+    footerAboutTitle: "Patootie 소개",
+    footerAboutDesc: "전 세계 어디서나 독일 관공서 업무를 지원합니다. 서류, 증명서, 거주 문제, 연금 지원 등을 도와드립니다.",
+    footerQuickLinks: "빠른 링크",
+    footerLegal: "법적 정보",
     footerPrivacy: "개인정보 처리방침",
-    footerContact: "연락처: info@patootie-germany.com",
+    footerImpressum: "Impressum",
+    footerCopyright: "전 세계 독일 관공서 지원",
 
     // Legal Pages
     impressumTitle: "법적 고지 (Impressum)",
