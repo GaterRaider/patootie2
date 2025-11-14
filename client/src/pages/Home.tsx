@@ -98,7 +98,7 @@ export default function Home() {
               {/* Show full title on desktop, short version on mobile */}
               <h1 className="text-base md:text-xl font-bold leading-tight">
                 <span className="hidden sm:inline">{t.siteTitle}</span>
-                <span className="sm:hidden">Patootie</span>
+                <span className="sm:hidden">Kwon EasyBureau</span>
               </h1>
             </div>
           </div>
@@ -217,7 +217,7 @@ export default function Home() {
               <div className="aspect-square rounded-2xl overflow-hidden shadow-2xl">
                 <img
                   src="/images/patootie-portrait.jpg"
-                  alt="Patootie"
+                  alt="Kwon EasyBureau"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -361,7 +361,7 @@ export default function Home() {
       <footer className="py-10 md:py-14 border-t bg-muted/20">
         <div className="container">
           <div className="grid md:grid-cols-3 gap-10 md:gap-12 mb-10">
-            {/* About Patootie */}
+            {/* About Kwon EasyBureau */}
             <div>
               <h3 className="font-semibold text-base mb-3">{t.footerAboutTitle}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
@@ -425,7 +425,7 @@ export default function Home() {
           </div>
           
           <div className="text-center text-sm text-muted-foreground pt-8 border-t">
-            <p>© 2025 Patootie — {t.footerCopyright}</p>
+            <p>© 2025 Kwon EasyBureau — {t.footerCopyright}</p>
           </div>
         </div>
       </footer>

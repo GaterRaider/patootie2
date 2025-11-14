@@ -60,8 +60,8 @@ ${submission.message}
 We will review your request and contact you via ${submission.preferredLanguage === 'email' ? 'email' : 'phone or email'} soon.
 
 Best regards,
-Patootie
-Help for Your Journey to Germany
+Kwon EasyBureau
+Your support for dealing with German authorities
   `.trim();
 
   if (!transporter) {
@@ -87,7 +87,7 @@ Help for Your Journey to Germany
 }
 
 /**
- * Send notification email to Patootie (admin)
+ * Send notification email to Kwon EasyBureau (admin)
  */
 export async function sendAdminNotificationEmail(submission: ContactSubmission): Promise<boolean> {
   const transporter = createTransporter();
@@ -128,7 +128,7 @@ Metadata:
   const adminEmail = process.env.ADMIN_EMAIL || process.env.SMTP_USER;
 
   if (!transporter) {
-    console.log('[Email] Admin notification email (would be sent to Patootie):');
+    console.log('[Email] Admin notification email (would be sent to Kwon EasyBureau):');
     console.log('To:', adminEmail);
     console.log('Subject: New Contact Form Submission');
     console.log(emailContent);

@@ -21,11 +21,11 @@ export default function PrivacyPolicy() {
     sections: [
       {
         title: "",
-        content: `Patootie("본 서비스", "저", "저의")는 이용자의 개인정보 보호를 중요하게 생각합니다. 본 개인정보처리방침은 본 서비스가 어떤 개인정보를 수집하며, 어떻게 이용하는지, 그리고 이용자가 가진 권리를 설명합니다. 본 정책은 EU 일반개인정보보호법(GDPR)을 준수합니다.`
+        content: `Kwon EasyBureau("본 서비스", "저", "저의")는 이용자의 개인정보 보호를 중요하게 생각합니다. 본 개인정보처리방침은 본 서비스가 어떤 개인정보를 수집하며, 어떻게 이용하는지, 그리고 이용자가 가진 권리를 설명합니다. 본 정책은 EU 일반개인정보보호법(GDPR)을 준수합니다.`
       },
       {
         title: "1. 개인정보 처리자",
-        content: `Patootie\n이메일: info@patootie-germany.com\n주소: [주소 입력]\n\n본 서비스 운영자가 개인정보 처리 책임자입니다.`
+        content: `Kwon EasyBureau\n이메일: info@patootie-germany.com\n주소: [주소 입력]\n\n본 서비스 운영자가 개인정보 처리 책임자입니다.`
       },
       {
         title: "2. 수집되는 개인정보",
@@ -74,11 +74,11 @@ export default function PrivacyPolicy() {
     sections: [
       {
         title: "",
-        content: `Patootie ("I", "me", "my", or "the Service") takes the protection of your personal data seriously. This Privacy Policy explains what personal information I collect, how it is used, and your rights under the EU General Data Protection Regulation (GDPR).`
+        content: `Kwon EasyBureau ("I", "me", "my", or "the Service") takes the protection of your personal data seriously. This Privacy Policy explains what personal information I collect, how it is used, and your rights under the EU General Data Protection Regulation (GDPR).`
       },
       {
         title: "1. Data Controller",
-        content: `Patootie\nEmail: info@patootie-germany.com\nAddress: [insert address]\n\nThe controller responsible for the processing of your personal data is the individual operating this service.`
+        content: `Kwon EasyBureau\nEmail: info@patootie-germany.com\nAddress: [insert address]\n\nThe controller responsible for the processing of your personal data is the individual operating this service.`
       },
       {
         title: "2. Data I Collect",
@@ -197,7 +197,7 @@ export default function PrivacyPolicy() {
       {/* Footer */}
       <footer className="py-6 border-t bg-muted/30">
         <div className="container text-center text-sm text-muted-foreground">
-          <p>© 2025 Patootie - {t.siteTitle}</p>
+          <p>© 2025 Kwon EasyBureau - {t.siteTitle}</p>
         </div>
       </footer>
     </div>
