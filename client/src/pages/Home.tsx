@@ -10,7 +10,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { trpc } from "@/lib/trpc";
 import { useState } from "react";
 import { toast } from "sonner";
-import { FileText, Users, Plane, HelpCircle, CheckCircle, Send, Mail, Moon, Sun, MapPin, Phone } from "lucide-react";
+import { FileText, Users, Plane, HelpCircle, CheckCircle, Send, Mail, Moon, Sun, MapPin, Phone, Menu, X } from "lucide-react";
 import { ServiceCard } from "@/components/ServiceCard";
 import { ContactForm } from "@/components/ContactForm";
 import { countries } from "@/lib/countries";
@@ -23,6 +23,7 @@ export default function Home() {
   const [selectedService, setSelectedService] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const submitMutation = trpc.contact.submit.useMutation({
     onSuccess: () => {
@@ -90,6 +91,15 @@ export default function Home() {
       {/* Header */}
       <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60 shadow-sm">
         <div className="container flex h-20 items-center justify-between gap-4">
+          {/* Mobile Hamburger Menu Button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden p-2 rounded-md hover:bg-secondary/80 transition-colors flex-shrink-0"
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+
           <div className="flex items-center gap-2 md:gap-3 min-w-0">
             <img src="/images/logo-icon.png" alt="Logo" className="h-8 w-8 md:h-10 md:w-10 flex-shrink-0" />
             <div className="min-w-0">
@@ -162,6 +172,73 @@ export default function Home() {
             )}
           </div>
         </div>
+
+        {/* Mobile Slide-out Menu */}
+        {mobileMenuOpen && (
+          <>
+            {/* Overlay */}
+            <div 
+              className="fixed inset-0 bg-black/50 z-40 md:hidden"
+              onClick={() => setMobileMenuOpen(false)}
+            />
+            
+            {/* Slide-out Panel */}
+            <div className="fixed top-0 left-0 h-full w-64 bg-background border-r shadow-xl z-50 md:hidden animate-in slide-in-from-left duration-300">
+              <div className="flex flex-col h-full">
+                {/* Menu Header */}
+                <div className="flex items-center justify-between p-4 border-b">
+                  <h2 className="font-semibold text-lg">Menu</h2>
+                  <button
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="p-2 rounded-md hover:bg-secondary/80 transition-colors"
+                  >
+                    <X className="h-5 w-5" />
+                  </button>
+                </div>
+
+                {/* Navigation Links */}
+                <nav className="flex flex-col p-4 gap-2">
+                  <button
+                    onClick={() => {
+                      scrollToSection("services");
+                      setMobileMenuOpen(false);
+                    }}
+                    className="text-left px-4 py-3 rounded-md hover:bg-secondary/80 transition-colors font-medium"
+                  >
+                    {t.navServices}
+                  </button>
+                  <button
+                    onClick={() => {
+                      scrollToSection("process");
+                      setMobileMenuOpen(false);
+                    }}
+                    className="text-left px-4 py-3 rounded-md hover:bg-secondary/80 transition-colors font-medium"
+                  >
+                    {t.navProcess}
+                  </button>
+                  <button
+                    onClick={() => {
+                      scrollToSection("about");
+                      setMobileMenuOpen(false);
+                    }}
+                    className="text-left px-4 py-3 rounded-md hover:bg-secondary/80 transition-colors font-medium"
+                  >
+                    {t.navAbout}
+                  </button>
+                  <Button
+                    onClick={() => {
+                      scrollToSection("contact");
+                      setMobileMenuOpen(false);
+                    }}
+                    className="mt-2 w-full"
+                  >
+                    {t.navContact}
+                  </Button>
+                </nav>
+              </div>
+            </div>
+          </>
+        )}
       </header>
 
       {/* Success Message */}

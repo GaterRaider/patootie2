@@ -125,3 +125,10 @@
 - [x] Simplify theme toggle to only switch between dark and light (no system mode)
 - [x] Detect device preference on initial load as default
 - [x] Update ThemeContext to toggle between dark/light only
+
+## Mobile Hamburger Menu
+- [x] Add hamburger icon on left side of mobile header
+- [x] Implement slide-out navigation panel for mobile
+- [x] Include Services, Process, About, Contact links
+- [x] Add smooth open/close animations
+- [x] Close menu when clicking outside or on a link
