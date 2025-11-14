@@ -79,3 +79,6 @@
 - [x] Move service card titles inline with icons for compact layout
 - [x] Auto-expand "Learn more" section when clicking on card
 - [x] Reduce spacing between all sections for better visual density
+
+## Card Click Behavior Fix
+- [x] Separate card click (expand only) from CTA button click (scroll to form)

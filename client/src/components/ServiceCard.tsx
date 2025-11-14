@@ -28,7 +28,6 @@ export function ServiceCard({
 
   const handleCardClick = () => {
     setIsExpanded(true);
-    onClick();
   };
 
   return (
