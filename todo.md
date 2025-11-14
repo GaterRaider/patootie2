@@ -82,3 +82,6 @@
 
 ## Card Click Behavior Fix
 - [x] Separate card click (expand only) from CTA button click (scroll to form)
+
+## Card Toggle Behavior
+- [x] Make service cards toggle between expanded/collapsed states on click

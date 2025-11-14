@@ -27,7 +27,7 @@ export function ServiceCard({
   const [isExpanded, setIsExpanded] = useState(false);
 
   const handleCardClick = () => {
-    setIsExpanded(true);
+    setIsExpanded(!isExpanded);
   };
 
   return (
