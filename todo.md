@@ -140,3 +140,11 @@
 ## Mobile Menu Positioning Fix (Attempt 2)
 - [x] Move mobile menu outside header element to avoid z-index conflicts
 - [x] Ensure menu overlays all content properly
+
+## PostgreSQL Migration
+- [x] Replace mysql2 with pg package
+- [x] Update drizzle schema for PostgreSQL
+- [x] Update drizzle.config.ts for PostgreSQL
+- [x] Update database initialization in server/db.ts
+- [x] Generate new migrations
+- [x] Create deployment zip file
