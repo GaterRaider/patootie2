@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Checkbox } from "@/components/ui/checkbox";
+
 import { Send, CheckCircle2, AlertCircle } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Translations } from "@/i18n/translations";
@@ -432,7 +432,23 @@ export function ContactForm({
       {/* Consent Checkboxes */}
       <div className="space-y-4 p-4 bg-secondary/30 rounded-lg">
         <div className="flex items-start gap-3">
-          <Checkbox id="contactConsent" name="contactConsent" required />
+          <input 
+            type="checkbox" 
+            id="contactConsent" 
+            name="contactConsent" 
+            required
+            style={{
+              width: '20px',
+              height: '20px',
+              minWidth: '20px',
+              minHeight: '20px',
+              marginTop: '2px',
+              cursor: 'pointer',
+              accentColor: 'var(--color-primary)',
+              border: '1px solid var(--color-primary)',
+              borderRadius: '4px'
+            }}
+          />
           <label htmlFor="contactConsent" className="text-sm leading-relaxed cursor-pointer">
             {t.formContactConsent} *
           </label>
@@ -443,7 +459,17 @@ export function ContactForm({
             id="privacyConsent" 
             name="privacyConsent" 
             required
-            className="h-5 w-5 mt-0.5 cursor-pointer accent-primary border border-primary/50 rounded"
+            style={{
+              width: '20px',
+              height: '20px',
+              minWidth: '20px',
+              minHeight: '20px',
+              marginTop: '2px',
+              cursor: 'pointer',
+              accentColor: 'var(--color-primary)',
+              border: '1px solid var(--color-primary)',
+              borderRadius: '4px'
+            }}
           />
           <label htmlFor="privacyConsent" className="text-sm leading-relaxed cursor-pointer">
             {t.formPrivacyConsent}{" "}
