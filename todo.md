@@ -152,3 +152,6 @@
 ## Final Fixes
 - [x] Clean up drizzle folder - remove all files except schema.ts
 - [x] Add visible checkbox UI to privacy policy field in contact form
+
+## Checkbox Visibility Fix
+- [x] Replace Radix Checkbox component with native HTML checkbox for privacy policy field
