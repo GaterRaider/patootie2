@@ -464,11 +464,14 @@ export function ContactForm({
               height: '20px',
               minWidth: '20px',
               minHeight: '20px',
+              flexShrink: 0,
               marginTop: '2px',
               cursor: 'pointer',
               accentColor: 'var(--color-primary)',
               border: '1px solid var(--color-primary)',
-              borderRadius: '4px'
+              borderRadius: '4px',
+              display: 'block',
+              position: 'relative'
             }}
           />
           <label htmlFor="privacyConsent" className="text-sm leading-relaxed cursor-pointer">
