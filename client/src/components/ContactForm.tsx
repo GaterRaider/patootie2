@@ -456,7 +456,7 @@ export function ContactForm({
         <div className="flex items-start gap-3">
           <input 
             type="checkbox" 
-            id="privacyConsent" 
+            id="privacy-policy-consent" 
             name="privacyConsent" 
             required
             style={{
@@ -474,7 +474,7 @@ export function ContactForm({
               position: 'relative'
             }}
           />
-          <label htmlFor="privacyConsent" className="text-sm leading-relaxed cursor-pointer">
+          <label htmlFor="privacy-policy-consent" className="text-sm leading-relaxed cursor-pointer">
             {t.formPrivacyConsent}{" "}
             <button
               type="button"
