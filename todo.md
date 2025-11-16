@@ -148,3 +148,7 @@
 - [x] Update database initialization in server/db.ts
 - [x] Generate new migrations
 - [x] Create deployment zip file
+
+## Final Fixes
+- [x] Clean up drizzle folder - remove all files except schema.ts
+- [x] Add visible checkbox UI to privacy policy field in contact form

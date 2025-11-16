@@ -438,8 +438,13 @@ export function ContactForm({
           </label>
         </div>
         <div className="flex items-start gap-3">
-          <Checkbox id="privacyConsent" name="privacyConsent" required />
-          <label htmlFor="privacyConsent" className="text-sm leading-relaxed cursor-pointer">
+          <Checkbox 
+            id="privacyConsent" 
+            name="privacyConsent" 
+            required
+            className="mt-1 h-5 w-5 rounded border-2 border-primary/30 cursor-pointer"
+          />
+          <label htmlFor="privacyConsent" className="text-sm leading-relaxed cursor-pointer pt-0.5">
             {t.formPrivacyConsent}{" "}
             <button
               type="button"
