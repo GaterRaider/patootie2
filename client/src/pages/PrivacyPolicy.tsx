@@ -19,11 +19,11 @@ export default function PrivacyPolicy() {
     sections: [
       {
         title: "",
-        content: `Kwon EasyBureau("본 서비스", "저", "저의")는 이용자의 개인정보 보호를 중요하게 생각합니다. 본 개인정보처리방침은 본 서비스가 어떤 개인정보를 수집하며, 어떻게 이용하는지, 그리고 이용자가 가진 권리를 설명합니다. 본 정책은 EU 일반개인정보보호법(GDPR)을 준수합니다.`
+        content: `HandokHelper("본 서비스", "저", "저의")는 이용자의 개인정보 보호를 중요하게 생각합니다. 본 개인정보처리방침은 본 서비스가 어떤 개인정보를 수집하며, 어떻게 이용하는지, 그리고 이용자가 가진 권리를 설명합니다. 본 정책은 EU 일반개인정보보호법(GDPR)을 준수합니다.`
       },
       {
         title: "1. 개인정보 처리자",
-        content: `Kwon EasyBureau\n이메일: info@patootie-germany.com\n주소: [주소 입력]\n\n본 서비스 운영자가 개인정보 처리 책임자입니다.`
+        content: `HandokHelper\n이메일: info@handokhelper.de\n주소: [주소 입력]\n\n본 서비스 운영자가 개인정보 처리 책임자입니다.`
       },
       {
         title: "2. 수집되는 개인정보",
@@ -51,7 +51,7 @@ export default function PrivacyPolicy() {
       },
       {
         title: "8. 이용자의 권리(GDPR)",
-        content: `이용자는 다음과 같은 권리를 가집니다:\n\n• 개인정보 열람권\n• 정정 요청권\n• 삭제 요청권("잊혀질 권리")\n• 처리 제한 요청권\n• 데이터 이동권\n• 동의 철회권(향후 처리에만 적용)\n• 정당한 이익에 근거한 처리에 대한 반대권\n• 감독 기관에 대한 불만 제기권\n\n권리 행사 요청: info@patootie-germany.com`
+        content: `이용자는 다음과 같은 권리를 가집니다:\n\n• 개인정보 열람권\n• 정정 요청권\n• 삭제 요청권("잊혀질 권리")\n• 처리 제한 요청권\n• 데이터 이동권\n• 동의 철회권(향후 처리에만 적용)\n• 정당한 이익에 근거한 처리에 대한 반대권\n• 감독 기관에 대한 불만 제기권\n\n권리 행사 요청: info@handokhelper.de`
       },
       {
         title: "9. 미성년자",
@@ -68,15 +68,15 @@ export default function PrivacyPolicy() {
     ]
   } : {
     title: "Privacy Policy",
-    lastUpdated: "Last updated: January 2025",
+    lastUpdated: "Last updated: November 2025",
     sections: [
       {
         title: "",
-        content: `Kwon EasyBureau ("I", "me", "my", or "the Service") takes the protection of your personal data seriously. This Privacy Policy explains what personal information I collect, how it is used, and your rights under the EU General Data Protection Regulation (GDPR).`
+        content: `HandokHelper ("I", "me", "my", or "the Service") takes the protection of your personal data seriously. This Privacy Policy explains what personal information I collect, how it is used, and your rights under the EU General Data Protection Regulation (GDPR).`
       },
       {
         title: "1. Data Controller",
-        content: `Kwon EasyBureau\nEmail: info@patootie-germany.com\nAddress: [insert address]\n\nThe controller responsible for the processing of your personal data is the individual operating this service.`
+        content: `HandokHelper\nEmail: info@handokhelper.de\nAddress: Soyoung Kwon, Michaelstraße 26, 65936, Frankfurt am Main\n\nThe controller responsible for the processing of your personal data is the individual operating this service.`
       },
       {
         title: "2. Data I Collect",
@@ -104,7 +104,7 @@ export default function PrivacyPolicy() {
       },
       {
         title: "8. Your Rights (GDPR)",
-        content: `You have the following rights regarding your personal data:\n\n• Right to access\n• Right to rectification\n• Right to deletion ("right to be forgotten")\n• Right to restrict processing\n• Right to data portability\n• Right to withdraw consent (affects future processing only)\n• Right to object to processing based on legitimate interests\n• Right to lodge a complaint with your local supervisory authority\n\nTo exercise any rights, contact me at: info@patootie-germany.com`
+        content: `You have the following rights regarding your personal data:\n\n• Right to access\n• Right to rectification\n• Right to deletion ("right to be forgotten")\n• Right to restrict processing\n• Right to data portability\n• Right to withdraw consent (affects future processing only)\n• Right to object to processing based on legitimate interests\n• Right to lodge a complaint with your local supervisory authority\n\nTo exercise any rights, contact me at: info@handokhelper.de`
       },
       {
         title: "9. Children",
@@ -195,7 +195,7 @@ export default function PrivacyPolicy() {
       {/* Footer */}
       <footer className="py-6 border-t bg-muted/30">
         <div className="container text-center text-sm text-muted-foreground">
-          <p>© 2025 Kwon EasyBureau - {t.siteTitle}</p>
+          <p>© 2025 HandokHelper - {t.siteTitle}</p>
         </div>
       </footer>
     </div>

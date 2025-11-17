@@ -1,11 +1,8 @@
 // server/db.ts
-// Hybrid database adapter that works with both MySQL (Manus) and PostgreSQL (self-hosted)
 
 import { drizzle } from "drizzle-orm/node-postgres";
-import { drizzle as mysqlDrizzle } from "drizzle-orm/mysql2";
 import { eq, and, gt } from "drizzle-orm";
 import { Pool } from "pg";
-import mysql from "mysql2/promise";
 import {
   InsertUser,
   users,
@@ -19,17 +16,7 @@ import { ENV } from "./_core/env";
 console.log("DATABASE_URL from env:", process.env.DATABASE_URL);
 
 let pool: Pool | null = null;
-let mysqlPool: mysql.Pool | null = null;
-let _db: any = null;
-let dbType: "postgresql" | "mysql" | null = null;
-
-// Detect database type from connection string
-function detectDbType(connectionString: string): "postgresql" | "mysql" {
-  if (connectionString.includes("mysql://") || connectionString.includes("tidb://")) {
-    return "mysql";
-  }
-  return "postgresql";
-}
+let _db: ReturnType<typeof drizzle> | null = null;
 
 // Lazily create the drizzle instance so local tooling can run without a DB.
 export async function getDb() {
@@ -41,25 +28,15 @@ export async function getDb() {
     }
 
     try {
-      dbType = detectDbType(connectionString);
-      console.log("[Database] Detected database type:", dbType);
+      pool = new Pool({
+        connectionString,
+        // Needed for many managed Postgres providers that enforce SSL
+        ssl: {
+          rejectUnauthorized: false,
+        },
+      });
 
-      if (dbType === "postgresql") {
-        pool = new Pool({
-          connectionString,
-          // Needed for many managed Postgres providers that enforce SSL
-          ssl: {
-            rejectUnauthorized: false,
-          },
-        });
-        _db = drizzle(pool);
-      } else {
-        // MySQL/TiDB
-        mysqlPool = await mysql.createPool({
-          uri: connectionString,
-        });
-        _db = mysqlDrizzle(mysqlPool);
-      }
+      _db = drizzle(pool);
     } catch (error) {
       console.warn("[Database] Failed to connect:", error);
       _db = null;
@@ -122,21 +99,14 @@ export async function upsertUser(user: InsertUser): Promise<void> {
       updateSet.lastSignedIn = new Date();
     }
 
-    if (dbType === "postgresql") {
-      // PostgreSQL upsert using onConflict
-      await db
-        .insert(users)
-        .values(values)
-        .onConflictDoUpdate({
-          target: users.openId,
-          set: updateSet,
-        });
-    } else {
-      // MySQL upsert using onDuplicateKeyUpdate
-      await db.insert(users).values(values).onDuplicateKeyUpdate({
+    // PostgreSQL upsert using onConflict
+    await db
+      .insert(users)
+      .values(values)
+      .onConflictDoUpdate({
+        target: users.openId,
         set: updateSet,
       });
-    }
   } catch (error) {
     console.error("[Database] Failed to upsert user:", error);
     throw error;
@@ -234,41 +204,23 @@ export async function recordSubmissionAttempt(
   const now = new Date();
 
   try {
-    if (dbType === "postgresql") {
-      await db
-        .insert(submissionRateLimits)
-        .values({
-          email,
-          ipAddress,
+    await db
+      .insert(submissionRateLimits)
+      .values({
+        email,
+        ipAddress,
+        lastSubmission: now,
+        createdAt: now,
+      })
+      .onConflictDoUpdate({
+        target: [
+          submissionRateLimits.email,
+          submissionRateLimits.ipAddress,
+        ],
+        set: {
           lastSubmission: now,
-          createdAt: now,
-        })
-        .onConflictDoUpdate({
-          target: [
-            submissionRateLimits.email,
-            submissionRateLimits.ipAddress,
-          ],
-          set: {
-            lastSubmission: now,
-          },
-        });
-    } else {
-      // MySQL doesn't support composite unique constraints in the same way
-      // Try to update first, then insert if not found
-      await db
-        .insert(submissionRateLimits)
-        .values({
-          email,
-          ipAddress,
-          lastSubmission: now,
-          createdAt: now,
-        })
-        .onDuplicateKeyUpdate({
-          set: {
-            lastSubmission: now,
-          },
-        });
-    }
+        },
+      });
   } catch (error) {
     console.error("[RateLimit] Failed to record submission attempt:", error);
     // Don't rethrow here so the form submission itself can still succeed
