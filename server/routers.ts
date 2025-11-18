@@ -111,7 +111,7 @@ export const appRouter = router({
             createdAt: new Date(),
           };
 
-          Promise.all([
+          await Promise.all([
             sendConfirmationEmail(submissionWithDate),
             sendAdminNotificationEmail(submissionWithDate),
           ]).catch((error) => {
