@@ -176,3 +176,18 @@
 - [x] Test email formatting for admin notifications
 - [x] Send test email successfully to admin inbox
 - [x] Verify all email environment variables are correctly set
+
+
+## MailJet API Migration (SMTP to HTTP API)
+- [x] Install node-mailjet package
+- [x] Update environment variables (MAILJET_API_KEY, MAILJET_SECRET_KEY, EMAIL_FROM)
+- [x] Refactor email.ts to use MailJet API instead of nodemailer SMTP
+- [x] Update sendConfirmationEmail function for MailJet API
+- [x] Update sendAdminNotificationEmail function for MailJet API
+- [x] Add error handling for MailJet API responses
+- [x] Create MailJet API configuration test (mailjet-config.test.ts)
+- [x] Create contact form email submission test for MailJet (contact-submission-mailjet.test.ts)
+- [x] Test email sending with MailJet API (6/6 tests passed)
+- [x] Verify confirmation emails work with API (317ms)
+- [x] Verify admin notifications work with API (all tests passed)
+- [x] Remove SMTP dependencies (nodemailer SMTP no longer used)

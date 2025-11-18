@@ -1,37 +1,24 @@
-import nodemailer from 'nodemailer';
+import Mailjet from 'node-mailjet';
 import type { ContactSubmission } from '../drizzle/schema';
 
-// Create a transporter using SMTP
-// For production, you'll need to configure this with actual SMTP credentials
-const createTransporter = () => {
-  // Check if SMTP credentials are available
-  const smtpHost = process.env.SMTP_HOST;
-  const smtpPort = process.env.SMTP_PORT;
-  const smtpUser = process.env.SMTP_USER;
-  const smtpPass = process.env.SMTP_PASS;
+// Initialize MailJet client with API credentials
+const createMailjetClient = () => {
+  const apiKey = process.env.MAILJET_API_KEY;
+  const secretKey = process.env.MAILJET_SECRET_KEY;
 
-  if (smtpHost && smtpPort && smtpUser && smtpPass) {
-    return nodemailer.createTransport({
-      host: smtpHost,
-      port: parseInt(smtpPort),
-      secure: parseInt(smtpPort) === 465,
-      auth: {
-        user: smtpUser,
-        pass: smtpPass,
-      },
-    });
+  if (!apiKey || !secretKey) {
+    console.warn('[Email] MailJet credentials not configured');
+    return null;
   }
 
-  // Fallback to console logging if SMTP is not configured
-  console.warn('[Email] SMTP not configured, emails will be logged to console');
-  return null;
+  return Mailjet.apiConnect(apiKey, secretKey);
 };
 
 /**
  * Send confirmation email to the user
  */
 export async function sendConfirmationEmail(submission: ContactSubmission): Promise<boolean> {
-  const transporter = createTransporter();
+  const mailjet = createMailjetClient();
 
   const emailContent = `
 Dear ${submission.firstName} ${submission.lastName},
@@ -60,12 +47,12 @@ ${submission.message}
 We will review your request and contact you via ${submission.preferredLanguage === 'email' ? 'email' : 'phone or email'} soon.
 
 Best regards,
-Kwon EasyBureau
+HandokHelper
 Your support for dealing with German authorities
   `.trim();
 
-  if (!transporter) {
-    console.log('[Email] Confirmation email (would be sent to user):');
+  if (!mailjet) {
+    console.log('[Email] MailJet not configured, confirmation email (would be sent to user):');
     console.log('To:', submission.email);
     console.log('Subject: Your Inquiry Confirmation');
     console.log(emailContent);
@@ -73,13 +60,40 @@ Your support for dealing with German authorities
   }
 
   try {
-    await transporter.sendMail({
-      from: process.env.SMTP_FROM || 'noreply@patootie.com',
-      to: submission.email,
-      subject: 'Your Inquiry Confirmation - Help for Your Journey to Germany',
-      text: emailContent,
+    const request = mailjet.post('send', { version: 'v3.1' }).request({
+      Messages: [
+        {
+          From: {
+            Email: process.env.EMAIL_FROM || 'noreply@handokhelper.de',
+            Name: 'HandokHelper',
+          },
+          To: [
+            {
+              Email: submission.email,
+              Name: `${submission.firstName} ${submission.lastName}`,
+            },
+          ],
+          Subject: 'Your Inquiry Confirmation - HandokHelper',
+          TextPart: emailContent,
+          HTMLPart: `<pre>${emailContent.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>`,
+        },
+      ],
     });
-    return true;
+
+    const response = await request;
+    
+    // Handle MailJet response
+    const responseBody = response.body as any;
+    if (responseBody && responseBody.Messages && Array.isArray(responseBody.Messages)) {
+      const message = responseBody.Messages[0];
+      if (message && message.Status === 'success') {
+        console.log('[Email] Confirmation email sent successfully to:', submission.email);
+        return true;
+      }
+    }
+
+    console.error('[Email] Unexpected response from MailJet:', responseBody);
+    return false;
   } catch (error) {
     console.error('[Email] Failed to send confirmation email:', error);
     return false;
@@ -87,10 +101,10 @@ Your support for dealing with German authorities
 }
 
 /**
- * Send notification email to Kwon EasyBureau (admin)
+ * Send notification email to HandokHelper (admin)
  */
 export async function sendAdminNotificationEmail(submission: ContactSubmission): Promise<boolean> {
-  const transporter = createTransporter();
+  const mailjet = createMailjetClient();
 
   const emailContent = `
 New Contact Form Submission
@@ -125,10 +139,10 @@ Metadata:
 - User Agent: ${submission.userAgent || 'N/A'}
   `.trim();
 
-  const adminEmail = process.env.ADMIN_EMAIL || process.env.SMTP_USER;
+  const adminEmail = process.env.ADMIN_EMAIL || process.env.EMAIL_FROM || 'info@handokhelper.de';
 
-  if (!transporter) {
-    console.log('[Email] Admin notification email (would be sent to Kwon EasyBureau):');
+  if (!mailjet) {
+    console.log('[Email] MailJet not configured, admin notification email (would be sent to HandokHelper):');
     console.log('To:', adminEmail);
     console.log('Subject: New Contact Form Submission');
     console.log(emailContent);
@@ -136,13 +150,40 @@ Metadata:
   }
 
   try {
-    await transporter.sendMail({
-      from: process.env.SMTP_FROM || 'noreply@patootie.com',
-      to: adminEmail,
-      subject: `New Contact Form Submission - ${submission.service}`,
-      text: emailContent,
+    const request = mailjet.post('send', { version: 'v3.1' }).request({
+      Messages: [
+        {
+          From: {
+            Email: process.env.EMAIL_FROM || 'noreply@handokhelper.de',
+            Name: 'HandokHelper System',
+          },
+          To: [
+            {
+              Email: adminEmail,
+              Name: 'HandokHelper Admin',
+            },
+          ],
+          Subject: `New Contact Form Submission - ${submission.service}`,
+          TextPart: emailContent,
+          HTMLPart: `<pre>${emailContent.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>`,
+        },
+      ],
     });
-    return true;
+
+    const response = await request;
+
+    // Handle MailJet response
+    const responseBody = response.body as any;
+    if (responseBody && responseBody.Messages && Array.isArray(responseBody.Messages)) {
+      const message = responseBody.Messages[0];
+      if (message && message.Status === 'success') {
+        console.log('[Email] Admin notification sent successfully to:', adminEmail);
+        return true;
+      }
+    }
+
+    console.error('[Email] Unexpected response from MailJet:', responseBody);
+    return false;
   } catch (error) {
     console.error('[Email] Failed to send admin notification email:', error);
     return false;
