@@ -1,0 +1,54 @@
+# .github/workflows/supabase-keeper.yml
+
+name: Supabase Keeper
+on:
+  schedule:
+    # Runs at 00:00 UTC every 6th day of the month (e.g., Nov 6th, Nov 12th, Nov 18th)
+    # This keeps the 7-day timer from expiring.
+    - cron: '0 0 */6 * *' 
+  workflow_dispatch:
+    # Allows manual running from the GitHub Actions tab
+
+jobs:
+  keep_alive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install PostgreSQL connector
+        run: pip install psycopg2-binary
+
+      - name: Run Database Keep-Alive
+        env:
+          DB_URL: ${{ secrets.SUPABASE_KEEPER_URL }}
+        run: |
+          python -c "
+          import psycopg2
+          import os
+          
+          db_url = os.environ.get('DB_URL')
+          
+          if not db_url:
+              print('Database URL secret not found. Skipping.')
+              exit(1)
+              
+          try:
+              conn = psycopg2.connect(db_url)
+              cur = conn.cursor()
+              
+              # Execute a simple, lightweight query to prevent timeout/pausing
+              cur.execute('SELECT 1;') 
+              
+              cur.close()
+              conn.close()
+              print('Supabase Keep-Alive: SUCCESS')
+          except Exception as e:
+              print(f'Supabase Keep-Alive: FAILED - {e}')
+              exit(1)
+          "
