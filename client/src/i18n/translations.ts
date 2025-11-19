@@ -21,23 +21,19 @@ export interface Translations {
   servicesHeading: string;
   serviceCard1Title: string;
   serviceCard1Desc: string;
-  serviceCard1FullDesc: string;
-  serviceCard1Pricing: string;
+  serviceCard1Services: string[];
   serviceCard1CTA: string;
   serviceCard2Title: string;
   serviceCard2Desc: string;
-  serviceCard2FullDesc: string;
-  serviceCard2Pricing: string;
+  serviceCard2Services: string[];
   serviceCard2CTA: string;
   serviceCard3Title: string;
   serviceCard3Desc: string;
-  serviceCard3FullDesc: string;
-  serviceCard3Pricing: string;
+  serviceCard3Services: string[];
   serviceCard3CTA: string;
   serviceCard4Title: string;
   serviceCard4Desc: string;
-  serviceCard4FullDesc: string;
-  serviceCard4Pricing: string;
+  serviceCard4Services: string[];
   serviceCard4CTA: string;
 
   // Process Section
@@ -135,24 +131,40 @@ export const translations: Record<Language, Translations> = {
     // Service Cards
     servicesHeading: "Our Services",
     serviceCard1Title: "Immigration & Residence",
-    serviceCard1Desc: "Help with visas, residence permits, appointments, and official documents related to living in Germany.",
-    serviceCard1FullDesc: "Navigating the Ausl\u00e4nderbeh\u00f6rde can be confusing\u2014HandokHelper assists with applications, documents, translations, and scheduling appointments on your behalf.",
-    serviceCard1Pricing: "Pricing: hourly or fixed package",
+    serviceCard1Desc: "Secure your legal stay in Germany. We provide expert guidance on visas, residence permits, and embassy appointments to ensure a smooth process.",
+    serviceCard1Services: [
+      "Expat assignment visa application & extension",
+      "Expat family visa application & extension",
+      "Work visa consultation & application support",
+      "Visa interview accompaniment & interpretation",
+      "Visa pickup service on behalf of client"
+    ],
     serviceCard1CTA: "Select Immigration & Residence",
-    serviceCard2Title: "Government Forms & Certificates",
-    serviceCard2Desc: "Assistance with filling out and submitting official German documents and requests.",
-    serviceCard2FullDesc: "Many forms require detailed information, strict formatting, or confirmation from inside Germany. HandokHelper helps you complete, submit, and track your official paperwork.",
-    serviceCard2Pricing: "Pricing: fixed package",
-    serviceCard2CTA: "Select Forms & Certificates",
-    serviceCard3Title: "German Pension & Social Benefits from Abroad",
-    serviceCard3Desc: "Support for receiving German pension payments or social benefits when you live outside of Germany.",
-    serviceCard3FullDesc: "HandokHelper helps collect the correct documents, communicate with German offices, and ensure payments are processed correctly\u2014especially useful for former workers who moved abroad.",
-    serviceCard3Pricing: "Pricing: percentage of payout amount",
-    serviceCard3CTA: "Select Pension Support",
-    serviceCard4Title: "Other Requests",
-    serviceCard4Desc: "Any situation that involves a German authority but doesn't fit in the categories above.",
-    serviceCard4FullDesc: "Whether it's a certificate, a complicated document request, or something unusual you cannot do from abroad\u2014HandokHelper can handle most German bureaucratic matters.",
-    serviceCard4Pricing: "Pricing: based on time required",
+    serviceCard2Title: "Registration & Bureaucracy",
+    serviceCard2Desc: "Navigate German red tape without the stress. We handle city registration, tax changes, and official government procedures on your behalf.",
+    serviceCard2Services: [
+      "Anmeldung support (document preparation, on-site accompaniment & interpretation)",
+      "Deregistration (Abmeldung) assistance",
+      "Tax class (Steuerklasse) change application",
+      "Driver's license exchange support & interpretation",
+      "Tax filing and tax settlement support"
+    ],
+    serviceCard2CTA: "Select Registration & Bureaucracy",
+    serviceCard3Title: "Pension & Social Benefits",
+    serviceCard3Desc: "Maximize your financial rights. Whether you need to apply for child benefits (Kindergeld) or claim a pension refund, we help you get what you are owed.",
+    serviceCard3Services: [
+      "Pension refund application service",
+      "Child benefit (Kindergeld) application"
+    ],
+    serviceCard3CTA: "Select Pension & Social Benefits",
+    serviceCard4Title: "Other requests",
+    serviceCard4Desc: "Essential support for daily life. From setting up bank accounts and utilities to cancelling contracts when you leave, we take care of the details.",
+    serviceCard4Services: [
+      "Bank account opening assistance",
+      "Internet & electricity contract setup",
+      "Insurance enrollment support (liability & legal insurance)",
+      "Cancellation support before departure (e.g. housing, contracts)"
+    ],
     serviceCard4CTA: "Select Other Requests",
 
     // Process Section
@@ -213,12 +225,12 @@ export const translations: Record<Language, Translations> = {
     footerQuickLinks: "Quick Links",
     footerLegal: "Legal",
     footerPrivacy: "Privacy Policy",
-    footerImpressum: "Impressum",
+    footerImpressum: "Imprint",
     footerCopyright: "Support for German Authorities Worldwide",
 
     // Legal Pages
     impressumTitle: "Impressum",
-    impressumContent: "HandokHelper\n\nContact:\nEmail: info ( at ) handokhelper.de\n\nThis is a placeholder impressum. Please update with actual legal information as required by German law (\u00a75 TMG).",
+    impressumContent: "HandokHelper\n\nContact:\nEmail: info ( at ) handokhelper.de\n\nThis is a placeholder impressum. Please update with actual legal information as required by German law (§5 TMG).",
     privacyTitle: "Privacy Policy",
     privacyContent: "This Privacy Policy describes how we collect, use, and protect your personal information.\n\n1. Data Collection\nWe collect personal information that you provide through our contact form, including your name, email, phone number, address, and message content.\n\n2. Purpose of Data Processing\nYour data is used solely for the purpose of handling your inquiry and providing our services. We will contact you via email or phone as you have consented.\n\n3. Data Storage\nYour data is stored securely in our database and is only accessible to authorized personnel.\n\n4. Your Rights\nYou have the right to access, correct, or delete your personal data at any time. Please contact us at info@patootie-germany.com.\n\n5. Consent\nBy submitting the contact form, you consent to the processing of your personal data as described in this policy.\n\nThis is a placeholder privacy policy. Please update with complete legal information as required by GDPR and German data protection laws.",
 
@@ -248,25 +260,41 @@ export const translations: Record<Language, Translations> = {
     // Service Cards
     servicesHeading: "서비스 안내",
     serviceCard1Title: "이민 및 거주",
-    serviceCard1Desc: "독일 거주와 관련된 비자, 거주 허가, 예약 및 공식 서류 지원.",
-    serviceCard1FullDesc: "외국인청(Ausl\u00e4nderbeh\u00f6rde) 업무는 복잡할 수 있습니다. HandokHelper가 신청서, 서류, 번역 및 예약 일정을 대신 도와드립니다.",
-    serviceCard1Pricing: "요금: 시간당 또는 고정 패키지",
+    serviceCard1Desc: "독일 체류를 위한 비자 및 거주 허가, 대사관 인터뷰 등 복잡한 이민 절차를 전문가가 확실하게 도와드립니다.",
+    serviceCard1Services: [
+      "주재원 비자 신청 및 연장",
+      "주재원 가족 비자 신청 및 연장",
+      "취업 비자 상담 및 신청 지원",
+      "비자 인터뷰 동행 및 통역",
+      "비자 수령 대행 서비스"
+    ],
     serviceCard1CTA: "이민 및 거주 선택",
-    serviceCard2Title: "정부 양식 및 증명서",
-    serviceCard2Desc: "독일 공식 서류 및 요청서 작성 및 제출 지원.",
-    serviceCard2FullDesc: "많은 양식은 상세한 정보, 엄격한 형식 또는 독일 내 확인이 필요합니다. HandokHelper가 공식 서류 작성, 제출 및 추적을 도와드립니다.",
-    serviceCard2Pricing: "요금: 고정 패키지",
-    serviceCard2CTA: "양식 및 증명서 선택",
-    serviceCard3Title: "해외에서 독일 연금 및 사회 복지 수령",
-    serviceCard3Desc: "해외 거주 시 독일 연금 또는 사회 복지 수령 지원.",
-    serviceCard3FullDesc: "HandokHelper가 올바른 서류 수집, 독일 관공서와의 소통, 지급 처리를 도와드립니다. 특히 해외로 이주한 전직 근로자에게 유용합니다.",
-    serviceCard3Pricing: "요금: 지급액의 일정 비율",
-    serviceCard3CTA: "연금 지원 선택",
-    serviceCard4Title: "기타 요청",
-    serviceCard4Desc: "위 카테고리에 해당하지 않는 독일 관공서 관련 모든 상황.",
-    serviceCard4FullDesc: "증명서, 복잡한 서류 요청 또는 해외에서 처리할 수 없는 특이한 상황이든, HandokHelper가 대부분의 독일 관료 업무를 처리할 수 있습니다.",
-    serviceCard4Pricing: "요금: 소요 시간에 따라",
-    serviceCard4CTA: "기타 요청 선택",
+    serviceCard2Title: "거주 등록 및 관공서 행정",
+    serviceCard2Desc: "안멜둥(Anmeldung), 세금 등급 변경 등 까다로운 독일 관공서 행정 업무를 스트레스 없이 신속하게 해결해 드립니다.",
+    serviceCard2Services: [
+      "안멜둥(거주지 등록) 지원 - 서류 준비, 현장 동행 및 통역",
+      "압멜둥(거주지 말소) 지원",
+      "세금 등급(Steuerklasse) 변경 신청",
+      "운전면허 교환 지원 및 통역",
+      "세금 신고 및 연말정산 지원"
+    ],
+    serviceCard2CTA: "거주 등록 및 관공서 행정 선택",
+    serviceCard3Title: "연금 및 사회 복지",
+    serviceCard3Desc: "아동 수당(Kindergeld) 신청부터 연금 환급까지, 독일에서 누릴 수 있는 재정적 혜택과 권리를 꼼꼼하게 챙겨드립니다.",
+    serviceCard3Services: [
+      "연금 환급 신청 서비스",
+      "아동 수당(Kindergeld) 신청"
+    ],
+    serviceCard3CTA: "연금 및 사회 복지 선택",
+    serviceCard4Title: "기타 생활 지원",
+    serviceCard4Desc: "은행 계좌 개설, 공과금 계약부터 귀국 전 계약 해지까지, 독일 생활의 시작과 끝에 필요한 모든 지원을 제공합니다.",
+    serviceCard4Services: [
+      "은행 계좌 개설 지원",
+      "인터넷 및 전기 계약 설치",
+      "보험 가입 지원 - 책임 및 법률 보험",
+      "귀국 전 해지 지원 - 주택, 각종 계약 등"
+    ],
+    serviceCard4CTA: "기타 생활 지원 선택",
 
     // Process Section
     processHeading: "진행 방법",
@@ -326,12 +354,12 @@ export const translations: Record<Language, Translations> = {
     footerQuickLinks: "빠른 링크",
     footerLegal: "법적 정보",
     footerPrivacy: "개인정보 처리방침",
-    footerImpressum: "Impressum",
+    footerImpressum: "법적 고지",
     footerCopyright: "전 세계 독일 관공서 지원",
 
     // Legal Pages
     impressumTitle: "법적 고지 (Impressum)",
-    impressumContent: "HandokHelper\n\n연락처:\n이메일: info@patootie-germany.com\n\n이것은 임시 법적 고지입니다. 독일 법률(\u00a75 TMG)에 따라 실제 법적 정보로 업데이트하십시오.",
+    impressumContent: "HandokHelper\n\n연락처:\n이메일: info@patootie-germany.com\n\n이것은 임시 법적 고지입니다. 독일 법률(§5 TMG)에 따라 실제 법적 정보로 업데이트하십시오.",
     privacyTitle: "개인정보 처리방침",
     privacyContent: "본 개인정보 처리방침은 귀하의 개인정보를 수집, 사용 및 보호하는 방법을 설명합니다.\n\n1. 데이터 수집\n문의 양식을 통해 제공하신 이름, 이메일, 전화번호, 주소 및 메시지 내용을 포함한 개인정보를 수집합니다.\n\n2. 데이터 처리 목적\n귀하의 데이터는 문의 처리 및 서비스 제공 목적으로만 사용됩니다. 귀하가 동의한 대로 이메일 또는 전화로 연락드립니다.\n\n3. 데이터 저장\n귀하의 데이터는 데이터베이스에 안전하게 저장되며 권한이 있는 직원만 액세스할 수 있습니다.\n\n4. 귀하의 권리\n언제든지 개인 데이터에 액세스하거나 수정 또는 삭제할 권리가 있습니다. info@patootie-germany.com으로 문의하십시오.\n\n5. 동의\n문의 양식을 제출함으로써 본 방침에 설명된 대로 개인 데이터 처리에 동의합니다.\n\n이것은 임시 개인정보 처리방침입니다. GDPR 및 독일 데이터 보호법에 따라 완전한 법적 정보로 업데이트하십시오.",
 

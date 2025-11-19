@@ -319,8 +319,7 @@ export default function Home() {
               icon={Plane}
               title={t.serviceCard1Title}
               description={t.serviceCard1Desc}
-              fullDescription={t.serviceCard1FullDesc}
-              pricing={t.serviceCard1Pricing}
+              servicesList={t.serviceCard1Services}
               ctaText={t.serviceCard1CTA}
               onClick={() => handleServiceCardClick(t.serviceCard1Title)}
               language={language}
@@ -330,8 +329,7 @@ export default function Home() {
               icon={FileText}
               title={t.serviceCard2Title}
               description={t.serviceCard2Desc}
-              fullDescription={t.serviceCard2FullDesc}
-              pricing={t.serviceCard2Pricing}
+              servicesList={t.serviceCard2Services}
               ctaText={t.serviceCard2CTA}
               onClick={() => handleServiceCardClick(t.serviceCard2Title)}
               language={language}
@@ -341,8 +339,7 @@ export default function Home() {
               icon={Users}
               title={t.serviceCard3Title}
               description={t.serviceCard3Desc}
-              fullDescription={t.serviceCard3FullDesc}
-              pricing={t.serviceCard3Pricing}
+              servicesList={t.serviceCard3Services}
               ctaText={t.serviceCard3CTA}
               onClick={() => handleServiceCardClick(t.serviceCard3Title)}
               language={language}
@@ -352,8 +349,7 @@ export default function Home() {
               icon={HelpCircle}
               title={t.serviceCard4Title}
               description={t.serviceCard4Desc}
-              fullDescription={t.serviceCard4FullDesc}
-              pricing={t.serviceCard4Pricing}
+              servicesList={t.serviceCard4Services}
               ctaText={t.serviceCard4CTA}
               onClick={() => handleServiceCardClick(t.serviceCard4Title)}
               language={language}

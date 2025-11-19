@@ -84,7 +84,7 @@ export function Footer() {
                 </div>
 
                 <div className="text-center text-sm text-muted-foreground pt-8 border-t">
-                    <p>© 2025 Kwon EasyBureau — {t.footerCopyright}</p>
+                    <p>© 2025 HandokHelper - {t.footerCopyright}</p>
                 </div>
             </div>
         </footer>
