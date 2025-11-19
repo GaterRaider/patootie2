@@ -60,6 +60,11 @@ export function ContactForm({
     return !!(formData[name] && formData[name].trim() !== '');
   };
 
+  const shouldShowStateProvince = (): boolean => {
+    const country = formData.country || '';
+    return country === 'United States' || country === 'Canada';
+  };
+
   const showValidation = (name: string): boolean => {
     return touched[name] || false;
   };
@@ -331,10 +336,25 @@ export function ContactForm({
           </div>
         </div>
         
-        <div className="space-y-2">
-          <Label htmlFor="stateProvince">{t.formStateProvince}</Label>
-          <Input id="stateProvince" name="stateProvince" />
-        </div>
+        {shouldShowStateProvince() && (
+          <div className="space-y-2 p-3 bg-blue-50 rounded-lg border border-blue-100">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="stateProvince" className="flex items-center gap-2">
+                <Globe className="h-4 w-4 text-gray-500" />
+                {t.formStateProvince}
+              </Label>
+            </div>
+            <Input 
+              id="stateProvince" 
+              name="stateProvince" 
+              onChange={(e) => handleInputChange('stateProvince', e.target.value)}
+              onBlur={() => handleBlur('stateProvince')}
+            />
+            <p className="text-xs text-blue-600 font-medium">
+              {formData.country === 'United States' ? 'State is required for USA' : 'Province is required for Canada'}
+            </p>
+          </div>
+        )}
         
         <div className="space-y-2">
           <div className="flex items-center justify-between">

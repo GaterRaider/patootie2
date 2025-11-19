@@ -199,3 +199,10 @@
 - [x] Enhance submit button with gradient, hover effects, and loading state
 - [x] Add inline validation feedback with checkmarks and error messages
 - [x] Test all form improvements and ensure responsive design
+
+
+## Conditional Field Visibility
+- [x] Show/hide State/Province field based on country selection
+- [x] Only display for USA and Canada
+- [x] Test conditional logic with different country selections (12 tests, all passing)
+- [x] Ensure smooth transitions and responsive design
