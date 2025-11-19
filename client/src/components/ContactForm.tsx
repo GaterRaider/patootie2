@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-import { Send, CheckCircle2, AlertCircle } from "lucide-react";
+import { Send, CheckCircle2, AlertCircle, User, Mail, Phone, MapPin, Calendar, Globe, MessageSquare, Home } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Translations } from "@/i18n/translations";
 import { countries } from "@/lib/countries";
@@ -113,8 +113,11 @@ export function ContactForm({
       </div>
 
       {/* Personal Information */}
-      <div className="space-y-4">
-        <h3 className="text-lg font-semibold border-b pb-2">Personal Information</h3>
+      <div className="space-y-4 p-4 bg-gradient-to-br from-blue-50 to-blue-50/50 rounded-lg border border-blue-100">
+        <h3 className="text-lg font-semibold text-blue-900 flex items-center gap-2">
+          <User className="h-5 w-5 text-blue-600" />
+          Personal Information
+        </h3>
         
         {/* Salutation */}
         <div className="space-y-2">
@@ -183,7 +186,10 @@ export function ContactForm({
         {/* Date of Birth */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <Label htmlFor="dateOfBirth">{t.formDateOfBirth} *</Label>
+            <Label htmlFor="dateOfBirth" className="flex items-center gap-2">
+              <Calendar className="h-4 w-4 text-gray-500" />
+              {t.formDateOfBirth} *
+            </Label>
             {showValidation('dateOfBirth') && isFieldValid('dateOfBirth') && (
               <CheckCircle2 className="h-4 w-4 text-green-600" />
             )}
@@ -201,13 +207,19 @@ export function ContactForm({
       </div>
 
       {/* Contact Information */}
-      <div className="space-y-4">
-        <h3 className="text-lg font-semibold border-b pb-2">Contact Information</h3>
+      <div className="space-y-4 p-4 bg-gradient-to-br from-purple-50 to-purple-50/50 rounded-lg border border-purple-100">
+        <h3 className="text-lg font-semibold text-purple-900 flex items-center gap-2">
+          <Mail className="h-5 w-5 text-purple-600" />
+          Contact Information
+        </h3>
         
         <div className="grid md:grid-cols-2 gap-4">
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <Label htmlFor="email">{t.formEmail} *</Label>
+              <Label htmlFor="email" className="flex items-center gap-2">
+                <Mail className="h-4 w-4 text-gray-500" />
+                {t.formEmail} *
+              </Label>
               {showValidation('email') && isFieldValid('email') && (
                 <CheckCircle2 className="h-4 w-4 text-green-600" />
               )}
@@ -230,7 +242,10 @@ export function ContactForm({
           </div>
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <Label htmlFor="phoneNumber">{t.formPhone} *</Label>
+              <Label htmlFor="phoneNumber" className="flex items-center gap-2">
+                <Phone className="h-4 w-4 text-gray-500" />
+                {t.formPhone} *
+              </Label>
               {showValidation('phoneNumber') && isFieldValid('phoneNumber') && (
                 <CheckCircle2 className="h-4 w-4 text-green-600" />
               )}
@@ -250,12 +265,18 @@ export function ContactForm({
       </div>
 
       {/* Address */}
-      <div className="space-y-4">
-        <h3 className="text-lg font-semibold border-b pb-2">Address</h3>
+      <div className="space-y-4 p-4 bg-gradient-to-br from-green-50 to-green-50/50 rounded-lg border border-green-100">
+        <h3 className="text-lg font-semibold text-green-900 flex items-center gap-2">
+          <MapPin className="h-5 w-5 text-green-600" />
+          Address
+        </h3>
         
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <Label htmlFor="street">{t.formStreet} *</Label>
+            <Label htmlFor="street" className="flex items-center gap-2">
+              <Home className="h-4 w-4 text-gray-500" />
+              {t.formStreet} *
+            </Label>
             {showValidation('street') && isFieldValid('street') && (
               <CheckCircle2 className="h-4 w-4 text-green-600" />
             )}
@@ -345,8 +366,11 @@ export function ContactForm({
       </div>
 
       {/* Current Residence and Language */}
-      <div className="space-y-4">
-        <h3 className="text-lg font-semibold border-b pb-2">Additional Information</h3>
+      <div className="space-y-4 p-4 bg-gradient-to-br from-amber-50 to-amber-50/50 rounded-lg border border-amber-100">
+        <h3 className="text-lg font-semibold text-amber-900 flex items-center gap-2">
+          <Globe className="h-5 w-5 text-amber-600" />
+          Additional Information
+        </h3>
         
         <div className="grid md:grid-cols-2 gap-4">
           <div className="space-y-2">
@@ -405,9 +429,12 @@ export function ContactForm({
       </div>
 
       {/* Message */}
-      <div className="space-y-2">
+      <div className="space-y-2 p-4 bg-gradient-to-br from-rose-50 to-rose-50/50 rounded-lg border border-rose-100">
         <div className="flex items-center justify-between">
-          <Label htmlFor="message">{t.formMessage} *</Label>
+          <Label htmlFor="message" className="text-rose-900 font-medium flex items-center gap-2">
+            <MessageSquare className="h-4 w-4 text-rose-600" />
+            {t.formMessage} *
+          </Label>
           {showValidation('message') && isFieldValid('message') && (
             <CheckCircle2 className="h-4 w-4 text-green-600" />
           )}
@@ -492,7 +519,7 @@ export function ContactForm({
       <Button 
         type="submit" 
         size="lg" 
-        className="w-full shadow-lg hover:shadow-xl transition-all text-base h-12" 
+        className="w-full shadow-lg hover:shadow-xl transition-all text-base h-12 bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary/80 font-semibold" 
         disabled={isSubmitting || progress < 100}
       >
         {isSubmitting ? (
