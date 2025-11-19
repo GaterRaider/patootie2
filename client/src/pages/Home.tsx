@@ -16,6 +16,7 @@ import { ContactForm } from "@/components/ContactForm";
 import { countries } from "@/lib/countries";
 import { useLocation } from "wouter";
 import { Footer } from "@/components/Footer";
+import { Helmet } from "react-helmet-async";
 
 export default function Home() {
   const { language, setLanguage, t } = useLanguage();
@@ -86,6 +87,14 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <Helmet>
+        <html lang={language} />
+        <title>{`${t.siteTitle} - ${t.heroTitle}`}</title>
+        <meta name="description" content={t.heroDescription} />
+        <meta property="og:title" content={`${t.siteTitle} - ${t.heroTitle}`} />
+        <meta property="og:description" content={t.heroDescription} />
+        <meta property="og:type" content="website" />
+      </Helmet>
       {/* Accent Bar */}
       <div className="h-1 bg-gradient-to-r from-primary via-blue-500 to-primary"></div>
 

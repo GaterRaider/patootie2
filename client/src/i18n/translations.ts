@@ -215,8 +215,8 @@ export const translations: Record<Language, Translations> = {
     // About Section
     aboutHeading: "About HandokHelper",
     aboutParagraph1: "HandokHelper is experienced in dealing with German authorities and understands the complexities of German bureaucracy. With years of experience navigating the system, HandokHelper provides personalized assistance to make your journey smoother.",
-    aboutParagraph2: "Whether you are an immigrant, a foreign resident in Germany, or someone living abroad who needs to interact with German authorities, HandokHelper can help. From visa applications to pension claims, every case receives dedicated attention and professional guidance.",
-    aboutParagraph3: "HandokHelper specializes in helping individuals abroad obtain German pension payments and other social benefits, ensuring that distance is never a barrier to accessing what you're entitled to.",
+    aboutParagraph2: "Whether you are an immigrant, a foreign resident in Germany, or someone living abroad who needs to interact with German authorities, we can help. From visa applications to pension claims, every case receives dedicated attention and professional guidance.",
+    aboutParagraph3: "We specialize in helping individuals abroad obtain German pension payments and other social benefits, ensuring that distance is never a barrier to accessing what you're entitled to.",
     aboutLanguages: "Languages spoken: English, Korean, German",
 
     // Footer
