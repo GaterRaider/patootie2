@@ -94,6 +94,65 @@ export default function Home() {
         <meta property="og:title" content={`${t.siteTitle} - ${t.heroTitle}`} />
         <meta property="og:description" content={t.heroDescription} />
         <meta property="og:type" content="website" />
+
+        {/* Structured Data (JSON-LD) for SEO */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ProfessionalService",
+            "name": "HandokHelper",
+            "description": language === "ko"
+              ? "독일 관공서 업무 처리를 위한 전문 지원 서비스"
+              : "Professional assistance for dealing with German authorities",
+            "url": "https://handokhelper.de",
+            "logo": "https://handokhelper.de/images/HandokHelperLogoOnly.png",
+            "image": "https://handokhelper.de/images/HandokHelperLogoOnly.png",
+            "email": "info@handokhelper.de",
+            "address": {
+              "@type": "PostalAddress",
+              "addressCountry": "DE"
+            },
+            "areaServed": [
+              {
+                "@type": "Country",
+                "name": "Germany"
+              },
+              {
+                "@type": "Country",
+                "name": "South Korea"
+              }
+            ],
+            "serviceType": [
+              "Immigration & Residence Services",
+              "Registration & Bureaucracy",
+              "Pension & Social Benefits",
+              "German Authority Support"
+            ],
+            "priceRange": "$$",
+            "availableLanguage": [
+              {
+                "@type": "Language",
+                "name": "English"
+              },
+              {
+                "@type": "Language",
+                "name": "Korean"
+              },
+              {
+                "@type": "Language",
+                "name": "German"
+              }
+            ],
+            "knowsAbout": [
+              "German Immigration Law",
+              "Visa Applications",
+              "Residence Permits",
+              "German Bureaucracy",
+              "Pension Claims",
+              "Social Benefits"
+            ]
+          })}
+        </script>
       </Helmet>
       {/* Accent Bar */}
       <div className="h-1 bg-gradient-to-r from-primary via-blue-500 to-primary"></div>
