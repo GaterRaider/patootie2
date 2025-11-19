@@ -18,13 +18,13 @@ interface ContactFormProps {
   onLocationChange: (path: string) => void;
 }
 
-export function ContactForm({ 
-  t, 
-  selectedService, 
-  setSelectedService, 
-  onSubmit, 
+export function ContactForm({
+  t,
+  selectedService,
+  setSelectedService,
+  onSubmit,
   isSubmitting,
-  onLocationChange 
+  onLocationChange
 }: ContactFormProps) {
   const [formData, setFormData] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
@@ -78,7 +78,7 @@ export function ContactForm({
           <span className="font-medium text-primary">{progress}%</span>
         </div>
         <div className="h-2 bg-secondary rounded-full overflow-hidden">
-          <div 
+          <div
             className="h-full bg-gradient-to-r from-primary to-primary/80 transition-all duration-300 ease-out"
             style={{ width: `${progress}%` }}
           />
@@ -96,13 +96,13 @@ export function ContactForm({
             <CheckCircle2 className="h-5 w-5 text-green-600" />
           )}
         </div>
-        <Select 
-          name="service" 
-          value={selectedService} 
+        <Select
+          name="service"
+          value={selectedService}
           onValueChange={(value) => {
             setSelectedService(value);
             handleBlur('service');
-          }} 
+          }}
           required
         >
           <SelectTrigger className="bg-background">
@@ -123,7 +123,7 @@ export function ContactForm({
           <User className="h-5 w-5 text-blue-600" />
           Personal Information
         </h3>
-        
+
         {/* Salutation */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
@@ -132,8 +132,8 @@ export function ContactForm({
               <CheckCircle2 className="h-4 w-4 text-green-600" />
             )}
           </div>
-          <Select 
-            name="salutation" 
+          <Select
+            name="salutation"
             onValueChange={(value) => {
               handleInputChange('salutation', value);
               handleBlur('salutation');
@@ -161,10 +161,10 @@ export function ContactForm({
                 <CheckCircle2 className="h-4 w-4 text-green-600" />
               )}
             </div>
-            <Input 
-              id="firstName" 
-              name="firstName" 
-              required 
+            <Input
+              id="firstName"
+              name="firstName"
+              required
               onChange={(e) => handleInputChange('firstName', e.target.value)}
               onBlur={() => handleBlur('firstName')}
               className={showValidation('firstName') && !isFieldValid('firstName') ? 'border-red-500' : ''}
@@ -177,10 +177,10 @@ export function ContactForm({
                 <CheckCircle2 className="h-4 w-4 text-green-600" />
               )}
             </div>
-            <Input 
-              id="lastName" 
-              name="lastName" 
-              required 
+            <Input
+              id="lastName"
+              name="lastName"
+              required
               onChange={(e) => handleInputChange('lastName', e.target.value)}
               onBlur={() => handleBlur('lastName')}
               className={showValidation('lastName') && !isFieldValid('lastName') ? 'border-red-500' : ''}
@@ -199,11 +199,11 @@ export function ContactForm({
               <CheckCircle2 className="h-4 w-4 text-green-600" />
             )}
           </div>
-          <Input 
-            id="dateOfBirth" 
-            name="dateOfBirth" 
-            type="date" 
-            required 
+          <Input
+            id="dateOfBirth"
+            name="dateOfBirth"
+            type="date"
+            required
             onChange={(e) => handleInputChange('dateOfBirth', e.target.value)}
             onBlur={() => handleBlur('dateOfBirth')}
             className={showValidation('dateOfBirth') && !isFieldValid('dateOfBirth') ? 'border-red-500' : ''}
@@ -217,7 +217,7 @@ export function ContactForm({
           <Mail className="h-5 w-5 text-purple-600" />
           Contact Information
         </h3>
-        
+
         <div className="grid md:grid-cols-2 gap-4">
           <div className="space-y-2">
             <div className="flex items-center justify-between">
@@ -229,11 +229,11 @@ export function ContactForm({
                 <CheckCircle2 className="h-4 w-4 text-green-600" />
               )}
             </div>
-            <Input 
-              id="email" 
-              name="email" 
-              type="email" 
-              required 
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              required
               onChange={(e) => handleInputChange('email', e.target.value)}
               onBlur={() => handleBlur('email')}
               className={showValidation('email') && !isFieldValid('email') ? 'border-red-500' : ''}
@@ -255,12 +255,12 @@ export function ContactForm({
                 <CheckCircle2 className="h-4 w-4 text-green-600" />
               )}
             </div>
-            <Input 
-              id="phoneNumber" 
-              name="phoneNumber" 
-              type="tel" 
-              required 
-              placeholder="+49 123 456789" 
+            <Input
+              id="phoneNumber"
+              name="phoneNumber"
+              type="tel"
+              required
+              placeholder="+49 123 456789"
               onChange={(e) => handleInputChange('phoneNumber', e.target.value)}
               onBlur={() => handleBlur('phoneNumber')}
               className={showValidation('phoneNumber') && !isFieldValid('phoneNumber') ? 'border-red-500' : ''}
@@ -275,7 +275,7 @@ export function ContactForm({
           <MapPin className="h-5 w-5 text-green-600" />
           Address
         </h3>
-        
+
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <Label htmlFor="street" className="flex items-center gap-2">
@@ -286,21 +286,21 @@ export function ContactForm({
               <CheckCircle2 className="h-4 w-4 text-green-600" />
             )}
           </div>
-          <Input 
-            id="street" 
-            name="street" 
-            required 
+          <Input
+            id="street"
+            name="street"
+            required
             onChange={(e) => handleInputChange('street', e.target.value)}
             onBlur={() => handleBlur('street')}
             className={showValidation('street') && !isFieldValid('street') ? 'border-red-500' : ''}
           />
         </div>
-        
+
         <div className="space-y-2">
           <Label htmlFor="addressLine2">{t.formAddressLine2}</Label>
           <Input id="addressLine2" name="addressLine2" />
         </div>
-        
+
         <div className="grid md:grid-cols-2 gap-4">
           <div className="space-y-2">
             <div className="flex items-center justify-between">
@@ -309,10 +309,10 @@ export function ContactForm({
                 <CheckCircle2 className="h-4 w-4 text-green-600" />
               )}
             </div>
-            <Input 
-              id="postalCode" 
-              name="postalCode" 
-              required 
+            <Input
+              id="postalCode"
+              name="postalCode"
+              required
               onChange={(e) => handleInputChange('postalCode', e.target.value)}
               onBlur={() => handleBlur('postalCode')}
               className={showValidation('postalCode') && !isFieldValid('postalCode') ? 'border-red-500' : ''}
@@ -325,17 +325,17 @@ export function ContactForm({
                 <CheckCircle2 className="h-4 w-4 text-green-600" />
               )}
             </div>
-            <Input 
-              id="city" 
-              name="city" 
-              required 
+            <Input
+              id="city"
+              name="city"
+              required
               onChange={(e) => handleInputChange('city', e.target.value)}
               onBlur={() => handleBlur('city')}
               className={showValidation('city') && !isFieldValid('city') ? 'border-red-500' : ''}
             />
           </div>
         </div>
-        
+
         {shouldShowStateProvince() && (
           <div className="space-y-2 p-3 bg-blue-50 rounded-lg border border-blue-100">
             <div className="flex items-center justify-between">
@@ -344,9 +344,9 @@ export function ContactForm({
                 {t.formStateProvince}
               </Label>
             </div>
-            <Input 
-              id="stateProvince" 
-              name="stateProvince" 
+            <Input
+              id="stateProvince"
+              name="stateProvince"
               onChange={(e) => handleInputChange('stateProvince', e.target.value)}
               onBlur={() => handleBlur('stateProvince')}
             />
@@ -355,7 +355,7 @@ export function ContactForm({
             </p>
           </div>
         )}
-        
+
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <Label htmlFor="country">{t.formCountry} *</Label>
@@ -363,8 +363,8 @@ export function ContactForm({
               <CheckCircle2 className="h-4 w-4 text-green-600" />
             )}
           </div>
-          <Select 
-            name="country" 
+          <Select
+            name="country"
             onValueChange={(value) => {
               handleInputChange('country', value);
               handleBlur('country');
@@ -391,7 +391,7 @@ export function ContactForm({
           <Globe className="h-5 w-5 text-amber-600" />
           Additional Information
         </h3>
-        
+
         <div className="grid md:grid-cols-2 gap-4">
           <div className="space-y-2">
             <div className="flex items-center justify-between">
@@ -400,8 +400,8 @@ export function ContactForm({
                 <CheckCircle2 className="h-4 w-4 text-green-600" />
               )}
             </div>
-            <Select 
-              name="currentResidence" 
+            <Select
+              name="currentResidence"
               onValueChange={(value) => {
                 handleInputChange('currentResidence', value);
                 handleBlur('currentResidence');
@@ -427,8 +427,8 @@ export function ContactForm({
                 <CheckCircle2 className="h-4 w-4 text-green-600" />
               )}
             </div>
-            <Select 
-              name="preferredLanguage" 
+            <Select
+              name="preferredLanguage"
               onValueChange={(value) => {
                 handleInputChange('preferredLanguage', value);
                 handleBlur('preferredLanguage');
@@ -448,22 +448,22 @@ export function ContactForm({
         </div>
 
         {/* Message/Describe your situation */}
-        <div className="space-y-2 mt-4 pt-4 border-t border-amber-200">
+        <div className="space-y-2 mt-4">
           <div className="flex items-center justify-between">
-            <Label htmlFor="message" className="text-amber-900 font-medium flex items-center gap-2">
-              <MessageSquare className="h-4 w-4 text-amber-600" />
+            <Label htmlFor="message" className="text-lg font-semibold text-amber-900 flex items-center gap-2">
+              <MessageSquare className="h-5 w-5 text-amber-600" />
               {t.formMessage} *
             </Label>
             {showValidation('message') && isFieldValid('message') && (
-              <CheckCircle2 className="h-4 w-4 text-green-600" />
+              <CheckCircle2 className="h-5 w-5 text-green-600" />
             )}
           </div>
-          <Textarea 
-            id="message" 
-            name="message" 
-            rows={5} 
-            required 
-            minLength={10} 
+          <Textarea
+            id="message"
+            name="message"
+            rows={5}
+            required
+            minLength={10}
             placeholder="Please describe your specific situation, what services you need, and any relevant details about your case."
             onChange={(e) => handleInputChange('message', e.target.value)}
             onBlur={() => handleBlur('message')}
@@ -480,10 +480,10 @@ export function ContactForm({
       {/* Consent Checkboxes */}
       <div className="space-y-4 p-4 bg-secondary/30 rounded-lg">
         <div className="flex items-start gap-3">
-          <input 
-            type="checkbox" 
-            id="contactConsent" 
-            name="contactConsent" 
+          <input
+            type="checkbox"
+            id="contactConsent"
+            name="contactConsent"
             required
             style={{
               width: '20px',
@@ -502,10 +502,10 @@ export function ContactForm({
           </label>
         </div>
         <div className="flex items-start gap-3">
-          <input 
-            type="checkbox" 
-            id="privacy-policy-consent" 
-            name="privacyConsent" 
+          <input
+            type="checkbox"
+            id="privacy-policy-consent"
+            name="privacyConsent"
             required
             style={{
               width: '20px',
@@ -537,10 +537,10 @@ export function ContactForm({
       </div>
 
       {/* Submit Button */}
-      <Button 
-        type="submit" 
-        size="lg" 
-        className="w-full shadow-lg hover:shadow-xl transition-all text-base h-12 bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary/80 font-semibold" 
+      <Button
+        type="submit"
+        size="lg"
+        className="w-full shadow-lg hover:shadow-xl transition-all text-base h-12 bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary/80 font-semibold"
         disabled={isSubmitting || progress < 100}
       >
         {isSubmitting ? (
@@ -555,7 +555,7 @@ export function ContactForm({
           </>
         )}
       </Button>
-      
+
       {progress < 100 && !isSubmitting && (
         <p className="text-sm text-center text-muted-foreground">
           Please complete all required fields to submit

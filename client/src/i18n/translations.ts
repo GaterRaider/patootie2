@@ -217,7 +217,7 @@ export const translations: Record<Language, Translations> = {
     aboutParagraph1: "HandokHelper is experienced in dealing with German authorities and understands the complexities of German bureaucracy. With years of experience navigating the system, HandokHelper provides personalized assistance to make your journey smoother.",
     aboutParagraph2: "Whether you are an immigrant, a foreign resident in Germany, or someone living abroad who needs to interact with German authorities, we can help. From visa applications to pension claims, every case receives dedicated attention and professional guidance.",
     aboutParagraph3: "We specialize in helping individuals abroad obtain German pension payments and other social benefits, ensuring that distance is never a barrier to accessing what you're entitled to.",
-    aboutLanguages: "Languages spoken: English, Korean, German",
+    aboutLanguages: "Languages Spoken",
 
     // Footer
     footerAboutTitle: "About HandokHelper",
@@ -346,7 +346,7 @@ export const translations: Record<Language, Translations> = {
     aboutParagraph1: "HandokHelper는 독일 관공서 업무에 대한 경험이 풍부하며 독일 관료제의 복잡성을 이해하고 있습니다. 수년간의 시스템 탐색 경험을 바탕으로 귀하의 여정을 더 원활하게 만들어드립니다.",
     aboutParagraph2: "이민자, 독일 거주 외국인 또는 독일 관공서와 소통해야 하는 해외 거주자 모두를 도와드립니다. 비자 신청부터 연금 청구까지 모든 사례에 전담 지원과 전문적인 안내를 제공합니다.",
     aboutParagraph3: "HandokHelper는 해외 거주자가 독일 연금 및 기타 사회 복지를 받을 수 있도록 전문적으로 지원하며, 거리가 귀하의 권리를 받는 데 장애가 되지 않도록 합니다.",
-    aboutLanguages: "사용 언어: 영어, 한국어, 독일어",
+    aboutLanguages: "지원 언어",
 
     // Footer
     footerAboutTitle: "HandokHelper 소개",

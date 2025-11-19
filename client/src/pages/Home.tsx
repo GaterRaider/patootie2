@@ -1,6 +1,7 @@
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTheme } from "@/contexts/ThemeContext";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -492,7 +493,21 @@ export default function Home() {
             <p>{t.aboutParagraph1}</p>
             <p>{t.aboutParagraph2}</p>
             <p>{t.aboutParagraph3}</p>
-            <p className="font-semibold text-center pt-4">{t.aboutLanguages}</p>
+
+            <div className="flex flex-col items-center gap-4 pt-8">
+              <h3 className="font-semibold text-muted-foreground uppercase tracking-wider text-sm">{t.aboutLanguages}</h3>
+              <div className="flex flex-wrap justify-center gap-3">
+                <Badge variant="outline" className="px-4 py-2 text-base font-medium bg-background/50 backdrop-blur-sm border-primary/20 text-foreground hover:bg-primary/5 hover:border-primary/40 transition-all duration-300 cursor-default shadow-sm">
+                  🇺🇸 English
+                </Badge>
+                <Badge variant="outline" className="px-4 py-2 text-base font-medium bg-background/50 backdrop-blur-sm border-primary/20 text-foreground hover:bg-primary/5 hover:border-primary/40 transition-all duration-300 cursor-default shadow-sm">
+                  🇰🇷 Korean (한국어)
+                </Badge>
+                <Badge variant="outline" className="px-4 py-2 text-base font-medium bg-background/50 backdrop-blur-sm border-primary/20 text-foreground hover:bg-primary/5 hover:border-primary/40 transition-all duration-300 cursor-default shadow-sm">
+                  🇩🇪 German (Deutsch)
+                </Badge>
+              </div>
+            </div>
           </div>
         </div>
       </section>
