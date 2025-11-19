@@ -206,3 +206,11 @@
 - [x] Only display for USA and Canada
 - [x] Test conditional logic with different country selections (12 tests, all passing)
 - [x] Ensure smooth transitions and responsive design
+
+
+## Form Layout Reorganization (Corrected)
+- [x] Move "Describe your situation" field into Additional Information section
+- [x] Keep single Additional Information box (no duplicates)
+- [x] Maintain amber/yellow color scheme
+- [x] Add helpful placeholder hint text starting with "Please..."
+- [x] Test placeholder behavior and form layout
