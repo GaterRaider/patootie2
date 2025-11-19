@@ -91,28 +91,27 @@ export default function Home() {
 
       {/* Header */}
       <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60 shadow-sm">
-        <div className="container flex h-20 items-center justify-between gap-4">
-          {/* Mobile Hamburger Menu Button */}
+        <div className="container flex h-20 items-center gap-2 md:gap-4">
+          {/* Mobile Hamburger Menu Button - Left */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-md hover:bg-secondary/80 transition-colors flex-shrink-0"
+            className="md:hidden p-2 -ml-2 rounded-md hover:bg-secondary/80 transition-colors flex-shrink-0"
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
 
-          <div className="flex items-center gap-2 md:gap-3 min-w-0">
-            <img src="/images/logo-icon.png" alt="Logo" className="h-8 w-8 md:h-10 md:w-10 flex-shrink-0" />
-            <div className="min-w-0">
-              {/* Show full title on desktop, short version on mobile */}
-              <h1 className="text-base md:text-xl font-bold leading-tight">
-                <span className="hidden sm:inline">{t.siteTitle}</span>
-                <span className="sm:hidden">Kwon EasyBureau</span>
-              </h1>
-            </div>
+          {/* Logo + Text - Centered on mobile, left-aligned on desktop */}
+          <div className="flex items-center gap-2 md:gap-3 flex-1 md:flex-initial justify-center md:justify-start min-w-0">
+            <img src="/images/HandokHelperLogoOnly.png" alt="HandokHelper Logo" className="h-8 md:h-10 w-auto flex-shrink-0 object-contain" />
+            <h1 className="text-base md:text-xl font-bold leading-tight whitespace-nowrap">
+              <span className="hidden sm:inline">{t.siteTitle}</span>
+              <span className="sm:hidden">HandokHelper</span>
+            </h1>
           </div>
 
-          <nav className="hidden md:flex items-center gap-6">
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center gap-6 flex-1 justify-center">
             <button
               onClick={() => scrollToSection("services")}
               className="text-sm font-medium hover:text-primary transition-all duration-300 relative group hover:-translate-y-0.5"
@@ -143,6 +142,7 @@ export default function Home() {
             </Button>
           </nav>
 
+          {/* Language & Theme Toggles - Right */}
           <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
             {/* Language Toggle */}
             <div className="flex items-center gap-1 md:gap-2 px-2 md:px-3 py-1 md:py-1.5 rounded-full bg-secondary/50">
