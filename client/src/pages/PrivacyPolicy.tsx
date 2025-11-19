@@ -3,6 +3,7 @@ import { useTheme } from "@/contexts/ThemeContext";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Moon, Sun } from "lucide-react";
 import { useLocation } from "wouter";
+import { Footer } from "@/components/Footer";
 
 export default function PrivacyPolicy() {
   const { language, setLanguage, t } = useLanguage();
@@ -193,11 +194,7 @@ export default function PrivacyPolicy() {
       </main>
 
       {/* Footer */}
-      <footer className="py-6 border-t bg-muted/30">
-        <div className="container text-center text-sm text-muted-foreground">
-          <p>© 2025 HandokHelper - {t.siteTitle}</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

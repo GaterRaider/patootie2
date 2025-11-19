@@ -15,6 +15,7 @@ import { ServiceCard } from "@/components/ServiceCard";
 import { ContactForm } from "@/components/ContactForm";
 import { countries } from "@/lib/countries";
 import { useLocation } from "wouter";
+import { Footer } from "@/components/Footer";
 
 export default function Home() {
   const { language, setLanguage, t } = useLanguage();
@@ -110,31 +111,31 @@ export default function Home() {
               </h1>
             </div>
           </div>
-          
+
           <nav className="hidden md:flex items-center gap-6">
-            <button 
-              onClick={() => scrollToSection("services")} 
+            <button
+              onClick={() => scrollToSection("services")}
               className="text-sm font-medium hover:text-primary transition-all duration-300 relative group hover:-translate-y-0.5"
             >
               {t.navServices}
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 ease-out group-hover:w-full"></span>
             </button>
-            <button 
-              onClick={() => scrollToSection("process")} 
+            <button
+              onClick={() => scrollToSection("process")}
               className="text-sm font-medium hover:text-primary transition-all duration-300 relative group hover:-translate-y-0.5"
             >
               {t.navProcess}
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 ease-out group-hover:w-full"></span>
             </button>
-            <button 
-              onClick={() => scrollToSection("about")} 
+            <button
+              onClick={() => scrollToSection("about")}
               className="text-sm font-medium hover:text-primary transition-all duration-300 relative group hover:-translate-y-0.5"
             >
               {t.navAbout}
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 ease-out group-hover:w-full"></span>
             </button>
-            <Button 
-              onClick={() => scrollToSection("contact")} 
+            <Button
+              onClick={() => scrollToSection("contact")}
               size="sm"
               className="shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:scale-105"
             >
@@ -178,11 +179,11 @@ export default function Home() {
       {mobileMenuOpen && (
         <>
           {/* Overlay */}
-          <div 
+          <div
             className="fixed inset-0 bg-black/50 z-[9999] md:hidden"
             onClick={() => setMobileMenuOpen(false)}
           />
-          
+
           {/* Slide-out Panel */}
           <div className="fixed top-0 left-0 h-full w-64 bg-background border-r shadow-xl z-[10000] md:hidden animate-in slide-in-from-left duration-300">
             <div className="flex flex-col h-full">
@@ -263,7 +264,7 @@ export default function Home() {
             <div>
               <h2 className="text-3xl md:text-5xl font-bold mb-4 md:mb-6 leading-tight">{t.heroTitle}</h2>
               <p className="text-base md:text-lg text-muted-foreground mb-6 md:mb-8 leading-relaxed">{t.heroDescription}</p>
-              
+
               <div className="space-y-2 md:space-y-3 mb-6 md:mb-8">
                 <div className="flex items-start gap-3">
                   <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
@@ -307,12 +308,12 @@ export default function Home() {
           <div className="text-center mb-8 md:mb-12">
             <h2 className="text-2xl md:text-4xl font-bold mb-3">{t.servicesHeading}</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              {language === "ko" 
+              {language === "ko"
                 ? "독일 관료 업무를 전문적으로 지원합니다. 서비스를 선택하여 자세히 알아보세요."
                 : "Professional support for German bureaucracy. Select a service to learn more."}
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
             <ServiceCard
               icon={Plane}
@@ -324,7 +325,7 @@ export default function Home() {
               onClick={() => handleServiceCardClick(t.serviceCard1Title)}
               language={language}
             />
-            
+
             <ServiceCard
               icon={FileText}
               title={t.serviceCard2Title}
@@ -335,7 +336,7 @@ export default function Home() {
               onClick={() => handleServiceCardClick(t.serviceCard2Title)}
               language={language}
             />
-            
+
             <ServiceCard
               icon={Users}
               title={t.serviceCard3Title}
@@ -346,7 +347,7 @@ export default function Home() {
               onClick={() => handleServiceCardClick(t.serviceCard3Title)}
               language={language}
             />
-            
+
             <ServiceCard
               icon={HelpCircle}
               title={t.serviceCard4Title}
@@ -365,7 +366,7 @@ export default function Home() {
       <section id="process" className="py-8 md:py-14 bg-secondary/30">
         <div className="container">
           <h2 className="text-2xl md:text-4xl font-bold text-center mb-8 md:mb-12">{t.processHeading}</h2>
-          
+
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             <div className="text-center">
               <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-lg">
@@ -402,7 +403,7 @@ export default function Home() {
       <section id="contact" className="py-8 md:py-14">
         <div className="container max-w-4xl">
           <h2 className="text-2xl md:text-4xl font-bold text-center mb-8 md:mb-12">{t.contactHeading}</h2>
-          
+
           <Card className="shadow-xl border-2">
             <CardContent className="pt-8 px-6 md:px-10">
               <ContactForm
@@ -422,7 +423,7 @@ export default function Home() {
       <section id="about" className="py-8 md:py-14 bg-secondary/30">
         <div className="container max-w-4xl">
           <h2 className="text-2xl md:text-4xl font-bold text-center mb-8 md:mb-12">{t.aboutHeading}</h2>
-          
+
           <div className="space-y-4 md:space-y-6 text-base md:text-lg leading-relaxed">
             <p>{t.aboutParagraph1}</p>
             <p>{t.aboutParagraph2}</p>
@@ -433,77 +434,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="py-10 md:py-14 border-t bg-muted/20">
-        <div className="container">
-          <div className="grid md:grid-cols-3 gap-10 md:gap-12 mb-10">
-            {/* About Kwon EasyBureau */}
-            <div>
-              <h3 className="font-semibold text-base mb-3">{t.footerAboutTitle}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {t.footerAboutDesc}
-              </p>
-            </div>
-
-            {/* Quick Links */}
-            <div>
-              <h3 className="font-semibold text-base mb-3">{t.footerQuickLinks}</h3>
-              <div className="space-y-2.5">
-                <button 
-                  onClick={() => scrollToSection("services")} 
-                  className="block text-sm text-muted-foreground hover:text-primary transition-colors"
-                >
-                  {t.navServices}
-                </button>
-                <button 
-                  onClick={() => scrollToSection("process")} 
-                  className="block text-sm text-muted-foreground hover:text-primary transition-colors"
-                >
-                  {t.navProcess}
-                </button>
-                <button 
-                  onClick={() => scrollToSection("about")} 
-                  className="block text-sm text-muted-foreground hover:text-primary transition-colors"
-                >
-                  {t.navAbout}
-                </button>
-                <button 
-                  onClick={() => scrollToSection("contact")} 
-                  className="block text-sm text-muted-foreground hover:text-primary transition-colors"
-                >
-                  {t.navContact}
-                </button>
-              </div>
-            </div>
-
-            {/* Legal */}
-            <div>
-              <h3 className="font-semibold text-base mb-3">{t.footerLegal}</h3>
-              <div className="space-y-3">
-                <button 
-                  onClick={() => setLocation("/privacy-policy")}
-                  className="block text-sm text-muted-foreground hover:text-primary transition-colors"
-                >
-                  {t.footerPrivacy}
-                </button>
-                <div className="text-sm text-muted-foreground pt-1">
-                  <p className="font-medium mb-2">{t.footerImpressum}</p>
-                  <div className="text-xs leading-relaxed space-y-0.5">
-                    <p>Soyoung Kwon</p>
-                    <p>Michaelstraße 26</p>
-                    <p>65936 Frankfurt am Main</p>
-                    <p>Germany</p>
-                    <p className="pt-1">Email: <a href="mailto:info@patootie-germany.com" className="hover:text-primary transition-colors">info@patootie-germany.com</a></p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div className="text-center text-sm text-muted-foreground pt-8 border-t">
-            <p>© 2025 Kwon EasyBureau — {t.footerCopyright}</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
