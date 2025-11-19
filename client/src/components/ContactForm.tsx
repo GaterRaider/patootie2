@@ -448,102 +448,32 @@ export function ContactForm({
         </div>
       </div>
 
-      {/* Current Residence and Language */}
-      <div className="space-y-4 p-4 bg-gradient-to-br from-amber-50 to-amber-50/50 rounded-lg border border-amber-100">
-        <h3 className="text-lg font-semibold text-amber-900 flex items-center gap-2">
-          <Globe className="h-5 w-5 text-amber-600" />
-          Additional Information
-        </h3>
-        
-        <div className="grid md:grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="currentResidence" className="flex items-center gap-2">
-                <Globe className="h-4 w-4 text-gray-500" />
-                {t.formCurrentResidence} *
-              </Label>
-              {showValidation('currentResidence') && isFieldValid('currentResidence') && (
-                <CheckCircle2 className="h-4 w-4 text-green-600" />
-              )}
-            </div>
-            <Select 
-              name="currentResidence" 
-              onValueChange={(value) => {
-                handleInputChange('currentResidence', value);
-                handleBlur('currentResidence');
-              }}
-              required
-            >
-              <SelectTrigger>
-                <SelectValue placeholder={t.formCurrentResidencePlaceholder} />
-              </SelectTrigger>
-              <SelectContent>
-                {countries.map((country) => (
-                  <SelectItem key={country.code} value={country.name}>
-                    {country.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="preferredLanguage" className="flex items-center gap-2">
-                <Globe className="h-4 w-4 text-gray-500" />
-                {t.formPreferredLanguage} *
-              </Label>
-              {showValidation('preferredLanguage') && isFieldValid('preferredLanguage') && (
-                <CheckCircle2 className="h-4 w-4 text-green-600" />
-              )}
-            </div>
-            <Select 
-              name="preferredLanguage" 
-              onValueChange={(value) => {
-                handleInputChange('preferredLanguage', value);
-                handleBlur('preferredLanguage');
-              }}
-              required
-            >
-              <SelectTrigger>
-                <SelectValue placeholder={t.formPreferredLanguagePlaceholder} />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="English">English</SelectItem>
-                <SelectItem value="Korean">Korean (한국어)</SelectItem>
-                <SelectItem value="German">German (Deutsch)</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-
-        {/* Message/Describe your situation - moved into Additional Information */}
-        <div className="space-y-2 mt-4 pt-4 border-t border-amber-200">
-          <div className="flex items-center justify-between">
-            <Label htmlFor="message" className="text-amber-900 font-medium flex items-center gap-2">
-              <MessageSquare className="h-4 w-4 text-amber-600" />
-              {t.formMessage} *
-            </Label>
-            {showValidation('message') && isFieldValid('message') && (
-              <CheckCircle2 className="h-4 w-4 text-green-600" />
-            )}
-          </div>
-          <Textarea 
-            id="message" 
-            name="message" 
-            rows={5} 
-            required 
-            minLength={10} 
-            placeholder="Please describe your specific situation, what services you need, and any relevant details about your case."
-            onChange={(e) => handleInputChange('message', e.target.value)}
-            onBlur={() => handleBlur('message')}
-            className={`resize-none ${showValidation('message') && !isFieldValid('message') ? 'border-red-500' : ''}`}
-          />
-          {formData.message && (
-            <p className="text-xs text-amber-600 font-medium">
-              {formData.message.length} characters
-            </p>
+      {/* Message */}
+      <div className="space-y-2 p-4 bg-gradient-to-br from-rose-50 to-rose-50/50 rounded-lg border border-rose-100">
+        <div className="flex items-center justify-between">
+          <Label htmlFor="message" className="text-rose-900 font-medium flex items-center gap-2">
+            <MessageSquare className="h-4 w-4 text-rose-600" />
+            {t.formMessage} *
+          </Label>
+          {showValidation('message') && isFieldValid('message') && (
+            <CheckCircle2 className="h-4 w-4 text-green-600" />
           )}
         </div>
+        <Textarea 
+          id="message" 
+          name="message" 
+          rows={6} 
+          required 
+          minLength={10} 
+          onChange={(e) => handleInputChange('message', e.target.value)}
+          onBlur={() => handleBlur('message')}
+          className={`resize-none ${showValidation('message') && !isFieldValid('message') ? 'border-red-500' : ''}`}
+        />
+        {formData.message && (
+          <p className="text-xs text-muted-foreground">
+            {formData.message.length} characters
+          </p>
+        )}
       </div>
 
       {/* Consent Checkboxes */}
