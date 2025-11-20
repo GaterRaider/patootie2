@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-import { Send, CheckCircle2, AlertCircle, User, Mail, Phone, MapPin, Calendar, Globe, MessageSquare, Home, Briefcase } from "lucide-react";
+import { Send, CheckCircle2, AlertCircle, User, Mail, Phone, MapPin, Calendar, Globe, MessageSquare, Home, Briefcase, RefreshCw, Circle, Hash } from "lucide-react";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Translations } from "@/i18n/translations";
@@ -35,13 +35,17 @@ export function ContactForm({
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [progress, setProgress] = useState(0);
   const containerRef = useState<HTMLDivElement | null>(null);
-  // Store the name for the success message so it persists even if we clear formData later
+  // Store the name and email for the success message so it persists even if we clear formData later
   const [submittedName, setSubmittedName] = useState("");
+  const [submittedEmail, setSubmittedEmail] = useState("");
 
   useEffect(() => {
     if (isSuccess) {
       if (formData.firstName) {
         setSubmittedName(formData.firstName);
+      }
+      if (formData.email) {
+        setSubmittedEmail(formData.email);
       }
       // Scroll to the container
       const element = document.getElementById('contact-form-container');
@@ -55,6 +59,7 @@ export function ContactForm({
     setFormData({});
     setTouched({});
     setSubmittedName("");
+    setSubmittedEmail("");
     onReset();
   };
 
@@ -150,27 +155,108 @@ export function ContactForm({
       }
       return;
     }
-
     onSubmit(e);
   };
 
   if (isSuccess) {
     return (
-      <div id="contact-form-container" className="py-12 px-4 text-center animate-in fade-in zoom-in duration-500">
-        <div className="w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-green-500/20">
+      <div id="contact-form-container" className="py-8 px-4 text-center animate-in fade-in zoom-in duration-500 relative overflow-hidden bg-transparent rounded-xl">
+        {/* Radial Glow - Enhanced Visibility */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-green-500/30 rounded-full blur-3xl opacity-40 -z-10 pointer-events-none"></div>
+
+        <div className="w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-green-500/20 relative z-10">
           <CheckCircle2 className="h-10 w-10 text-green-600 dark:text-green-400" />
         </div>
-        <h3 className="text-2xl md:text-3xl font-bold mb-4">
+
+        <h3 className="text-2xl md:text-3xl font-bold mb-2 relative z-10">
           Thanks for reaching out, {submittedName}!
         </h3>
-        <p className="text-lg text-muted-foreground max-w-md mx-auto mb-8 leading-relaxed">
-          We have received your request and will get back to you via email within 24 hours.
+
+        {/* Restored Body Text */}
+        <p className="text-muted-foreground max-w-md mx-auto mb-8 relative z-10">
+          We have received your request. We will review it and get back to you as soon as possible.
         </p>
+
+        {/* Receipt Box - With Service Added - Full Width */}
+        <div className="w-full mx-auto bg-muted/40 border border-border/50 rounded-lg p-0 mb-12 text-sm relative z-10 overflow-hidden">
+          {/* Service Section */}
+          <div className="p-4 flex items-center gap-3">
+            <div className="h-8 w-8 rounded-full bg-background flex items-center justify-center shrink-0 text-muted-foreground">
+              <Briefcase className="h-4 w-4" />
+            </div>
+            <div className="text-left overflow-hidden">
+              <p className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground/70">Service</p>
+              <p className="font-medium text-foreground truncate">{selectedService}</p>
+            </div>
+          </div>
+
+          {/* Dashed Separator */}
+          <div className="border-t border-dashed border-border/50 w-full"></div>
+
+          {/* Email Section */}
+          <div className="p-4 flex items-center gap-3">
+            <div className="h-8 w-8 rounded-full bg-background flex items-center justify-center shrink-0 text-muted-foreground">
+              <Mail className="h-4 w-4" />
+            </div>
+            <div className="text-left overflow-hidden">
+              <p className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground/70">Sent to</p>
+              <p className="font-medium text-foreground truncate">{submittedEmail}</p>
+            </div>
+          </div>
+
+          {/* Dashed Separator */}
+          <div className="border-t border-dashed border-border/50 w-full"></div>
+
+          {/* Ref ID Section */}
+          <div className="p-4 flex items-center gap-3">
+            <div className="h-8 w-8 rounded-full bg-background flex items-center justify-center shrink-0 text-muted-foreground">
+              <Hash className="h-4 w-4" />
+            </div>
+            <div className="text-left">
+              <p className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground/70">Ref ID</p>
+              <p className="font-mono font-bold text-foreground">#REQ-{Math.floor(1000 + Math.random() * 9000)}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Timeline Visual - Fixed Alignment (Top-aligned columns) - Full Width */}
+        <div className="w-full mx-auto mb-10 relative z-10">
+          <div className="flex items-start justify-between relative">
+            {/* Connecting Line - Layer 1 (Aligned to center of icons at top-4) */}
+            <div className="absolute top-4 left-0 w-full h-[1px] bg-border -translate-y-1/2 z-0"></div>
+
+            {/* Step 1: Received - Layer 2 */}
+            <div className="flex flex-col items-center gap-2 px-2 relative z-10">
+              <div className="w-8 h-8 rounded-full bg-green-600 text-white flex items-center justify-center shadow-sm ring-4 ring-background">
+                <CheckCircle2 className="h-5 w-5" />
+              </div>
+              <span className="text-sm font-bold text-green-700 dark:text-green-400 bg-background/80 px-2 rounded-full backdrop-blur-sm">Received</span>
+            </div>
+
+            {/* Step 2: Reviewing - Layer 2 */}
+            <div className="flex flex-col items-center gap-2 px-2 relative z-10">
+              <div className="w-8 h-8 rounded-full bg-background border-2 border-muted-foreground/30 flex items-center justify-center ring-4 ring-background">
+                <div className="w-2 h-2 rounded-full bg-muted-foreground/30"></div>
+              </div>
+              <span className="text-sm font-medium text-muted-foreground bg-background/80 px-2 rounded-full backdrop-blur-sm">Reviewing</span>
+            </div>
+
+            {/* Step 3: Response - Layer 2 */}
+            <div className="flex flex-col items-center gap-2 px-2 relative z-10">
+              <div className="w-8 h-8 rounded-full bg-background border-2 border-muted-foreground/30 flex items-center justify-center ring-4 ring-background">
+                <div className="w-2 h-2 rounded-full bg-muted-foreground/30"></div>
+              </div>
+              <span className="text-sm font-medium text-muted-foreground bg-background/80 px-2 rounded-full backdrop-blur-sm">Response</span>
+            </div>
+          </div>
+        </div>
+
         <Button
           variant="outline"
           onClick={handleReset}
-          className="border-primary/20 hover:bg-primary/5 hover:text-primary transition-colors"
+          className="rounded-full px-8 py-6 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300 border-primary/20 hover:bg-primary/5 hover:text-primary group relative z-10"
         >
+          <RefreshCw className="mr-2 h-4 w-4 group-hover:rotate-180 transition-transform duration-500" />
           Send another request
         </Button>
       </div>
@@ -180,7 +266,6 @@ export function ContactForm({
   return (
     <div id="contact-form-container">
       <form onSubmit={handleFormSubmit} className="space-y-8" noValidate>
-        {/* Progress Bar */}
         <div className="space-y-2">
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">Form Progress</span>
@@ -672,12 +757,14 @@ export function ContactForm({
           )}
         </Button>
 
-        {progress < 100 && !isSubmitting && (
-          <p className="text-sm text-center text-muted-foreground">
-            Please complete all required fields to submit
-          </p>
-        )}
-      </form>
-    </div>
+        {
+          progress < 100 && !isSubmitting && (
+            <p className="text-sm text-center text-muted-foreground">
+              Please complete all required fields to submit
+            </p>
+          )
+        }
+      </form >
+    </div >
   );
 }
