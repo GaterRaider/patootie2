@@ -33,15 +33,17 @@ export default function Home() {
     onSuccess: () => {
       setShowSuccess(true);
       setIsSubmitting(false);
-      toast.success(t.formSuccessMessage);
-      // Scroll to top to show success message
-      window.scrollTo({ top: 0, behavior: "smooth" });
     },
     onError: (error) => {
       setIsSubmitting(false);
       toast.error(error.message);
     },
   });
+
+  const handleReset = () => {
+    setShowSuccess(false);
+    setSelectedService("");
+  };
 
   const handleServiceCardClick = (service: string) => {
     setSelectedService(service);
@@ -298,20 +300,7 @@ export default function Home() {
         </>
       )}
 
-      {/* Success Message */}
-      {showSuccess && (
-        <div className="bg-green-50 dark:bg-green-900/20 border-b border-green-200 dark:border-green-800">
-          <div className="container py-4">
-            <div className="flex items-center gap-3">
-              <CheckCircle className="h-6 w-6 text-green-600 dark:text-green-400" />
-              <div>
-                <h3 className="font-semibold text-green-900 dark:text-green-100">{t.formSuccessTitle}</h3>
-                <p className="text-sm text-green-700 dark:text-green-300">{t.formSuccessMessage}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+
 
       {/* Hero Section */}
       <section className="py-8 md:py-14 bg-gradient-to-b from-secondary/50 to-background">
@@ -462,6 +451,8 @@ export default function Home() {
                 onSubmit={handleSubmit}
                 isSubmitting={isSubmitting}
                 onLocationChange={setLocation}
+                isSuccess={showSuccess}
+                onReset={handleReset}
               />
             </CardContent>
           </Card>
