@@ -113,7 +113,11 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
 
             {/* Detail Modal */}
             <Dialog open={!!selectedService} onOpenChange={(open) => !open && handleClose()}>
-                <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto" showCloseButton={false}>
+                <DialogContent
+                    className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto"
+                    showCloseButton={false}
+                    onOpenAutoFocus={(e) => e.preventDefault()}
+                >
                     <button
                         onClick={handleClose}
                         className="absolute right-4 top-4 rounded-full bg-secondary/50 hover:bg-secondary p-2 transition-colors z-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
