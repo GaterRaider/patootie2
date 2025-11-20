@@ -13,7 +13,7 @@ import { trpc } from "@/lib/trpc";
 import { useState } from "react";
 import { toast } from "sonner";
 import { FileText, Users, Plane, HelpCircle, CheckCircle, Send, Mail, Moon, Sun, MapPin, Phone, Menu, X } from "lucide-react";
-import { ServiceCard } from "@/components/ServiceCard";
+import { ServicesBentoGrid } from "@/components/ServicesBentoGrid";
 import { ContactForm } from "@/components/ContactForm";
 import { countries } from "@/lib/countries";
 import { useLocation } from "wouter";
@@ -370,47 +370,44 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-            <ServiceCard
-              icon={Plane}
-              title={t.serviceCard1Title}
-              description={t.serviceCard1Desc}
-              servicesList={t.serviceCard1Services}
-              ctaText={t.serviceCard1CTA}
-              onClick={() => handleServiceCardClick(t.serviceCard1Title)}
-              language={language}
-            />
-
-            <ServiceCard
-              icon={FileText}
-              title={t.serviceCard2Title}
-              description={t.serviceCard2Desc}
-              servicesList={t.serviceCard2Services}
-              ctaText={t.serviceCard2CTA}
-              onClick={() => handleServiceCardClick(t.serviceCard2Title)}
-              language={language}
-            />
-
-            <ServiceCard
-              icon={Users}
-              title={t.serviceCard3Title}
-              description={t.serviceCard3Desc}
-              servicesList={t.serviceCard3Services}
-              ctaText={t.serviceCard3CTA}
-              onClick={() => handleServiceCardClick(t.serviceCard3Title)}
-              language={language}
-            />
-
-            <ServiceCard
-              icon={HelpCircle}
-              title={t.serviceCard4Title}
-              description={t.serviceCard4Desc}
-              servicesList={t.serviceCard4Services}
-              ctaText={t.serviceCard4CTA}
-              onClick={() => handleServiceCardClick(t.serviceCard4Title)}
-              language={language}
-            />
-          </div>
+          <ServicesBentoGrid
+            services={[
+              {
+                id: "immigration",
+                icon: Plane,
+                title: t.serviceCard1Title,
+                description: t.serviceCard1Desc,
+                servicesList: t.serviceCard1Services,
+                ctaText: t.serviceCard1CTA,
+              },
+              {
+                id: "registration",
+                icon: FileText,
+                title: t.serviceCard2Title,
+                description: t.serviceCard2Desc,
+                servicesList: t.serviceCard2Services,
+                ctaText: t.serviceCard2CTA,
+              },
+              {
+                id: "pension",
+                icon: Users,
+                title: t.serviceCard3Title,
+                description: t.serviceCard3Desc,
+                servicesList: t.serviceCard3Services,
+                ctaText: t.serviceCard3CTA,
+              },
+              {
+                id: "other",
+                icon: HelpCircle,
+                title: t.serviceCard4Title,
+                description: t.serviceCard4Desc,
+                servicesList: t.serviceCard4Services,
+                ctaText: t.serviceCard4CTA,
+              },
+            ]}
+            onSelect={handleServiceCardClick}
+            language={language}
+          />
         </div>
       </section>
 
