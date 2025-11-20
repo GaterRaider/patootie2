@@ -1,4 +1,5 @@
 import { useLanguage } from "@/contexts/LanguageContext";
+import { LanguageSelector } from "@/components/LanguageSelector";
 import { useTheme } from "@/contexts/ThemeContext";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Moon, Sun } from "lucide-react";
@@ -34,21 +35,7 @@ export default function Imprint() {
 
                     <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
                         {/* Language Toggle */}
-                        <div className="flex items-center gap-1 md:gap-2 px-2 md:px-3 py-1 md:py-1.5 rounded-full bg-secondary/50">
-                            <button
-                                onClick={() => setLanguage("en")}
-                                className={`text-xs md:text-sm font-medium transition-colors px-1.5 md:px-2 py-0.5 rounded ${language === "en" ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground"}`}
-                            >
-                                EN
-                            </button>
-                            <span className="text-muted-foreground text-xs">|</span>
-                            <button
-                                onClick={() => setLanguage("ko")}
-                                className={`text-xs md:text-sm font-medium transition-colors px-1.5 md:px-2 py-0.5 rounded ${language === "ko" ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground"}`}
-                            >
-                                KO
-                            </button>
-                        </div>
+                        <LanguageSelector />
 
                         {/* Theme Toggle */}
                         {toggleTheme && (
