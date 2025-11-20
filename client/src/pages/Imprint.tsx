@@ -24,10 +24,10 @@ export default function Imprint() {
             <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60 shadow-sm">
                 <div className="container flex h-20 items-center justify-between gap-4">
                     <Button
-                        variant="ghost"
+                        variant="outline"
                         size="sm"
                         onClick={() => setLocation("/")}
-                        className="gap-2"
+                        className="gap-2 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 shadow-sm rounded-full hover:shadow-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-all"
                     >
                         <ArrowLeft className="h-4 w-4" />
                         {language === "ko" ? "홈으로 돌아가기" : "Back to Home"}
