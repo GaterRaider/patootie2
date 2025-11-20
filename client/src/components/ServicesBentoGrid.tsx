@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { LucideIcon, ArrowRight, Check } from "lucide-react";
+import { LucideIcon, ArrowRight, Check, X } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -106,16 +106,21 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
                         ))}
                     </CarouselContent>
                     <div className="flex justify-center gap-2 mt-4">
-                        {/* Optional: Add dots or custom navigation if needed, 
-                 but standard CarouselNext/Prev might be too big for this layout. 
-                 Swipe is intuitive on mobile. */}
+                        {/* Optional: Add dots or custom navigation if needed */}
                     </div>
                 </Carousel>
             </div>
 
             {/* Detail Modal */}
             <Dialog open={!!selectedService} onOpenChange={(open) => !open && handleClose()}>
-                <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
+                <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto" showCloseButton={false}>
+                    <button
+                        onClick={handleClose}
+                        className="absolute right-4 top-4 rounded-full bg-secondary/50 hover:bg-secondary p-2 transition-colors z-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                        aria-label="Close"
+                    >
+                        <X className="h-5 w-5 text-foreground/70" />
+                    </button>
                     {selectedService && (
                         <>
                             <DialogHeader>
