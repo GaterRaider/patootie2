@@ -118,9 +118,9 @@ export function ContactForm({
       </div>
 
       {/* Personal Information */}
-      <div className="space-y-4 p-4 bg-gradient-to-br from-blue-50 to-blue-50/50 rounded-lg border border-blue-100">
-        <h3 className="text-lg font-semibold text-blue-900 flex items-center gap-2">
-          <User className="h-5 w-5 text-blue-600" />
+      <div className="space-y-4 p-4 bg-gradient-to-br from-blue-50 to-blue-50/50 dark:from-blue-950 dark:to-blue-950/50 rounded-lg border border-blue-100 dark:border-blue-900">
+        <h3 className="text-lg font-semibold text-blue-900 dark:text-blue-100 flex items-center gap-2">
+          <User className="h-5 w-5 text-blue-600 dark:text-blue-400" />
           Personal Information
         </h3>
 
@@ -212,9 +212,9 @@ export function ContactForm({
       </div>
 
       {/* Contact Information */}
-      <div className="space-y-4 p-4 bg-gradient-to-br from-purple-50 to-purple-50/50 rounded-lg border border-purple-100">
-        <h3 className="text-lg font-semibold text-purple-900 flex items-center gap-2">
-          <Mail className="h-5 w-5 text-purple-600" />
+      <div className="space-y-4 p-4 bg-gradient-to-br from-purple-50 to-purple-50/50 dark:from-purple-950 dark:to-purple-950/50 rounded-lg border border-purple-100 dark:border-purple-900">
+        <h3 className="text-lg font-semibold text-purple-900 dark:text-purple-100 flex items-center gap-2">
+          <Mail className="h-5 w-5 text-purple-600 dark:text-purple-400" />
           Contact Information
         </h3>
 
@@ -270,9 +270,9 @@ export function ContactForm({
       </div>
 
       {/* Address */}
-      <div className="space-y-4 p-4 bg-gradient-to-br from-green-50 to-green-50/50 rounded-lg border border-green-100">
-        <h3 className="text-lg font-semibold text-green-900 flex items-center gap-2">
-          <MapPin className="h-5 w-5 text-green-600" />
+      <div className="space-y-4 p-4 bg-gradient-to-br from-green-50 to-green-50/50 dark:from-green-950 dark:to-green-950/50 rounded-lg border border-green-100 dark:border-green-900">
+        <h3 className="text-lg font-semibold text-green-900 dark:text-green-100 flex items-center gap-2">
+          <MapPin className="h-5 w-5 text-green-600 dark:text-green-400" />
           Address
         </h3>
 
@@ -337,7 +337,7 @@ export function ContactForm({
         </div>
 
         {shouldShowStateProvince() && (
-          <div className="space-y-2 p-3 bg-blue-50 rounded-lg border border-blue-100">
+          <div className="space-y-2 p-3 bg-blue-50 dark:bg-blue-950 rounded-lg border border-blue-100 dark:border-blue-900">
             <div className="flex items-center justify-between">
               <Label htmlFor="stateProvince" className="flex items-center gap-2">
                 <Globe className="h-4 w-4 text-gray-500" />
@@ -350,7 +350,7 @@ export function ContactForm({
               onChange={(e) => handleInputChange('stateProvince', e.target.value)}
               onBlur={() => handleBlur('stateProvince')}
             />
-            <p className="text-xs text-blue-600 font-medium">
+            <p className="text-xs text-blue-600 dark:text-blue-400 font-medium">
               {formData.country === 'United States' ? 'State is required for USA' : 'Province is required for Canada'}
             </p>
           </div>
@@ -386,9 +386,9 @@ export function ContactForm({
       </div>
 
       {/* Current Residence and Language */}
-      <div className="space-y-4 p-4 bg-gradient-to-br from-amber-50 to-amber-50/50 rounded-lg border border-amber-100">
-        <h3 className="text-lg font-semibold text-amber-900 flex items-center gap-2">
-          <Globe className="h-5 w-5 text-amber-600" />
+      <div className="space-y-4 p-4 bg-gradient-to-br from-amber-50 to-amber-50/50 dark:from-amber-950 dark:to-amber-950/50 rounded-lg border border-amber-100 dark:border-amber-900">
+        <h3 className="text-lg font-semibold text-amber-900 dark:text-amber-100 flex items-center gap-2">
+          <Globe className="h-5 w-5 text-amber-600 dark:text-amber-400" />
           Additional Information
         </h3>
 
@@ -450,8 +450,8 @@ export function ContactForm({
         {/* Message/Describe your situation */}
         <div className="space-y-2 mt-4">
           <div className="flex items-center justify-between">
-            <Label htmlFor="message" className="text-lg font-semibold text-amber-900 flex items-center gap-2">
-              <MessageSquare className="h-5 w-5 text-amber-600" />
+            <Label htmlFor="message" className="text-lg font-semibold text-amber-900 dark:text-amber-100 flex items-center gap-2">
+              <MessageSquare className="h-5 w-5 text-amber-600 dark:text-amber-400" />
               {t.formMessage} *
             </Label>
             {showValidation('message') && isFieldValid('message') && (
@@ -470,7 +470,7 @@ export function ContactForm({
             className={`resize-none ${showValidation('message') && !isFieldValid('message') ? 'border-red-500' : ''}`}
           />
           {formData.message && (
-            <p className="text-xs text-amber-600 font-medium">
+            <p className="text-xs text-amber-600 dark:text-amber-400 font-medium">
               {formData.message.length} characters
             </p>
           )}
