@@ -350,8 +350,10 @@ export default function Home() {
       {/* Services Section */}
       <section id="services" className="py-8 md:py-14">
         <div className="container">
-          <div className="text-center mb-8 md:mb-12">
-            <h2 className="text-2xl md:text-4xl font-bold mb-3">{t.servicesHeading}</h2>
+          <div className="text-center mb-12 md:mb-16">
+            <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">WHAT WE OFFER</span>
+            <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">{t.servicesHeading}</h2>
+            <div className="h-1 w-20 bg-blue-600 rounded-full mx-auto mb-6"></div>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               {language === "ko"
                 ? "독일 관료 업무를 전문적으로 지원합니다. 서비스를 선택하여 자세히 알아보세요."
@@ -401,9 +403,13 @@ export default function Home() {
       </section>
 
       {/* Process Section */}
-      <section id="process" className="py-8 md:py-14 bg-secondary/30">
+      <section id="process" className="py-8 md:py-14 bg-slate-50 dark:bg-background/50">
         <div className="container">
-          <h2 className="text-2xl md:text-4xl font-bold text-center mb-8 md:mb-12">{t.processHeading}</h2>
+          <div className="text-center mb-12 md:mb-16">
+            <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">OUR PROCESS</span>
+            <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">{t.processHeading}</h2>
+            <div className="h-1 w-20 bg-blue-600 rounded-full mx-auto"></div>
+          </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             <div className="text-center">
@@ -440,7 +446,11 @@ export default function Home() {
       {/* Contact Form Section */}
       <section id="contact" className="py-8 md:py-14">
         <div className="container max-w-4xl">
-          <h2 className="text-2xl md:text-4xl font-bold text-center mb-8 md:mb-12">{t.contactHeading}</h2>
+          <div className="text-center mb-12 md:mb-16">
+            <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">CONTACT</span>
+            <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">{t.contactHeading}</h2>
+            <div className="h-1 w-20 bg-blue-600 rounded-full mx-auto"></div>
+          </div>
 
           <Card className="shadow-xl border-2">
             <CardContent className="pt-8 px-6 md:px-10">
@@ -460,9 +470,13 @@ export default function Home() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-8 md:py-14 bg-secondary/30">
+      <section id="about" className="py-8 md:py-14 bg-slate-50 dark:bg-background/50">
         <div className="container max-w-4xl">
-          <h2 className="text-2xl md:text-4xl font-bold text-center mb-8 md:mb-12">{t.aboutHeading}</h2>
+          <div className="text-center mb-12 md:mb-16">
+            <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">WHO WE ARE</span>
+            <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">{t.aboutHeading}</h2>
+            <div className="h-1 w-20 bg-blue-600 rounded-full mx-auto"></div>
+          </div>
 
           <div className="space-y-4 md:space-y-6 text-base md:text-lg leading-relaxed">
             <p>{t.aboutParagraph1}</p>
