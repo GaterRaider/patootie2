@@ -222,7 +222,7 @@ export function getConfirmationEmailHTML_EN(submission: ContactSubmission): stri
     <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#f3f4f6">
       <tr>
         <td align="center" style="padding: 30px 16px;">
-          <table role="presentation" cellpadding="0" cellspacing="0" border="0" class="email-container" bgcolor="#ffffff" style="border-radius: 16px; overflow: hidden; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" class="email-container" bgcolor="#ffffff" style="border-radius: 16px; overflow: hidden; box-shadow: 0 8px 24px -6px rgba(15, 23, 42, 0.06);">
             <tr>
               <td style="padding: 24px 24px 24px 24px;">
                 <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
@@ -367,7 +367,7 @@ export function getConfirmationEmailHTML_KOR(submission: ContactSubmission): str
     <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#f3f4f6">
       <tr>
         <td align="center" style="padding: 30px 16px;">
-          <table role="presentation" cellpadding="0" cellspacing="0" border="0" class="email-container" bgcolor="#ffffff" style="border-radius: 16px; overflow: hidden; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" class="email-container" bgcolor="#ffffff" style="border-radius: 16px; overflow: hidden; box-shadow: 0 8px 24px -6px rgba(15, 23, 42, 0.06);">
             <tr>
               <td style="padding: 24px 24px 24px 24px;">
                 <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
@@ -532,7 +532,7 @@ export function getAdminEmailHTML_EN(submission: ContactSubmission): string {
     <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#f3f4f6">
       <tr>
         <td align="center" style="padding: 30px 16px;">
-          <table role="presentation" cellpadding="0" cellspacing="0" border="0" class="email-container" bgcolor="#ffffff" style="border-radius: 16px; overflow: hidden; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" class="email-container" bgcolor="#ffffff" style="border-radius: 16px; overflow: hidden; box-shadow: 0 8px 24px -6px rgba(15, 23, 42, 0.06);">
             <tr>
               <td style="padding: 24px 24px 24px 24px;">
                 <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
@@ -577,7 +577,7 @@ export function getAdminEmailHTML_EN(submission: ContactSubmission): string {
                         <tr><td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">Email:</td><td style="padding: 2px 0; color:#111827;">${submission.email}</td></tr>
                         <tr><td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">Phone:</td><td style="padding: 2px 0; color:#111827;">${submission.phoneNumber}</td></tr>
                         <tr><td colspan="2" style="padding: 10px 0 4px 0; font-weight:600; color:#4b5563;">Address</td></tr>
-                        <tr><td colspan="2" style="padding: 2px 0; color:#111827; white-space:pre-line;">${submission.street}\n${submission.addressLine2 ? submission.addressLine2 + '\\n' : ''}${submission.postalCode} ${submission.city}\n${submission.stateProvince ? submission.stateProvince + '\\n' : ''}${submission.country}</td></tr>
+                        <tr><td colspan="2" style="padding: 2px 0; color:#111827;">${submission.street}<br>${submission.addressLine2 ? submission.addressLine2 + '<br>' : ''}${submission.postalCode} ${submission.city}<br>${submission.stateProvince ? submission.stateProvince + '<br>' : ''}${submission.country}</td></tr>
                         <tr><td colspan="2" style="padding: 10px 0 4px 0; font-weight:600; color:#4b5563;">Additional Information</td></tr>
                         <tr><td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">Current Residence:</td><td style="padding: 2px 0; color:#111827;">${submission.currentResidence}</td></tr>
                         <tr><td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">Preferred Language:</td><td style="padding: 2px 0; color:#111827;">${submission.preferredLanguage}</td></tr>
@@ -710,7 +710,7 @@ export function getAdminEmailHTML_KOR(submission: ContactSubmission): string {
     <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#f3f4f6">
       <tr>
         <td align="center" style="padding: 30px 16px;">
-          <table role="presentation" cellpadding="0" cellspacing="0" border="0" class="email-container" bgcolor="#ffffff" style="border-radius: 16px; overflow: hidden; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" class="email-container" bgcolor="#ffffff" style="border-radius: 16px; overflow: hidden; box-shadow: 0 8px 24px -6px rgba(15, 23, 42, 0.06);">
             <tr>
               <td style="padding: 24px 24px 24px 24px;">
                 <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
@@ -755,7 +755,7 @@ export function getAdminEmailHTML_KOR(submission: ContactSubmission): string {
                         <tr><td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">이메일:</td><td style="padding: 2px 0; color:#111827;">${submission.email}</td></tr>
                         <tr><td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">전화번호:</td><td style="padding: 2px 0; color:#111827;">${submission.phoneNumber}</td></tr>
                         <tr><td colspan="2" style="padding: 10px 0 4px 0; font-weight:600; color:#4b5563;">주소</td></tr>
-                        <tr><td colspan="2" style="padding: 2px 0; color:#111827; white-space:pre-line;">${submission.street}\n${submission.addressLine2 ? submission.addressLine2 + '\\n' : ''}${submission.postalCode} ${submission.city}\n${submission.stateProvince ? submission.stateProvince + '\\n' : ''}${submission.country}</td></tr>
+                        <tr><td colspan="2" style="padding: 2px 0; color:#111827;">${submission.street}<br>${submission.addressLine2 ? submission.addressLine2 + '<br>' : ''}${submission.postalCode} ${submission.city}<br>${submission.stateProvince ? submission.stateProvince + '<br>' : ''}${submission.country}</td></tr>
                         <tr><td colspan="2" style="padding: 10px 0 4px 0; font-weight:600; color:#4b5563;">추가 정보</td></tr>
                         <tr><td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">현재 거주지:</td><td style="padding: 2px 0; color:#111827;">${submission.currentResidence}</td></tr>
                         <tr><td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">선호 언어:</td><td style="padding: 2px 0; color:#111827;">${submission.preferredLanguage}</td></tr>

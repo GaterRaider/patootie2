@@ -1,392 +1,424 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Request Confirmation</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style type="text/css">
-      html, body {
-        margin: 0;
-        padding: 0;
-        -ms-text-size-adjust: 100%;
-        -webkit-text-size-adjust: 100%;
-      }
-      body {
-        background-color: #f3f4f6;
-      }
-      img {
-        border: 0;
-        line-height: 100%;
-        text-decoration: none;
-        -ms-interpolation-mode: bicubic;
-      }
-      table {
-        border-collapse: collapse !important;
-      }
+<head>
+  <meta charset="utf-8">
+  <title>Request Confirmation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style type="text/css">
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      -ms-text-size-adjust: 100%;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      background-color: #f3f4f6;
+    }
+
+    img {
+      border: 0;
+      line-height: 100%;
+      text-decoration: none;
+      -ms-interpolation-mode: bicubic;
+    }
+
+    table {
+      border-collapse: collapse !important;
+    }
+
+    .email-container {
+      width: 100%;
+      max-width: 560px;
+    }
+
+    /* Header logo styling */
+    .logo-center img {
+      display: block;
+      height: auto;
+      max-width: 56px;
+      border-radius: 16px;
+    }
+
+    /* Buttons */
+    .button-td,
+    .button-a {
+      transition: all 100ms ease-in;
+    }
+
+    .button-a {
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      text-decoration: none;
+      line-height: 20px;
+      font-weight: bold;
+      display: inline-block;
+      padding: 12px 24px;
+      border-radius: 999px;
+      background-color: #4f46e5;
+      border: 1px solid #4f46e5;
+      color: #ffffff;
+    }
+
+    .button-td:hover .button-a {
+      background-color: #4338ca !important;
+      border-color: #4338ca !important;
+    }
+
+    /* Mobile scaling */
+    @media screen and (max-width: 600px) {
       .email-container {
-        width: 100%;
-        max-width: 560px;
+        width: 100% !important;
       }
 
-      /* Header logo styling */
       .logo-center img {
-        display: block;
-        height: auto;
-        max-width: 56px;
-        border-radius: 16px;
+        max-width: 48px !important;
       }
 
-      /* Buttons */
-      .button-td,
-      .button-a {
-        transition: all 100ms ease-in;
-      }
-      .button-a {
-        font-family: Arial, sans-serif;
-        font-size: 16px;
-        text-decoration: none;
-        line-height: 20px;
-        font-weight: bold;
-        display: inline-block;
-        padding: 12px 24px;
-        border-radius: 999px;
-        background-color: #4f46e5;
-        border: 1px solid #4f46e5;
-        color: #ffffff;
-      }
-      .button-td:hover .button-a {
-        background-color: #4338ca !important;
-        border-color: #4338ca !important;
+      .logo-center {
+        padding-right: 12px !important;
       }
 
-      /* Mobile scaling */
-      @media screen and (max-width: 600px) {
-        .email-container {
-          width: 100% !important;
-        }
+      .company-name {
+        font-size: 22px !important;
+        line-height: 26px !important;
+      }
+    }
 
-        .logo-center img {
-          max-width: 48px !important;
-        }
-
-        .logo-center {
-          padding-right: 12px !important;
-        }
-
-        .company-name {
-          font-size: 22px !important;
-          line-height: 26px !important;
-        }
+    @media screen and (max-width: 400px) {
+      .logo-center img {
+        max-width: 40px !important;
       }
 
-      @media screen and (max-width: 400px) {
-        .logo-center img {
-          max-width: 40px !important;
-        }
-        .logo-center {
-          padding-right: 10px !important;
-        }
-        .company-name {
-          font-size: 20px !important;
-          line-height: 24px !important;
-        }
+      .logo-center {
+        padding-right: 10px !important;
       }
 
-      /* -------------------------------------------------------------
+      .company-name {
+        font-size: 20px !important;
+        line-height: 24px !important;
+      }
+    }
+
+    /* -------------------------------------------------------------
          🌙 DARK MODE SAFE COLORS (Email-compatible)
          ------------------------------------------------------------- */
-      @media (prefers-color-scheme: dark) {
-        /* Page background */
-        body,
-        table[bgcolor="#f3f4f6"] {
-          background-color: #0f172a !important; /* slate-900 */
-        }
+    @media (prefers-color-scheme: dark) {
 
-        /* Card background */
-        table.email-container,
-        table[bgcolor="#ffffff"] {
-          background-color: #1e293b !important; /* slate-800 */
-        }
-
-        /* Text adjustments */
-        .company-name,
-        td,
-        p,
-        div,
-        span {
-          color: #e5e7eb !important; /* slate-200 */
-        }
-
-        /* Headline */
-        h1, h2, h3 {
-          color: #f1f5f9 !important; /* slate-100 */
-        }
-
-        /* Borders */
-        td[style*="border-bottom"],
-        td[style*="border-top"],
-        table[style*="border: 1px solid"] {
-          border-color: #334155 !important; /* slate-700 */
-        }
-
-        /* The highlight box */
-        table[style*="background: #f9fafb"] {
-          background: #334155 !important; /* slate-700 */
-        }
-
-        /* Purple accent stripe stays purple */
-        td[width="6"][style*="background:#4f46e5"] {
-          background: #6366f1 !important;
-        }
-
-        /* Button stays brand purple, but text lightens */
-        .button-a {
-          background-color: #4f46e5 !important;
-          border-color: #4f46e5 !important;
-          color: #ffffff !important;
-        }
-
-        /* Footer text */
-        .footer-text {
-          color: #94a3b8 !important; /* slate-400 */
-        }
+      /* Page background */
+      body,
+      table[bgcolor="#f3f4f6"] {
+        background-color: #0f172a !important;
+        /* slate-900 */
       }
-    </style>
-  </head>
 
-  <body yahoo="yahoo">
-    <!-- Preheader -->
-    <div style="display:none;font-size:1px;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;">
-      We have received your HandokHelper request – here’s your confirmation.
-    </div>
+      /* Card background */
+      table.email-container,
+      table[bgcolor="#ffffff"] {
+        background-color: #1e293b !important;
+        /* slate-800 */
+      }
 
-    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#f3f4f6">
-      <tr>
-        <td align="center" style="padding: 30px 16px;">
+      /* Text adjustments */
+      .company-name,
+      td,
+      p,
+      div,
+      span {
+        color: #e5e7eb !important;
+        /* slate-200 */
+      }
 
-          <!-- Card -->
-          <table role="presentation" cellpadding="0" cellspacing="0" border="0" class="email-container" bgcolor="#ffffff"
-                 style="border-radius: 16px; overflow: hidden; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);">
+      /* Headline */
+      h1,
+      h2,
+      h3 {
+        color: #f1f5f9 !important;
+        /* slate-100 */
+      }
 
-            <!-- Header -->
-            <tr>
-              <!-- padding bottom changed from 8px to 24px to balance top/bottom -->
-              <td style="padding: 24px 24px 24px 24px;">
-                <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
-                  <tr>
-                    <td class="logo-center" valign="middle" width="1%" style="padding-right: 16px;">
-                      <img src="https://www.handokhelper.de/images/HandokHelperLogoOnly.png" width="56" alt="HandokHelper Logo">
-                    </td>
+      /* Borders */
+      td[style*="border-bottom"],
+      td[style*="border-top"],
+      table[style*="border: 1px solid"] {
+        border-color: #334155 !important;
+        /* slate-700 */
+      }
 
-                    <td class="company-name" valign="middle"
-                        style="font-family: Arial, sans-serif;
+      /* The highlight box */
+      table[style*="background: #f9fafb"] {
+        background: #334155 !important;
+        /* slate-700 */
+      }
+
+      /* Purple accent stripe stays purple */
+      td[width="6"][style*="background:#4f46e5"] {
+        background: #6366f1 !important;
+      }
+
+      /* Button stays brand purple, but text lightens */
+      .button-a {
+        background-color: #4f46e5 !important;
+        border-color: #4f46e5 !important;
+        color: #ffffff !important;
+      }
+
+      /* Footer text */
+      .footer-text {
+        color: #94a3b8 !important;
+        /* slate-400 */
+      }
+    }
+  </style>
+</head>
+
+<body yahoo="yahoo">
+  <!-- Preheader -->
+  <div
+    style="display:none;font-size:1px;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;">
+    We have received your HandokHelper request – here’s your confirmation.
+  </div>
+
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#f3f4f6">
+    <tr>
+      <td align="center" style="padding: 30px 16px;">
+
+        <!-- Card -->
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" class="email-container" bgcolor="#ffffff"
+          style="border-radius: 16px; overflow: hidden; box-shadow: 0 8px 24px -6px rgba(15, 23, 42, 0.06);">
+
+          <!-- Header -->
+          <tr>
+            <!-- padding bottom changed from 8px to 24px to balance top/bottom -->
+            <td style="padding: 24px 24px 24px 24px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <td class="logo-center" valign="middle" width="1%" style="padding-right: 16px;">
+                    <img src="https://www.handokhelper.de/images/HandokHelperLogoOnly.png" width="56"
+                      alt="HandokHelper Logo">
+                  </td>
+
+                  <td class="company-name" valign="middle" style="font-family: Arial, sans-serif;
                                font-size: 28px;
                                line-height: 32px;
                                color:#111827;
                                font-weight:bold;">
-                      HandokHelper
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
+                    HandokHelper
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
 
-            <!-- Divider -->
-            <tr>
-              <td style="padding: 0 24px;">
-                <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
-                  <tr>
-                    <td style="border-bottom: 1px solid #e5e7eb; font-size:0; line-height:0;">&nbsp;</td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
+          <!-- Divider -->
+          <tr>
+            <td style="padding: 0 24px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <td style="border-bottom: 1px solid #e5e7eb; font-size:0; line-height:0;">&nbsp;</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
 
-            <!-- Content -->
-<tr>
-  <td style="padding: 24px 24px 12px 24px; font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; color:#4b5563;">
+          <!-- Content -->
+          <tr>
+            <td
+              style="padding: 24px 24px 12px 24px; font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; color:#4b5563;">
 
-    <p style="margin: 0 0 12px 0;">
-      <b>New form submission received</b>
-    </p>
+              <p style="margin: 0 0 12px 0;">
+                <b>New form submission received</b>
+              </p>
 
-    <p style="margin: 0 0 12px 0;">
-      A new contact form has been submitted on HandokHelper. Below you will find all provided details.
-    </p>
+              <p style="margin: 0 0 12px 0;">
+                A new contact form has been submitted on HandokHelper. Below you will find all provided details.
+              </p>
 
-    <p style="margin: 0 0 16px 0;">
-      Please review the information and follow up accordingly.
-    </p>
-  </td>
-</tr>
+              <p style="margin: 0 0 16px 0;">
+                Please review the information and follow up accordingly.
+              </p>
+            </td>
+          </tr>
 
-<!-- Summary box -->
-<tr>
-  <td style="padding: 0 24px 16px 24px;">
-    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"
-           style="background: #f9fafb; border: 1px solid #e5e7eb;">
-      <tr>
-        <td width="6" style="background:#4f46e5;">&nbsp;</td>
+          <!-- Summary box -->
+          <tr>
+            <td style="padding: 0 24px 16px 24px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"
+                style="background: #f9fafb; border: 1px solid #e5e7eb;">
+                <tr>
+                  <td width="6" style="background:#4f46e5;">&nbsp;</td>
 
-        <td style="padding: 14px 16px; font-family: Arial, sans-serif; font-size: 15px; line-height: 22px;">
+                  <td style="padding: 14px 16px; font-family: Arial, sans-serif; font-size: 15px; line-height: 22px;">
 
-          <div style="font-size: 16px; font-weight:600; margin-bottom: 8px;">
-            Submission Details
-          </div>
+                    <div style="font-size: 16px; font-weight:600; margin-bottom: 8px;">
+                      Submission Details
+                    </div>
 
-          <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
-            
-            <!-- Service -->
-            <tr>
-              <td width="160" style="padding: 4px 0; font-weight:600; color:#6b7280;">Service:</td>
-              <td style="padding: 4px 0; color:#111827;">${submission.service}</td>
-            </tr>
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
 
-            <!-- Reference ID -->
-            <tr>
-              <td width="160" style="padding: 4px 0; font-weight:600; color:#6b7280;">Reference ID:</td>
-              <td style="padding: 4px 0; color:#111827;">${submission.refid}</td>
-            </tr>
+                      <!-- Service -->
+                      <tr>
+                        <td width="160" style="padding: 4px 0; font-weight:600; color:#6b7280;">Service:</td>
+                        <td style="padding: 4px 0; color:#111827;">${submission.service}</td>
+                      </tr>
 
-            <!-- Personal Information -->
-            <tr>
-              <td colspan="2" style="padding: 10px 0 4px 0; font-weight:600; color:#4b5563;">Personal Information</td>
-            </tr>
-            <tr>
-              <td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">Name:</td>
-              <td style="padding: 2px 0; color:#111827;">${submission.salutation} ${submission.firstName} ${submission.lastName}</td>
-            </tr>
-            <tr>
-              <td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">Date of Birth:</td>
-              <td style="padding: 2px 0; color:#111827;">${submission.dateOfBirth}</td>
-            </tr>
-            <tr>
-              <td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">Email:</td>
-              <td style="padding: 2px 0; color:#111827;">${submission.email}</td>
-            </tr>
-            <tr>
-              <td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">Phone:</td>
-              <td style="padding: 2px 0; color:#111827;">${submission.phoneNumber}</td>
-            </tr>
+                      <!-- Reference ID -->
+                      <tr>
+                        <td width="160" style="padding: 4px 0; font-weight:600; color:#6b7280;">Reference ID:</td>
+                        <td style="padding: 4px 0; color:#111827;">${submission.refid}</td>
+                      </tr>
 
-            <!-- Address -->
-            <tr>
-              <td colspan="2" style="padding: 10px 0 4px 0; font-weight:600; color:#4b5563;">Address</td>
-            </tr>
-            <tr>
-              <td colspan="2" style="padding: 2px 0; color:#111827; white-space:pre-line;">
-                ${submission.street}
-                ${submission.addressLine2 ? submission.addressLine2 + '\n' : ''}${submission.postalCode} ${submission.city}
-                ${submission.stateProvince ? submission.stateProvince + '\n' : ''}${submission.country}
-              </td>
-            </tr>
+                      <!-- Personal Information -->
+                      <tr>
+                        <td colspan="2" style="padding: 10px 0 4px 0; font-weight:600; color:#4b5563;">Personal
+                          Information</td>
+                      </tr>
+                      <tr>
+                        <td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">Name:</td>
+                        <td style="padding: 2px 0; color:#111827;">${submission.salutation} ${submission.firstName}
+                          ${submission.lastName}</td>
+                      </tr>
+                      <tr>
+                        <td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">Date of Birth:</td>
+                        <td style="padding: 2px 0; color:#111827;">${submission.dateOfBirth}</td>
+                      </tr>
+                      <tr>
+                        <td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">Email:</td>
+                        <td style="padding: 2px 0; color:#111827;">${submission.email}</td>
+                      </tr>
+                      <tr>
+                        <td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">Phone:</td>
+                        <td style="padding: 2px 0; color:#111827;">${submission.phoneNumber}</td>
+                      </tr>
 
-            <!-- Additional Info -->
-            <tr>
-              <td colspan="2" style="padding: 10px 0 4px 0; font-weight:600; color:#4b5563;">Additional Information</td>
-            </tr>
-            <tr>
-              <td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">Current Residence:</td>
-              <td style="padding: 2px 0; color:#111827;">${submission.currentResidence}</td>
-            </tr>
-            <tr>
-              <td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">Preferred Language:</td>
-              <td style="padding: 2px 0; color:#111827;">${submission.preferredLanguage}</td>
-            </tr>
+                      <!-- Address -->
+                      <tr>
+                        <td colspan="2" style="padding: 10px 0 4px 0; font-weight:600; color:#4b5563;">Address</td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" style="padding: 2px 0; color:#111827; white-space:pre-line;">
+                          ${submission.street}
+                          ${submission.addressLine2 ? submission.addressLine2 + '\n' : ''}${submission.postalCode}
+                          ${submission.city}
+                          ${submission.stateProvince ? submission.stateProvince + '\n' : ''}${submission.country}
+                        </td>
+                      </tr>
 
-            <!-- Message -->
-            <tr>
-              <td colspan="2" style="padding: 10px 0 4px 0; font-weight:600; color:#4b5563;">Message from User</td>
-            </tr>
-            <tr>
-              <td colspan="2" style="padding: 2px 0; color:#111827; white-space:pre-line;">
-                ${submission.message}
-              </td>
-            </tr>
+                      <!-- Additional Info -->
+                      <tr>
+                        <td colspan="2" style="padding: 10px 0 4px 0; font-weight:600; color:#4b5563;">Additional
+                          Information</td>
+                      </tr>
+                      <tr>
+                        <td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">Current Residence:</td>
+                        <td style="padding: 2px 0; color:#111827;">${submission.currentResidence}</td>
+                      </tr>
+                      <tr>
+                        <td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">Preferred Language:</td>
+                        <td style="padding: 2px 0; color:#111827;">${submission.preferredLanguage}</td>
+                      </tr>
 
-            <!-- Consent -->
-            <tr>
-              <td colspan="2" style="padding: 10px 0 4px 0; font-weight:600; color:#4b5563;">Consent</td>
-            </tr>
-            <tr>
-              <td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">Contact Permission:</td>
-              <td style="padding: 2px 0; color:#111827;">${submission.contactConsent ? 'Yes' : 'No'}</td>
-            </tr>
-            <tr>
-              <td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">Privacy Policy:</td>
-              <td style="padding: 2px 0; color:#111827;">${submission.privacyConsent ? 'Accepted' : 'Not accepted'}</td>
-            </tr>
+                      <!-- Message -->
+                      <tr>
+                        <td colspan="2" style="padding: 10px 0 4px 0; font-weight:600; color:#4b5563;">Message from User
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" style="padding: 2px 0; color:#111827; white-space:pre-line;">
+                          ${submission.message}
+                        </td>
+                      </tr>
 
-            <!-- Metadata -->
-            <tr>
-              <td colspan="2" style="padding: 10px 0 4px 0; font-weight:600; color:#4b5563;">Metadata</td>
-            </tr>
-            <tr>
-              <td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">Submitted at:</td>
-              <td style="padding: 2px 0; color:#111827;">${submission.createdAt}</td>
-            </tr>
-            <tr>
-              <td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">IP Address:</td>
-              <td style="padding: 2px 0; color:#111827;">${submission.submitterIp || 'N/A'}</td>
-            </tr>
-            <tr>
-              <td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">User Agent:</td>
-              <td style="padding: 2px 0; color:#111827;">${submission.userAgent || 'N/A'}</td>
-            </tr>
+                      <!-- Consent -->
+                      <tr>
+                        <td colspan="2" style="padding: 10px 0 4px 0; font-weight:600; color:#4b5563;">Consent</td>
+                      </tr>
+                      <tr>
+                        <td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">Contact Permission:</td>
+                        <td style="padding: 2px 0; color:#111827;">${submission.contactConsent ? 'Yes' : 'No'}</td>
+                      </tr>
+                      <tr>
+                        <td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">Privacy Policy:</td>
+                        <td style="padding: 2px 0; color:#111827;">${submission.privacyConsent ? 'Accepted' : 'Not
+                          accepted'}</td>
+                      </tr>
 
-          </table>
+                      <!-- Metadata -->
+                      <tr>
+                        <td colspan="2" style="padding: 10px 0 4px 0; font-weight:600; color:#4b5563;">Metadata</td>
+                      </tr>
+                      <tr>
+                        <td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">Submitted at:</td>
+                        <td style="padding: 2px 0; color:#111827;">${submission.createdAt}</td>
+                      </tr>
+                      <tr>
+                        <td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">IP Address:</td>
+                        <td style="padding: 2px 0; color:#111827;">${submission.submitterIp || 'N/A'}</td>
+                      </tr>
+                      <tr>
+                        <td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">User Agent:</td>
+                        <td style="padding: 2px 0; color:#111827;">${submission.userAgent || 'N/A'}</td>
+                      </tr>
 
-        </td>
-      </tr>
-    </table>
-  </td>
-</tr>
+                    </table>
 
-            <!-- Info / contact line -->
- 
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
 
-            <!-- Closing (Best regards ...) in body text size -->
-            <tr>
-              <td style="padding: 8px 24px 16px 24px; font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; color:#4b5563;">
-                Best regards,<br>
-                <strong style="color:#4b5563;">HandokHelper Team</strong>
-              </td>
-            </tr>
+          <!-- Info / contact line -->
 
-            <!-- Divider between closing and imprint -->
-            <tr>
-              <td style="padding: 0 24px 0 24px;">
-                <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
-                  <tr>
-                    <td style="border-top: 1px solid #e5e7eb; font-size:0; line-height:0;">&nbsp;</td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
 
-            <!-- Footer / Imprint -->
-            <tr>
-              <td class="footer-text"
-                  style="padding: 16px 24px 20px 24px; font-family: Arial, sans-serif; font-size: 13px; line-height: 20px; color:#9ca3af; text-align:left;">
-                HandokHelper<br>
-                Michaelstraße 26 · 65936 Frankfurt am Main · Germany
-                <br><br>
-                <a href="https://www.handokhelper.de/imprint" target="_blank" style="color:#6d28d9; text-decoration:none;">
-                  Imprint
-                </a>
-                &nbsp;•&nbsp;
-                <a href="https://www.handokhelper.de/privacy-policy" target="_blank" style="color:#6d28d9; text-decoration:none;">
-                  Privacy policy
-                </a>
-              </td>
-            </tr>
+          <!-- Closing (Best regards ...) in body text size -->
+          <tr>
+            <td
+              style="padding: 8px 24px 16px 24px; font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; color:#4b5563;">
+              Best regards,<br>
+              <strong style="color:#4b5563;">HandokHelper Team</strong>
+            </td>
+          </tr>
 
-          </table>
-          <!-- /Card -->
-        </td>
-      </tr>
-    </table>
+          <!-- Divider between closing and imprint -->
+          <tr>
+            <td style="padding: 0 24px 0 24px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <td style="border-top: 1px solid #e5e7eb; font-size:0; line-height:0;">&nbsp;</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
 
-  </body>
+          <!-- Footer / Imprint -->
+          <tr>
+            <td class="footer-text"
+              style="padding: 16px 24px 20px 24px; font-family: Arial, sans-serif; font-size: 13px; line-height: 20px; color:#9ca3af; text-align:left;">
+              HandokHelper<br>
+              Michaelstraße 26 · 65936 Frankfurt am Main · Germany
+              <br><br>
+              <a href="https://www.handokhelper.de/imprint" target="_blank"
+                style="color:#6d28d9; text-decoration:none;">
+                Imprint
+              </a>
+              &nbsp;•&nbsp;
+              <a href="https://www.handokhelper.de/privacy-policy" target="_blank"
+                style="color:#6d28d9; text-decoration:none;">
+                Privacy policy
+              </a>
+            </td>
+          </tr>
+
+        </table>
+        <!-- /Card -->
+      </td>
+    </tr>
+  </table>
+
+</body>
+
 </html>
