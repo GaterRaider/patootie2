@@ -99,7 +99,7 @@ export const appRouter = router({
 
         try {
           // Save to database
-          await createContactSubmission(submission);
+          const result = await createContactSubmission(submission);
 
           // Record rate limit attempt
           await recordSubmissionAttempt(input.email, ipAddress);
@@ -108,6 +108,7 @@ export const appRouter = router({
           const submissionWithDate = {
             ...submission,
             id: 0,
+            refId: result.refId,
             createdAt: new Date(),
           };
 
@@ -121,6 +122,7 @@ export const appRouter = router({
           return {
             success: true,
             message: "Your inquiry has been submitted successfully. We will contact you soon!",
+            refId: result.refId,
           };
         } catch (error) {
           console.error("[Contact] Submission error:", error);
@@ -142,7 +144,7 @@ export const appRouter = router({
     getCountry: publicProcedure.query(async ({ ctx }) => {
       // Get IP address from request
       const ipAddress = ctx.req.ip || ctx.req.socket.remoteAddress || "";
-      
+
       // For development/testing, check if IP is localhost
       if (ipAddress === "::1" || ipAddress === "127.0.0.1" || ipAddress.startsWith("::ffff:127.")) {
         return { countryCode: null, ip: ipAddress };
@@ -152,7 +154,7 @@ export const appRouter = router({
         // Use a free IP geolocation service
         const response = await fetch(`http://ip-api.com/json/${ipAddress}`);
         const data = await response.json();
-        
+
         if (data.status === "success") {
           return {
             countryCode: data.countryCode,

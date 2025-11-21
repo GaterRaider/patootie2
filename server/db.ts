@@ -1,5 +1,3 @@
-// server/db.ts
-
 import { drizzle } from "drizzle-orm/node-postgres";
 import { eq, and, gt } from "drizzle-orm";
 import { Pool } from "pg";
@@ -133,18 +131,51 @@ export async function getUserByOpenId(openId: string) {
 }
 
 /**
+ * Generate a unique Reference ID
+ * Format: REF-YYYYMMDD-XXXX (where XXXX is random alphanumeric)
+ */
+export async function generateRefId(db: ReturnType<typeof drizzle>): Promise<string> {
+  const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+
+  // Try up to 5 times to generate a unique ID
+  for (let i = 0; i < 5; i++) {
+    const randomSuffix = Math.random().toString(36).substring(2, 6).toUpperCase();
+    const refId = `REF-${dateStr}-${randomSuffix}`;
+
+    const existing = await db
+      .select({ id: contactSubmissions.id })
+      .from(contactSubmissions)
+      .where(eq(contactSubmissions.refId, refId))
+      .limit(1);
+
+    if (existing.length === 0) {
+      return refId;
+    }
+  }
+
+  // Fallback if collision loop fails (extremely unlikely)
+  return `REF-${dateStr}-${Date.now().toString(36).toUpperCase()}`;
+}
+
+/**
  * Create a new contact form submission
  */
 export async function createContactSubmission(
-  submission: InsertContactSubmission,
+  submission: Omit<InsertContactSubmission, "refId">,
 ) {
   const db = await getDb();
   if (!db) {
     throw new Error("Database not available");
   }
 
-  const result = await db.insert(contactSubmissions).values(submission);
-  return result;
+  const refId = await generateRefId(db);
+
+  const result = await db.insert(contactSubmissions).values({
+    ...submission,
+    refId,
+  }).returning({ refId: contactSubmissions.refId });
+
+  return result[0];
 }
 
 /**

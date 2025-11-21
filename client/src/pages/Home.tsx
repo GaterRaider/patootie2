@@ -27,12 +27,14 @@ export default function Home() {
   const [selectedService, setSelectedService] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [refId, setRefId] = useState<string | undefined>(undefined);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const submitMutation = trpc.contact.submit.useMutation({
-    onSuccess: () => {
+    onSuccess: (data) => {
       setShowSuccess(true);
       setIsSubmitting(false);
+      setRefId(data.refId);
     },
     onError: (error) => {
       setIsSubmitting(false);
@@ -43,6 +45,7 @@ export default function Home() {
   const handleReset = () => {
     setShowSuccess(false);
     setSelectedService("");
+    setRefId(undefined);
   };
 
   const handleServiceCardClick = (service: string) => {
@@ -463,6 +466,7 @@ export default function Home() {
                 onLocationChange={setLocation}
                 isSuccess={showSuccess}
                 onReset={handleReset}
+                refId={refId}
               />
             </CardContent>
           </Card>

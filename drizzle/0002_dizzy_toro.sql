@@ -1,0 +1,1 @@
+ALTER TABLE "contactSubmissions" ALTER COLUMN "refId" SET NOT NULL;

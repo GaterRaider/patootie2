@@ -19,6 +19,7 @@ interface ContactFormProps {
   onLocationChange: (path: string) => void;
   isSuccess: boolean;
   onReset: () => void;
+  refId?: string;
 }
 
 export function ContactForm({
@@ -29,7 +30,8 @@ export function ContactForm({
   isSubmitting,
   onLocationChange,
   isSuccess,
-  onReset
+  onReset,
+  refId
 }: ContactFormProps) {
   const [formData, setFormData] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
@@ -135,7 +137,9 @@ export function ContactForm({
     let hasErrors = false;
 
     fieldsToCheck.forEach(field => {
-      if (!isFieldValid(field)) {
+      if (isFieldValid(field)) {
+        // Field is valid
+      } else {
         newTouched[field] = true;
         hasErrors = true;
         if (!firstErrorField) firstErrorField = field;
@@ -213,8 +217,8 @@ export function ContactForm({
               <Hash className="h-4 w-4" />
             </div>
             <div className="text-left">
-              <p className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground/70">Ref ID</p>
-              <p className="font-mono font-bold text-foreground">#REQ-{Math.floor(1000 + Math.random() * 9000)}</p>
+              <p className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground/70">Reference ID</p>
+              <p className="font-mono font-bold text-foreground">{refId || "Generating..."}</p>
             </div>
           </div>
         </div>

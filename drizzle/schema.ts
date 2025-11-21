@@ -36,18 +36,18 @@ export type InsertUser = typeof users.$inferInsert;
  */
 export const contactSubmissions = pgTable("contactSubmissions", {
   id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
-  
+
   // Service and personal information
   service: varchar("service", { length: 100 }).notNull(),
   salutation: varchar("salutation", { length: 50 }).notNull(),
   firstName: varchar("firstName", { length: 100 }).notNull(),
   lastName: varchar("lastName", { length: 100 }).notNull(),
   dateOfBirth: varchar("dateOfBirth", { length: 20 }).notNull(),
-  
+
   // Contact information
   email: varchar("email", { length: 320 }).notNull(),
   phoneNumber: varchar("phoneNumber", { length: 50 }).notNull(),
-  
+
   // Address information
   street: varchar("street", { length: 200 }).notNull(),
   addressLine2: varchar("addressLine2", { length: 200 }),
@@ -55,17 +55,18 @@ export const contactSubmissions = pgTable("contactSubmissions", {
   city: varchar("city", { length: 100 }).notNull(),
   stateProvince: varchar("stateProvince", { length: 100 }),
   country: varchar("country", { length: 100 }).notNull(),
-  
+
   // Additional information
   currentResidence: varchar("currentResidence", { length: 100 }).notNull(),
   preferredLanguage: varchar("preferredLanguage", { length: 50 }).notNull(),
   message: text("message").notNull(),
-  
+
   // Consent tracking
   contactConsent: boolean("contactConsent").notNull(),
   privacyConsent: boolean("privacyConsent").notNull(),
-  
+
   // Metadata
+  refId: varchar("refId", { length: 50 }).notNull().unique(),
   submitterIp: varchar("submitterIp", { length: 50 }),
   userAgent: text("userAgent"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
