@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { LucideIcon, ArrowRight, Check, X } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,7 @@ import {
     CarouselItem,
     CarouselNext,
     CarouselPrevious,
+    type CarouselApi,
 } from "@/components/ui/carousel";
 import { useMediaQuery } from "@/hooks/use-mobile";
 
@@ -36,7 +37,21 @@ interface ServicesBentoGridProps {
 
 export function ServicesBentoGrid({ services, onSelect, language }: ServicesBentoGridProps) {
     const [selectedService, setSelectedService] = useState<ServiceItem | null>(null);
+    const [api, setApi] = useState<CarouselApi>();
+    const [current, setCurrent] = useState(0);
     const isMobile = useMediaQuery("(max-width: 768px)");
+
+    useEffect(() => {
+        if (!api) {
+            return;
+        }
+
+        setCurrent(api.selectedScrollSnap());
+
+        api.on("select", () => {
+            setCurrent(api.selectedScrollSnap());
+        });
+    }, [api]);
 
     const handleCardClick = (service: ServiceItem) => {
         setSelectedService(service);
@@ -90,6 +105,7 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
             {/* Mobile Carousel */}
             <div className="md:hidden">
                 <Carousel
+                    setApi={setApi}
                     opts={{
                         align: "start",
                         loop: true,
@@ -106,7 +122,15 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
                         ))}
                     </CarouselContent>
                     <div className="flex justify-center gap-2 mt-4">
-                        {/* Optional: Add dots or custom navigation if needed */}
+                        {services.map((_, index) => (
+                            <button
+                                key={index}
+                                onClick={() => api?.scrollTo(index)}
+                                className={`h-2 w-2 rounded-full transition-all duration-300 ${current === index ? "bg-primary w-4" : "bg-gray-300 dark:bg-gray-700"
+                                    }`}
+                                aria-label={`Go to slide ${index + 1}`}
+                            />
+                        ))}
                     </div>
                 </Carousel>
             </div>
