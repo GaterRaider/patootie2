@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
-import { Loader2, LayoutDashboard, LogOut, ScrollText, FileText, Settings as SettingsIcon, Moon, Sun, Menu, X } from "lucide-react";
+import { Loader2, LayoutDashboard, LogOut, ScrollText, FileText, Settings as SettingsIcon, Moon, Sun, Menu, X, FileStack } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/contexts/ThemeContext";
 
@@ -69,16 +69,25 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                 <Link href="/admin/dashboard">
                     <a className={cn(
                         "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                        location === "/admin/dashboard" ? "bg-muted text-primary" : "text-muted-foreground"
+                        location === "/admin/dashboard" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
                     )}>
                         <LayoutDashboard className="h-4 w-4" />
                         Dashboard
                     </a>
                 </Link>
+                <Link href="/admin/submissions">
+                    <a className={cn(
+                        "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
+                        location === "/admin/submissions" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
+                    )}>
+                        <FileStack className="h-4 w-4" />
+                        Submissions
+                    </a>
+                </Link>
                 <Link href="/admin/invoices">
                     <a className={cn(
                         "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                        location.startsWith("/admin/invoices") ? "bg-muted text-primary" : "text-muted-foreground"
+                        location.startsWith("/admin/invoices") ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
                     )}>
                         <FileText className="h-4 w-4" />
                         Invoices
@@ -87,7 +96,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                 <Link href="/admin/activity">
                     <a className={cn(
                         "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                        location === "/admin/activity" ? "bg-muted text-primary" : "text-muted-foreground"
+                        location === "/admin/activity" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
                     )}>
                         <ScrollText className="h-4 w-4" />
                         Activity Log
@@ -96,7 +105,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                 <Link href="/admin/settings">
                     <a className={cn(
                         "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                        location === "/admin/settings" ? "bg-muted text-primary" : "text-muted-foreground"
+                        location === "/admin/settings" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
                     )}>
                         <SettingsIcon className="h-4 w-4" />
                         Settings
@@ -164,16 +173,25 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                         <Link href="/admin/dashboard">
                             <a className={cn(
                                 "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                                location === "/admin/dashboard" ? "bg-muted text-primary" : "text-muted-foreground"
+                                location === "/admin/dashboard" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
                             )}>
                                 <LayoutDashboard className="h-4 w-4" />
                                 Dashboard
                             </a>
                         </Link>
+                        <Link href="/admin/submissions">
+                            <a className={cn(
+                                "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
+                                location === "/admin/submissions" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
+                            )}>
+                                <FileStack className="h-4 w-4" />
+                                Submissions
+                            </a>
+                        </Link>
                         <Link href="/admin/invoices">
                             <a className={cn(
                                 "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                                location.startsWith("/admin/invoices") ? "bg-muted text-primary" : "text-muted-foreground"
+                                location.startsWith("/admin/invoices") ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
                             )}>
                                 <FileText className="h-4 w-4" />
                                 Invoices
@@ -182,7 +200,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                         <Link href="/admin/activity">
                             <a className={cn(
                                 "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                                location === "/admin/activity" ? "bg-muted text-primary" : "text-muted-foreground"
+                                location === "/admin/activity" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
                             )}>
                                 <ScrollText className="h-4 w-4" />
                                 Activity Log
@@ -191,7 +209,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                         <Link href="/admin/settings">
                             <a className={cn(
                                 "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                                location === "/admin/settings" ? "bg-muted text-primary" : "text-muted-foreground"
+                                location === "/admin/settings" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
                             )}>
                                 <SettingsIcon className="h-4 w-4" />
                                 Settings

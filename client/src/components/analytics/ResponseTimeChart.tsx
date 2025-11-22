@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export function ResponseTimeChart() {
     return (
-        <Card>
+        <Card className="h-full flex flex-col">
             <CardHeader>
                 <CardTitle>Response Time Metrics</CardTitle>
             </CardHeader>

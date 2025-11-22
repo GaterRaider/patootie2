@@ -40,7 +40,7 @@ export function InvoiceStatusChart({ data }: InvoiceStatusChartProps) {
     }));
 
     return (
-        <Card>
+        <Card className="h-full flex flex-col">
             <CardHeader>
                 <CardTitle>Invoice Status Distribution</CardTitle>
             </CardHeader>

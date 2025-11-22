@@ -106,7 +106,7 @@ export function RevenueTrendsChart({ data }: RevenueTrendsChartProps) {
     };
 
     return (
-        <Card>
+        <Card className="h-full flex flex-col">
             <CardHeader>
                 <CardTitle>Revenue Trends</CardTitle>
             </CardHeader>

@@ -11,6 +11,7 @@ import Imprint from "./pages/Imprint";
 import ScrollToTop from "./components/ScrollToTop";
 import AdminLogin from "./pages/admin/Login";
 import AdminDashboard from "./pages/admin/Dashboard";
+import AdminSubmissions from "./pages/admin/Submissions";
 import ActivityLog from "./pages/admin/ActivityLog";
 import SubmissionDetail from "./pages/admin/SubmissionDetail";
 import Invoices from "./pages/admin/Invoices";
@@ -31,6 +32,12 @@ function Router() {
       <Route path="/admin/dashboard">
         <AdminLayout>
           <AdminDashboard />
+        </AdminLayout>
+      </Route>
+
+      <Route path="/admin/submissions">
+        <AdminLayout>
+          <AdminSubmissions />
         </AdminLayout>
       </Route>
 

@@ -23,7 +23,7 @@ export function TopServicesChart({ data }: TopServicesChartProps) {
     const sortedData = [...data].sort((a, b) => b.revenue - a.revenue);
 
     return (
-        <Card>
+        <Card className="h-full flex flex-col">
             <CardHeader>
                 <CardTitle>Top Services by Revenue</CardTitle>
             </CardHeader>

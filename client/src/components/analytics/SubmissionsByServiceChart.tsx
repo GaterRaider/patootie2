@@ -105,17 +105,17 @@ export function SubmissionsByServiceChart({ data }: SubmissionsByServiceChartPro
     };
 
     return (
-        <Card>
+        <Card className="h-full flex flex-col">
             <CardHeader>
                 <CardTitle>Submissions by Service</CardTitle>
             </CardHeader>
             <CardContent>
                 <ResponsiveContainer width="100%" height={400}>
-                    <PieChart>
+                    <PieChart margin={{ top: 20, right: 0, bottom: 0, left: 0 }}>
                         <Pie
                             data={data}
                             cx="50%"
-                            cy="45%"
+                            cy="50%"
                             labelLine={false}
                             label={renderCustomLabel}
                             outerRadius={130}
