@@ -58,13 +58,14 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         return null; // Will redirect in useEffect
     }
 
+
     // Sidebar content component (reused for both desktop and mobile)
     const SidebarContent = () => (
         <>
             <div className="p-6 border-b">
                 <h1 className="text-xl font-bold">Admin Panel</h1>
             </div>
-            <nav className="flex-1 p-4 space-y-2" role="navigation">
+            <nav className="flex-1 p-4 space-y-2 overflow-y-auto pb-32" role="navigation">
                 <Link href="/admin/dashboard">
                     <a className={cn(
                         "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
@@ -74,15 +75,6 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                         Dashboard
                     </a>
                 </Link>
-                <Link href="/admin/activity">
-                    <a className={cn(
-                        "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                        location === "/admin/activity" ? "bg-muted text-primary" : "text-muted-foreground"
-                    )}>
-                        <ScrollText className="h-4 w-4" />
-                        Activity Log
-                    </a>
-                </Link>
                 <Link href="/admin/invoices">
                     <a className={cn(
                         "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
@@ -90,6 +82,15 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                     )}>
                         <FileText className="h-4 w-4" />
                         Invoices
+                    </a>
+                </Link>
+                <Link href="/admin/activity">
+                    <a className={cn(
+                        "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
+                        location === "/admin/activity" ? "bg-muted text-primary" : "text-muted-foreground"
+                    )}>
+                        <ScrollText className="h-4 w-4" />
+                        Activity Log
                     </a>
                 </Link>
                 <Link href="/admin/settings">
@@ -102,7 +103,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                     </a>
                 </Link>
             </nav>
-            <div className="p-4 border-t space-y-2">
+            <div className="fixed bottom-0 left-0 w-64 p-4 border-t space-y-2 bg-white dark:bg-gray-800 hidden md:block">
                 {toggleTheme && (
                     <Button
                         variant="outline"
@@ -159,7 +160,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                             <X className="h-5 w-5" />
                         </button>
                     </div>
-                    <nav className="flex-1 p-4 space-y-2" role="navigation">
+                    <nav className="flex-1 p-4 space-y-2 overflow-y-auto pb-32" role="navigation">
                         <Link href="/admin/dashboard">
                             <a className={cn(
                                 "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
@@ -169,15 +170,6 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                                 Dashboard
                             </a>
                         </Link>
-                        <Link href="/admin/activity">
-                            <a className={cn(
-                                "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                                location === "/admin/activity" ? "bg-muted text-primary" : "text-muted-foreground"
-                            )}>
-                                <ScrollText className="h-4 w-4" />
-                                Activity Log
-                            </a>
-                        </Link>
                         <Link href="/admin/invoices">
                             <a className={cn(
                                 "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
@@ -185,6 +177,15 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                             )}>
                                 <FileText className="h-4 w-4" />
                                 Invoices
+                            </a>
+                        </Link>
+                        <Link href="/admin/activity">
+                            <a className={cn(
+                                "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
+                                location === "/admin/activity" ? "bg-muted text-primary" : "text-muted-foreground"
+                            )}>
+                                <ScrollText className="h-4 w-4" />
+                                Activity Log
                             </a>
                         </Link>
                         <Link href="/admin/settings">
@@ -197,7 +198,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                             </a>
                         </Link>
                     </nav>
-                    <div className="p-4 border-t space-y-2">
+                    <div className="absolute bottom-0 left-0 right-0 p-4 border-t space-y-2 bg-white dark:bg-gray-800">
                         {toggleTheme && (
                             <Button
                                 variant="outline"
@@ -225,12 +226,12 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             )}
 
             {/* Desktop Sidebar - Always visible on desktop (≥768px), hidden on mobile */}
-            <aside className="hidden md:flex w-64 bg-white dark:bg-gray-800 shadow-md flex-col">
+            <aside className="hidden md:flex fixed left-0 top-0 h-screen w-64 bg-white dark:bg-gray-800 shadow-md flex-col">
                 <SidebarContent />
             </aside>
 
             {/* Main Content */}
-            <main className="flex-1 flex flex-col overflow-y-auto">
+            <main className="flex-1 flex flex-col overflow-y-auto md:ml-64">
                 {/* Mobile Header with Hamburger - Only visible on mobile */}
                 <div className="md:hidden sticky top-0 z-30 bg-white dark:bg-gray-800 border-b shadow-sm">
                     <div className="flex items-center gap-3 p-4">
