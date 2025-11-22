@@ -14,7 +14,25 @@ import {
   bulkUpdateSubmissionStatus,
   getContactSubmissionsByIds,
   getContactSubmissionsCount,
+  getContactSubmissionById,
+  updateContactSubmissionStatus,
+  getSubmissionNotes,
+  createSubmissionNote,
 } from "./db";
+import {
+  getCompanySettings,
+  upsertCompanySettings,
+  createInvoice,
+  getInvoiceById,
+  getAllInvoices,
+  updateInvoice,
+  updateInvoiceItems,
+  deleteInvoice,
+  addPayment,
+  getInvoicePayments,
+  getInvoicesCount,
+  createInvoiceFromSubmission,
+} from "./invoice-db";
 import { sendConfirmationEmail, sendAdminNotificationEmail } from "./email";
 import { adminUsers, users } from "../drizzle/schema";
 import { eq } from "drizzle-orm";
@@ -302,6 +320,76 @@ export const appRouter = router({
           const submissions = await getContactSubmissionsByIds(input.ids);
           return submissions;
         }),
+
+      getOne: adminProcedure
+        .input(z.object({ id: z.number() }))
+        .query(async ({ input }) => {
+          const submission = await getContactSubmissionById(input.id);
+          if (!submission) {
+            throw new TRPCError({ code: "NOT_FOUND", message: "Submission not found" });
+          }
+          return submission;
+        }),
+
+      updateStatus: adminProcedure
+        .input(
+          z.object({
+            id: z.number(),
+            status: z.string(),
+          })
+        )
+        .mutation(async ({ input, ctx }) => {
+          await updateContactSubmissionStatus(input.id, input.status);
+
+          // Log activity
+          await logActivity({
+            adminId: ctx.adminId,
+            action: "UPDATE_STATUS",
+            entityType: "SUBMISSION",
+            entityId: input.id,
+            details: { status: input.status },
+            ipAddress: ctx.req.ip || ctx.req.socket.remoteAddress,
+            userAgent: ctx.req.headers["user-agent"],
+          });
+
+          return { success: true };
+        }),
+
+      notes: router({
+        getAll: adminProcedure
+          .input(z.object({ submissionId: z.number() }))
+          .query(async ({ input }) => {
+            return await getSubmissionNotes(input.submissionId);
+          }),
+
+        create: adminProcedure
+          .input(
+            z.object({
+              submissionId: z.number(),
+              note: z.string(),
+            })
+          )
+          .mutation(async ({ input, ctx }) => {
+            const newNote = await createSubmissionNote({
+              submissionId: input.submissionId,
+              adminId: ctx.adminId,
+              note: input.note,
+            });
+
+            // Log activity
+            await logActivity({
+              adminId: ctx.adminId,
+              action: "ADD_NOTE",
+              entityType: "SUBMISSION",
+              entityId: input.submissionId,
+              details: { note: input.note },
+              ipAddress: ctx.req.ip || ctx.req.socket.remoteAddress,
+              userAgent: ctx.req.headers["user-agent"],
+            });
+
+            return newNote;
+          }),
+      }),
     }),
 
     activity: router({
@@ -309,6 +397,294 @@ export const appRouter = router({
         .input(z.object({ limit: z.number().optional() }))
         .query(async ({ input }) => {
           return await getAllActivityLogs(input.limit);
+        }),
+    }),
+
+    invoices: router({
+      getAll: adminProcedure
+        .input(
+          z.object({
+            page: z.number().optional(),
+            limit: z.number().optional(),
+            status: z.string().optional(),
+            clientName: z.string().optional(),
+            startDate: z.string().optional(),
+            endDate: z.string().optional(),
+          })
+        )
+        .query(async ({ input }) => {
+          const invoices = await getAllInvoices(input);
+          const total = await getInvoicesCount(input);
+          return { invoices, total };
+        }),
+
+      getOne: adminProcedure
+        .input(z.object({ id: z.number() }))
+        .query(async ({ input }) => {
+          const invoice = await getInvoiceById(input.id);
+          if (!invoice) {
+            throw new TRPCError({ code: "NOT_FOUND", message: "Invoice not found" });
+          }
+          return invoice;
+        }),
+
+      create: adminProcedure
+        .input(
+          z.object({
+            invoice: z.object({
+              submissionId: z.number().optional(),
+              clientName: z.string(),
+              clientEmail: z.string(),
+              clientAddress: z.string(),
+              issueDate: z.string(),
+              dueDate: z.string(),
+              serviceDate: z.string().optional(),
+              subtotal: z.string(),
+              taxRate: z.string(),
+              taxAmount: z.string(),
+              total: z.string(),
+              currency: z.string().default("EUR"),
+              status: z.string().default("draft"),
+              notes: z.string().optional(),
+              termsAndConditions: z.string().optional(),
+              createdBy: z.number(),
+            }),
+            items: z.array(
+              z.object({
+                description: z.string(),
+                quantity: z.string(),
+                unitPrice: z.string(),
+                amount: z.string(),
+              })
+            ),
+          })
+        )
+        .mutation(async ({ input, ctx }) => {
+          const newInvoice = await createInvoice(input.invoice as any, input.items);
+
+          await logActivity({
+            adminId: ctx.adminId,
+            action: "CREATE_INVOICE",
+            entityType: "INVOICE",
+            entityId: newInvoice.id,
+            details: { invoiceNumber: newInvoice.invoiceNumber },
+            ipAddress: ctx.req.ip || ctx.req.socket.remoteAddress,
+            userAgent: ctx.req.headers["user-agent"],
+          });
+
+          return newInvoice;
+        }),
+
+      createFromSubmission: adminProcedure
+        .input(
+          z.object({
+            submissionId: z.number(),
+            invoice: z.object({
+              issueDate: z.string(),
+              dueDate: z.string(),
+              serviceDate: z.string().optional(),
+              subtotal: z.string(),
+              taxRate: z.string(),
+              taxAmount: z.string(),
+              total: z.string(),
+              notes: z.string().optional(),
+              termsAndConditions: z.string().optional(),
+              createdBy: z.number(),
+            }),
+            items: z.array(
+              z.object({
+                description: z.string(),
+                quantity: z.string(),
+                unitPrice: z.string(),
+                amount: z.string(),
+              })
+            ),
+          })
+        )
+        .mutation(async ({ input, ctx }) => {
+          const newInvoice = await createInvoiceFromSubmission(
+            input.submissionId,
+            input.invoice as any,
+            input.items
+          );
+
+          await logActivity({
+            adminId: ctx.adminId,
+            action: "CREATE_INVOICE",
+            entityType: "INVOICE",
+            entityId: newInvoice.id,
+            details: { invoiceNumber: newInvoice.invoiceNumber, submissionId: input.submissionId },
+            ipAddress: ctx.req.ip || ctx.req.socket.remoteAddress,
+            userAgent: ctx.req.headers["user-agent"],
+          });
+
+          return newInvoice;
+        }),
+
+      update: adminProcedure
+        .input(
+          z.object({
+            id: z.number(),
+            updates: z.object({
+              clientName: z.string().optional(),
+              clientEmail: z.string().optional(),
+              clientAddress: z.string().optional(),
+              issueDate: z.string().optional(),
+              dueDate: z.string().optional(),
+              serviceDate: z.string().optional(),
+              subtotal: z.string().optional(),
+              taxRate: z.string().optional(),
+              taxAmount: z.string().optional(),
+              total: z.string().optional(),
+              status: z.string().optional(),
+              notes: z.string().optional(),
+              termsAndConditions: z.string().optional(),
+            }),
+            items: z
+              .array(
+                z.object({
+                  description: z.string(),
+                  quantity: z.string(),
+                  unitPrice: z.string(),
+                  amount: z.string(),
+                })
+              )
+              .optional(),
+          })
+        )
+        .mutation(async ({ input, ctx }) => {
+          const updated = await updateInvoice(input.id, input.updates as any);
+
+          if (input.items) {
+            await updateInvoiceItems(input.id, input.items);
+          }
+
+          await logActivity({
+            adminId: ctx.adminId,
+            action: "UPDATE_INVOICE",
+            entityType: "INVOICE",
+            entityId: input.id,
+            details: input.updates,
+            ipAddress: ctx.req.ip || ctx.req.socket.remoteAddress,
+            userAgent: ctx.req.headers["user-agent"],
+          });
+
+          return updated;
+        }),
+
+      delete: adminProcedure
+        .input(z.object({ id: z.number() }))
+        .mutation(async ({ input, ctx }) => {
+          await deleteInvoice(input.id);
+
+          await logActivity({
+            adminId: ctx.adminId,
+            action: "DELETE_INVOICE",
+            entityType: "INVOICE",
+            entityId: input.id,
+            ipAddress: ctx.req.ip || ctx.req.socket.remoteAddress,
+            userAgent: ctx.req.headers["user-agent"],
+          });
+
+          return { success: true };
+        }),
+
+      payments: router({
+        getAll: adminProcedure
+          .input(z.object({ invoiceId: z.number() }))
+          .query(async ({ input }) => {
+            return await getInvoicePayments(input.invoiceId);
+          }),
+
+        add: adminProcedure
+          .input(
+            z.object({
+              invoiceId: z.number(),
+              amount: z.string(),
+              paymentDate: z.string(),
+              paymentMethod: z.string(),
+              reference: z.string().optional(),
+              notes: z.string().optional(),
+              recordedBy: z.number(),
+            })
+          )
+          .mutation(async ({ input, ctx }) => {
+            const payment = await addPayment(input as any);
+
+            await logActivity({
+              adminId: ctx.adminId,
+              action: "ADD_PAYMENT",
+              entityType: "INVOICE",
+              entityId: input.invoiceId,
+              details: { amount: input.amount, method: input.paymentMethod },
+              ipAddress: ctx.req.ip || ctx.req.socket.remoteAddress,
+              userAgent: ctx.req.headers["user-agent"],
+            });
+
+            return payment;
+          }),
+      }),
+
+      generatePdf: adminProcedure
+        .input(z.object({ id: z.number() }))
+        .mutation(async ({ input }) => {
+          const invoice = await getInvoiceById(input.id);
+          if (!invoice) {
+            throw new TRPCError({ code: "NOT_FOUND", message: "Invoice not found" });
+          }
+
+          const settings = await getCompanySettings();
+          if (!settings) {
+            throw new TRPCError({ code: "NOT_FOUND", message: "Company settings not configured" });
+          }
+
+          const { generateInvoicePDF } = await import("./pdf-generator");
+
+          const pdfBuffer = await generateInvoicePDF(invoice as any, settings as any);
+
+          // Return base64 encoded PDF
+          return {
+            pdf: pdfBuffer.toString("base64"),
+            filename: `${invoice.invoiceNumber}.pdf`,
+          };
+        }),
+    }),
+
+    settings: router({
+      get: adminProcedure.query(async () => {
+        return await getCompanySettings();
+      }),
+
+      update: adminProcedure
+        .input(
+          z.object({
+            companyName: z.string().optional(),
+            address: z.string().optional(),
+            email: z.string().optional(),
+            phone: z.string().optional(),
+            taxId: z.string().optional(),
+            vatId: z.string().optional(),
+            iban: z.string().optional(),
+            bic: z.string().optional(),
+            bankName: z.string().optional(),
+            logoUrl: z.string().optional(),
+            defaultTaxRate: z.string().optional(),
+            paymentTermsDays: z.number().optional(),
+            termsAndConditions: z.string().optional(),
+          })
+        )
+        .mutation(async ({ input, ctx }) => {
+          const updated = await upsertCompanySettings(input as any);
+
+          await logActivity({
+            adminId: ctx.adminId,
+            action: "UPDATE_SETTINGS",
+            entityType: "SETTINGS",
+            ipAddress: ctx.req.ip || ctx.req.socket.remoteAddress,
+            userAgent: ctx.req.headers["user-agent"],
+          });
+
+          return updated;
         }),
     }),
   }),

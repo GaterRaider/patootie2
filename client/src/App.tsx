@@ -12,6 +12,10 @@ import ScrollToTop from "./components/ScrollToTop";
 import AdminLogin from "./pages/admin/Login";
 import AdminDashboard from "./pages/admin/Dashboard";
 import ActivityLog from "./pages/admin/ActivityLog";
+import SubmissionDetail from "./pages/admin/SubmissionDetail";
+import Invoices from "./pages/admin/Invoices";
+import InvoiceForm from "./pages/admin/InvoiceForm";
+import Settings from "./pages/admin/Settings";
 import AdminLayout from "./components/AdminLayout";
 
 function Router() {
@@ -33,6 +37,36 @@ function Router() {
       <Route path="/admin/activity">
         <AdminLayout>
           <ActivityLog />
+        </AdminLayout>
+      </Route>
+
+      <Route path="/admin/submissions/:id">
+        <AdminLayout>
+          <SubmissionDetail />
+        </AdminLayout>
+      </Route>
+
+      <Route path="/admin/invoices">
+        <AdminLayout>
+          <Invoices />
+        </AdminLayout>
+      </Route>
+
+      <Route path="/admin/invoices/new">
+        <AdminLayout>
+          <InvoiceForm />
+        </AdminLayout>
+      </Route>
+
+      <Route path="/admin/invoices/:id/edit">
+        <AdminLayout>
+          <InvoiceForm />
+        </AdminLayout>
+      </Route>
+
+      <Route path="/admin/settings">
+        <AdminLayout>
+          <Settings />
         </AdminLayout>
       </Route>
 

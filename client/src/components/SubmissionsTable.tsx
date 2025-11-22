@@ -6,6 +6,7 @@ import {
     SortingState,
     OnChangeFn,
 } from "@tanstack/react-table";
+import { useLocation } from "wouter";
 import {
     Table,
     TableBody,
@@ -142,6 +143,8 @@ export default function SubmissionsTable({
     rowSelection,
     onRowSelectionChange,
 }: SubmissionsTableProps) {
+    const [, setLocation] = useLocation();
+
     const table = useReactTable({
         data,
         columns,
@@ -182,6 +185,15 @@ export default function SubmissionsTable({
                             <TableRow
                                 key={row.id}
                                 data-state={row.getIsSelected() && "selected"}
+                                className="cursor-pointer hover:bg-muted/50"
+                                onClick={(e) => {
+                                    // Don't navigate if clicking on checkbox
+                                    const target = e.target as HTMLElement;
+                                    if (target.closest('button') || target.closest('[role="checkbox"]')) {
+                                        return;
+                                    }
+                                    setLocation(`/admin/submissions/${row.original.id}`);
+                                }}
                             >
                                 {row.getVisibleCells().map((cell) => (
                                     <TableCell key={cell.id}>

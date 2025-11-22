@@ -1,4 +1,4 @@
-import { integer, pgEnum, pgTable, text, timestamp, varchar, boolean, jsonb } from "drizzle-orm/pg-core";
+import { integer, pgEnum, pgTable, text, timestamp, varchar, boolean, jsonb, decimal, date } from "drizzle-orm/pg-core";
 
 /**
  * Define enum for user roles
@@ -122,3 +122,126 @@ export const activityLogs = pgTable("activityLogs", {
 
 export type ActivityLog = typeof activityLogs.$inferSelect;
 export type InsertActivityLog = typeof activityLogs.$inferInsert;
+
+/**
+ * Internal notes for submissions
+ * Allows admins to collaborate on specific cases
+ */
+export const submissionNotes = pgTable("submissionNotes", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  submissionId: integer("submissionId").references(() => contactSubmissions.id).notNull(),
+  adminId: integer("adminId").references(() => adminUsers.id).notNull(),
+  note: text("note").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type SubmissionNote = typeof submissionNotes.$inferSelect;
+export type InsertSubmissionNote = typeof submissionNotes.$inferInsert;
+
+/**
+ * Company settings for invoices (singleton table)
+ */
+export const companySettings = pgTable("companySettings", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  companyName: varchar("companyName", { length: 200 }).notNull(),
+  address: text("address").notNull(),
+  email: varchar("email", { length: 320 }).notNull(),
+  phone: varchar("phone", { length: 50 }),
+  taxId: varchar("taxId", { length: 50 }), // Steuernummer
+  vatId: varchar("vatId", { length: 50 }), // USt-IdNr
+  iban: varchar("iban", { length: 34 }),
+  bic: varchar("bic", { length: 11 }),
+  bankName: varchar("bankName", { length: 100 }),
+  logoUrl: varchar("logoUrl", { length: 500 }),
+  defaultCurrency: varchar("defaultCurrency", { length: 3 }).default("EUR").notNull(),
+  invoicePrefix: varchar("invoicePrefix", { length: 20 }).default("INV-").notNull(),
+  defaultTaxRate: decimal("defaultTaxRate", { precision: 5, scale: 2 }).default("19.00").notNull(),
+  paymentTermsDays: integer("paymentTermsDays").default(14).notNull(),
+  termsAndConditions: text("termsAndConditions"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+});
+
+export type CompanySettings = typeof companySettings.$inferSelect;
+export type InsertCompanySettings = typeof companySettings.$inferInsert;
+
+/**
+ * Invoices table
+ */
+export const invoices = pgTable("invoices", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  invoiceNumber: varchar("invoiceNumber", { length: 50 }).notNull().unique(),
+  submissionId: integer("submissionId").references(() => contactSubmissions.id),
+
+  // Client information
+  clientName: varchar("clientName", { length: 200 }).notNull(),
+  clientEmail: varchar("clientEmail", { length: 320 }).notNull(),
+  clientAddress: text("clientAddress").notNull(),
+
+  // Dates
+  issueDate: date("issueDate").notNull(),
+  dueDate: date("dueDate").notNull(),
+  serviceDate: date("serviceDate"), // Leistungsdatum
+
+  // Amounts
+  subtotal: decimal("subtotal", { precision: 10, scale: 2 }).notNull(),
+  taxRate: decimal("taxRate", { precision: 5, scale: 2 }).notNull(),
+  taxAmount: decimal("taxAmount", { precision: 10, scale: 2 }).notNull(),
+  total: decimal("total", { precision: 10, scale: 2 }).notNull(),
+  currency: varchar("currency", { length: 3 }).default("EUR").notNull(),
+
+  // Status and notes
+  status: varchar("status", { length: 20 }).default("draft").notNull(), // draft, sent, paid, overdue, cancelled
+  notes: text("notes"),
+  termsAndConditions: text("termsAndConditions"),
+
+  // Email tracking
+  emailSentAt: timestamp("emailSentAt"),
+
+  // Payment tracking
+  paidAt: timestamp("paidAt"),
+  paidAmount: decimal("paidAmount", { precision: 10, scale: 2 }).default("0.00").notNull(),
+
+  // Metadata
+  createdBy: integer("createdBy").references(() => adminUsers.id).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+});
+
+export type Invoice = typeof invoices.$inferSelect;
+export type InsertInvoice = typeof invoices.$inferInsert;
+
+/**
+ * Invoice line items
+ */
+export const invoiceItems = pgTable("invoiceItems", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  invoiceId: integer("invoiceId").references(() => invoices.id).notNull(),
+  description: text("description").notNull(),
+  quantity: decimal("quantity", { precision: 10, scale: 2 }).notNull(),
+  unitPrice: decimal("unitPrice", { precision: 10, scale: 2 }).notNull(),
+  amount: decimal("amount", { precision: 10, scale: 2 }).notNull(), // quantity * unitPrice
+  sortOrder: integer("sortOrder").notNull(),
+});
+
+export type InvoiceItem = typeof invoiceItems.$inferSelect;
+export type InsertInvoiceItem = typeof invoiceItems.$inferInsert;
+
+/**
+ * Payment history for invoices
+ */
+export const paymentHistory = pgTable("paymentHistory", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  invoiceId: integer("invoiceId").references(() => invoices.id).notNull(),
+  amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
+  paymentDate: date("paymentDate").notNull(),
+  paymentMethod: varchar("paymentMethod", { length: 50 }).notNull(), // bank_transfer, cash, paypal, other
+  reference: varchar("reference", { length: 200 }),
+  notes: text("notes"),
+  recordedBy: integer("recordedBy").references(() => adminUsers.id).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type PaymentHistory = typeof paymentHistory.$inferSelect;
+export type InsertPaymentHistory = typeof paymentHistory.$inferInsert;
+

@@ -8,6 +8,9 @@ import {
   InsertContactSubmission,
   submissionRateLimits,
   activityLogs,
+  submissionNotes,
+  InsertSubmissionNote,
+  adminUsers,
 } from "../drizzle/schema";
 import { ENV } from "./_core/env";
 
@@ -404,4 +407,73 @@ export async function getAllActivityLogs(limit = 50) {
     .from(activityLogs)
     .orderBy(desc(activityLogs.createdAt))
     .limit(limit);
+}
+
+/**
+ * Get a single contact submission by ID
+ */
+export async function getContactSubmissionById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+
+  const result = await db
+    .select()
+    .from(contactSubmissions)
+    .where(eq(contactSubmissions.id, id))
+    .limit(1);
+
+  return result.length > 0 ? result[0] : null;
+}
+
+/**
+ * Update contact submission status
+ */
+export async function updateContactSubmissionStatus(id: number, status: string) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  return await db
+    .update(contactSubmissions)
+    .set({ status })
+    .where(eq(contactSubmissions.id, id));
+}
+
+/**
+ * Get all notes for a submission
+ */
+export async function getSubmissionNotes(submissionId: number) {
+  const db = await getDb();
+  if (!db) return [];
+
+  return await db
+    .select({
+      id: submissionNotes.id,
+      note: submissionNotes.note,
+      createdAt: submissionNotes.createdAt,
+      adminId: submissionNotes.adminId,
+      adminUsername: adminUsers.username,
+    })
+    .from(submissionNotes)
+    .leftJoin(adminUsers, eq(submissionNotes.adminId, adminUsers.id))
+    .where(eq(submissionNotes.submissionId, submissionId))
+    .orderBy(desc(submissionNotes.createdAt));
+}
+
+/**
+ * Create a new submission note
+ */
+export async function createSubmissionNote(note: InsertSubmissionNote) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  const result = await db
+    .insert(submissionNotes)
+    .values(note)
+    .returning();
+
+  return result[0];
 }

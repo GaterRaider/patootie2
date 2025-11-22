@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useLocation, Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
-import { Loader2, LayoutDashboard, LogOut, ScrollText } from "lucide-react";
+import { Loader2, LayoutDashboard, LogOut, ScrollText, FileText, Settings as SettingsIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface AdminLayoutProps {
@@ -63,6 +63,24 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                         )}>
                             <ScrollText className="h-4 w-4" />
                             Activity Log
+                        </a>
+                    </Link>
+                    <Link href="/admin/invoices">
+                        <a className={cn(
+                            "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
+                            location.startsWith("/admin/invoices") ? "bg-muted text-primary" : "text-muted-foreground"
+                        )}>
+                            <FileText className="h-4 w-4" />
+                            Invoices
+                        </a>
+                    </Link>
+                    <Link href="/admin/settings">
+                        <a className={cn(
+                            "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
+                            location === "/admin/settings" ? "bg-muted text-primary" : "text-muted-foreground"
+                        )}>
+                            <SettingsIcon className="h-4 w-4" />
+                            Settings
                         </a>
                     </Link>
                 </nav>
