@@ -14,11 +14,13 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { Loader2, Plus, Search, FileText, Trash2, Edit, Download } from "lucide-react";
+import { Loader2, Plus, Search, FileText, Trash2, Edit, Download, Mail, Eye } from "lucide-react";
 import { format } from "date-fns";
+import { toast } from "sonner";
 
 export default function Invoices() {
     const [, setLocation] = useLocation();
+    const utils = trpc.useContext();
     const [page, setPage] = useState(1);
     const [search, setSearch] = useState("");
     const [statusFilter, setStatusFilter] = useState<string>("all");
@@ -32,8 +34,10 @@ export default function Invoices() {
 
     const deleteMutation = trpc.admin.invoices.delete.useMutation({
         onSuccess: () => {
-            // Refetch invoices
-            window.location.reload();
+            utils.admin.invoices.getAll.invalidate();
+            toast.success("Invoice Deleted", {
+                description: "The invoice has been successfully deleted.",
+            });
         },
     });
 
@@ -72,6 +76,47 @@ export default function Invoices() {
 
     const pdfMutation = trpc.admin.invoices.generatePdf.useMutation();
 
+    const sendMutation = trpc.admin.invoices.send.useMutation({
+        onSuccess: () => {
+            utils.admin.invoices.getAll.invalidate();
+            toast.success("Invoice Sent", {
+                description: "The invoice has been sent to the client via email.",
+            });
+        },
+        onError: (error) => {
+            toast.error("Error", {
+                description: `Failed to send invoice: ${error.message}`,
+            });
+        }
+    });
+
+    const handleSendInvoice = (e: React.MouseEvent, id: number) => {
+        e.stopPropagation();
+        if (confirm("Are you sure you want to send this invoice via email?")) {
+            sendMutation.mutate({ id });
+        }
+    };
+
+    const handlePreviewEmail = async (e: React.MouseEvent, id: number) => {
+        e.stopPropagation();
+        try {
+            const html = await utils.client.admin.invoices.previewEmail.query({ id });
+            const newWindow = window.open("", "_blank");
+            if (newWindow) {
+                newWindow.document.write(html);
+                newWindow.document.close();
+            } else {
+                toast.error("Error", {
+                    description: "Pop-up blocked. Please allow pop-ups to view the preview.",
+                });
+            }
+        } catch (error) {
+            toast.error("Error", {
+                description: "Failed to load email preview.",
+            });
+        }
+    };
+
     const handleDownloadPdf = async (e: React.MouseEvent, id: number, invoiceNumber: string) => {
         e.stopPropagation();
         try {
@@ -97,7 +142,9 @@ export default function Invoices() {
             window.URL.revokeObjectURL(url);
         } catch (error) {
             console.error('Failed to generate PDF:', error);
-            alert('Failed to generate PDF. Please try again.');
+            toast.error("Error", {
+                description: "Failed to generate PDF. Please try again.",
+            });
         }
     };
 
@@ -199,6 +246,27 @@ export default function Invoices() {
                                                 <TableCell>{getStatusBadge(invoice.status)}</TableCell>
                                                 <TableCell className="text-right">
                                                     <div className="flex items-center justify-end gap-2">
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="sm"
+                                                            onClick={(e) => handlePreviewEmail(e, invoice.id)}
+                                                            title="Preview Email"
+                                                        >
+                                                            <Eye className="h-4 w-4" />
+                                                        </Button>
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="sm"
+                                                            onClick={(e) => handleSendInvoice(e, invoice.id)}
+                                                            disabled={sendMutation.status === "pending"}
+                                                            title="Send Email"
+                                                        >
+                                                            {sendMutation.status === "pending" && sendMutation.variables?.id === invoice.id ? (
+                                                                <Loader2 className="h-4 w-4 animate-spin" />
+                                                            ) : (
+                                                                <Mail className="h-4 w-4" />
+                                                            )}
+                                                        </Button>
                                                         <Button
                                                             variant="ghost"
                                                             size="sm"

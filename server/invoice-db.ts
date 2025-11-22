@@ -59,32 +59,40 @@ export async function upsertCompanySettings(settings: Partial<InsertCompanySetti
  * Generate invoice number in format INV-YYYY-NNN
  * Resets counter annually
  */
-export async function generateInvoiceNumber(): Promise<string> {
+export async function generateInvoiceNumber(sourceRefId?: string): Promise<string> {
     const db = await getDb();
     if (!db) {
         throw new Error("Database not available");
     }
 
-    const currentYear = new Date().getFullYear();
-    const yearStart = `${currentYear}-01-01`;
-    const yearEnd = `${currentYear}-12-31`;
+    if (sourceRefId) {
+        // Use the reference ID but replace REF with INV
+        // Handle case where sourceRefId might not start with REF- just in case
+        return sourceRefId.startsWith('REF-')
+            ? sourceRefId.replace('REF-', 'INV-')
+            : `INV-${sourceRefId}`;
+    }
 
-    // Get count of invoices this year
-    const result = await db
-        .select({ count: sql<number>`count(*)` })
-        .from(invoices)
-        .where(
-            and(
-                gte(invoices.issueDate, yearStart),
-                lte(invoices.issueDate, yearEnd)
-            )
-        );
+    // Generate a new ID in format INV-YYYYMMDD-XXXX
+    const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, "");
 
-    const count = result[0]?.count || 0;
-    const nextNumber = count + 1;
-    const paddedNumber = nextNumber.toString().padStart(3, '0');
+    // Try up to 5 times to generate a unique ID
+    for (let i = 0; i < 5; i++) {
+        const randomSuffix = Math.random().toString(36).substring(2, 6).toUpperCase();
+        const invoiceNumber = `INV-${dateStr}-${randomSuffix}`;
 
-    return `INV-${currentYear}-${paddedNumber}`;
+        const existing = await db
+            .select({ id: invoices.id })
+            .from(invoices)
+            .where(eq(invoices.invoiceNumber, invoiceNumber))
+            .limit(1);
+
+        if (existing.length === 0) {
+            return invoiceNumber;
+        }
+    }
+
+    return `INV-${dateStr}-${Date.now().toString(36).toUpperCase()}`;
 }
 
 /**
@@ -92,14 +100,30 @@ export async function generateInvoiceNumber(): Promise<string> {
  */
 export async function createInvoice(
     invoice: Omit<InsertInvoice, "invoiceNumber">,
-    items: Omit<InsertInvoiceItem, "invoiceId">[]
+    items: Omit<InsertInvoiceItem, "invoiceId" | "sortOrder">[],
+    sourceRefId?: string
 ) {
     const db = await getDb();
     if (!db) {
         throw new Error("Database not available");
     }
 
-    const invoiceNumber = await generateInvoiceNumber();
+    let refIdToUse = sourceRefId;
+
+    // If no sourceRefId provided but we have a submissionId, try to fetch the submission's refId
+    if (!refIdToUse && invoice.submissionId) {
+        const [submission] = await db
+            .select({ refId: contactSubmissions.refId })
+            .from(contactSubmissions)
+            .where(eq(contactSubmissions.id, invoice.submissionId))
+            .limit(1);
+
+        if (submission) {
+            refIdToUse = submission.refId;
+        }
+    }
+
+    const invoiceNumber = await generateInvoiceNumber(refIdToUse);
 
     // Insert invoice
     const [newInvoice] = await db
@@ -384,5 +408,5 @@ export async function createInvoiceFromSubmission(
         ...invoiceData,
     } as Omit<InsertInvoice, "invoiceNumber">;
 
-    return await createInvoice(invoice, items);
+    return await createInvoice(invoice, items, submission.refId);
 }

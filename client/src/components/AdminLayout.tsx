@@ -2,8 +2,9 @@ import { useEffect } from "react";
 import { useLocation, Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
-import { Loader2, LayoutDashboard, LogOut, ScrollText, FileText, Settings as SettingsIcon } from "lucide-react";
+import { Loader2, LayoutDashboard, LogOut, ScrollText, FileText, Settings as SettingsIcon, Moon, Sun } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTheme } from "@/contexts/ThemeContext";
 
 interface AdminLayoutProps {
     children: React.ReactNode;
@@ -11,6 +12,7 @@ interface AdminLayoutProps {
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
     const [location, setLocation] = useLocation();
+    const { theme, toggleTheme } = useTheme();
     const { data: admin, isLoading, error } = trpc.admin.auth.me.useQuery(undefined, {
         retry: false,
     });
@@ -40,9 +42,9 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     }
 
     return (
-        <div className="min-h-screen flex bg-gray-100">
+        <div className="min-h-screen flex bg-gray-100 dark:bg-gray-900">
             {/* Sidebar */}
-            <aside className="w-64 bg-white shadow-md flex flex-col">
+            <aside className="w-64 bg-white dark:bg-gray-800 shadow-md flex flex-col">
                 <div className="p-6 border-b">
                     <h1 className="text-xl font-bold">Admin Panel</h1>
                 </div>
@@ -84,10 +86,24 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                         </a>
                     </Link>
                 </nav>
-                <div className="p-4 border-t">
+                <div className="p-4 border-t space-y-2">
+                    {toggleTheme && (
+                        <Button
+                            variant="outline"
+                            className="w-full justify-start"
+                            onClick={toggleTheme}
+                        >
+                            {theme === "dark" ? (
+                                <Sun className="mr-2 h-4 w-4" />
+                            ) : (
+                                <Moon className="mr-2 h-4 w-4" />
+                            )}
+                            {theme === "dark" ? "Light Mode" : "Dark Mode"}
+                        </Button>
+                    )}
                     <Button
                         variant="outline"
-                        className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50"
+                        className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950"
                         onClick={() => logoutMutation.mutate()}
                     >
                         <LogOut className="mr-2 h-4 w-4" />

@@ -33,7 +33,7 @@ import {
   getInvoicesCount,
   createInvoiceFromSubmission,
 } from "./invoice-db";
-import { sendConfirmationEmail, sendAdminNotificationEmail } from "./email";
+import { sendConfirmationEmail, sendAdminNotificationEmail, sendInvoiceEmail, getInvoiceEmailHTML } from "./email";
 import { adminUsers, users } from "../drizzle/schema";
 import { eq } from "drizzle-orm";
 import { hashPassword, verifyPassword, signAdminToken } from "./admin-auth";
@@ -447,7 +447,9 @@ export const appRouter = router({
               status: z.string().default("draft"),
               notes: z.string().optional(),
               termsAndConditions: z.string().optional(),
+
               createdBy: z.number(),
+              submissionId: z.number().optional(),
             }),
             items: z.array(
               z.object({
@@ -460,7 +462,11 @@ export const appRouter = router({
           })
         )
         .mutation(async ({ input, ctx }) => {
-          const newInvoice = await createInvoice(input.invoice as any, input.items);
+          const invoiceData = {
+            ...input.invoice,
+            submissionId: input.invoice.submissionId,
+          };
+          const newInvoice = await createInvoice(invoiceData as any, input.items);
 
           await logActivity({
             adminId: ctx.adminId,
@@ -647,6 +653,64 @@ export const appRouter = router({
             pdf: pdfBuffer.toString("base64"),
             filename: `${invoice.invoiceNumber}.pdf`,
           };
+        }),
+
+      previewEmail: adminProcedure
+        .input(z.object({ id: z.number() }))
+        .query(async ({ input }) => {
+          const invoice = await getInvoiceById(input.id);
+          if (!invoice) {
+            throw new TRPCError({ code: "NOT_FOUND", message: "Invoice not found" });
+          }
+          return getInvoiceEmailHTML(invoice);
+        }),
+
+      send: adminProcedure
+        .input(z.object({ id: z.number() }))
+        .mutation(async ({ input, ctx }) => {
+          const invoice = await getInvoiceById(input.id);
+          if (!invoice) {
+            throw new TRPCError({ code: "NOT_FOUND", message: "Invoice not found" });
+          }
+
+          const settings = await getCompanySettings();
+          if (!settings) {
+            throw new TRPCError({ code: "NOT_FOUND", message: "Company settings not configured" });
+          }
+
+          // Generate PDF
+          const { generateInvoicePDF } = await import("./pdf-generator");
+          const pdfBuffer = await generateInvoicePDF(invoice as any, settings as any);
+          const pdfBase64 = pdfBuffer.toString("base64");
+
+          // Send Email
+          const sent = await sendInvoiceEmail(invoice, pdfBase64);
+
+          if (!sent) {
+            throw new TRPCError({
+              code: "INTERNAL_SERVER_ERROR",
+              message: "Failed to send email via MailJet"
+            });
+          }
+
+          // Update Invoice Status
+          await updateInvoice(input.id, {
+            status: "sent",
+            emailSentAt: new Date(),
+          });
+
+          // Log Activity
+          await logActivity({
+            adminId: ctx.adminId,
+            action: "SEND_INVOICE",
+            entityType: "INVOICE",
+            entityId: input.id,
+            details: { email: invoice.clientEmail },
+            ipAddress: ctx.req.ip || ctx.req.socket.remoteAddress,
+            userAgent: ctx.req.headers["user-agent"],
+          });
+
+          return { success: true };
         }),
     }),
 

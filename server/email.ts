@@ -801,3 +801,226 @@ export function getAdminEmailHTML_KOR(submission: ContactSubmission): string {
   </body>
 </html>`;
 }
+
+// ==========================================
+// Invoice Emails
+// ==========================================
+
+/**
+ * Send invoice email to the client with PDF attachment
+ */
+export async function sendInvoiceEmail(invoice: any, pdfBase64: string): Promise<boolean> {
+  const mailjet = createMailjetClient();
+
+  const emailContentText = getInvoiceEmailText(invoice);
+  const emailContentHTML = getInvoiceEmailHTML(invoice);
+  const subject = `Invoice ${invoice.invoiceNumber} from HandokHelper`;
+
+  if (!mailjet) {
+    console.log('[Email] MailJet not configured, invoice email (would be sent to client):');
+    console.log('To:', invoice.clientEmail);
+    console.log('Subject:', subject);
+    console.log('Attachment:', `${invoice.invoiceNumber}.pdf (${Math.round(pdfBase64.length / 1024)} KB)`);
+    return true;
+  }
+
+  try {
+    const request = mailjet.post('send', { version: 'v3.1' }).request({
+      Messages: [
+        {
+          From: {
+            Email: process.env.EMAIL_FROM || 'noreply@handokhelper.de',
+            Name: 'HandokHelper Accounting',
+          },
+          To: [
+            {
+              Email: invoice.clientEmail,
+              Name: invoice.clientName,
+            },
+          ],
+          Subject: subject,
+          TextPart: emailContentText,
+          HTMLPart: emailContentHTML,
+          Attachments: [
+            {
+              ContentType: "application/pdf",
+              Filename: `${invoice.invoiceNumber}.pdf`,
+              Base64Content: pdfBase64
+            }
+          ]
+        },
+      ],
+    });
+
+    const response = await request;
+
+    // Handle MailJet response
+    const responseBody = response.body as any;
+    if (responseBody && responseBody.Messages && Array.isArray(responseBody.Messages)) {
+      const message = responseBody.Messages[0];
+      if (message && message.Status === 'success') {
+        console.log('[Email] Invoice email sent successfully to:', invoice.clientEmail);
+        return true;
+      }
+    }
+
+    console.error('[Email] Unexpected response from MailJet:', responseBody);
+    return false;
+  } catch (error) {
+    console.error('[Email] Failed to send invoice email:', error);
+    return false;
+  }
+}
+
+function getInvoiceEmailText(invoice: any): string {
+  return `
+Dear ${invoice.clientName},
+
+Please find attached invoice ${invoice.invoiceNumber} for your recent services.
+
+Invoice Details:
+Invoice Number: ${invoice.invoiceNumber}
+Issue Date: ${new Date(invoice.issueDate).toLocaleDateString()}
+Due Date: ${new Date(invoice.dueDate).toLocaleDateString()}
+Total Amount: ${new Intl.NumberFormat('de-DE', { style: 'currency', currency: invoice.currency || 'EUR' }).format(invoice.total)}
+
+Please arrange for payment by the due date.
+
+If you have any questions regarding this invoice, please do not hesitate to contact us.
+
+Best regards,
+HandokHelper Team
+  `.trim();
+}
+
+export function getInvoiceEmailHTML(invoice: any): string {
+  const formattedTotal = new Intl.NumberFormat('de-DE', { style: 'currency', currency: invoice.currency || 'EUR' }).format(invoice.total);
+  const issueDate = new Date(invoice.issueDate).toLocaleDateString();
+  const dueDate = new Date(invoice.dueDate).toLocaleDateString();
+
+  return `<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Invoice ${invoice.invoiceNumber}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css">
+      html, body { margin: 0; padding: 0; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; }
+      body { background-color: #f3f4f6; }
+      img { border: 0; line-height: 100%; text-decoration: none; -ms-interpolation-mode: bicubic; }
+      table { border-collapse: collapse !important; }
+      .email-container { width: 100%; max-width: 560px; }
+      .logo-center img { display: block; height: auto; max-width: 56px; border-radius: 16px; }
+      .button-td, .button-a { transition: all 100ms ease-in; }
+      .button-a { font-family: Arial, sans-serif; font-size: 16px; text-decoration: none; line-height: 20px; font-weight: bold; display: inline-block; padding: 12px 24px; border-radius: 999px; background-color: #4f46e5; border: 1px solid #4f46e5; color: #ffffff; }
+      .button-td:hover .button-a { background-color: #4338ca !important; border-color: #4338ca !important; }
+      @media screen and (max-width: 600px) { .email-container { width: 100% !important; } .logo-center img { max-width: 48px !important; } .logo-center { padding-right: 12px !important; } .company-name { font-size: 22px !important; line-height: 26px !important; } }
+      @media screen and (max-width: 400px) { .logo-center img { max-width: 40px !important; } .logo-center { padding-right: 10px !important; } .company-name { font-size: 20px !important; line-height: 24px !important; } }
+      @media (prefers-color-scheme: dark) {
+        body, table[bgcolor="#f3f4f6"] { background-color: #0f172a !important; }
+        table.email-container, table[bgcolor="#ffffff"] { background-color: #1e293b !important; }
+        .company-name, td, p, div, span { color: #e5e7eb !important; }
+        h1, h2, h3 { color: #f1f5f9 !important; }
+        td[style*="border-bottom"], td[style*="border-top"], table[style*="border: 1px solid"] { border-color: #334155 !important; }
+        table[style*="background: #f9fafb"] { background: #334155 !important; }
+        td[width="6"][style*="background:#4f46e5"] { background: #6366f1 !important; }
+        .button-a { background-color: #4f46e5 !important; border-color: #4f46e5 !important; color: #ffffff !important; }
+        .footer-text { color: #94a3b8 !important; }
+      }
+    </style>
+  </head>
+  <body yahoo="yahoo">
+    <div style="display:none;font-size:1px;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;">
+      Invoice ${invoice.invoiceNumber} from HandokHelper
+    </div>
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#f3f4f6">
+      <tr>
+        <td align="center" style="padding: 30px 16px;">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" class="email-container" bgcolor="#ffffff" style="border-radius: 16px; overflow: hidden; box-shadow: 0 8px 24px -6px rgba(15, 23, 42, 0.06);">
+            <!-- HEADER -->
+            <tr>
+              <td style="padding: 24px 24px 24px 24px;">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                  <tr>
+                    <td class="logo-center" valign="middle" width="1%" style="padding-right: 16px;">
+                      <img src="https://www.handokhelper.de/images/HandokHelperLogoOnly.png" width="56" alt="HandokHelper Logo">
+                    </td>
+                    <td class="company-name" valign="middle" style="font-family: Arial, sans-serif; font-size: 28px; line-height: 32px; color:#111827; font-weight:bold;">
+                      HandokHelper
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <!-- DIVIDER -->
+            <tr>
+              <td style="padding: 0 24px;">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                  <tr><td style="border-bottom: 1px solid #e5e7eb; font-size:0; line-height:0;">&nbsp;</td></tr>
+                </table>
+              </td>
+            </tr>
+            <!-- CONTENT -->
+            <tr>
+              <td style="padding: 24px 24px 12px 24px; font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; color:#4b5563;">
+                <p style="margin: 0 0 12px 0;"><b>Dear ${invoice.clientName},</b></p>
+                <p style="margin: 0 0 12px 0;">Please find attached invoice <b>${invoice.invoiceNumber}</b> for your recent services.</p>
+              </td>
+            </tr>
+            <!-- INVOICE DETAILS BOX -->
+            <tr>
+              <td style="padding: 0 24px 16px 24px;">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background: #f9fafb; border: 1px solid #e5e7eb;">
+                  <tr>
+                    <td width="6" style="background:#4f46e5;">&nbsp;</td>
+                    <td style="padding: 14px 16px; font-family: Arial, sans-serif; font-size: 15px; line-height: 22px;">
+                      <div style="font-size: 16px; font-weight:600; margin-bottom: 8px;">Invoice Details</div>
+                      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                        <tr><td width="120" style="padding: 2px 0; font-weight:600; color:#6b7280;">Invoice Number:</td><td style="padding: 2px 0; color:#111827;">${invoice.invoiceNumber}</td></tr>
+                        <tr><td width="120" style="padding: 2px 0; font-weight:600; color:#6b7280;">Issue Date:</td><td style="padding: 2px 0; color:#111827;">${issueDate}</td></tr>
+                        <tr><td width="120" style="padding: 2px 0; font-weight:600; color:#6b7280;">Due Date:</td><td style="padding: 2px 0; color:#111827;">${dueDate}</td></tr>
+                        <tr><td colspan="2" style="padding-top: 8px; border-top: 1px solid #e5e7eb; margin-top: 8px;"></td></tr>
+                        <tr><td width="120" style="padding: 2px 0; font-weight:600; color:#6b7280; font-size: 16px;">Total Amount:</td><td style="padding: 2px 0; color:#4f46e5; font-weight: bold; font-size: 16px;">${formattedTotal}</td></tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <!-- CLOSING -->
+            <tr>
+              <td style="padding: 8px 24px 8px 24px; font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; color:#4b5563;">
+                 Please arrange for payment by the due date stated above.
+                 <br><br>
+                 If you have any questions regarding this invoice, please do not hesitate to contact us.
+              </td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 24px 16px 24px; font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; color:#4b5563;">
+                Best regards,<br><strong style="color:#4b5563;">HandokHelper Team</strong>
+              </td>
+            </tr>
+            <!-- FOOTER DIVIDER -->
+            <tr>
+              <td style="padding: 0 24px 0 24px;">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                  <tr><td style="border-top: 1px solid #e5e7eb; font-size:0; line-height:0;">&nbsp;</td></tr>
+                </table>
+              </td>
+            </tr>
+            <!-- FOOTER -->
+            <tr>
+              <td class="footer-text" style="padding: 16px 24px 20px 24px; font-family: Arial, sans-serif; font-size: 13px; line-height: 20px; color:#9ca3af; text-align:left;">
+                HandokHelper<br>Michaelstraße 26 · 65936 Frankfurt am Main · Germany<br><br>
+                <a href="https://www.handokhelper.de/imprint" target="_blank" style="color:#6d28d9; text-decoration:none;">Imprint</a>
+                &nbsp;•&nbsp;
+                <a href="https://www.handokhelper.de/privacy-policy" target="_blank" style="color:#6d28d9; text-decoration:none;">Privacy policy</a>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>`;
+}

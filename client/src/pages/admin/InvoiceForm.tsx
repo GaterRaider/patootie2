@@ -8,6 +8,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Loader2, Plus, Trash2, ArrowLeft } from "lucide-react";
 import { format, addDays } from "date-fns";
+import { PaymentHistory } from "@/components/invoices/PaymentHistory";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface LineItem {
     description: string;
@@ -19,6 +21,7 @@ interface LineItem {
 export default function InvoiceForm() {
     const params = useParams();
     const [, setLocation] = useLocation();
+    const utils = trpc.useContext();
     const isEdit = !!params.id;
     const invoiceId = params.id ? parseInt(params.id) : undefined;
 
@@ -33,6 +36,32 @@ export default function InvoiceForm() {
     const [items, setItems] = useState<LineItem[]>([
         { description: "", quantity: "1", unitPrice: "0.00", amount: "0.00" },
     ]);
+    const [selectedSubmissionId, setSelectedSubmissionId] = useState<string>("");
+
+    const { data: submissionsData } = trpc.admin.submissions.getAll.useQuery(
+        { limit: 100, sortBy: "createdAt", sortOrder: "desc" },
+        { enabled: !isEdit }
+    );
+
+    const { data: selectedSubmission } = trpc.admin.submissions.getOne.useQuery(
+        { id: parseInt(selectedSubmissionId) },
+        { enabled: !!selectedSubmissionId }
+    );
+
+    useEffect(() => {
+        if (selectedSubmission) {
+            setClientName(`${selectedSubmission.firstName} ${selectedSubmission.lastName}`);
+            setClientEmail(selectedSubmission.email);
+            const address = [
+                selectedSubmission.street,
+                selectedSubmission.addressLine2,
+                `${selectedSubmission.postalCode} ${selectedSubmission.city}`,
+                selectedSubmission.stateProvince,
+                selectedSubmission.country
+            ].filter(Boolean).join('\n');
+            setClientAddress(address);
+        }
+    }, [selectedSubmission]);
 
     const { data: settings } = trpc.admin.settings.get.useQuery();
     const { data: invoice } = trpc.admin.invoices.getOne.useQuery(
@@ -135,7 +164,9 @@ export default function InvoiceForm() {
             currency: "EUR",
             status: "draft",
             notes: notes || undefined,
+
             createdBy: 1, // TODO: Get from auth context
+            submissionId: selectedSubmissionId ? parseInt(selectedSubmissionId) : undefined,
         };
 
         if (isEdit && invoiceId) {
@@ -187,6 +218,38 @@ export default function InvoiceForm() {
                     </Button>
                 </div>
             </div>
+
+
+
+            {
+                !isEdit && (
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Link to Submission (Optional)</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="max-w-md">
+                                <Label>Select Submission</Label>
+                                <Select value={selectedSubmissionId} onValueChange={setSelectedSubmissionId}>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select a submission to pre-fill details..." />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {submissionsData?.submissions.map((sub) => (
+                                            <SelectItem key={sub.id} value={sub.id.toString()}>
+                                                {sub.refId} - {sub.firstName} {sub.lastName}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                                <p className="text-sm text-muted-foreground mt-2">
+                                    Selecting a submission will pre-fill client details and link the invoice to the submission.
+                                </p>
+                            </div>
+                        </CardContent>
+                    </Card>
+                )
+            }
 
             <div className="grid gap-6 md:grid-cols-2">
                 {/* Client Information */}
@@ -358,6 +421,25 @@ export default function InvoiceForm() {
                 </CardContent>
             </Card>
 
+            {
+                isEdit && invoiceId && (
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Payments</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <PaymentHistory
+                                invoiceId={invoiceId!}
+                                onPaymentAdded={() => {
+                                    // Refresh invoice data to update status if needed
+                                    utils.admin.invoices.getOne.invalidate({ id: invoiceId });
+                                }}
+                            />
+                        </CardContent>
+                    </Card>
+                )
+            }
+
             {/* Notes */}
             <Card>
                 <CardHeader>
@@ -372,6 +454,6 @@ export default function InvoiceForm() {
                     />
                 </CardContent>
             </Card>
-        </form>
+        </form >
     );
 }
