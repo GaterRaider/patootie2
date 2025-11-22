@@ -39,6 +39,15 @@ import { eq } from "drizzle-orm";
 import { hashPassword, verifyPassword, signAdminToken } from "./admin-auth";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { logActivity } from "./activity-log";
+import {
+  getSummaryMetrics,
+  getSubmissionsOverTime,
+  getSubmissionsByService,
+  getRevenueTrends,
+  getInvoiceStatusDistribution,
+  getResponseTimeMetrics,
+  getTopServicesByRevenue,
+} from "./analytics";
 
 const COOKIE_NAME = "session_id"; // Session cookie name
 
@@ -749,6 +758,87 @@ export const appRouter = router({
           });
 
           return updated;
+        }),
+    }),
+
+    analytics: router({
+      getSummaryMetrics: adminProcedure
+        .input(
+          z.object({
+            startDate: z.string().optional(),
+            endDate: z.string().optional(),
+          }).optional()
+        )
+        .query(async ({ input }) => {
+          return await getSummaryMetrics(input);
+        }),
+
+      getSubmissionsOverTime: adminProcedure
+        .input(
+          z.object({
+            startDate: z.string().optional(),
+            endDate: z.string().optional(),
+            groupBy: z.enum(['day', 'week', 'month']).optional(),
+          }).optional()
+        )
+        .query(async ({ input }) => {
+          return await getSubmissionsOverTime(input, input?.groupBy);
+        }),
+
+      getSubmissionsByService: adminProcedure
+        .input(
+          z.object({
+            startDate: z.string().optional(),
+            endDate: z.string().optional(),
+          }).optional()
+        )
+        .query(async ({ input }) => {
+          return await getSubmissionsByService(input);
+        }),
+
+      getRevenueTrends: adminProcedure
+        .input(
+          z.object({
+            startDate: z.string().optional(),
+            endDate: z.string().optional(),
+          }).optional()
+        )
+        .query(async ({ input }) => {
+          return await getRevenueTrends(input);
+        }),
+
+      getInvoiceStatusDistribution: adminProcedure
+        .input(
+          z.object({
+            startDate: z.string().optional(),
+            endDate: z.string().optional(),
+          }).optional()
+        )
+        .query(async ({ input }) => {
+          return await getInvoiceStatusDistribution(input);
+        }),
+
+      getResponseTimeMetrics: adminProcedure
+        .input(
+          z.object({
+            startDate: z.string().optional(),
+            endDate: z.string().optional(),
+          }).optional()
+        )
+        .query(async ({ input }) => {
+          return await getResponseTimeMetrics(input);
+        }),
+
+      getTopServicesByRevenue: adminProcedure
+        .input(
+          z.object({
+            startDate: z.string().optional(),
+            endDate: z.string().optional(),
+            limit: z.number().optional(),
+          }).optional()
+        )
+        .query(async ({ input }) => {
+          return await getTopServicesByRevenue(input, input?.limit);
         }),
     }),
   }),
