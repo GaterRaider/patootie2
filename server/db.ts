@@ -1,5 +1,5 @@
 import { drizzle } from "drizzle-orm/node-postgres";
-import { eq, and, gt } from "drizzle-orm";
+import { eq, and, gt, desc, ilike, or, inArray, count } from "drizzle-orm";
 import { Pool } from "pg";
 import {
   InsertUser,
@@ -7,7 +7,7 @@ import {
   contactSubmissions,
   InsertContactSubmission,
   submissionRateLimits,
-  InsertSubmissionRateLimit,
+  activityLogs,
 } from "../drizzle/schema";
 import { ENV } from "./_core/env";
 
@@ -32,6 +32,16 @@ export async function getDb() {
         ssl: {
           rejectUnauthorized: false,
         },
+        // Connection pool settings for Supabase
+        max: 20, // Maximum number of clients in the pool
+        idleTimeoutMillis: 30000, // Close idle clients after 30 seconds
+        connectionTimeoutMillis: 10000, // Return an error after 10 seconds if connection could not be established
+      });
+
+      // Handle pool errors to prevent crashes
+      pool.on('error', (err) => {
+        console.error('[Database] Unexpected pool error:', err);
+        // Don't exit the process, just log the error
       });
 
       _db = drizzle(pool);
@@ -261,14 +271,137 @@ export async function recordSubmissionAttempt(
 /**
  * Get all contact submissions (admin only)
  */
-export async function getAllContactSubmissions() {
+export async function getAllContactSubmissions(options?: {
+  page?: number;
+  limit?: number;
+  search?: string;
+  status?: string;
+  service?: string;
+  sortBy?: string;
+  sortOrder?: "asc" | "desc";
+}) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  const page = options?.page || 1;
+  const limit = options?.limit || 20;
+  const offset = (page - 1) * limit;
+
+  const conditions = [];
+  if (options?.search) {
+    const search = `%${options.search}%`;
+    conditions.push(
+      or(
+        ilike(contactSubmissions.firstName, search),
+        ilike(contactSubmissions.lastName, search),
+        ilike(contactSubmissions.email, search),
+        ilike(contactSubmissions.refId, search)
+      )
+    );
+  }
+
+  if (options?.service) {
+    conditions.push(eq(contactSubmissions.service, options.service));
+  }
+
+  // Note: Status filtering will be added when we add a status column to the schema
+  if (options?.status) {
+    conditions.push(eq(contactSubmissions.status, options.status));
+  }
+
+  let orderBy = desc(contactSubmissions.createdAt);
+  if (options?.sortBy && options?.sortOrder) {
+    const col = contactSubmissions[options.sortBy as keyof typeof contactSubmissions];
+    if (col) {
+      orderBy = options.sortOrder === "asc" ? col : desc(col);
+    }
+  }
+
+  return await db
+    .select()
+    .from(contactSubmissions)
+    .where(and(...conditions))
+    .orderBy(orderBy)
+    .limit(limit)
+    .offset(offset);
+}
+
+/**
+ * Get count of contact submissions
+ */
+export async function getContactSubmissionsCount(options?: {
+  search?: string;
+  service?: string;
+}) {
+  const db = await getDb();
+  if (!db) return 0;
+
+  const conditions = [];
+  if (options?.search) {
+    const search = `%${options.search}%`;
+    conditions.push(
+      or(
+        ilike(contactSubmissions.firstName, search),
+        ilike(contactSubmissions.lastName, search),
+        ilike(contactSubmissions.email, search),
+        ilike(contactSubmissions.refId, search)
+      )
+    );
+  }
+
+  if (options?.service) {
+    conditions.push(eq(contactSubmissions.service, options.service));
+  }
+
+  const result = await db
+    .select({ count: count() })
+    .from(contactSubmissions)
+    .where(and(...conditions));
+
+  return result[0]?.count || 0;
+}
+
+/**
+ * Bulk update submission status
+ */
+export async function bulkUpdateSubmissionStatus(ids: number[], status: string) {
   const db = await getDb();
   if (!db) {
     throw new Error("Database not available");
   }
 
   return await db
+    .update(contactSubmissions)
+    .set({ status })
+    .where(inArray(contactSubmissions.id, ids));
+}
+
+/**
+ * Get contact submissions by IDs (for export)
+ */
+export async function getContactSubmissionsByIds(ids: number[]) {
+  const db = await getDb();
+  if (!db) return [];
+
+  return await db
     .select()
     .from(contactSubmissions)
-    .orderBy(contactSubmissions.createdAt);
+    .where(inArray(contactSubmissions.id, ids))
+    .orderBy(desc(contactSubmissions.createdAt));
+}
+
+/**
+ * Get all activity logs
+ */
+export async function getAllActivityLogs(limit = 50) {
+  const db = await getDb();
+  if (!db) return [];
+
+  return await db
+    .select()
+    .from(activityLogs)
+    .orderBy(desc(activityLogs.createdAt))
+    .limit(limit);
 }

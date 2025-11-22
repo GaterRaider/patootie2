@@ -2,6 +2,7 @@ import "dotenv/config";
 import express from "express";
 import { createServer } from "http";
 import net from "net";
+import cookieParser from "cookie-parser";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { registerOAuthRoutes } from "./oauth";
 import { appRouter } from "../routers";
@@ -30,15 +31,19 @@ async function findAvailablePort(startPort: number = 3000): Promise<number> {
 async function startServer() {
   const app = express();
   const server = createServer(app);
+
+  // Cookie parser middleware - MUST be before tRPC
+  app.use(cookieParser());
+
   // Configure body parser with larger size limit for file uploads
   app.use(express.json({ limit: "50mb" }));
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
-// --- START OF KEEP-ALIVE PING (Insert Here) ---
+  // --- START OF KEEP-ALIVE PING (Insert Here) ---
   app.get('/ping', (req, res) => {
     // Log to console so you can see UptimeRobot hitting this endpoint in your Render logs
-    console.log('Keep-alive ping received'); 
-    
+    console.log('Keep-alive ping received');
+
     // Respond with a 200 OK status and the text 'pong'
     res.status(200).send('pong');
   });

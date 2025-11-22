@@ -9,6 +9,10 @@ import Home from "./pages/Home";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Imprint from "./pages/Imprint";
 import ScrollToTop from "./components/ScrollToTop";
+import AdminLogin from "./pages/admin/Login";
+import AdminDashboard from "./pages/admin/Dashboard";
+import ActivityLog from "./pages/admin/ActivityLog";
+import AdminLayout from "./components/AdminLayout";
 
 function Router() {
   return (
@@ -16,6 +20,24 @@ function Router() {
       <Route path={"/"} component={Home} />
       <Route path={"/privacy-policy"} component={PrivacyPolicy} />
       <Route path={"/imprint"} component={Imprint} />
+
+      {/* Admin Routes */}
+      <Route path="/admin/login" component={AdminLogin} />
+
+      <Route path="/admin/dashboard">
+        <AdminLayout>
+          <AdminDashboard />
+        </AdminLayout>
+      </Route>
+
+      <Route path="/admin/activity">
+        <AdminLayout>
+          <ActivityLog />
+        </AdminLayout>
+      </Route>
+
+      <Route path="/admin" component={() => <AdminLogin />} /> {/* Redirect /admin to login */}
+
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

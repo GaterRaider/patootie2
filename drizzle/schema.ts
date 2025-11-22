@@ -1,4 +1,4 @@
-import { integer, pgEnum, pgTable, text, timestamp, varchar, boolean } from "drizzle-orm/pg-core";
+import { integer, pgEnum, pgTable, text, timestamp, varchar, boolean, jsonb } from "drizzle-orm/pg-core";
 
 /**
  * Define enum for user roles
@@ -67,6 +67,7 @@ export const contactSubmissions = pgTable("contactSubmissions", {
 
   // Metadata
   refId: varchar("refId", { length: 50 }).notNull().unique(),
+  status: varchar("status", { length: 20 }).default("new").notNull(),
   submitterIp: varchar("submitterIp", { length: 50 }),
   userAgent: text("userAgent"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
@@ -89,3 +90,35 @@ export const submissionRateLimits = pgTable("submissionRateLimits", {
 
 export type SubmissionRateLimit = typeof submissionRateLimits.$inferSelect;
 export type InsertSubmissionRateLimit = typeof submissionRateLimits.$inferInsert;
+
+/**
+ * Admin users for the dashboard
+ */
+export const adminUsers = pgTable("adminUsers", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  username: varchar("username", { length: 50 }).notNull().unique(),
+  passwordHash: text("passwordHash").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type AdminUser = typeof adminUsers.$inferSelect;
+export type InsertAdminUser = typeof adminUsers.$inferInsert;
+
+/**
+ * Activity logs for admin actions
+ * Tracks who did what, when, and from where
+ */
+export const activityLogs = pgTable("activityLogs", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  adminId: integer("adminId").references(() => adminUsers.id),
+  action: varchar("action", { length: 50 }).notNull(),
+  entityType: varchar("entityType", { length: 50 }).notNull(),
+  entityId: integer("entityId"),
+  details: jsonb("details"),
+  ipAddress: varchar("ipAddress", { length: 45 }),
+  userAgent: text("userAgent"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type ActivityLog = typeof activityLogs.$inferSelect;
+export type InsertActivityLog = typeof activityLogs.$inferInsert;

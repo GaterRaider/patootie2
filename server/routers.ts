@@ -1,11 +1,37 @@
-import { COOKIE_NAME } from "@shared/const";
-import { getSessionCookieOptions } from "./_core/cookies";
-import { systemRouter } from "./_core/systemRouter";
-import { publicProcedure, router } from "./_core/trpc";
+import { router, publicProcedure } from "./_core/trpc";
+import { adminProcedure } from "./admin-auth";
 import { z } from "zod";
-import { createContactSubmission, checkRateLimit, recordSubmissionAttempt, getAllContactSubmissions } from "./db";
-import { sendConfirmationEmail, sendAdminNotificationEmail } from "./email";
 import { TRPCError } from "@trpc/server";
+import {
+  createContactSubmission,
+  checkRateLimit,
+  recordSubmissionAttempt,
+  getAllContactSubmissions,
+  getDb,
+  getUserByOpenId,
+  upsertUser,
+  getAllActivityLogs,
+  bulkUpdateSubmissionStatus,
+  getContactSubmissionsByIds,
+  getContactSubmissionsCount,
+} from "./db";
+import { sendConfirmationEmail, sendAdminNotificationEmail } from "./email";
+import { adminUsers, users } from "../drizzle/schema";
+import { eq } from "drizzle-orm";
+import { hashPassword, verifyPassword, signAdminToken } from "./admin-auth";
+import { getSessionCookieOptions } from "./_core/cookies";
+import { logActivity } from "./activity-log";
+
+const COOKIE_NAME = "session_id"; // Session cookie name
+
+const systemRouter = router({
+  health: publicProcedure.query(() => {
+    return {
+      status: "ok",
+      timestamp: new Date().toISOString(),
+    };
+  }),
+});
 
 export const appRouter = router({
   system: systemRouter,
@@ -109,6 +135,7 @@ export const appRouter = router({
             ...submission,
             id: 0,
             refId: result.refId,
+            status: "new",
             createdAt: new Date(),
           };
 
@@ -118,6 +145,9 @@ export const appRouter = router({
           ]).catch((error) => {
             console.error("[Contact] Failed to send emails:", error);
           });
+          // ...
+          // Log activity
+
 
           return {
             success: true,
@@ -166,6 +196,120 @@ export const appRouter = router({
       }
 
       return { countryCode: null, ip: ipAddress };
+    }),
+  }),
+
+  admin: router({
+    auth: router({
+      login: publicProcedure
+        .input(z.object({ username: z.string(), password: z.string() }))
+        .mutation(async ({ input, ctx }) => {
+          const db = await getDb();
+          if (!db) {
+            throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database not available" });
+          }
+          const [admin] = await db.select().from(adminUsers).where(eq(adminUsers.username, input.username)).limit(1);
+
+          if (!admin) {
+            throw new TRPCError({ code: "UNAUTHORIZED", message: "Invalid credentials" });
+          }
+
+          const isValid = await verifyPassword(input.password, admin.passwordHash);
+          if (!isValid) {
+            throw new TRPCError({ code: "UNAUTHORIZED", message: "Invalid credentials" });
+          }
+
+          const token = await signAdminToken(admin.id);
+          const cookieOptions = getSessionCookieOptions(ctx.req);
+          console.log('[Admin Login] Setting cookie with options:', cookieOptions);
+          ctx.res.cookie("admin_token", token, { ...cookieOptions, maxAge: 86400000 }); // 24h
+          console.log('[Admin Login] Cookie set successfully');
+
+          // Log activity
+          await logActivity({
+            adminId: admin.id,
+            action: "LOGIN",
+            entityType: "ADMIN",
+            entityId: admin.id,
+            ipAddress: ctx.req.ip || ctx.req.socket.remoteAddress,
+            userAgent: ctx.req.headers["user-agent"],
+          });
+
+          return { success: true };
+        }),
+
+      logout: publicProcedure.mutation(({ ctx }) => {
+        const cookieOptions = getSessionCookieOptions(ctx.req);
+        ctx.res.clearCookie("admin_token", { ...cookieOptions, maxAge: -1 });
+        return { success: true };
+      }),
+
+      me: adminProcedure.query(({ ctx }) => {
+        return { adminId: ctx.adminId };
+      }),
+    }),
+
+    submissions: router({
+      getAll: adminProcedure
+        .input(
+          z.object({
+            page: z.number().optional(),
+            limit: z.number().optional(),
+            search: z.string().optional(),
+            status: z.string().optional(),
+            service: z.string().optional(),
+            sortBy: z.string().optional(),
+            sortOrder: z.enum(["asc", "desc"]).optional(),
+          })
+        )
+        .query(async ({ input }) => {
+          const submissions = await getAllContactSubmissions(input);
+          const total = await getContactSubmissionsCount(input);
+          return { submissions, total };
+        }),
+
+      bulkUpdate: adminProcedure
+        .input(
+          z.object({
+            ids: z.array(z.number()),
+            status: z.string(),
+          })
+        )
+        .mutation(async ({ input, ctx }) => {
+          await bulkUpdateSubmissionStatus(input.ids, input.status);
+
+          // Log activity
+          await logActivity({
+            adminId: ctx.adminId,
+            action: "BULK_UPDATE",
+            entityType: "SUBMISSION",
+            entityId: undefined,
+            details: { ids: input.ids, status: input.status },
+            ipAddress: ctx.req.ip || ctx.req.socket.remoteAddress,
+            userAgent: ctx.req.headers["user-agent"],
+          });
+
+          return { success: true };
+        }),
+
+      export: adminProcedure
+        .input(
+          z.object({
+            ids: z.array(z.number()),
+          })
+        )
+        .mutation(async ({ input }) => {
+          const submissions = await getContactSubmissionsByIds(input.ids);
+          return submissions;
+        }),
+    }),
+
+    activity: router({
+      getAll: adminProcedure
+        .input(z.object({ limit: z.number().optional() }))
+        .query(async ({ input }) => {
+          return await getAllActivityLogs(input.limit);
+        }),
     }),
   }),
 });
