@@ -320,6 +320,13 @@ export function ContactForm({
               <SelectItem value={t.serviceCard4Title}>{t.serviceCard4Title}</SelectItem>
             </SelectContent>
           </Select>
+          {selectedSubService && (
+            <div className="mt-3 flex items-center gap-2 text-sm text-muted-foreground bg-secondary/50 p-2.5 rounded-md border border-primary/20 animate-in fade-in slide-in-from-top-1">
+              <CheckCircle2 className="h-4 w-4 text-primary" />
+              <span className="font-medium text-foreground">Selected Option:</span>
+              <span>{selectedSubService}</span>
+            </div>
+          )}
         </div>
 
         {/* Personal Information */}

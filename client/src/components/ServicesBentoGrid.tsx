@@ -10,6 +10,8 @@ import {
     DialogDescription,
     DialogFooter,
 } from "@/components/ui/dialog";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 import {
     Carousel,
     CarouselContent,
@@ -37,6 +39,7 @@ interface ServicesBentoGridProps {
 
 export function ServicesBentoGrid({ services, onSelect, language }: ServicesBentoGridProps) {
     const [selectedService, setSelectedService] = useState<ServiceItem | null>(null);
+    const [selectedSubService, setSelectedSubService] = useState<string>("");
     const [api, setApi] = useState<CarouselApi>();
     const [current, setCurrent] = useState(0);
     const isMobile = useMediaQuery("(max-width: 768px)");
@@ -55,15 +58,17 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
 
     const handleCardClick = (service: ServiceItem) => {
         setSelectedService(service);
+        setSelectedSubService(""); // Reset sub-service when opening a new card
     };
 
     const handleClose = () => {
         setSelectedService(null);
+        setSelectedSubService("");
     };
 
     const handleCtaClick = () => {
         if (selectedService) {
-            onSelect(selectedService.title);
+            onSelect(selectedService.title, selectedSubService || undefined);
             handleClose();
         }
     };
@@ -165,18 +170,23 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
 
                             <div className="py-6">
                                 <h4 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">
-                                    {language === "ko" ? "제공 서비스" : "What's Included"}
+                                    {language === "ko" ? "서비스 선택 (선택사항)" : "Select a Service (Optional)"}
                                 </h4>
-                                <ul className="grid gap-3">
+                                <RadioGroup value={selectedSubService} onValueChange={setSelectedSubService} className="grid gap-3">
                                     {selectedService.servicesList.map((item, index) => (
-                                        <li key={index} className="flex items-start gap-3 text-sm">
-                                            <div className="mt-0.5 rounded-full bg-green-100 dark:bg-green-900/30 p-1 flex-shrink-0">
-                                                <Check className="h-3 w-3 text-green-600 dark:text-green-400" />
-                                            </div>
-                                            <span>{item}</span>
-                                        </li>
+                                        <Label
+                                            key={index}
+                                            htmlFor={`service-${index}`}
+                                            className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all ${selectedSubService === item
+                                                    ? "border-primary bg-primary/5 shadow-sm"
+                                                    : "border-border/40 hover:bg-secondary/50 hover:border-primary/30"
+                                                }`}
+                                        >
+                                            <RadioGroupItem value={item} id={`service-${index}`} className="mt-1" />
+                                            <span className="text-sm font-medium leading-relaxed">{item}</span>
+                                        </Label>
                                     ))}
-                                </ul>
+                                </RadioGroup>
                             </div>
 
                             <DialogFooter>

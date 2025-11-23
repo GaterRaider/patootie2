@@ -67,6 +67,7 @@ export default function Home() {
     const formData = new FormData(e.currentTarget);
     const data = {
       service: formData.get("service") as string,
+      subService: selectedSubService || undefined,
       salutation: formData.get("salutation") as string,
       firstName: formData.get("firstName") as string,
       lastName: formData.get("lastName") as string,

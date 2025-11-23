@@ -78,6 +78,7 @@ export const appRouter = router({
       .input(
         z.object({
           service: z.string().min(1, "Service is required"),
+          subService: z.string().optional(),
           salutation: z.string().min(1, "Salutation is required"),
           firstName: z.string().min(1, "First name is required"),
           lastName: z.string().min(1, "Last name is required"),
@@ -129,6 +130,7 @@ export const appRouter = router({
         // Create submission record
         const submission = {
           service: input.service,
+          subService: input.subService || null,
           salutation: input.salutation,
           firstName: input.firstName,
           lastName: input.lastName,
