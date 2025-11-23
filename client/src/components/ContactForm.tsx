@@ -628,6 +628,30 @@ export function ContactForm({
                 <SelectValue placeholder={t.formCountryPlaceholder} />
               </SelectTrigger>
               <SelectContent>
+                {/* Suggested Countries */}
+                <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">
+                  Suggested
+                </div>
+                {["Germany", "Korea, South", "United States"].map((countryName) => {
+                  const country = countries.find(c => c.name === countryName);
+                  if (!country) return null;
+                  return (
+                    <SelectItem key={`suggested-${country.code}`} value={country.name}>
+                      <span className="flex items-center gap-2">
+                        <span className="text-lg">{country.flag}</span>
+                        <span>{country.name}</span>
+                      </span>
+                    </SelectItem>
+                  );
+                })}
+
+                {/* Separator */}
+                <div className="my-1 h-px bg-border" />
+
+                {/* All Countries */}
+                <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">
+                  All Countries
+                </div>
                 {countries.map((country) => (
                   <SelectItem key={country.code} value={country.name}>
                     <span className="flex items-center gap-2">
