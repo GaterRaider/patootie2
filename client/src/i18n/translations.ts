@@ -130,42 +130,44 @@ export const translations: Record<Language, Translations> = {
 
     // Service Cards
     servicesHeading: "Our Services",
-    serviceCard1Title: "Immigration & Residence",
-    serviceCard1Desc: "Secure your legal stay in Germany. We provide expert guidance on visas, residence permits, and embassy appointments to ensure a smooth process.",
+    serviceCard1Title: "Housing & Relocation",
+    serviceCard1Desc: "Find your perfect home and settle in smoothly. We assist with property search, viewings, contracts, and all registration formalities.",
     serviceCard1Services: [
+      "Apartment/house search assistance",
+      "Property viewing accompaniment & interpretation",
+      "Rental contract review & negotiation support",
+      "Anmeldung support (document preparation, on-site accompaniment & interpretation)",
+      "Deregistration (Abmeldung) assistance",
+      "Cancellation support before departure (e.g. housing, contracts)"
+    ],
+    serviceCard1CTA: "Select Housing & Relocation",
+    serviceCard2Title: "Immigration & Legal Services",
+    serviceCard2Desc: "Expert support for all your visa and legal needs. From work permits to driver's license exchange, we guide you through the German legal system.",
+    serviceCard2Services: [
       "Expat assignment visa application & extension",
       "Expat family visa application & extension",
       "Work visa consultation & application support",
       "Visa interview accompaniment & interpretation",
-      "Visa pickup service on behalf of client"
-    ],
-    serviceCard1CTA: "Select Immigration & Residence",
-    serviceCard2Title: "Registration & Bureaucracy",
-    serviceCard2Desc: "Navigate German red tape without the stress. We handle city registration, tax changes, and official government procedures on your behalf.",
-    serviceCard2Services: [
-      "Anmeldung support (document preparation, on-site accompaniment & interpretation)",
-      "Deregistration (Abmeldung) assistance",
-      "Tax class (Steuerklasse) change application",
+      "Visa pickup service on behalf of client",
       "Driver's license exchange support & interpretation",
-      "Tax filing and tax settlement support"
+      "Tax class (Steuerklasse) change application"
     ],
-    serviceCard2CTA: "Select Registration & Bureaucracy",
-    serviceCard3Title: "Pension & Social Benefits",
-    serviceCard3Desc: "Maximize your financial rights. Whether you need to apply for child benefits (Kindergeld) or claim a pension refund, we help you get what you are owed.",
+    serviceCard2CTA: "Select Immigration & Legal Services",
+    serviceCard3Title: "Benefits & Financial Services",
+    serviceCard3Desc: "Maximize your financial benefits. We help with pension refunds, child benefits, and setting up your banking foundations.",
     serviceCard3Services: [
       "Pension refund application service",
-      "Child benefit (Kindergeld) application"
+      "Child benefit (Kindergeld) application",
+      "Bank account opening assistance"
     ],
-    serviceCard3CTA: "Select Pension & Social Benefits",
-    serviceCard4Title: "Other requests",
-    serviceCard4Desc: "Essential support for daily life. From setting up bank accounts and utilities to cancelling contracts when you leave, we take care of the details.",
+    serviceCard3CTA: "Select Benefits & Financial Services",
+    serviceCard4Title: "Integration & Daily Life",
+    serviceCard4Desc: "Essential support for your daily life in Germany. We handle utilities, insurance, and other contracts so you can focus on living.",
     serviceCard4Services: [
-      "Bank account opening assistance",
       "Internet & electricity contract setup",
-      "Insurance enrollment support (liability & legal insurance)",
-      "Cancellation support before departure (e.g. housing, contracts)"
+      "Insurance enrollment support (liability & legal insurance)"
     ],
-    serviceCard4CTA: "Select Other Requests",
+    serviceCard4CTA: "Select Integration & Daily Life",
 
     // Process Section
     processHeading: "How It Works",
@@ -259,42 +261,44 @@ export const translations: Record<Language, Translations> = {
 
     // Service Cards
     servicesHeading: "서비스 안내",
-    serviceCard1Title: "이민 및 거주",
-    serviceCard1Desc: "독일 체류를 위한 비자 및 거주 허가, 대사관 인터뷰 등 복잡한 이민 절차를 전문가가 확실하게 도와드립니다.",
+    serviceCard1Title: "주거 및 정착",
+    serviceCard1Desc: "완벽한 집을 찾고 편안하게 정착하세요. 부동산 검색, 방문, 계약 및 모든 거주 등록 절차를 지원합니다.",
     serviceCard1Services: [
+      "아파트/주택 검색 지원",
+      "부동산 방문 동행 및 통역",
+      "임대 계약 검토 및 협상 지원",
+      "안멜둥(거주지 등록) 지원 (서류 준비, 현장 동행 및 통역)",
+      "압멜둥(거주지 말소) 지원",
+      "출국 전 해지 지원 (주택, 각종 계약 등)"
+    ],
+    serviceCard1CTA: "주거 및 정착 선택",
+    serviceCard2Title: "이민 및 법률 서비스",
+    serviceCard2Desc: "비자 및 법률 문제에 대한 전문적인 지원을 받으세요. 취업 비자부터 운전면허 교환까지 독일 법률 시스템을 안내해 드립니다.",
+    serviceCard2Services: [
       "주재원 비자 신청 및 연장",
       "주재원 가족 비자 신청 및 연장",
       "취업 비자 상담 및 신청 지원",
       "비자 인터뷰 동행 및 통역",
-      "비자 수령 대행 서비스"
-    ],
-    serviceCard1CTA: "이민 및 거주 선택",
-    serviceCard2Title: "거주 등록 및 관공서 행정",
-    serviceCard2Desc: "안멜둥(Anmeldung), 세금 등급 변경 등 까다로운 독일 관공서 행정 업무를 스트레스 없이 신속하게 해결해 드립니다.",
-    serviceCard2Services: [
-      "안멜둥(거주지 등록) 지원 - 서류 준비, 현장 동행 및 통역",
-      "압멜둥(거주지 말소) 지원",
-      "세금 등급(Steuerklasse) 변경 신청",
+      "비자 수령 대행 서비스",
       "운전면허 교환 지원 및 통역",
-      "세금 신고 및 연말정산 지원"
+      "세금 등급(Steuerklasse) 변경 신청"
     ],
-    serviceCard2CTA: "거주 등록 및 관공서 행정 선택",
-    serviceCard3Title: "연금 및 사회 복지",
-    serviceCard3Desc: "아동 수당(Kindergeld) 신청부터 연금 환급까지, 독일에서 누릴 수 있는 재정적 혜택과 권리를 꼼꼼하게 챙겨드립니다.",
+    serviceCard2CTA: "이민 및 법률 서비스 선택",
+    serviceCard3Title: "혜택 및 금융 서비스",
+    serviceCard3Desc: "재정적 혜택을 극대화하세요. 연금 환급, 아동 수당 신청 및 은행 업무 기초 설정을 도와드립니다.",
     serviceCard3Services: [
       "연금 환급 신청 서비스",
-      "아동 수당(Kindergeld) 신청"
+      "아동 수당(Kindergeld) 신청",
+      "은행 계좌 개설 지원"
     ],
-    serviceCard3CTA: "연금 및 사회 복지 선택",
-    serviceCard4Title: "기타 생활 지원",
-    serviceCard4Desc: "은행 계좌 개설, 공과금 계약부터 귀국 전 계약 해지까지, 독일 생활의 시작과 끝에 필요한 모든 지원을 제공합니다.",
+    serviceCard3CTA: "혜택 및 금융 서비스 선택",
+    serviceCard4Title: "정착 및 일상 생활",
+    serviceCard4Desc: "독일 생활에 필수적인 지원을 제공합니다. 공과금, 보험 및 기타 계약을 처리하여 편안한 생활에 집중할 수 있도록 돕습니다.",
     serviceCard4Services: [
-      "은행 계좌 개설 지원",
       "인터넷 및 전기 계약 설치",
-      "보험 가입 지원 - 책임 및 법률 보험",
-      "귀국 전 해지 지원 - 주택, 각종 계약 등"
+      "보험 가입 지원 (책임 및 법률 보험)"
     ],
-    serviceCard4CTA: "기타 생활 지원 선택",
+    serviceCard4CTA: "정착 및 일상 생활 선택",
 
     // Process Section
     processHeading: "진행 방법",
