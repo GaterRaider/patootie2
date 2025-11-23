@@ -16,6 +16,7 @@ export interface Translations {
   heroBullet2: string;
   heroBullet3: string;
   heroBullet4: string;
+  heroBullet5: string;
 
   // Service Cards
   servicesHeading: string;
@@ -131,12 +132,13 @@ export const translations: Record<Language, Translations> = {
     navLegal: "Impressum / Privacy",
 
     // Hero Section
-    heroTitle: "Your support for dealing with German authorities",
-    heroDescription: "German bureaucracy can be overwhelming, especially when you're not in the country. HandokHelper assists with immigration matters, official certificates, paperwork, pension requests, and any task that requires someone in Germany to handle the process for you.",
+    heroTitle: "Your support for German housing and bureaucracy",
+    heroDescription: "Moving to Germany or dealing with German authorities can be overwhelming, especially from abroad. HandokHelper assists with finding housing, immigration matters, official registrations, pension requests, and any task that requires someone in Germany to handle the process for you.",
     heroBullet1: "For clients inside and outside Germany",
-    heroBullet2: "Assistance with authorities, documents, and official procedures",
-    heroBullet3: "Fixed price, hourly rate, or percentage depending on service",
-    heroBullet4: "Fast and personal communication via phone or email",
+    heroBullet2: "Housing search, viewings, and relocation support",
+    heroBullet3: "Assistance with authorities, documents, and official procedures",
+    heroBullet4: "Fixed price, hourly rate, or percentage depending on service",
+    heroBullet5: "Fast and personal communication via phone or email",
 
     // Service Cards
     servicesHeading: "Our Services",
@@ -272,12 +274,13 @@ export const translations: Record<Language, Translations> = {
     navLegal: "법적 고지 / 개인정보",
 
     // Hero Section
-    heroTitle: "독일 관공서 업무 처리를 위한 당신의 파트너",
-    heroDescription: "독일 관료주의는 특히 현지에 있지 않을 때 부담스러울 수 있습니다. HandokHelper는 이민 문제, 공식 증명서, 서류 작업, 연금 신청, 그리고 독일 현지에서 누군가가 처리해야 하는 모든 업무를 도와드립니다.",
+    heroTitle: "독일 주거 및 관공서 업무를 위한 든든한 지원군",
+    heroDescription: "독일로 이주하거나 독일 관공서를 상대하는 일은 특히 해외에 있을 때 막막할 수 있습니다. HandokHelper는 주거 찾기, 이민 문제, 거주 등록, 연금 신청 등 독일 현지에서 누군가가 대신 처리해야 하는 모든 업무를 도와드립니다.",
     heroBullet1: "독일 내외 고객 모두 지원",
-    heroBullet2: "관공서, 서류, 공식 절차 지원",
-    heroBullet3: "서비스에 따라 고정 가격, 시간당 요금 또는 비율",
-    heroBullet4: "전화 또는 이메일을 통한 빠르고 개인적인 소통",
+    heroBullet2: "주거 탐색, 방문 및 정착 지원",
+    heroBullet3: "관공서, 서류 및 공식 절차 지원",
+    heroBullet4: "서비스에 따라 고정 가격, 시간당 요금 또는 비율 적용",
+    heroBullet5: "전화 또는 이메일을 통한 빠르고 개인적인 소통",
 
     // Service Cards
     servicesHeading: "서비스 안내",

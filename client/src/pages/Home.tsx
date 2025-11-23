@@ -337,6 +337,10 @@ export default function Home() {
                   <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
                   <p className="text-sm md:text-base text-foreground">{t.heroBullet4}</p>
                 </div>
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                  <p className="text-sm md:text-base text-foreground">{t.heroBullet5}</p>
+                </div>
               </div>
 
               <Button size="lg" onClick={() => scrollToSection("contact")} className="shadow-lg hover:shadow-xl transition-shadow">
