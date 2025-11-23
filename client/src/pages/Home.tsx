@@ -361,7 +361,7 @@ export default function Home() {
       <section id="services" className="py-8 md:py-14">
         <div className="container">
           <div className="text-center mb-12 md:mb-16">
-            <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">WHAT WE OFFER</span>
+            <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.servicesLabel}</span>
             <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">{t.servicesHeading}</h2>
             <div className="h-1 w-20 bg-blue-600 rounded-full mx-auto mb-6"></div>
             <p className="text-muted-foreground max-w-2xl mx-auto">
@@ -416,7 +416,7 @@ export default function Home() {
       <section id="process" className="py-8 md:py-14 bg-slate-50 dark:bg-background/50">
         <div className="container">
           <div className="text-center mb-12 md:mb-16">
-            <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">OUR PROCESS</span>
+            <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.processLabel}</span>
             <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">{t.processHeading}</h2>
             <div className="h-1 w-20 bg-blue-600 rounded-full mx-auto"></div>
           </div>
@@ -457,7 +457,7 @@ export default function Home() {
       <section id="contact" className="py-8 md:py-14">
         <div className="container max-w-4xl">
           <div className="text-center mb-12 md:mb-16">
-            <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">CONTACT</span>
+            <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.contactLabel}</span>
             <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">{t.contactHeading}</h2>
             <div className="h-1 w-20 bg-blue-600 rounded-full mx-auto"></div>
           </div>
@@ -488,7 +488,7 @@ export default function Home() {
       <section id="about" className="py-8 md:py-14 bg-slate-50 dark:bg-background/50">
         <div className="container max-w-4xl">
           <div className="text-center mb-12 md:mb-16">
-            <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">WHO WE ARE</span>
+            <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.aboutLabel}</span>
             <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">{t.aboutHeading}</h2>
             <div className="h-1 w-20 bg-blue-600 rounded-full mx-auto"></div>
           </div>

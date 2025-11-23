@@ -19,6 +19,7 @@ export interface Translations {
 
   // Service Cards
   servicesHeading: string;
+  servicesLabel: string;
   serviceCard1Title: string;
   serviceCard1Desc: string;
   serviceCard1Services: string[];
@@ -38,6 +39,7 @@ export interface Translations {
 
   // Process Section
   processHeading: string;
+  processLabel: string;
   processStep1Title: string;
   processStep1Desc: string;
   processStep2Title: string;
@@ -48,6 +50,7 @@ export interface Translations {
 
   // Contact Form
   contactHeading: string;
+  contactLabel: string;
   formService: string;
   formServicePlaceholder: string;
   formSubService: string;
@@ -89,6 +92,7 @@ export interface Translations {
 
   // About Section
   aboutHeading: string;
+  aboutLabel: string;
   aboutParagraph1: string;
   aboutParagraph2: string;
   aboutParagraph3: string;
@@ -136,6 +140,7 @@ export const translations: Record<Language, Translations> = {
 
     // Service Cards
     servicesHeading: "Our Services",
+    servicesLabel: "WHAT WE OFFER",
     serviceCard1Title: "Housing & Relocation",
     serviceCard1Desc: "Find your perfect home and settle in smoothly. We assist with property search, viewings, contracts, and all registration formalities.",
     serviceCard1Services: [
@@ -177,6 +182,7 @@ export const translations: Record<Language, Translations> = {
 
     // Process Section
     processHeading: "How It Works",
+    processLabel: "OUR PROCESS",
     processStep1Title: "Submit your request",
     processStep1Desc: "Select your service and send your details.",
     processStep2Title: "Consultation",
@@ -187,6 +193,7 @@ export const translations: Record<Language, Translations> = {
 
     // Contact Form
     contactHeading: "Get in Touch",
+    contactLabel: "CONTACT",
     formService: "Service",
     formServicePlaceholder: "Select a category",
     formSubService: "Specific Service (Optional)",
@@ -228,6 +235,7 @@ export const translations: Record<Language, Translations> = {
 
     // About Section
     aboutHeading: "About HandokHelper",
+    aboutLabel: "WHO WE ARE",
     aboutParagraph1: "HandokHelper is experienced in dealing with German authorities and understands the complexities of German bureaucracy. With years of experience navigating the system, HandokHelper provides personalized assistance to make your journey smoother.",
     aboutParagraph2: "Whether you are an immigrant, a foreign resident in Germany, or someone living abroad who needs to interact with German authorities, we can help. From visa applications to pension claims, every case receives dedicated attention and professional guidance.",
     aboutParagraph3: "We specialize in helping individuals abroad obtain German pension payments and other social benefits, ensuring that distance is never a barrier to accessing what you're entitled to.",
@@ -273,6 +281,7 @@ export const translations: Record<Language, Translations> = {
 
     // Service Cards
     servicesHeading: "서비스 안내",
+    servicesLabel: "제공 서비스",
     serviceCard1Title: "주거 및 정착",
     serviceCard1Desc: "완벽한 집을 찾고 편안하게 정착하세요. 부동산 검색, 방문, 계약 및 모든 거주 등록 절차를 지원합니다.",
     serviceCard1Services: [
@@ -314,6 +323,7 @@ export const translations: Record<Language, Translations> = {
 
     // Process Section
     processHeading: "진행 방법",
+    processLabel: "진행 과정",
     processStep1Title: "문의 제출",
     processStep1Desc: "서비스를 선택하고 세부 정보를 보내주세요.",
     processStep2Title: "상담",
@@ -324,6 +334,7 @@ export const translations: Record<Language, Translations> = {
 
     // Contact Form
     contactHeading: "문의하기",
+    contactLabel: "문의",
     formService: "서비스",
     formServicePlaceholder: "카테고리 선택",
     formSubService: "세부 서비스 (선택사항)",
@@ -365,6 +376,7 @@ export const translations: Record<Language, Translations> = {
 
     // About Section
     aboutHeading: "HandokHelper 소개",
+    aboutLabel: "소개",
     aboutParagraph1: "HandokHelper는 독일 관공서 업무에 대한 경험이 풍부하며 독일 관료제의 복잡성을 이해하고 있습니다. 수년간의 시스템 탐색 경험을 바탕으로 귀하의 여정을 더 원활하게 만들어드립니다.",
     aboutParagraph2: "이민자, 독일 거주 외국인 또는 독일 관공서와 소통해야 하는 해외 거주자 모두를 도와드립니다. 비자 신청부터 연금 청구까지 모든 사례에 전담 지원과 전문적인 안내를 제공합니다.",
     aboutParagraph3: "HandokHelper는 해외 거주자가 독일 연금 및 기타 사회 복지를 받을 수 있도록 전문적으로 지원하며, 거리가 귀하의 권리를 받는 데 장애가 되지 않도록 합니다.",
