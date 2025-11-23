@@ -308,7 +308,7 @@ export function ContactForm({
             }}
             required
           >
-            <SelectTrigger className={`bg-background ${showValidation('service') && !isFieldValid('service') ? 'border-red-500' : ''}`}>
+            <SelectTrigger className={showValidation('service') && !isFieldValid('service') ? 'border-red-500' : ''}>
               <SelectValue placeholder={t.formServicePlaceholder} />
             </SelectTrigger>
             <SelectContent>
