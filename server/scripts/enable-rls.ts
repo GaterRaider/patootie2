@@ -15,6 +15,7 @@ async function enableRLS() {
 
     const tables = [
         "adminUsers",
+        "adminLoginAttempts",
         "users",
         "submissionRateLimits",
         "activityLogs",
