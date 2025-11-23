@@ -460,7 +460,6 @@ export const appRouter = router({
               termsAndConditions: z.string().optional(),
 
               createdBy: z.number(),
-              submissionId: z.number().optional(),
             }),
             items: z.array(
               z.object({
@@ -477,7 +476,8 @@ export const appRouter = router({
             ...input.invoice,
             submissionId: input.invoice.submissionId,
           };
-          const newInvoice = await createInvoice(invoiceData as any, input.items);
+          const itemsWithSortOrder = input.items.map((item, index) => ({ ...item, sortOrder: index }));
+          const newInvoice = await createInvoice(invoiceData as any, itemsWithSortOrder);
 
           await logActivity({
             adminId: ctx.adminId,
@@ -519,10 +519,11 @@ export const appRouter = router({
           })
         )
         .mutation(async ({ input, ctx }) => {
+          const itemsWithSortOrder = input.items.map((item, index) => ({ ...item, sortOrder: index }));
           const newInvoice = await createInvoiceFromSubmission(
             input.submissionId,
             input.invoice as any,
-            input.items
+            itemsWithSortOrder
           );
 
           await logActivity({
@@ -573,7 +574,8 @@ export const appRouter = router({
           const updated = await updateInvoice(input.id, input.updates as any);
 
           if (input.items) {
-            await updateInvoiceItems(input.id, input.items);
+            const itemsWithSortOrder = input.items.map((item, index) => ({ ...item, sortOrder: index }));
+            await updateInvoiceItems(input.id, itemsWithSortOrder);
           }
 
           await logActivity({
