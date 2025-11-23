@@ -74,11 +74,20 @@ export default function SubmissionDetail() {
             case "new":
                 className = "bg-blue-500 hover:bg-blue-600 border-transparent text-white";
                 break;
+            case "contacted":
+                className = "bg-purple-500 hover:bg-purple-600 border-transparent text-white";
+                break;
             case "processing":
                 className = "bg-yellow-500 hover:bg-yellow-600 border-transparent text-white";
                 break;
             case "completed":
                 className = "bg-green-500 hover:bg-green-600 border-transparent text-white";
+                break;
+            case "no-reply":
+                className = "bg-orange-500 hover:bg-orange-600 border-transparent text-white";
+                break;
+            case "cancelled":
+                className = "bg-red-500 hover:bg-red-600 border-transparent text-white";
                 break;
             case "archived":
                 className = "bg-gray-500 hover:bg-gray-600 border-transparent text-white";
@@ -111,143 +120,153 @@ export default function SubmissionDetail() {
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem value="new">New</SelectItem>
+                            <SelectItem value="contacted">Contacted</SelectItem>
                             <SelectItem value="processing">Processing</SelectItem>
                             <SelectItem value="completed">Completed</SelectItem>
+                            <SelectItem value="no-reply">No reply</SelectItem>
+                            <SelectItem value="cancelled">Cancelled</SelectItem>
                             <SelectItem value="archived">Archived</SelectItem>
                         </SelectContent>
                     </Select>
                 </div>
             </div>
 
-            <div className="grid gap-6 md:grid-cols-2">
-                {/* Personal Information */}
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Personal Information</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-3">
-                        <div>
-                            <p className="text-sm font-medium text-muted-foreground">Name</p>
-                            <p className="text-base">{submission.salutation} {submission.firstName} {submission.lastName}</p>
-                        </div>
-                        <div>
-                            <p className="text-sm font-medium text-muted-foreground">Date of Birth</p>
-                            <p className="text-base">{submission.dateOfBirth}</p>
-                        </div>
-                        <div>
-                            <p className="text-sm font-medium text-muted-foreground">Email</p>
-                            <p className="text-base">{submission.email}</p>
-                        </div>
-                        <div>
-                            <p className="text-sm font-medium text-muted-foreground">Phone</p>
-                            <p className="text-base">{submission.phoneNumber}</p>
-                        </div>
-                    </CardContent>
-                </Card>
-
-                {/* Address Information */}
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Address Information</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-3">
-                        <div>
-                            <p className="text-sm font-medium text-muted-foreground">Street</p>
-                            <p className="text-base">{submission.street}</p>
-                            {submission.addressLine2 && <p className="text-base">{submission.addressLine2}</p>}
-                        </div>
-                        <div>
-                            <p className="text-sm font-medium text-muted-foreground">City</p>
-                            <p className="text-base">{submission.postalCode} {submission.city}</p>
-                        </div>
-                        {submission.stateProvince && (
+            <div className="grid gap-6 lg:grid-cols-2 items-start">
+                {/* Column 1: Client & Service Information */}
+                <div className="space-y-6">
+                    {/* Personal Information */}
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Personal Information</CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-3">
                             <div>
-                                <p className="text-sm font-medium text-muted-foreground">State/Province</p>
-                                <p className="text-base">{submission.stateProvince}</p>
+                                <p className="text-sm font-medium text-muted-foreground">Name</p>
+                                <p className="text-base">{submission.salutation} {submission.firstName} {submission.lastName}</p>
                             </div>
-                        )}
-                        <div>
-                            <p className="text-sm font-medium text-muted-foreground">Country</p>
-                            <p className="text-base">{submission.country}</p>
-                        </div>
-                    </CardContent>
-                </Card>
-
-                {/* Service Information */}
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Service Details</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-3">
-                        <div>
-                            <p className="text-sm font-medium text-muted-foreground">Service Category</p>
-                            <p className="text-base font-medium">{submission.service}</p>
-                        </div>
-                        {submission.subService && (
                             <div>
-                                <p className="text-sm font-medium text-muted-foreground">Specific Service</p>
-                                <p className="text-base">{submission.subService}</p>
+                                <p className="text-sm font-medium text-muted-foreground">Date of Birth</p>
+                                <p className="text-base">{submission.dateOfBirth}</p>
                             </div>
-                        )}
-                        <div>
-                            <p className="text-sm font-medium text-muted-foreground">Submitted</p>
-                            <p className="text-base">{format(new Date(submission.createdAt), "PPpp")}</p>
-                        </div>
-                    </CardContent>
-                </Card>
+                            <div>
+                                <p className="text-sm font-medium text-muted-foreground">Email</p>
+                                <p className="text-base">{submission.email}</p>
+                            </div>
+                            <div>
+                                <p className="text-sm font-medium text-muted-foreground">Phone</p>
+                                <p className="text-base">{submission.phoneNumber}</p>
+                            </div>
+                        </CardContent>
+                    </Card>
 
-                {/* Message */}
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Message</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <p className="text-base whitespace-pre-wrap">{submission.message}</p>
-                    </CardContent>
-                </Card>
-            </div>
-
-            {/* Notes Section */}
-            <Card>
-                <CardHeader>
-                    <CardTitle>Internal Notes</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                    <div className="space-y-2">
-                        <Textarea
-                            placeholder="Add a note..."
-                            value={newNote}
-                            onChange={(e) => setNewNote(e.target.value)}
-                            rows={3}
-                        />
-                        <Button
-                            onClick={handleAddNote}
-                            disabled={!newNote.trim() || createNoteMutation.status === "pending"}
-                        >
-                            {createNoteMutation.status === "pending" && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                            Add Note
-                        </Button>
-                    </div>
-
-                    <div className="space-y-4 mt-6">
-                        {notes.length === 0 ? (
-                            <p className="text-sm text-muted-foreground text-center py-4">No notes yet</p>
-                        ) : (
-                            notes.map((note) => (
-                                <div key={note.id} className="border-l-2 border-primary pl-4 py-2">
-                                    <div className="flex items-center justify-between mb-1">
-                                        <p className="text-sm font-medium">{note.adminUsername || "Unknown Admin"}</p>
-                                        <p className="text-xs text-muted-foreground">
-                                            {format(new Date(note.createdAt), "PPp")}
-                                        </p>
-                                    </div>
-                                    <p className="text-sm whitespace-pre-wrap">{note.note}</p>
+                    {/* Address Information */}
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Address Information</CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-3">
+                            <div>
+                                <p className="text-sm font-medium text-muted-foreground">Street</p>
+                                <p className="text-base">{submission.street}</p>
+                                {submission.addressLine2 && <p className="text-base">{submission.addressLine2}</p>}
+                            </div>
+                            <div>
+                                <p className="text-sm font-medium text-muted-foreground">City</p>
+                                <p className="text-base">{submission.postalCode} {submission.city}</p>
+                            </div>
+                            {submission.stateProvince && (
+                                <div>
+                                    <p className="text-sm font-medium text-muted-foreground">State/Province</p>
+                                    <p className="text-base">{submission.stateProvince}</p>
                                 </div>
-                            ))
-                        )}
-                    </div>
-                </CardContent>
-            </Card>
+                            )}
+                            <div>
+                                <p className="text-sm font-medium text-muted-foreground">Country</p>
+                                <p className="text-base">{submission.country}</p>
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    {/* Service Information */}
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Service Details</CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-3">
+                            <div>
+                                <p className="text-sm font-medium text-muted-foreground">Service Category</p>
+                                <p className="text-base font-medium">{submission.service}</p>
+                            </div>
+                            {submission.subService && (
+                                <div>
+                                    <p className="text-sm font-medium text-muted-foreground">Specific Service</p>
+                                    <p className="text-base">{submission.subService}</p>
+                                </div>
+                            )}
+                            <div>
+                                <p className="text-sm font-medium text-muted-foreground">Submitted</p>
+                                <p className="text-base">{format(new Date(submission.createdAt), "PPpp")}</p>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </div>
+
+                {/* Column 2: Message & Notes */}
+                <div className="space-y-6">
+                    {/* Message */}
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Message</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <p className="text-base whitespace-pre-wrap">{submission.message}</p>
+                        </CardContent>
+                    </Card>
+
+                    {/* Internal Notes */}
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Internal Notes</CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                            <div className="space-y-2">
+                                <Textarea
+                                    placeholder="Add a note..."
+                                    value={newNote}
+                                    onChange={(e) => setNewNote(e.target.value)}
+                                    rows={3}
+                                />
+                                <Button
+                                    onClick={handleAddNote}
+                                    disabled={!newNote.trim() || createNoteMutation.status === "pending"}
+                                    className="w-full"
+                                >
+                                    {createNoteMutation.status === "pending" && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                                    Add Note
+                                </Button>
+                            </div>
+
+                            <div className="space-y-4 mt-6 max-h-[500px] overflow-y-auto pr-2">
+                                {notes.length === 0 ? (
+                                    <p className="text-sm text-muted-foreground text-center py-4">No notes yet</p>
+                                ) : (
+                                    notes.map((note) => (
+                                        <div key={note.id} className="border-l-2 border-primary pl-4 py-2">
+                                            <div className="flex items-center justify-between mb-1">
+                                                <p className="text-sm font-medium">{note.adminUsername || "Unknown Admin"}</p>
+                                                <p className="text-xs text-muted-foreground">
+                                                    {format(new Date(note.createdAt), "PPp")}
+                                                </p>
+                                            </div>
+                                            <p className="text-sm whitespace-pre-wrap">{note.note}</p>
+                                        </div>
+                                    ))
+                                )}
+                            </div>
+                        </CardContent>
+                    </Card>
+                </div>
+            </div>
         </div>
     );
 }

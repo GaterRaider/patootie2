@@ -163,8 +163,11 @@ export default function AdminSubmissions() {
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="new">New</SelectItem>
+                                    <SelectItem value="contacted">Contacted</SelectItem>
                                     <SelectItem value="processing">Processing</SelectItem>
                                     <SelectItem value="completed">Completed</SelectItem>
+                                    <SelectItem value="no-reply">No reply</SelectItem>
+                                    <SelectItem value="cancelled">Cancelled</SelectItem>
                                     <SelectItem value="archived">Archived</SelectItem>
                                 </SelectContent>
                             </Select>

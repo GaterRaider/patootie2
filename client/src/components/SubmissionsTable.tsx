@@ -93,11 +93,20 @@ const columns = [
                 case "new":
                     className = "bg-blue-500 hover:bg-blue-600 border-transparent text-white";
                     break;
+                case "contacted":
+                    className = "bg-purple-500 hover:bg-purple-600 border-transparent text-white";
+                    break;
                 case "processing":
                     className = "bg-yellow-500 hover:bg-yellow-600 border-transparent text-white";
                     break;
                 case "completed":
                     className = "bg-green-500 hover:bg-green-600 border-transparent text-white";
+                    break;
+                case "no-reply":
+                    className = "bg-orange-500 hover:bg-orange-600 border-transparent text-white";
+                    break;
+                case "cancelled":
+                    className = "bg-red-500 hover:bg-red-600 border-transparent text-white";
                     break;
                 case "archived":
                     className = "bg-gray-500 hover:bg-gray-600 border-transparent text-white";
