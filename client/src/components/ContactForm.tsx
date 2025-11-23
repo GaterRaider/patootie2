@@ -630,7 +630,10 @@ export function ContactForm({
               <SelectContent>
                 {countries.map((country) => (
                   <SelectItem key={country.code} value={country.name}>
-                    {country.name}
+                    <span className="flex items-center gap-2">
+                      <span className="text-lg">{country.flag}</span>
+                      <span>{country.name}</span>
+                    </span>
                   </SelectItem>
                 ))}
               </SelectContent>
