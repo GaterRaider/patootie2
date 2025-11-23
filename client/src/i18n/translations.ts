@@ -50,6 +50,12 @@ export interface Translations {
   contactHeading: string;
   formService: string;
   formServicePlaceholder: string;
+  formSubService: string;
+  formSubServicePlaceholder: string;
+  formSectionPersonal: string;
+  formSectionContact: string;
+  formSectionAddress: string;
+  formValidationMessage: string;
   formSalutation: string;
   formSalutationPlaceholder: string;
   formSalutationMr: string;
@@ -182,7 +188,13 @@ export const translations: Record<Language, Translations> = {
     // Contact Form
     contactHeading: "Get in Touch",
     formService: "Service",
-    formServicePlaceholder: "Select a service",
+    formServicePlaceholder: "Select a category",
+    formSubService: "Specific Service (Optional)",
+    formSubServicePlaceholder: "Select a specific service",
+    formSectionPersonal: "Personal Information",
+    formSectionContact: "Contact Information",
+    formSectionAddress: "Address",
+    formValidationMessage: "Please complete all required fields to submit",
     formSalutation: "Salutation",
     formSalutationPlaceholder: "Select salutation",
     formSalutationMr: "Mr",
@@ -313,7 +325,13 @@ export const translations: Record<Language, Translations> = {
     // Contact Form
     contactHeading: "문의하기",
     formService: "서비스",
-    formServicePlaceholder: "서비스 선택",
+    formServicePlaceholder: "카테고리 선택",
+    formSubService: "세부 서비스 (선택사항)",
+    formSubServicePlaceholder: "세부 서비스 선택",
+    formSectionPersonal: "개인 정보",
+    formSectionContact: "연락처 정보",
+    formSectionAddress: "주소",
+    formValidationMessage: "제출하려면 모든 필수 항목을 작성해주세요",
     formSalutation: "호칭",
     formSalutationPlaceholder: "호칭 선택",
     formSalutationMr: "Mr",

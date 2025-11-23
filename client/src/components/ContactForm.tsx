@@ -333,7 +333,7 @@ export function ContactForm({
           {selectedService && (
             <div className="animate-in fade-in slide-in-from-top-1 space-y-2 mt-3">
               <Label htmlFor="subService" className="text-sm font-medium text-muted-foreground ml-1">
-                Specific Service (Optional)
+                {t.formSubService}
               </Label>
               <Select
                 name="subService"
@@ -344,7 +344,7 @@ export function ContactForm({
                 }}
               >
                 <SelectTrigger className="bg-white dark:bg-input/30">
-                  <SelectValue placeholder="Select a specific service" />
+                  <SelectValue placeholder={t.formSubServicePlaceholder} />
                 </SelectTrigger>
                 <SelectContent>
                   {(selectedService === t.serviceCard1Title ? t.serviceCard1Services :
@@ -374,7 +374,7 @@ export function ContactForm({
         <div className="space-y-4 p-4 bg-blue-50/40 dark:bg-blue-950/20 rounded-lg border border-blue-100/50 dark:border-blue-900/50">
           <h3 className="text-lg font-semibold text-blue-900 dark:text-blue-100 flex items-center gap-2">
             <User className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-            Personal Information
+            {t.formSectionPersonal}
           </h3>
 
           {/* Salutation */}
@@ -468,7 +468,7 @@ export function ContactForm({
         <div className="space-y-4 p-4 bg-blue-50/40 dark:bg-blue-950/20 rounded-lg border border-blue-100/50 dark:border-blue-900/50">
           <h3 className="text-lg font-semibold text-blue-900 dark:text-blue-100 flex items-center gap-2">
             <Mail className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-            Contact Information
+            {t.formSectionContact}
           </h3>
 
           <div className="grid md:grid-cols-2 gap-4">
@@ -526,7 +526,7 @@ export function ContactForm({
         <div className="space-y-4 p-4 bg-blue-50/40 dark:bg-blue-950/20 rounded-lg border border-blue-100/50 dark:border-blue-900/50">
           <h3 className="text-lg font-semibold text-blue-900 dark:text-blue-100 flex items-center gap-2">
             <MapPin className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-            Address
+            {t.formSectionAddress}
           </h3>
 
           <div className="space-y-2">
@@ -754,7 +754,7 @@ export function ContactForm({
         {
           progress < 100 && !isSubmitting && (
             <p className="text-sm text-center text-muted-foreground">
-              Please complete all required fields to submit
+              {t.formValidationMessage}
             </p>
           )
         }

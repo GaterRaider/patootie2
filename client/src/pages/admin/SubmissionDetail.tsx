@@ -180,17 +180,15 @@ export default function SubmissionDetail() {
                     </CardHeader>
                     <CardContent className="space-y-3">
                         <div>
-                            <p className="text-sm font-medium text-muted-foreground">Service Type</p>
+                            <p className="text-sm font-medium text-muted-foreground">Service Category</p>
                             <p className="text-base font-medium">{submission.service}</p>
                         </div>
-                        <div>
-                            <p className="text-sm font-medium text-muted-foreground">Current Residence</p>
-                            <p className="text-base">{submission.currentResidence}</p>
-                        </div>
-                        <div>
-                            <p className="text-sm font-medium text-muted-foreground">Preferred Language</p>
-                            <p className="text-base">{submission.preferredLanguage}</p>
-                        </div>
+                        {submission.subService && (
+                            <div>
+                                <p className="text-sm font-medium text-muted-foreground">Specific Service</p>
+                                <p className="text-base">{submission.subService}</p>
+                            </div>
+                        )}
                         <div>
                             <p className="text-sm font-medium text-muted-foreground">Submitted</p>
                             <p className="text-base">{format(new Date(submission.createdAt), "PPpp")}</p>
