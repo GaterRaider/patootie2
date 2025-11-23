@@ -618,8 +618,13 @@ export function ContactForm({
             </div>
             <Select
               name="country"
+              value={formData.country}
               onValueChange={(value) => {
-                handleInputChange('country', value);
+                // Handle suggested country selection (strip prefix)
+                const cleanValue = value.startsWith("suggested__")
+                  ? value.replace("suggested__", "")
+                  : value;
+                handleInputChange('country', cleanValue);
                 handleBlur('country');
               }}
               required
@@ -636,7 +641,7 @@ export function ContactForm({
                   const country = countries.find(c => c.name === countryName);
                   if (!country) return null;
                   return (
-                    <SelectItem key={`suggested-${country.code}`} value={country.name}>
+                    <SelectItem key={`suggested-${country.code}`} value={`suggested__${country.name}`}>
                       <span className="flex items-center gap-2">
                         <span className="text-lg">{country.flag}</span>
                         <span>{country.name}</span>
