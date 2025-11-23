@@ -5,11 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 
 export default function AdminLogin() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [keepMeLoggedIn, setKeepMeLoggedIn] = useState(false);
     const [, setLocation] = useLocation();
     const utils = trpc.useUtils();
 
@@ -28,7 +30,7 @@ export default function AdminLogin() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        loginMutation.mutate({ username, password });
+        loginMutation.mutate({ username, password, keepMeLoggedIn });
     };
 
     return (
@@ -58,6 +60,19 @@ export default function AdminLogin() {
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
                             />
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <Checkbox
+                                id="keepMeLoggedIn"
+                                checked={keepMeLoggedIn}
+                                onCheckedChange={(checked) => setKeepMeLoggedIn(checked === true)}
+                            />
+                            <Label
+                                htmlFor="keepMeLoggedIn"
+                                className="text-sm font-normal cursor-pointer"
+                            >
+                                Keep me logged in for 30 days
+                            </Label>
                         </div>
                         <Button
                             type="submit"

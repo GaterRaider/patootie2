@@ -231,7 +231,11 @@ export const appRouter = router({
   admin: router({
     auth: router({
       login: publicProcedure
-        .input(z.object({ username: z.string(), password: z.string() }))
+        .input(z.object({
+          username: z.string(),
+          password: z.string(),
+          keepMeLoggedIn: z.boolean().optional().default(false)
+        }))
         .mutation(async ({ input, ctx }) => {
           const db = await getDb();
           if (!db) {
@@ -248,10 +252,18 @@ export const appRouter = router({
             throw new TRPCError({ code: "UNAUTHORIZED", message: "Invalid credentials" });
           }
 
-          const token = await signAdminToken(admin.id);
+          const token = await signAdminToken(admin.id, input.keepMeLoggedIn);
           const cookieOptions = getSessionCookieOptions(ctx.req);
-          console.log('[Admin Login] Setting cookie with options:', cookieOptions);
-          ctx.res.cookie("admin_token", token, { ...cookieOptions, maxAge: 86400000 }); // 24h
+          const cookieConfig: any = { ...cookieOptions };
+
+          // Set maxAge only if keepMeLoggedIn is true (persistent cookie)
+          // Otherwise, omit maxAge for session cookie (expires on browser close)
+          if (input.keepMeLoggedIn) {
+            cookieConfig.maxAge = 30 * 24 * 60 * 60 * 1000; // 30 days
+          }
+
+          console.log('[Admin Login] Setting cookie with options:', cookieConfig);
+          ctx.res.cookie("admin_token", token, cookieConfig);
           console.log('[Admin Login] Cookie set successfully');
 
           // Log activity

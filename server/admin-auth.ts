@@ -25,11 +25,12 @@ export async function verifyPassword(password: string, hash: string): Promise<bo
 
 // --- JWT Handling ---
 
-export async function signAdminToken(adminId: number): Promise<string> {
+export async function signAdminToken(adminId: number, keepMeLoggedIn = false): Promise<string> {
+    const expirationTime = keepMeLoggedIn ? "30d" : "12h";
     return new SignJWT({ adminId })
         .setProtectedHeader({ alg: ALG })
         .setIssuedAt()
-        .setExpirationTime("24h")
+        .setExpirationTime(expirationTime)
         .sign(JWT_SECRET);
 }
 
