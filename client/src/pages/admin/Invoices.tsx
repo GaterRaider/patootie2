@@ -32,6 +32,44 @@ export default function Invoices() {
         status: (statusFilter && statusFilter !== "all") ? statusFilter : undefined,
     });
 
+    const updateStatusMutation = trpc.admin.invoices.update.useMutation({
+        onSuccess: () => {
+            utils.admin.invoices.getAll.invalidate();
+            toast.success("Status Updated", {
+                description: "The invoice status has been successfully updated.",
+            });
+        },
+        onError: (error) => {
+            toast.error("Error", {
+                description: `Failed to update status: ${error.message}`,
+            });
+        }
+    });
+
+    const handleStatusUpdate = (id: number, status: string) => {
+        updateStatusMutation.mutate({
+            id,
+            updates: { status }
+        });
+    };
+
+    const getStatusColor = (status: string) => {
+        switch (status) {
+            case "draft":
+                return "bg-gray-500 hover:bg-gray-600 border-transparent text-white";
+            case "sent":
+                return "bg-blue-500 hover:bg-blue-600 border-transparent text-white";
+            case "paid":
+                return "bg-green-500 hover:bg-green-600 border-transparent text-white";
+            case "overdue":
+                return "bg-red-500 hover:bg-red-600 border-transparent text-white";
+            case "cancelled":
+                return "bg-gray-400 hover:bg-gray-500 border-transparent text-white";
+            default:
+                return "bg-secondary text-secondary-foreground hover:bg-secondary/80";
+        }
+    };
+
     const deleteMutation = trpc.admin.invoices.delete.useMutation({
         onSuccess: () => {
             utils.admin.invoices.getAll.invalidate();
@@ -40,33 +78,6 @@ export default function Invoices() {
             });
         },
     });
-
-    const getStatusBadge = (status: string) => {
-        let className = "";
-        const label = status.charAt(0).toUpperCase() + status.slice(1);
-
-        switch (status) {
-            case "draft":
-                className = "bg-gray-500 hover:bg-gray-600 border-transparent text-white";
-                break;
-            case "sent":
-                className = "bg-blue-500 hover:bg-blue-600 border-transparent text-white";
-                break;
-            case "paid":
-                className = "bg-green-500 hover:bg-green-600 border-transparent text-white";
-                break;
-            case "overdue":
-                className = "bg-red-500 hover:bg-red-600 border-transparent text-white";
-                break;
-            case "cancelled":
-                className = "bg-gray-400 hover:bg-gray-500 border-transparent text-white";
-                break;
-            default:
-                className = "bg-secondary text-secondary-foreground hover:bg-secondary/80";
-        }
-
-        return <Badge className={className} variant="outline">{label}</Badge>;
-    };
 
     const handleDelete = (id: number, invoiceNumber: string) => {
         if (confirm(`Are you sure you want to delete invoice ${invoiceNumber}?`)) {
@@ -152,6 +163,7 @@ export default function Invoices() {
 
     return (
         <div className="space-y-6">
+            {/* ... (keep existing header and search/filter section) ... */}
             <div className="flex items-center justify-between">
                 <div>
                     <h1 className="text-3xl font-bold">Invoices</h1>
@@ -243,7 +255,23 @@ export default function Invoices() {
                                                 <TableCell>
                                                     €{parseFloat(invoice.total).toFixed(2)}
                                                 </TableCell>
-                                                <TableCell>{getStatusBadge(invoice.status)}</TableCell>
+                                                <TableCell onClick={(e) => e.stopPropagation()}>
+                                                    <Select
+                                                        value={invoice.status}
+                                                        onValueChange={(value) => handleStatusUpdate(invoice.id, value)}
+                                                    >
+                                                        <SelectTrigger className={`w-[110px] h-8 ${getStatusColor(invoice.status)}`}>
+                                                            <SelectValue />
+                                                        </SelectTrigger>
+                                                        <SelectContent>
+                                                            <SelectItem value="draft">Draft</SelectItem>
+                                                            <SelectItem value="sent">Sent</SelectItem>
+                                                            <SelectItem value="paid">Paid</SelectItem>
+                                                            <SelectItem value="overdue">Overdue</SelectItem>
+                                                            <SelectItem value="cancelled">Cancelled</SelectItem>
+                                                        </SelectContent>
+                                                    </Select>
+                                                </TableCell>
                                                 <TableCell className="text-right">
                                                     <div className="flex items-center justify-end gap-2">
                                                         <Button
