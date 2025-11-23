@@ -314,7 +314,7 @@ export default function Home() {
 
       {/* Hero Section */}
       {/* Hero Section */}
-      <section className="py-8 md:py-14 bg-gradient-to-b from-secondary/50 to-background dark:from-primary/10 dark:to-background">
+      <section className="py-8 md:py-14 bg-gradient-to-b from-primary/5 to-background dark:from-primary/10 dark:to-background">
         <div className="container">
           <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
             <div>
