@@ -26,6 +26,7 @@ export default function Home() {
   const [, setLocation] = useLocation();
   const [selectedService, setSelectedService] = useState<string>("");
   const [selectedSubService, setSelectedSubService] = useState<string>("");
+  const [selectedViaCard, setSelectedViaCard] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [refId, setRefId] = useState<string | undefined>(undefined);
@@ -51,6 +52,7 @@ export default function Home() {
 
   const handleServiceCardClick = (service: string, subService?: string) => {
     setSelectedService(service);
+    setSelectedViaCard(true);
     if (subService) {
       setSelectedSubService(subService);
     } else {
@@ -467,6 +469,9 @@ export default function Home() {
                 selectedService={selectedService}
                 selectedSubService={selectedSubService}
                 setSelectedService={setSelectedService}
+                setSelectedSubService={setSelectedSubService}
+                selectedViaCard={selectedViaCard}
+                setSelectedViaCard={setSelectedViaCard}
                 onSubmit={handleSubmit}
                 isSubmitting={isSubmitting}
                 onLocationChange={setLocation}

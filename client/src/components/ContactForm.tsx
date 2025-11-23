@@ -15,6 +15,9 @@ interface ContactFormProps {
   selectedService: string;
   selectedSubService?: string;
   setSelectedService: (value: string) => void;
+  setSelectedSubService: (value: string) => void;
+  selectedViaCard: boolean;
+  setSelectedViaCard: (value: boolean) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   isSubmitting: boolean;
   onLocationChange: (path: string) => void;
@@ -28,6 +31,9 @@ export function ContactForm({
   selectedService,
   selectedSubService,
   setSelectedService,
+  setSelectedSubService,
+  selectedViaCard,
+  setSelectedViaCard,
   onSubmit,
   isSubmitting,
   onLocationChange,
@@ -306,6 +312,8 @@ export function ContactForm({
             value={selectedService}
             onValueChange={(value) => {
               setSelectedService(value);
+              setSelectedSubService("");
+              setSelectedViaCard(false);
               handleBlur('service');
             }}
             required
@@ -320,7 +328,40 @@ export function ContactForm({
               <SelectItem value={t.serviceCard4Title}>{t.serviceCard4Title}</SelectItem>
             </SelectContent>
           </Select>
-          {selectedSubService && (
+
+          {/* Sub-Service Selection */}
+          {selectedService && (
+            <div className="animate-in fade-in slide-in-from-top-1 space-y-2 mt-3">
+              <Label htmlFor="subService" className="text-sm font-medium text-muted-foreground ml-1">
+                Specific Service (Optional)
+              </Label>
+              <Select
+                name="subService"
+                value={selectedSubService}
+                onValueChange={(value) => {
+                  setSelectedSubService(value);
+                  setSelectedViaCard(false);
+                }}
+              >
+                <SelectTrigger className="bg-white dark:bg-input/30">
+                  <SelectValue placeholder="Select a specific service" />
+                </SelectTrigger>
+                <SelectContent>
+                  {(selectedService === t.serviceCard1Title ? t.serviceCard1Services :
+                    selectedService === t.serviceCard2Title ? t.serviceCard2Services :
+                      selectedService === t.serviceCard3Title ? t.serviceCard3Services :
+                        selectedService === t.serviceCard4Title ? t.serviceCard4Services : []
+                  ).map((service) => (
+                    <SelectItem key={service} value={service}>
+                      {service}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+
+          {selectedViaCard && selectedSubService && (
             <div className="mt-3 flex items-center gap-2 text-sm text-muted-foreground bg-secondary/50 p-2.5 rounded-md border border-primary/20 animate-in fade-in slide-in-from-top-1">
               <CheckCircle2 className="h-4 w-4 text-primary" />
               <span className="font-medium text-foreground">Selected Option:</span>
