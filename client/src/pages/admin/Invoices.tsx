@@ -299,10 +299,10 @@ export default function Invoices() {
                                                             variant="ghost"
                                                             size="sm"
                                                             onClick={(e) => handleDownloadPdf(e, invoice.id, invoice.invoiceNumber)}
-                                                            disabled={pdfMutation.status === "pending"}
+                                                            disabled={pdfMutation.status === "pending" && pdfMutation.variables?.id === invoice.id}
                                                             title="Download PDF"
                                                         >
-                                                            {pdfMutation.status === "pending" ? (
+                                                            {pdfMutation.status === "pending" && pdfMutation.variables?.id === invoice.id ? (
                                                                 <Loader2 className="h-4 w-4 animate-spin" />
                                                             ) : (
                                                                 <Download className="h-4 w-4" />
