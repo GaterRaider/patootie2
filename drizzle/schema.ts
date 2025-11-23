@@ -57,8 +57,8 @@ export const contactSubmissions = pgTable("contactSubmissions", {
   country: varchar("country", { length: 100 }).notNull(),
 
   // Additional information
-  currentResidence: varchar("currentResidence", { length: 100 }).notNull(),
-  preferredLanguage: varchar("preferredLanguage", { length: 50 }).notNull(),
+  currentResidence: varchar("currentResidence", { length: 100 }),
+  preferredLanguage: varchar("preferredLanguage", { length: 50 }),
   message: text("message").notNull(),
 
   // Consent tracking

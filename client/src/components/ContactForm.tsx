@@ -49,13 +49,15 @@ export function ContactForm({
       if (formData.email) {
         setSubmittedEmail(formData.email);
       }
-      // Scroll to the container
-      const element = document.getElementById('contact-form-container');
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
+      // Scroll to the contact section
+      setTimeout(() => {
+        const element = document.getElementById('contact');
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
     }
-  }, [isSuccess, formData.firstName]);
+  }, [isSuccess, formData.firstName, formData.email]);
 
   const handleReset = () => {
     setFormData({});
@@ -68,7 +70,7 @@ export function ContactForm({
   const requiredFields = [
     'service', 'salutation', 'firstName', 'lastName', 'dateOfBirth',
     'email', 'phoneNumber', 'street', 'postalCode', 'city', 'country',
-    'currentResidence', 'preferredLanguage', 'message', 'contactConsent', 'privacyConsent'
+    'message', 'contactConsent', 'privacyConsent'
   ];
 
   useEffect(() => {
@@ -586,96 +588,34 @@ export function ContactForm({
           </div>
         </div>
 
-        {/* Current Residence and Language */}
+
+        {/* Message/Describe your situation */}
         <div className="space-y-4 p-4 bg-blue-50/40 dark:bg-blue-950/20 rounded-lg border border-blue-100/50 dark:border-blue-900/50">
-          <h3 className="text-lg font-semibold text-blue-900 dark:text-blue-100 flex items-center gap-2">
-            <Globe className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-            Additional Information
-          </h3>
-
-          <div className="grid md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="currentResidence">{t.formCurrentResidence} *</Label>
-                {showValidation('currentResidence') && isFieldValid('currentResidence') && (
-                  <CheckCircle2 className="h-4 w-4 text-green-600" />
-                )}
-              </div>
-              <Select
-                name="currentResidence"
-                onValueChange={(value) => {
-                  handleInputChange('currentResidence', value);
-                  handleBlur('currentResidence');
-                }}
-                required
-              >
-                <SelectTrigger className={showValidation('currentResidence') && !isFieldValid('currentResidence') ? 'border-red-500' : ''}>
-                  <SelectValue placeholder={t.formCurrentResidencePlaceholder} />
-                </SelectTrigger>
-                <SelectContent>
-                  {countries.map((country) => (
-                    <SelectItem key={country.code} value={country.name}>
-                      {country.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="preferredLanguage">{t.formPreferredLanguage} *</Label>
-                {showValidation('preferredLanguage') && isFieldValid('preferredLanguage') && (
-                  <CheckCircle2 className="h-4 w-4 text-green-600" />
-                )}
-              </div>
-              <Select
-                name="preferredLanguage"
-                onValueChange={(value) => {
-                  handleInputChange('preferredLanguage', value);
-                  handleBlur('preferredLanguage');
-                }}
-                required
-              >
-                <SelectTrigger className={showValidation('preferredLanguage') && !isFieldValid('preferredLanguage') ? 'border-red-500' : ''}>
-                  <SelectValue placeholder={t.formPreferredLanguagePlaceholder} />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="English">English</SelectItem>
-                  <SelectItem value="Korean">Korean (한국어)</SelectItem>
-                  <SelectItem value="German">German (Deutsch)</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          {/* Message/Describe your situation */}
-          <div className="space-y-2 mt-4">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="message" className="text-lg font-semibold text-blue-900 dark:text-blue-100 flex items-center gap-2">
-                <MessageSquare className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-                {t.formMessage} *
-              </Label>
-              {showValidation('message') && isFieldValid('message') && (
-                <CheckCircle2 className="h-5 w-5 text-green-600" />
-              )}
-            </div>
-            <Textarea
-              id="message"
-              name="message"
-              rows={5}
-              required
-              minLength={10}
-              placeholder="Please describe your specific situation, what services you need, and any relevant details about your case."
-              onChange={(e) => handleInputChange('message', e.target.value)}
-              onBlur={() => handleBlur('message')}
-              className={`resize-none ${showValidation('message') && !isFieldValid('message') ? 'border-red-500' : ''}`}
-            />
-            {formData.message && (
-              <p className="text-xs text-blue-600 dark:text-blue-400 font-medium">
-                {formData.message.length} characters
-              </p>
+          <div className="flex items-center justify-between">
+            <Label htmlFor="message" className="text-lg font-semibold text-blue-900 dark:text-blue-100 flex items-center gap-2">
+              <MessageSquare className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+              {t.formMessage} *
+            </Label>
+            {showValidation('message') && isFieldValid('message') && (
+              <CheckCircle2 className="h-5 w-5 text-green-600" />
             )}
           </div>
+          <Textarea
+            id="message"
+            name="message"
+            rows={5}
+            required
+            minLength={10}
+            placeholder="Please describe your specific situation, what services you need, and any relevant details about your case."
+            onChange={(e) => handleInputChange('message', e.target.value)}
+            onBlur={() => handleBlur('message')}
+            className={`resize-none ${showValidation('message') && !isFieldValid('message') ? 'border-red-500' : ''}`}
+          />
+          {formData.message && (
+            <p className="text-xs text-blue-600 dark:text-blue-400 font-medium">
+              {formData.message.length} characters
+            </p>
+          )}
         </div>
 
         {/* Consent Checkboxes */}

@@ -73,8 +73,6 @@ export default function Home() {
       city: formData.get("city") as string,
       stateProvince: formData.get("stateProvince") as string || undefined,
       country: formData.get("country") as string,
-      currentResidence: formData.get("currentResidence") as string,
-      preferredLanguage: formData.get("preferredLanguage") as string,
       message: formData.get("message") as string,
       contactConsent: formData.get("contactConsent") === "on",
       privacyConsent: formData.get("privacyConsent") === "on",
