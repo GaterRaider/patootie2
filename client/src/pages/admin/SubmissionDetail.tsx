@@ -58,8 +58,13 @@ export default function SubmissionDetail() {
         return (
             <div className="text-center py-12">
                 <h2 className="text-2xl font-bold mb-4">Submission Not Found</h2>
-                <Button onClick={() => setLocation("/admin/dashboard")}>
-                    <ArrowLeft className="mr-2 h-4 w-4" />
+                <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setLocation("/admin/dashboard")}
+                    className="gap-2 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 shadow-sm rounded-full hover:shadow-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-all"
+                >
+                    <ArrowLeft className="h-4 w-4" />
                     Back to Dashboard
                 </Button>
             </div>
@@ -103,8 +108,13 @@ export default function SubmissionDetail() {
         <div className="space-y-6">
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                    <Button variant="ghost" size="sm" onClick={() => setLocation("/admin/dashboard")}>
-                        <ArrowLeft className="h-4 w-4 mr-2" />
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setLocation("/admin/dashboard")}
+                        className="gap-2 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 shadow-sm rounded-full hover:shadow-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-all"
+                    >
+                        <ArrowLeft className="h-4 w-4" />
                         Back
                     </Button>
                     <div>
