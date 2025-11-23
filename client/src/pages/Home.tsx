@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { trpc } from "@/lib/trpc";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { FileText, Users, Plane, HelpCircle, CheckCircle, Send, Mail, Moon, Sun, MapPin, Phone, Menu, X } from "lucide-react";
 import { ServicesBentoGrid } from "@/components/ServicesBentoGrid";
@@ -31,6 +31,19 @@ export default function Home() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [refId, setRefId] = useState<string | undefined>(undefined);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Handle scroll to section from URL query params
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("scrollTo") === "contact") {
+      // Small timeout to ensure DOM is ready
+      setTimeout(() => {
+        document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+        // Optional: Clean up URL
+        window.history.replaceState({}, "", "/");
+      }, 100);
+    }
+  }, []);
 
   const submitMutation = trpc.contact.submit.useMutation({
     onSuccess: (data) => {

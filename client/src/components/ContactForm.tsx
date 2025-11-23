@@ -753,7 +753,7 @@ export function ContactForm({
               {t.formPrivacyConsent}{" "}
               <button
                 type="button"
-                onClick={() => onLocationChange("/privacy-policy")}
+                onClick={() => onLocationChange("/privacy-policy?from=contact")}
                 className="text-primary hover:underline font-medium"
               >
                 {t.formPrivacyConsentLink}
