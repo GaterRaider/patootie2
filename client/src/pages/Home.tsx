@@ -25,6 +25,7 @@ export default function Home() {
   const { theme, toggleTheme } = useTheme();
   const [, setLocation] = useLocation();
   const [selectedService, setSelectedService] = useState<string>("");
+  const [selectedSubService, setSelectedSubService] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [refId, setRefId] = useState<string | undefined>(undefined);
@@ -48,8 +49,13 @@ export default function Home() {
     setRefId(undefined);
   };
 
-  const handleServiceCardClick = (service: string) => {
+  const handleServiceCardClick = (service: string, subService?: string) => {
     setSelectedService(service);
+    if (subService) {
+      setSelectedSubService(subService);
+    } else {
+      setSelectedSubService("");
+    }
     // Scroll to contact form
     document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
   };
@@ -458,6 +464,7 @@ export default function Home() {
               <ContactForm
                 t={t}
                 selectedService={selectedService}
+                selectedSubService={selectedSubService}
                 setSelectedService={setSelectedService}
                 onSubmit={handleSubmit}
                 isSubmitting={isSubmitting}

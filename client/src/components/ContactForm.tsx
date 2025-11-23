@@ -13,6 +13,7 @@ import { countries } from "@/lib/countries";
 interface ContactFormProps {
   t: Translations;
   selectedService: string;
+  selectedSubService?: string;
   setSelectedService: (value: string) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   isSubmitting: boolean;
@@ -25,6 +26,7 @@ interface ContactFormProps {
 export function ContactForm({
   t,
   selectedService,
+  selectedSubService,
   setSelectedService,
   onSubmit,
   isSubmitting,

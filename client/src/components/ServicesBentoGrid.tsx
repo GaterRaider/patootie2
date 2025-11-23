@@ -31,7 +31,7 @@ export interface ServiceItem {
 
 interface ServicesBentoGridProps {
     services: ServiceItem[];
-    onSelect: (serviceTitle: string) => void;
+    onSelect: (serviceTitle: string, subService?: string) => void;
     language: "en" | "ko";
 }
 
