@@ -93,6 +93,21 @@ export type SubmissionRateLimit = typeof submissionRateLimits.$inferSelect;
 export type InsertSubmissionRateLimit = typeof submissionRateLimits.$inferInsert;
 
 /**
+ * Admin login attempts tracking for rate limiting and security auditing
+ * Tracks all login attempts (success and failure) by IP address
+ */
+export const adminLoginAttempts = pgTable("adminLoginAttempts", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  ipAddress: varchar("ipAddress", { length: 50 }).notNull(),
+  attemptedUsername: varchar("attemptedUsername", { length: 50 }),
+  success: boolean("success").notNull(),
+  attemptedAt: timestamp("attemptedAt").defaultNow().notNull(),
+});
+
+export type AdminLoginAttempt = typeof adminLoginAttempts.$inferSelect;
+export type InsertAdminLoginAttempt = typeof adminLoginAttempts.$inferInsert;
+
+/**
  * Admin users for the dashboard
  */
 export const adminUsers = pgTable("adminUsers", {

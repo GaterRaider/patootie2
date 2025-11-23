@@ -237,6 +237,19 @@ export const appRouter = router({
           keepMeLoggedIn: z.boolean().optional().default(false)
         }))
         .mutation(async ({ input, ctx }) => {
+          // Get IP address for rate limiting
+          const ipAddress = ctx.req.ip || ctx.req.socket.remoteAddress || "unknown";
+
+          // Check rate limit BEFORE authentication
+          const { checkAdminLoginRateLimit, recordAdminLoginAttempt } = await import("./db");
+          const canAttempt = await checkAdminLoginRateLimit(ipAddress);
+          if (!canAttempt) {
+            throw new TRPCError({
+              code: "TOO_MANY_REQUESTS",
+              message: "Too many login attempts. Please try again in 15 minutes.",
+            });
+          }
+
           const db = await getDb();
           if (!db) {
             throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database not available" });
@@ -244,13 +257,20 @@ export const appRouter = router({
           const [admin] = await db.select().from(adminUsers).where(eq(adminUsers.username, input.username)).limit(1);
 
           if (!admin) {
+            // Record failed attempt
+            await recordAdminLoginAttempt(ipAddress, input.username, false);
             throw new TRPCError({ code: "UNAUTHORIZED", message: "Invalid credentials" });
           }
 
           const isValid = await verifyPassword(input.password, admin.passwordHash);
           if (!isValid) {
+            // Record failed attempt
+            await recordAdminLoginAttempt(ipAddress, input.username, false);
             throw new TRPCError({ code: "UNAUTHORIZED", message: "Invalid credentials" });
           }
+
+          // Record successful attempt
+          await recordAdminLoginAttempt(ipAddress, input.username, true);
 
           const token = await signAdminToken(admin.id, input.keepMeLoggedIn);
           const cookieOptions = getSessionCookieOptions(ctx.req);

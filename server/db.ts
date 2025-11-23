@@ -477,3 +477,75 @@ export async function createSubmissionNote(note: InsertSubmissionNote) {
 
   return result[0];
 }
+/**
+ * Check if IP address is rate limited for admin login attempts
+ * Returns true if they can attempt login (NOT rate limited)
+ * Limit: 3 attempts per 15 minutes per IP
+ */
+export async function checkAdminLoginRateLimit(
+  ipAddress: string,
+): Promise<boolean> {
+  const db = await getDb();
+  if (!db) {
+    // If DB is unavailable, fail open (allow attempt)
+    return true;
+  }
+
+  const WINDOW_MS = 15 * 60 * 1000; // 15 minutes
+  const MAX_ATTEMPTS = 3;
+  const now = new Date();
+  const cutoff = new Date(now.getTime() - WINDOW_MS);
+
+  try {
+    const { adminLoginAttempts } = await import("../drizzle/schema");
+    const { and, eq, gt, count } = await import("drizzle-orm");
+
+    const result = await db
+      .select({ count: count() })
+      .from(adminLoginAttempts)
+      .where(
+        and(
+          eq(adminLoginAttempts.ipAddress, ipAddress),
+          gt(adminLoginAttempts.attemptedAt, cutoff),
+        ),
+      );
+
+    const attemptCount = result[0]?.count || 0;
+    const isRateLimited = attemptCount >= MAX_ATTEMPTS;
+    
+    return !isRateLimited;
+  } catch (error) {
+    console.error("[AdminRateLimit] Failed to check rate limit:", error);
+    // On error, fail open (allow attempt)
+    return true;
+  }
+}
+
+/**
+ * Record an admin login attempt (success or failure)
+ * Used for both rate limiting and security auditing
+ */
+export async function recordAdminLoginAttempt(
+  ipAddress: string,
+  username: string,
+  success: boolean,
+): Promise<void> {
+  const db = await getDb();
+  if (!db) {
+    console.error("[AdminRateLimit] Database not available");
+    return;
+  }
+
+  try {
+    const { adminLoginAttempts } = await import("../drizzle/schema");
+    
+    await db.insert(adminLoginAttempts).values({
+      ipAddress,
+      attemptedUsername: username,
+      success,
+    });
+  } catch (error) {
+    console.error("[AdminRateLimit] Failed to record login attempt:", error);
+    // Don't throw - we don't want to block login on logging failure
+  }
+}
