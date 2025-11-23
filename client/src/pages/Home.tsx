@@ -313,7 +313,8 @@ export default function Home() {
 
 
       {/* Hero Section */}
-      <section className="py-8 md:py-14 bg-gradient-to-b from-secondary/50 to-background">
+      {/* Hero Section */}
+      <section className="py-8 md:py-14 bg-gradient-to-b from-secondary/50 to-background dark:from-primary/10 dark:to-background">
         <div className="container">
           <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
             <div>
@@ -417,7 +418,7 @@ export default function Home() {
       </section>
 
       {/* Process Section */}
-      <section id="process" className="py-8 md:py-14 bg-slate-50 dark:bg-background/50">
+      <section id="process" className="py-8 md:py-14 bg-slate-50 dark:bg-secondary/10">
         <div className="container">
           <div className="text-center mb-12 md:mb-16">
             <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.processLabel}</span>
@@ -489,7 +490,7 @@ export default function Home() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-8 md:py-14 bg-slate-50 dark:bg-background/50">
+      <section id="about" className="py-8 md:py-14 bg-slate-50 dark:bg-secondary/10">
         <div className="container max-w-4xl">
           <div className="text-center mb-12 md:mb-16">
             <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.aboutLabel}</span>
