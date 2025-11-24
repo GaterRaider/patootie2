@@ -1,14 +1,18 @@
 import { hydrateRoot } from "react-dom/client";
-import App from "../src/App";
 import { HelmetProvider } from "react-helmet-async";
+import { Router } from "wouter";
 
 export { onRenderClient };
 
 async function onRenderClient(pageContext: any) {
+    const { Page } = pageContext;
+
     hydrateRoot(
         document.getElementById("root")!,
         <HelmetProvider>
-            <App />
+            <Router>
+                <Page />
+            </Router>
         </HelmetProvider>
     );
 }

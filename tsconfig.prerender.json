@@ -1,0 +1,16 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "paths": {
+            "@/*": [
+                "./client/src/*"
+            ],
+            "@shared/*": [
+                "./shared/*"
+            ],
+            "react-helmet-async": [
+                "./scripts/react-helmet-async-shim.ts"
+            ]
+        }
+    }
+}
