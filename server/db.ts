@@ -47,6 +47,8 @@ export async function getDb() {
         max: 20, // Maximum number of clients in the pool
         idleTimeoutMillis: 30000, // Close idle clients after 30 seconds
         connectionTimeoutMillis: 10000, // Return an error after 10 seconds if connection could not be established
+        // Ensure UTF-8 encoding for proper handling of Korean and special characters
+        options: '-c client_encoding=UTF8',
       });
 
       // Handle pool errors to prevent crashes

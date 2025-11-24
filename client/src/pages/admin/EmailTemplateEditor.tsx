@@ -25,7 +25,7 @@ export default function EmailTemplateEditor() {
         onSuccess: () => {
             toast.success("Template updated successfully");
         },
-        onError: (error: Error) => {
+        onError: (error: any) => {
             toast.error(`Failed to update template: ${error.message}`);
         },
     });

@@ -180,14 +180,21 @@ export async function updateEmailTemplate(
     const db = await getDb();
     if (!db) throw new Error("Database not available");
 
-    return await db.update(emailTemplates)
+    // Explicitly set only the fields we want to update, excluding id
+    const result = await db.update(emailTemplates)
         .set({
-            ...data,
+            subject: data.subject,
+            htmlContent: data.htmlContent,
+            textContent: data.textContent,
+            senderName: data.senderName,
+            senderEmail: data.senderEmail,
             updatedAt: new Date(),
             updatedBy: userId
         })
         .where(eq(emailTemplates.id, id))
         .returning();
+
+    return result;
 }
 
 /**
