@@ -798,27 +798,64 @@ export const appRouter = router({
     }),
 
     analytics: router({
-      getSummary: adminProcedure.query(async () => {
-        return await getSummaryMetrics();
-      }),
-      getSubmissionsOverTime: adminProcedure.query(async () => {
-        return await getSubmissionsOverTime();
-      }),
-      getSubmissionsByService: adminProcedure.query(async () => {
-        return await getSubmissionsByService();
-      }),
-      getRevenueTrends: adminProcedure.query(async () => {
-        return await getRevenueTrends();
-      }),
-      getInvoiceStatusDistribution: adminProcedure.query(async () => {
-        return await getInvoiceStatusDistribution();
-      }),
-      getResponseTimeMetrics: adminProcedure.query(async () => {
-        return await getResponseTimeMetrics();
-      }),
-      getTopServicesByRevenue: adminProcedure.query(async () => {
-        return await getTopServicesByRevenue();
-      }),
+      getSummaryMetrics: adminProcedure
+        .input(z.object({
+          startDate: z.string().optional(),
+          endDate: z.string().optional(),
+        }).optional())
+        .query(async ({ input }) => {
+          return await getSummaryMetrics(input);
+        }),
+      getSubmissionsOverTime: adminProcedure
+        .input(z.object({
+          startDate: z.string().optional(),
+          endDate: z.string().optional(),
+          groupBy: z.enum(['day', 'week', 'month']).optional(),
+        }).optional())
+        .query(async ({ input }) => {
+          return await getSubmissionsOverTime(input, input?.groupBy);
+        }),
+      getSubmissionsByService: adminProcedure
+        .input(z.object({
+          startDate: z.string().optional(),
+          endDate: z.string().optional(),
+        }).optional())
+        .query(async ({ input }) => {
+          return await getSubmissionsByService(input);
+        }),
+      getRevenueTrends: adminProcedure
+        .input(z.object({
+          startDate: z.string().optional(),
+          endDate: z.string().optional(),
+        }).optional())
+        .query(async ({ input }) => {
+          return await getRevenueTrends(input);
+        }),
+      getInvoiceStatusDistribution: adminProcedure
+        .input(z.object({
+          startDate: z.string().optional(),
+          endDate: z.string().optional(),
+        }).optional())
+        .query(async ({ input }) => {
+          return await getInvoiceStatusDistribution(input);
+        }),
+      getResponseTimeMetrics: adminProcedure
+        .input(z.object({
+          startDate: z.string().optional(),
+          endDate: z.string().optional(),
+        }).optional())
+        .query(async ({ input }) => {
+          return await getResponseTimeMetrics(input);
+        }),
+      getTopServicesByRevenue: adminProcedure
+        .input(z.object({
+          startDate: z.string().optional(),
+          endDate: z.string().optional(),
+          limit: z.number().optional(),
+        }).optional())
+        .query(async ({ input }) => {
+          return await getTopServicesByRevenue(input, input?.limit);
+        }),
     }),
 
     emailTemplates: router({
