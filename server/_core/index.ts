@@ -4,7 +4,7 @@ import { createServer } from "http";
 import net from "net";
 import cookieParser from "cookie-parser";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
-import { registerOAuthRoutes } from "./oauth";
+// import { registerOAuthRoutes } from "./oauth";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
@@ -50,7 +50,8 @@ async function startServer() {
   // --- END OF KEEP-ALIVE PING ---
 
   // OAuth callback under /api/oauth/callback
-  registerOAuthRoutes(app);
+  // OAuth callback removed
+  // registerOAuthRoutes(app);
   // tRPC API
   app.use(
     "/api/trpc",

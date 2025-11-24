@@ -21,6 +21,7 @@ export async function setupVite(app: Express, server: Server) {
   });
 
   app.use(vite.middlewares);
+  app.use(vite.middlewares);
   app.use("*", async (req, res, next) => {
     const url = req.originalUrl;
 
@@ -58,6 +59,9 @@ export function serveStatic(app: Express) {
     );
   }
 
+  app.use(express.static(distPath, { index: false }));
+
+  // fall through to index.html if the file doesn't exist
   app.use(express.static(distPath, { index: false }));
 
   // fall through to index.html if the file doesn't exist
