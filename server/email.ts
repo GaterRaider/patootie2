@@ -1,4 +1,4 @@
-import Mailjet from 'node-mailjet';
+﻿import Mailjet from 'node-mailjet';
 import type { ContactSubmission } from '../drizzle/schema';
 
 // Initialize MailJet client with API credentials
@@ -20,22 +20,42 @@ const createMailjetClient = () => {
 export async function sendConfirmationEmail(submission: ContactSubmission): Promise<boolean> {
   const mailjet = createMailjetClient();
   const isKorean = submission.preferredLanguage === 'Korean' || submission.preferredLanguage === 'ko';
+  const language = isKorean ? 'ko' : 'en';
 
-  const emailContentText = isKorean
-    ? getConfirmationEmailText_KOR(submission)
-    : getConfirmationEmailText_EN(submission);
+  // Fetch template from database
+  let subject: string;
+  let emailContentText: string;
+  let emailContentHTML: string;
+  let senderName = 'HandokHelper';
+  let senderEmail = process.env.EMAIL_FROM || 'noreply@handokhelper.de';
 
-  const emailContentHTML = isKorean
-    ? getConfirmationEmailHTML_KOR(submission)
-    : getConfirmationEmailHTML_EN(submission);
+  try {
+    const { getEmailTemplate, replacePlaceholders } = await import('./email-templates');
+    const template = await getEmailTemplate('form_submission', language);
 
-  const subject = isKorean
-    ? '요청 접수 확인'
-    : 'Request Confirmation';
+    if (template) {
+      subject = template.subject;
+      emailContentText = replacePlaceholders(template.textContent || '', submission as any);
+      emailContentHTML = replacePlaceholders(template.htmlContent, submission as any);
+      if (template.senderName) senderName = template.senderName;
+      if (template.senderEmail) senderEmail = template.senderEmail;
+    } else {
+      // Fallback to hardcoded
+      subject = isKorean ? 'ìš”ì²­ ì ‘ìˆ˜ í™•ì¸' : 'Request Confirmation';
+      emailContentText = isKorean ? getConfirmationEmailText_KOR(submission) : getConfirmationEmailText_EN(submission);
+      emailContentHTML = isKorean ? getConfirmationEmailHTML_KOR(submission) : getConfirmationEmailHTML_EN(submission);
+    }
+  } catch (error) {
+    console.error('[Email] Failed to fetch template, using fallback:', error);
+    subject = isKorean ? 'ìš”ì²­ ì ‘ìˆ˜ í™•ì¸' : 'Request Confirmation';
+    emailContentText = isKorean ? getConfirmationEmailText_KOR(submission) : getConfirmationEmailText_EN(submission);
+    emailContentHTML = isKorean ? getConfirmationEmailHTML_KOR(submission) : getConfirmationEmailHTML_EN(submission);
+  }
 
   if (!mailjet) {
     console.log('[Email] MailJet not configured, confirmation email (would be sent to user):');
     console.log('To:', submission.email);
+    console.log('From:', `${senderName} <${senderEmail}>`);
     console.log('Subject:', subject);
     console.log(emailContentText);
     return true;
@@ -46,8 +66,8 @@ export async function sendConfirmationEmail(submission: ContactSubmission): Prom
       Messages: [
         {
           From: {
-            Email: process.env.EMAIL_FROM || 'noreply@handokhelper.de',
-            Name: 'HandokHelper',
+            Email: senderEmail,
+            Name: senderName,
           },
           To: [
             {
@@ -88,24 +108,48 @@ export async function sendConfirmationEmail(submission: ContactSubmission): Prom
 export async function sendAdminNotificationEmail(submission: ContactSubmission): Promise<boolean> {
   const mailjet = createMailjetClient();
   const isKorean = submission.preferredLanguage === 'Korean' || submission.preferredLanguage === 'ko';
+  const language = isKorean ? 'ko' : 'en';
 
-  const emailContentText = isKorean
-    ? getAdminEmailText_KOR(submission)
-    : getAdminEmailText_EN(submission);
+  // Fetch template from database
+  let subject: string;
+  let emailContentText: string;
+  let emailContentHTML: string;
+  let senderName = 'HandokHelper System';
+  let senderEmail = process.env.EMAIL_FROM || 'noreply@handokhelper.de';
 
-  const emailContentHTML = isKorean
-    ? getAdminEmailHTML_KOR(submission)
-    : getAdminEmailHTML_EN(submission);
+  try {
+    const { getEmailTemplate, replacePlaceholders } = await import('./email-templates');
+    const template = await getEmailTemplate('admin_notification', language);
 
-  const subject = isKorean
-    ? `새 문의 접수 알림 - ${submission.service}`
-    : `New Contact Form Submission - ${submission.service}`;
+    if (template) {
+      subject = replacePlaceholders(template.subject, submission as any);
+      emailContentText = replacePlaceholders(template.textContent || '', submission as any);
+      emailContentHTML = replacePlaceholders(template.htmlContent, submission as any);
+      if (template.senderName) senderName = template.senderName;
+      if (template.senderEmail) senderEmail = template.senderEmail;
+    } else {
+      // Fallback to hardcoded
+      subject = isKorean
+        ? `ìƒˆ ë¬¸ì˜ ì ‘ìˆ˜ ì•Œë¦¼ - ${submission.service}`
+        : `New Contact Form Submission - ${submission.service}`;
+      emailContentText = isKorean ? getAdminEmailText_KOR(submission) : getAdminEmailText_EN(submission);
+      emailContentHTML = isKorean ? getAdminEmailHTML_KOR(submission) : getAdminEmailHTML_EN(submission);
+    }
+  } catch (error) {
+    console.error('[Email] Failed to fetch template, using fallback:', error);
+    subject = isKorean
+      ? `ìƒˆ ë¬¸ì˜ ì ‘ìˆ˜ ì•Œë¦¼ - ${submission.service}`
+      : `New Contact Form Submission - ${submission.service}`;
+    emailContentText = isKorean ? getAdminEmailText_KOR(submission) : getAdminEmailText_EN(submission);
+    emailContentHTML = isKorean ? getAdminEmailHTML_KOR(submission) : getAdminEmailHTML_EN(submission);
+  }
 
   const adminEmail = process.env.ADMIN_EMAIL || process.env.EMAIL_FROM || 'info@handokhelper.de';
 
   if (!mailjet) {
     console.log('[Email] MailJet not configured, admin notification email (would be sent to HandokHelper):');
     console.log('To:', adminEmail);
+    console.log('From:', `${senderName} <${senderEmail}>`);
     console.log('Subject:', subject);
     console.log(emailContentText);
     return true;
@@ -116,8 +160,8 @@ export async function sendAdminNotificationEmail(submission: ContactSubmission):
       Messages: [
         {
           From: {
-            Email: process.env.EMAIL_FROM || 'noreply@handokhelper.de',
-            Name: 'HandokHelper System',
+            Email: senderEmail,
+            Name: senderName,
           },
           To: [
             {
@@ -177,7 +221,7 @@ Best regards,
 HandokHelper Team
 
 HandokHelper
-Michaelstraße 26 · 65936 Frankfurt am Main · Germany
+MichaelstraÃŸe 26 Â· 65936 Frankfurt am Main Â· Germany
 Imprint: https://www.handokhelper.de/imprint
 Privacy policy: https://www.handokhelper.de/privacy-policy
   `.trim();
@@ -217,7 +261,7 @@ export function getConfirmationEmailHTML_EN(submission: ContactSubmission): stri
   </head>
   <body yahoo="yahoo">
     <div style="display:none;font-size:1px;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;">
-      We have received your HandokHelper request – here’s your confirmation.
+      We have received your HandokHelper request â€“ hereâ€™s your confirmation.
     </div>
     <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#f3f4f6">
       <tr>
@@ -287,9 +331,9 @@ export function getConfirmationEmailHTML_EN(submission: ContactSubmission): stri
             </tr>
             <tr>
               <td class="footer-text" style="padding: 16px 24px 20px 24px; font-family: Arial, sans-serif; font-size: 13px; line-height: 20px; color:#9ca3af; text-align:left;">
-                HandokHelper<br>Michaelstraße 26 · 65936 Frankfurt am Main · Germany<br><br>
+                HandokHelper<br>MichaelstraÃŸe 26 Â· 65936 Frankfurt am Main Â· Germany<br><br>
                 <a href="https://www.handokhelper.de/imprint" target="_blank" style="color:#6d28d9; text-decoration:none;">Imprint</a>
-                &nbsp;•&nbsp;
+                &nbsp;â€¢&nbsp;
                 <a href="https://www.handokhelper.de/privacy-policy" target="_blank" style="color:#6d28d9; text-decoration:none;">Privacy policy</a>
               </td>
             </tr>
@@ -305,26 +349,26 @@ export function getConfirmationEmailHTML_EN(submission: ContactSubmission): stri
 
 export function getConfirmationEmailText_KOR(submission: ContactSubmission): string {
   return `
-${submission.firstName} ${submission.lastName}님, 안녕하세요.
+${submission.firstName} ${submission.lastName}ë‹˜, ì•ˆë…•í•˜ì„¸ìš”.
 
-HandokHelper에 문의해 주셔서 감사합니다. 고객님이 제출하신 정보는 성공적으로 접수되었으며, 가능한 한 빠르게 확인 후 안내드리겠습니다.
+HandokHelperì— ë¬¸ì˜í•´ ì£¼ì…”ì„œ ê°ì‚¬í•©ë‹ˆë‹¤. ê³ ê°ë‹˜ì´ ì œì¶œí•˜ì‹  ì •ë³´ëŠ” ì„±ê³µì ìœ¼ë¡œ ì ‘ìˆ˜ë˜ì—ˆìœ¼ë©°, ê°€ëŠ¥í•œ í•œ ë¹ ë¥´ê²Œ í™•ì¸ í›„ ì•ˆë‚´ë“œë¦¬ê² ìŠµë‹ˆë‹¤.
 
-아래는 고객님께서 제출해 주신 요청 내용의 간단한 요약입니다:
+ì•„ëž˜ëŠ” ê³ ê°ë‹˜ê»˜ì„œ ì œì¶œí•´ ì£¼ì‹  ìš”ì²­ ë‚´ìš©ì˜ ê°„ë‹¨í•œ ìš”ì•½ìž…ë‹ˆë‹¤:
 
-제출하신 요청 정보
-서비스: ${submission.service}
-참조 ID: ${submission.refId}
-이메일: ${submission.email}
+ì œì¶œí•˜ì‹  ìš”ì²­ ì •ë³´
+ì„œë¹„ìŠ¤: ${submission.service}
+ì°¸ì¡° ID: ${submission.refId}
+ì´ë©”ì¼: ${submission.email}
 
-추가로 궁금하신 점이 있으시면 언제든지 편하게 문의해 주세요. 항상 도와드릴 준비가 되어 있습니다.
+ì¶”ê°€ë¡œ ê¶ê¸ˆí•˜ì‹  ì ì´ ìžˆìœ¼ì‹œë©´ ì–¸ì œë“ ì§€ íŽ¸í•˜ê²Œ ë¬¸ì˜í•´ ì£¼ì„¸ìš”. í•­ìƒ ë„ì™€ë“œë¦´ ì¤€ë¹„ê°€ ë˜ì–´ ìžˆìŠµë‹ˆë‹¤.
 
-감사합니다,
-HandokHelper 팀 드림
+ê°ì‚¬í•©ë‹ˆë‹¤,
+HandokHelper íŒ€ ë“œë¦¼
 
 HandokHelper
-Michaelstraße 26 · 65936 Frankfurt am Main · Germany
-법적 고지 (Imprint): https://www.handokhelper.de/imprint
-개인정보 처리방침: https://www.handokhelper.de/privacy-policy
+MichaelstraÃŸe 26 Â· 65936 Frankfurt am Main Â· Germany
+ë²•ì  ê³ ì§€ (Imprint): https://www.handokhelper.de/imprint
+ê°œì¸ì •ë³´ ì²˜ë¦¬ë°©ì¹¨: https://www.handokhelper.de/privacy-policy
   `.trim();
 }
 
@@ -333,7 +377,7 @@ export function getConfirmationEmailHTML_KOR(submission: ContactSubmission): str
 <html>
   <head>
     <meta charset="utf-8">
-    <title>요청 접수 확인</title>
+    <title>ìš”ì²­ ì ‘ìˆ˜ í™•ì¸</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style type="text/css">
       html, body { margin: 0; padding: 0; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; }
@@ -362,7 +406,7 @@ export function getConfirmationEmailHTML_KOR(submission: ContactSubmission): str
   </head>
   <body yahoo="yahoo">
     <div style="display:none;font-size:1px;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;">
-      HandokHelper에 남겨주신 요청이 접수되었습니다. 이 메일에서 내용을 확인하실 수 있습니다.
+      HandokHelperì— ë‚¨ê²¨ì£¼ì‹  ìš”ì²­ì´ ì ‘ìˆ˜ë˜ì—ˆìŠµë‹ˆë‹¤. ì´ ë©”ì¼ì—ì„œ ë‚´ìš©ì„ í™•ì¸í•˜ì‹¤ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
     </div>
     <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#f3f4f6">
       <tr>
@@ -391,9 +435,9 @@ export function getConfirmationEmailHTML_KOR(submission: ContactSubmission): str
             </tr>
             <tr>
               <td style="padding: 24px 24px 12px 24px; font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; color:#4b5563;">
-                <p style="margin: 0 0 12px 0;"><b>${submission.firstName} ${submission.lastName}님, 안녕하세요.</b></p>
-                <p style="margin: 0 0 12px 0;">HandokHelper에 문의해 주셔서 감사합니다. 고객님이 제출하신 정보는 성공적으로 접수되었으며, 가능한 한 빠르게 확인 후 안내드리겠습니다.</p>
-                <p style="margin: 0 0 16px 0;">아래는 고객님께서 제출해 주신 요청 내용의 간단한 요약입니다:</p>
+                <p style="margin: 0 0 12px 0;"><b>${submission.firstName} ${submission.lastName}ë‹˜, ì•ˆë…•í•˜ì„¸ìš”.</b></p>
+                <p style="margin: 0 0 12px 0;">HandokHelperì— ë¬¸ì˜í•´ ì£¼ì…”ì„œ ê°ì‚¬í•©ë‹ˆë‹¤. ê³ ê°ë‹˜ì´ ì œì¶œí•˜ì‹  ì •ë³´ëŠ” ì„±ê³µì ìœ¼ë¡œ ì ‘ìˆ˜ë˜ì—ˆìœ¼ë©°, ê°€ëŠ¥í•œ í•œ ë¹ ë¥´ê²Œ í™•ì¸ í›„ ì•ˆë‚´ë“œë¦¬ê² ìŠµë‹ˆë‹¤.</p>
+                <p style="margin: 0 0 16px 0;">ì•„ëž˜ëŠ” ê³ ê°ë‹˜ê»˜ì„œ ì œì¶œí•´ ì£¼ì‹  ìš”ì²­ ë‚´ìš©ì˜ ê°„ë‹¨í•œ ìš”ì•½ìž…ë‹ˆë‹¤:</p>
               </td>
             </tr>
             <tr>
@@ -402,11 +446,11 @@ export function getConfirmationEmailHTML_KOR(submission: ContactSubmission): str
                   <tr>
                     <td width="6" style="background:#4f46e5;">&nbsp;</td>
                     <td style="padding: 14px 16px; font-family: Arial, sans-serif; font-size: 15px; line-height: 22px;">
-                      <div style="font-size: 16px; font-weight:600; margin-bottom: 8px;">제출하신 요청 정보</div>
+                      <div style="font-size: 16px; font-weight:600; margin-bottom: 8px;">ì œì¶œí•˜ì‹  ìš”ì²­ ì •ë³´</div>
                       <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
-                        <tr><td width="120" style="padding: 2px 0; font-weight:600; color:#6b7280;">서비스:</td><td style="padding: 2px 0; color:#111827;">${submission.service}</td></tr>
-                        <tr><td width="120" style="padding: 2px 0; font-weight:600; color:#6b7280;">참조 ID:</td><td style="padding: 2px 0; color:#111827;">${submission.refId}</td></tr>
-                        <tr><td width="120" style="padding: 2px 0; font-weight:600; color:#6b7280;">이메일:</td><td style="padding: 2px 0; color:#111827;">${submission.email}</td></tr>
+                        <tr><td width="120" style="padding: 2px 0; font-weight:600; color:#6b7280;">ì„œë¹„ìŠ¤:</td><td style="padding: 2px 0; color:#111827;">${submission.service}</td></tr>
+                        <tr><td width="120" style="padding: 2px 0; font-weight:600; color:#6b7280;">ì°¸ì¡° ID:</td><td style="padding: 2px 0; color:#111827;">${submission.refId}</td></tr>
+                        <tr><td width="120" style="padding: 2px 0; font-weight:600; color:#6b7280;">ì´ë©”ì¼:</td><td style="padding: 2px 0; color:#111827;">${submission.email}</td></tr>
                       </table>
                     </td>
                   </tr>
@@ -415,12 +459,12 @@ export function getConfirmationEmailHTML_KOR(submission: ContactSubmission): str
             </tr>
             <tr>
               <td style="padding: 8px 24px 8px 24px; font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; color:#4b5563;">
-                 추가로 궁금하신 점이 있으시면 언제든지 편하게 문의해 주세요. 항상 도와드릴 준비가 되어 있습니다.
+                 ì¶”ê°€ë¡œ ê¶ê¸ˆí•˜ì‹  ì ì´ ìžˆìœ¼ì‹œë©´ ì–¸ì œë“ ì§€ íŽ¸í•˜ê²Œ ë¬¸ì˜í•´ ì£¼ì„¸ìš”. í•­ìƒ ë„ì™€ë“œë¦´ ì¤€ë¹„ê°€ ë˜ì–´ ìžˆìŠµë‹ˆë‹¤.
               </td>
             </tr>
             <tr>
               <td style="padding: 8px 24px 16px 24px; font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; color:#4b5563;">
-                감사합니다,<br><strong style="color:#4b5563;">HandokHelper 팀 드림</strong>
+                ê°ì‚¬í•©ë‹ˆë‹¤,<br><strong style="color:#4b5563;">HandokHelper íŒ€ ë“œë¦¼</strong>
               </td>
             </tr>
             <tr>
@@ -432,10 +476,10 @@ export function getConfirmationEmailHTML_KOR(submission: ContactSubmission): str
             </tr>
             <tr>
               <td class="footer-text" style="padding: 16px 24px 20px 24px; font-family: Arial, sans-serif; font-size: 13px; line-height: 20px; color:#9ca3af; text-align:left;">
-                HandokHelper<br>Michaelstraße 26 · 65936 Frankfurt am Main · Germany<br><br>
-                <a href="https://www.handokhelper.de/imprint" target="_blank" style="color:#6d28d9; text-decoration:none;">법적 고지 (Imprint)</a>
-                &nbsp;•&nbsp;
-                <a href="https://www.handokhelper.de/privacy-policy" target="_blank" style="color:#6d28d9; text-decoration:none;">개인정보 처리방침</a>
+                HandokHelper<br>MichaelstraÃŸe 26 Â· 65936 Frankfurt am Main Â· Germany<br><br>
+                <a href="https://www.handokhelper.de/imprint" target="_blank" style="color:#6d28d9; text-decoration:none;">ë²•ì  ê³ ì§€ (Imprint)</a>
+                &nbsp;â€¢&nbsp;
+                <a href="https://www.handokhelper.de/privacy-policy" target="_blank" style="color:#6d28d9; text-decoration:none;">ê°œì¸ì •ë³´ ì²˜ë¦¬ë°©ì¹¨</a>
               </td>
             </tr>
           </table>
@@ -527,7 +571,7 @@ export function getAdminEmailHTML_EN(submission: ContactSubmission): string {
   </head>
   <body yahoo="yahoo">
     <div style="display:none;font-size:1px;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;">
-      We have received your HandokHelper request – here’s your confirmation.
+      We have received your HandokHelper request â€“ hereâ€™s your confirmation.
     </div>
     <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#f3f4f6">
       <tr>
@@ -610,9 +654,9 @@ export function getAdminEmailHTML_EN(submission: ContactSubmission): string {
             </tr>
             <tr>
               <td class="footer-text" style="padding: 16px 24px 20px 24px; font-family: Arial, sans-serif; font-size: 13px; line-height: 20px; color:#9ca3af; text-align:left;">
-                HandokHelper<br>Michaelstraße 26 · 65936 Frankfurt am Main · Germany<br><br>
+                HandokHelper<br>MichaelstraÃŸe 26 Â· 65936 Frankfurt am Main Â· Germany<br><br>
                 <a href="https://www.handokhelper.de/imprint" target="_blank" style="color:#6d28d9; text-decoration:none;">Imprint</a>
-                &nbsp;•&nbsp;
+                &nbsp;â€¢&nbsp;
                 <a href="https://www.handokhelper.de/privacy-policy" target="_blank" style="color:#6d28d9; text-decoration:none;">Privacy policy</a>
               </td>
             </tr>
@@ -628,46 +672,46 @@ export function getAdminEmailHTML_EN(submission: ContactSubmission): string {
 
 export function getAdminEmailText_KOR(submission: ContactSubmission): string {
   return `
-새로운 문의가 접수되었습니다
+ìƒˆë¡œìš´ ë¬¸ì˜ê°€ ì ‘ìˆ˜ë˜ì—ˆìŠµë‹ˆë‹¤
 
-HandokHelper 웹사이트에서 새로운 문의가 제출되었습니다. 아래에서 제출된 모든 정보를 확인하실 수 있습니다.
+HandokHelper ì›¹ì‚¬ì´íŠ¸ì—ì„œ ìƒˆë¡œìš´ ë¬¸ì˜ê°€ ì œì¶œë˜ì—ˆìŠµë‹ˆë‹¤. ì•„ëž˜ì—ì„œ ì œì¶œëœ ëª¨ë“  ì •ë³´ë¥¼ í™•ì¸í•˜ì‹¤ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
 
-내용을 검토하시고 필요한 후속 조치를 진행해 주세요.
+ë‚´ìš©ì„ ê²€í† í•˜ì‹œê³  í•„ìš”í•œ í›„ì† ì¡°ì¹˜ë¥¼ ì§„í–‰í•´ ì£¼ì„¸ìš”.
 
-제출 정보
+ì œì¶œ ì •ë³´
 
-서비스: ${submission.service}
-참조 ID: ${submission.refId}
+ì„œë¹„ìŠ¤: ${submission.service}
+ì°¸ì¡° ID: ${submission.refId}
 
-개인 정보
-이름: ${submission.salutation} ${submission.firstName} ${submission.lastName}
-생년월일: ${submission.dateOfBirth}
-이메일: ${submission.email}
-전화번호: ${submission.phoneNumber}
+ê°œì¸ ì •ë³´
+ì´ë¦„: ${submission.salutation} ${submission.firstName} ${submission.lastName}
+ìƒë…„ì›”ì¼: ${submission.dateOfBirth}
+ì´ë©”ì¼: ${submission.email}
+ì „í™”ë²ˆí˜¸: ${submission.phoneNumber}
 
-주소
+ì£¼ì†Œ
 ${submission.street}
 ${submission.addressLine2 ? submission.addressLine2 + '\n' : ''}${submission.postalCode} ${submission.city}
 ${submission.stateProvince ? submission.stateProvince + '\n' : ''}${submission.country}
 
-추가 정보
-현재 거주지: ${submission.currentResidence}
-선호 언어: ${submission.preferredLanguage}
+ì¶”ê°€ ì •ë³´
+í˜„ìž¬ ê±°ì£¼ì§€: ${submission.currentResidence}
+ì„ í˜¸ ì–¸ì–´: ${submission.preferredLanguage}
 
-사용자 메시지
+ì‚¬ìš©ìž ë©”ì‹œì§€
 ${submission.message}
 
-동의 사항
-연락 동의: ${submission.contactConsent ? 'Yes' : 'No'}
-개인정보 처리방침: ${submission.privacyConsent ? 'Accepted' : 'Not accepted'}
+ë™ì˜ ì‚¬í•­
+ì—°ë½ ë™ì˜: ${submission.contactConsent ? 'Yes' : 'No'}
+ê°œì¸ì •ë³´ ì²˜ë¦¬ë°©ì¹¨: ${submission.privacyConsent ? 'Accepted' : 'Not accepted'}
 
-메타데이터
-제출 시각: ${submission.createdAt}
-IP 주소: ${submission.submitterIp || 'N/A'}
+ë©”íƒ€ë°ì´í„°
+ì œì¶œ ì‹œê°: ${submission.createdAt}
+IP ì£¼ì†Œ: ${submission.submitterIp || 'N/A'}
 User Agent: ${submission.userAgent || 'N/A'}
 
-감사합니다,
-HandokHelper 팀 드림
+ê°ì‚¬í•©ë‹ˆë‹¤,
+HandokHelper íŒ€ ë“œë¦¼
   `.trim();
 }
 
@@ -676,7 +720,7 @@ export function getAdminEmailHTML_KOR(submission: ContactSubmission): string {
 <html>
   <head>
     <meta charset="utf-8">
-    <title>새 문의 접수 알림</title>
+    <title>ìƒˆ ë¬¸ì˜ ì ‘ìˆ˜ ì•Œë¦¼</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style type="text/css">
       html, body { margin: 0; padding: 0; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; }
@@ -705,7 +749,7 @@ export function getAdminEmailHTML_KOR(submission: ContactSubmission): string {
   </head>
   <body yahoo="yahoo">
     <div style="display:none;font-size:1px;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;">
-      HandokHelper 사이트에 새로운 문의가 접수되었습니다.
+      HandokHelper ì‚¬ì´íŠ¸ì— ìƒˆë¡œìš´ ë¬¸ì˜ê°€ ì ‘ìˆ˜ë˜ì—ˆìŠµë‹ˆë‹¤.
     </div>
     <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#f3f4f6">
       <tr>
@@ -734,9 +778,9 @@ export function getAdminEmailHTML_KOR(submission: ContactSubmission): string {
             </tr>
             <tr>
               <td style="padding: 24px 24px 12px 24px; font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; color:#4b5563;">
-                <p style="margin: 0 0 12px 0;"><b>새로운 문의가 접수되었습니다</b></p>
-                <p style="margin: 0 0 12px 0;">HandokHelper 웹사이트에서 새로운 문의가 제출되었습니다. 아래에서 제출된 모든 정보를 확인하실 수 있습니다.</p>
-                <p style="margin: 0 0 16px 0;">내용을 검토하시고 필요한 후속 조치를 진행해 주세요.</p>
+                <p style="margin: 0 0 12px 0;"><b>ìƒˆë¡œìš´ ë¬¸ì˜ê°€ ì ‘ìˆ˜ë˜ì—ˆìŠµë‹ˆë‹¤</b></p>
+                <p style="margin: 0 0 12px 0;">HandokHelper ì›¹ì‚¬ì´íŠ¸ì—ì„œ ìƒˆë¡œìš´ ë¬¸ì˜ê°€ ì œì¶œë˜ì—ˆìŠµë‹ˆë‹¤. ì•„ëž˜ì—ì„œ ì œì¶œëœ ëª¨ë“  ì •ë³´ë¥¼ í™•ì¸í•˜ì‹¤ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.</p>
+                <p style="margin: 0 0 16px 0;">ë‚´ìš©ì„ ê²€í† í•˜ì‹œê³  í•„ìš”í•œ í›„ì† ì¡°ì¹˜ë¥¼ ì§„í–‰í•´ ì£¼ì„¸ìš”.</p>
               </td>
             </tr>
             <tr>
@@ -745,28 +789,28 @@ export function getAdminEmailHTML_KOR(submission: ContactSubmission): string {
                   <tr>
                     <td width="6" style="background:#4f46e5;">&nbsp;</td>
                     <td style="padding: 14px 16px; font-family: Arial, sans-serif; font-size: 15px; line-height: 22px;">
-                      <div style="font-size: 16px; font-weight:600; margin-bottom: 8px;">제출 정보</div>
+                      <div style="font-size: 16px; font-weight:600; margin-bottom: 8px;">ì œì¶œ ì •ë³´</div>
                       <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
-                        <tr><td width="160" style="padding: 4px 0; font-weight:600; color:#6b7280;">서비스:</td><td style="padding: 4px 0; color:#111827;">${submission.service}</td></tr>
-                        <tr><td width="160" style="padding: 4px 0; font-weight:600; color:#6b7280;">참조 ID:</td><td style="padding: 4px 0; color:#111827;">${submission.refId}</td></tr>
-                        <tr><td colspan="2" style="padding: 10px 0 4px 0; font-weight:600; color:#4b5563;">개인 정보</td></tr>
-                        <tr><td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">이름:</td><td style="padding: 2px 0; color:#111827;">${submission.salutation} ${submission.firstName} ${submission.lastName}</td></tr>
-                        <tr><td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">생년월일:</td><td style="padding: 2px 0; color:#111827;">${submission.dateOfBirth}</td></tr>
-                        <tr><td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">이메일:</td><td style="padding: 2px 0; color:#111827;">${submission.email}</td></tr>
-                        <tr><td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">전화번호:</td><td style="padding: 2px 0; color:#111827;">${submission.phoneNumber}</td></tr>
-                        <tr><td colspan="2" style="padding: 10px 0 4px 0; font-weight:600; color:#4b5563;">주소</td></tr>
+                        <tr><td width="160" style="padding: 4px 0; font-weight:600; color:#6b7280;">ì„œë¹„ìŠ¤:</td><td style="padding: 4px 0; color:#111827;">${submission.service}</td></tr>
+                        <tr><td width="160" style="padding: 4px 0; font-weight:600; color:#6b7280;">ì°¸ì¡° ID:</td><td style="padding: 4px 0; color:#111827;">${submission.refId}</td></tr>
+                        <tr><td colspan="2" style="padding: 10px 0 4px 0; font-weight:600; color:#4b5563;">ê°œì¸ ì •ë³´</td></tr>
+                        <tr><td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">ì´ë¦„:</td><td style="padding: 2px 0; color:#111827;">${submission.salutation} ${submission.firstName} ${submission.lastName}</td></tr>
+                        <tr><td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">ìƒë…„ì›”ì¼:</td><td style="padding: 2px 0; color:#111827;">${submission.dateOfBirth}</td></tr>
+                        <tr><td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">ì´ë©”ì¼:</td><td style="padding: 2px 0; color:#111827;">${submission.email}</td></tr>
+                        <tr><td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">ì „í™”ë²ˆí˜¸:</td><td style="padding: 2px 0; color:#111827;">${submission.phoneNumber}</td></tr>
+                        <tr><td colspan="2" style="padding: 10px 0 4px 0; font-weight:600; color:#4b5563;">ì£¼ì†Œ</td></tr>
                         <tr><td colspan="2" style="padding: 2px 0; color:#111827;">${submission.street}<br>${submission.addressLine2 ? submission.addressLine2 + '<br>' : ''}${submission.postalCode} ${submission.city}<br>${submission.stateProvince ? submission.stateProvince + '<br>' : ''}${submission.country}</td></tr>
-                        <tr><td colspan="2" style="padding: 10px 0 4px 0; font-weight:600; color:#4b5563;">추가 정보</td></tr>
-                        <tr><td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">현재 거주지:</td><td style="padding: 2px 0; color:#111827;">${submission.currentResidence}</td></tr>
-                        <tr><td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">선호 언어:</td><td style="padding: 2px 0; color:#111827;">${submission.preferredLanguage}</td></tr>
-                        <tr><td colspan="2" style="padding: 10px 0 4px 0; font-weight:600; color:#4b5563;">사용자 메시지</td></tr>
+                        <tr><td colspan="2" style="padding: 10px 0 4px 0; font-weight:600; color:#4b5563;">ì¶”ê°€ ì •ë³´</td></tr>
+                        <tr><td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">í˜„ìž¬ ê±°ì£¼ì§€:</td><td style="padding: 2px 0; color:#111827;">${submission.currentResidence}</td></tr>
+                        <tr><td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">ì„ í˜¸ ì–¸ì–´:</td><td style="padding: 2px 0; color:#111827;">${submission.preferredLanguage}</td></tr>
+                        <tr><td colspan="2" style="padding: 10px 0 4px 0; font-weight:600; color:#4b5563;">ì‚¬ìš©ìž ë©”ì‹œì§€</td></tr>
                         <tr><td colspan="2" style="padding: 2px 0; color:#111827; white-space:pre-line;">${submission.message}</td></tr>
-                        <tr><td colspan="2" style="padding: 10px 0 4px 0; font-weight:600; color:#4b5563;">동의 사항</td></tr>
-                        <tr><td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">연락 동의:</td><td style="padding: 2px 0; color:#111827;">${submission.contactConsent ? 'Yes' : 'No'}</td></tr>
-                        <tr><td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">개인정보 처리방침:</td><td style="padding: 2px 0; color:#111827;">${submission.privacyConsent ? 'Accepted' : 'Not accepted'}</td></tr>
-                        <tr><td colspan="2" style="padding: 10px 0 4px 0; font-weight:600; color:#4b5563;">메타데이터</td></tr>
-                        <tr><td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">제출 시각:</td><td style="padding: 2px 0; color:#111827;">${submission.createdAt}</td></tr>
-                        <tr><td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">IP 주소:</td><td style="padding: 2px 0; color:#111827;">${submission.submitterIp || 'N/A'}</td></tr>
+                        <tr><td colspan="2" style="padding: 10px 0 4px 0; font-weight:600; color:#4b5563;">ë™ì˜ ì‚¬í•­</td></tr>
+                        <tr><td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">ì—°ë½ ë™ì˜:</td><td style="padding: 2px 0; color:#111827;">${submission.contactConsent ? 'Yes' : 'No'}</td></tr>
+                        <tr><td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">ê°œì¸ì •ë³´ ì²˜ë¦¬ë°©ì¹¨:</td><td style="padding: 2px 0; color:#111827;">${submission.privacyConsent ? 'Accepted' : 'Not accepted'}</td></tr>
+                        <tr><td colspan="2" style="padding: 10px 0 4px 0; font-weight:600; color:#4b5563;">ë©”íƒ€ë°ì´í„°</td></tr>
+                        <tr><td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">ì œì¶œ ì‹œê°:</td><td style="padding: 2px 0; color:#111827;">${submission.createdAt}</td></tr>
+                        <tr><td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">IP ì£¼ì†Œ:</td><td style="padding: 2px 0; color:#111827;">${submission.submitterIp || 'N/A'}</td></tr>
                         <tr><td width="160" style="padding: 2px 0; font-weight:600; color:#6b7280;">User Agent:</td><td style="padding: 2px 0; color:#111827;">${submission.userAgent || 'N/A'}</td></tr>
                       </table>
                     </td>
@@ -776,7 +820,7 @@ export function getAdminEmailHTML_KOR(submission: ContactSubmission): string {
             </tr>
             <tr>
               <td style="padding: 8px 24px 16px 24px; font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; color:#4b5563;">
-                감사합니다,<br><strong style="color:#4b5563;">HandokHelper 팀 드림</strong>
+                ê°ì‚¬í•©ë‹ˆë‹¤,<br><strong style="color:#4b5563;">HandokHelper íŒ€ ë“œë¦¼</strong>
               </td>
             </tr>
             <tr>
@@ -788,10 +832,10 @@ export function getAdminEmailHTML_KOR(submission: ContactSubmission): string {
             </tr>
             <tr>
               <td class="footer-text" style="padding: 16px 24px 20px 24px; font-family: Arial, sans-serif; font-size: 13px; line-height: 20px; color:#9ca3af; text-align:left;">
-                HandokHelper<br>Michaelstraße 26 · 65936 Frankfurt am Main · Germany<br><br>
-                <a href="https://www.handokhelper.de/imprint" target="_blank" style="color:#6d28d9; text-decoration:none;">법적 고지 (Imprint)</a>
-                &nbsp;•&nbsp;
-                <a href="https://www.handokhelper.de/privacy-policy" target="_blank" style="color:#6d28d9; text-decoration:none;">개인정보 처리방침</a>
+                HandokHelper<br>MichaelstraÃŸe 26 Â· 65936 Frankfurt am Main Â· Germany<br><br>
+                <a href="https://www.handokhelper.de/imprint" target="_blank" style="color:#6d28d9; text-decoration:none;">ë²•ì  ê³ ì§€ (Imprint)</a>
+                &nbsp;â€¢&nbsp;
+                <a href="https://www.handokhelper.de/privacy-policy" target="_blank" style="color:#6d28d9; text-decoration:none;">ê°œì¸ì •ë³´ ì²˜ë¦¬ë°©ì¹¨</a>
               </td>
             </tr>
           </table>
@@ -811,14 +855,48 @@ export function getAdminEmailHTML_KOR(submission: ContactSubmission): string {
  */
 export async function sendInvoiceEmail(invoice: any, pdfBase64: string): Promise<boolean> {
   const mailjet = createMailjetClient();
+  const language = 'en'; // Invoice emails are currently English only by default
 
-  const emailContentText = getInvoiceEmailText(invoice);
-  const emailContentHTML = getInvoiceEmailHTML(invoice);
-  const subject = `Invoice ${invoice.invoiceNumber} from HandokHelper`;
+  // Fetch template from database
+  let subject: string;
+  let emailContentText: string;
+  let emailContentHTML: string;
+  let senderName = 'HandokHelper Accounting';
+  let senderEmail = process.env.EMAIL_FROM || 'noreply@handokhelper.de';
+
+  try {
+    const { getEmailTemplate, replacePlaceholders } = await import('./email-templates');
+    const template = await getEmailTemplate('invoice_creation', language);
+
+    // Prepare data for placeholders
+    const data = {
+      ...invoice,
+      formattedTotal: new Intl.NumberFormat('de-DE', { style: 'currency', currency: invoice.currency || 'EUR' }).format(invoice.total),
+    };
+
+    if (template) {
+      subject = replacePlaceholders(template.subject, data);
+      emailContentText = replacePlaceholders(template.textContent || '', data);
+      emailContentHTML = replacePlaceholders(template.htmlContent, data);
+      if (template.senderName) senderName = template.senderName;
+      if (template.senderEmail) senderEmail = template.senderEmail;
+    } else {
+      // Fallback to hardcoded
+      subject = `Invoice ${invoice.invoiceNumber} from HandokHelper`;
+      emailContentText = getInvoiceEmailText(invoice);
+      emailContentHTML = getInvoiceEmailHTML(invoice);
+    }
+  } catch (error) {
+    console.error('[Email] Failed to fetch template, using fallback:', error);
+    subject = `Invoice ${invoice.invoiceNumber} from HandokHelper`;
+    emailContentText = getInvoiceEmailText(invoice);
+    emailContentHTML = getInvoiceEmailHTML(invoice);
+  }
 
   if (!mailjet) {
     console.log('[Email] MailJet not configured, invoice email (would be sent to client):');
     console.log('To:', invoice.clientEmail);
+    console.log('From:', `${senderName} <${senderEmail}>`);
     console.log('Subject:', subject);
     console.log('Attachment:', `${invoice.invoiceNumber}.pdf (${Math.round(pdfBase64.length / 1024)} KB)`);
     return true;
@@ -829,8 +907,8 @@ export async function sendInvoiceEmail(invoice: any, pdfBase64: string): Promise
       Messages: [
         {
           From: {
-            Email: process.env.EMAIL_FROM || 'noreply@handokhelper.de',
-            Name: 'HandokHelper Accounting',
+            Email: senderEmail,
+            Name: senderName,
           },
           To: [
             {
@@ -872,16 +950,12 @@ export async function sendInvoiceEmail(invoice: any, pdfBase64: string): Promise
   }
 }
 
-function getInvoiceEmailText(invoice: any): string {
+export function getInvoiceEmailText(invoice: any): string {
   return `
-Dear ${invoice.clientName},
-
-Please find attached invoice ${invoice.invoiceNumber} for your recent services.
-
 Invoice Details:
 Invoice Number: ${invoice.invoiceNumber}
 Issue Date: ${new Date(invoice.issueDate).toLocaleDateString()}
-Due Date: ${new Date(invoice.dueDate).toLocaleDateString()}
+DueDate: ${new Date(invoice.dueDate).toLocaleDateString()}
 Total Amount: ${new Intl.NumberFormat('de-DE', { style: 'currency', currency: invoice.currency || 'EUR' }).format(invoice.total)}
 
 Please arrange for payment by the due date.
@@ -890,7 +964,7 @@ If you have any questions regarding this invoice, please do not hesitate to cont
 
 Best regards,
 HandokHelper Team
-  `.trim();
+      `.trim();
 }
 
 export function getInvoiceEmailHTML(invoice: any): string {
@@ -899,13 +973,13 @@ export function getInvoiceEmailHTML(invoice: any): string {
   const dueDate = new Date(invoice.dueDate).toLocaleDateString();
 
   return `<!doctype html>
-<html>
-  <head>
+    <html>
+    <head>
     <meta charset="utf-8">
-    <title>Invoice ${invoice.invoiceNumber}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style type="text/css">
-      html, body { margin: 0; padding: 0; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; }
+      <title>Invoice ${invoice.invoiceNumber}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <style type="text/css">
+            html, body { margin: 0; padding: 0; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; }
       body { background-color: #f3f4f6; }
       img { border: 0; line-height: 100%; text-decoration: none; -ms-interpolation-mode: bicubic; }
       table { border-collapse: collapse !important; }
@@ -914,113 +988,113 @@ export function getInvoiceEmailHTML(invoice: any): string {
       .button-td, .button-a { transition: all 100ms ease-in; }
       .button-a { font-family: Arial, sans-serif; font-size: 16px; text-decoration: none; line-height: 20px; font-weight: bold; display: inline-block; padding: 12px 24px; border-radius: 999px; background-color: #4f46e5; border: 1px solid #4f46e5; color: #ffffff; }
       .button-td:hover .button-a { background-color: #4338ca !important; border-color: #4338ca !important; }
-      @media screen and (max-width: 600px) { .email-container { width: 100% !important; } .logo-center img { max-width: 48px !important; } .logo-center { padding-right: 12px !important; } .company-name { font-size: 22px !important; line-height: 26px !important; } }
-      @media screen and (max-width: 400px) { .logo-center img { max-width: 40px !important; } .logo-center { padding-right: 10px !important; } .company-name { font-size: 20px !important; line-height: 24px !important; } }
-      @media (prefers-color-scheme: dark) {
-        body, table[bgcolor="#f3f4f6"] { background-color: #0f172a !important; }
-        table.email-container, table[bgcolor="#ffffff"] { background-color: #1e293b !important; }
+  @media screen and (max-width: 600px) { .email-container { width: 100% !important; } .logo-center img { max-width: 48px !important; } .logo-center { padding-right: 12px !important; } .company-name { font-size: 22px !important; line-height: 26px !important; } }
+  @media screen and (max-width: 400px) { .logo-center img { max-width: 40px !important; } .logo-center { padding-right: 10px !important; } .company-name { font-size: 20px !important; line-height: 24px !important; } }
+  @media (prefers-color-scheme: dark) {
+    body, table[bgcolor="#f3f4f6"] { background-color: #0f172a !important; }
+    table.email-container, table[bgcolor="#ffffff"] { background-color: #1e293b !important; }
         .company-name, td, p, div, span { color: #e5e7eb !important; }
-        h1, h2, h3 { color: #f1f5f9 !important; }
-        td[style*="border-bottom"], td[style*="border-top"], table[style*="border: 1px solid"] { border-color: #334155 !important; }
-        table[style*="background: #f9fafb"] { background: #334155 !important; }
-        td[width="6"][style*="background:#4f46e5"] { background: #6366f1 !important; }
+    h1, h2, h3 { color: #f1f5f9 !important; }
+    td[style*="border-bottom"], td[style*="border-top"], table[style*="border: 1px solid"] { border-color: #334155 !important; }
+    table[style*="background: #f9fafb"] { background: #334155 !important; }
+    td[width="6"][style*="background:#4f46e5"] { background: #6366f1 !important; }
         .button-a { background-color: #4f46e5 !important; border-color: #4f46e5 !important; color: #ffffff !important; }
         .footer-text { color: #94a3b8 !important; }
-      }
-    </style>
-  </head>
-  <body yahoo="yahoo">
-    <div style="display:none;font-size:1px;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;">
-      Invoice ${invoice.invoiceNumber} from HandokHelper
-    </div>
-    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#f3f4f6">
-      <tr>
-        <td align="center" style="padding: 30px 16px;">
-          <table role="presentation" cellpadding="0" cellspacing="0" border="0" class="email-container" bgcolor="#ffffff" style="border-radius: 16px; overflow: hidden; box-shadow: 0 8px 24px -6px rgba(15, 23, 42, 0.06);">
-            <!-- HEADER -->
+  }
+  </style>
+    </head>
+    <body yahoo="yahoo">
+      <div style="display:none;font-size:1px;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;">
+        Invoice ${invoice.invoiceNumber} from HandokHelper
+          </div>
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#f3f4f6">
             <tr>
-              <td style="padding: 24px 24px 24px 24px;">
-                <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+            <td align="center" style="padding: 30px 16px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" class="email-container" bgcolor="#ffffff" style="border-radius: 16px; overflow: hidden; box-shadow: 0 8px 24px -6px rgba(15, 23, 42, 0.06);">
+                <!-- HEADER -->
                   <tr>
-                    <td class="logo-center" valign="middle" width="1%" style="padding-right: 16px;">
-                      <img src="https://www.handokhelper.de/images/HandokHelperLogoOnly.png" width="56" alt="HandokHelper Logo">
-                    </td>
-                    <td class="company-name" valign="middle" style="font-family: Arial, sans-serif; font-size: 28px; line-height: 32px; color:#111827; font-weight:bold;">
-                      HandokHelper
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
-            <!-- DIVIDER -->
-            <tr>
-              <td style="padding: 0 24px;">
-                <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
-                  <tr><td style="border-bottom: 1px solid #e5e7eb; font-size:0; line-height:0;">&nbsp;</td></tr>
-                </table>
-              </td>
-            </tr>
-            <!-- CONTENT -->
-            <tr>
-              <td style="padding: 24px 24px 12px 24px; font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; color:#4b5563;">
-                <p style="margin: 0 0 12px 0;"><b>Dear ${invoice.clientName},</b></p>
-                <p style="margin: 0 0 12px 0;">Please find attached invoice <b>${invoice.invoiceNumber}</b> for your recent services.</p>
-              </td>
-            </tr>
-            <!-- INVOICE DETAILS BOX -->
-            <tr>
-              <td style="padding: 0 24px 16px 24px;">
-                <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background: #f9fafb; border: 1px solid #e5e7eb;">
-                  <tr>
-                    <td width="6" style="background:#4f46e5;">&nbsp;</td>
-                    <td style="padding: 14px 16px; font-family: Arial, sans-serif; font-size: 15px; line-height: 22px;">
-                      <div style="font-size: 16px; font-weight:600; margin-bottom: 8px;">Invoice Details</div>
-                      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
-                        <tr><td width="120" style="padding: 2px 0; font-weight:600; color:#6b7280;">Invoice Number:</td><td style="padding: 2px 0; color:#111827;">${invoice.invoiceNumber}</td></tr>
-                        <tr><td width="120" style="padding: 2px 0; font-weight:600; color:#6b7280;">Issue Date:</td><td style="padding: 2px 0; color:#111827;">${issueDate}</td></tr>
-                        <tr><td width="120" style="padding: 2px 0; font-weight:600; color:#6b7280;">Due Date:</td><td style="padding: 2px 0; color:#111827;">${dueDate}</td></tr>
-                        <tr><td colspan="2" style="padding-top: 8px; border-top: 1px solid #e5e7eb; margin-top: 8px;"></td></tr>
-                        <tr><td width="120" style="padding: 2px 0; font-weight:600; color:#6b7280; font-size: 16px;">Total Amount:</td><td style="padding: 2px 0; color:#4f46e5; font-weight: bold; font-size: 16px;">${formattedTotal}</td></tr>
-                      </table>
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
-            <!-- CLOSING -->
-            <tr>
-              <td style="padding: 8px 24px 8px 24px; font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; color:#4b5563;">
-                 Please arrange for payment by the due date stated above.
-                 <br><br>
-                 If you have any questions regarding this invoice, please do not hesitate to contact us.
-              </td>
-            </tr>
-            <tr>
-              <td style="padding: 8px 24px 16px 24px; font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; color:#4b5563;">
-                Best regards,<br><strong style="color:#4b5563;">HandokHelper Team</strong>
-              </td>
-            </tr>
-            <!-- FOOTER DIVIDER -->
-            <tr>
-              <td style="padding: 0 24px 0 24px;">
-                <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
-                  <tr><td style="border-top: 1px solid #e5e7eb; font-size:0; line-height:0;">&nbsp;</td></tr>
-                </table>
-              </td>
-            </tr>
-            <!-- FOOTER -->
-            <tr>
-              <td class="footer-text" style="padding: 16px 24px 20px 24px; font-family: Arial, sans-serif; font-size: 13px; line-height: 20px; color:#9ca3af; text-align:left;">
-                HandokHelper<br>Michaelstraße 26 · 65936 Frankfurt am Main · Germany<br><br>
-                <a href="https://www.handokhelper.de/imprint" target="_blank" style="color:#6d28d9; text-decoration:none;">Imprint</a>
-                &nbsp;•&nbsp;
-                <a href="https://www.handokhelper.de/privacy-policy" target="_blank" style="color:#6d28d9; text-decoration:none;">Privacy policy</a>
-              </td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-    </table>
-  </body>
-</html>`;
+                  <td style="padding: 24px 24px 24px 24px;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                      <tr>
+                      <td class="logo-center" valign="middle" width="1%" style="padding-right: 16px;">
+                        <img src="https://www.handokhelper.de/images/HandokHelperLogoOnly.png" width="56" alt="HandokHelper Logo">
+                          </td>
+                          <td class="company-name" valign="middle" style="font-family: Arial, sans-serif; font-size: 28px; line-height: 32px; color:#111827; font-weight:bold;">
+                            HandokHelper
+                            </td>
+                            </tr>
+                            </table>
+                            </td>
+                            </tr>
+                            <!-- DIVIDER -->
+                              <tr>
+                              <td style="padding: 0 24px;">
+                                <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                                  <tr><td style="border-bottom: 1px solid #e5e7eb; font-size:0; line-height:0;">&nbsp;</td></tr>
+                                    </table>
+                                    </td>
+                                    </tr>
+                                    <!-- CONTENT -->
+                                      <tr>
+                                      <td style="padding: 24px 24px 12px 24px; font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; color:#4b5563;">
+                                        <p style="margin: 0 0 12px 0;"><b>Dear ${invoice.clientName},</b></p>
+                                          <p style="margin: 0 0 12px 0;">Please find attached invoice <b>${invoice.invoiceNumber}</b> for your recent services.</p>
+                                            </td>
+                                            </tr>
+                                            <!-- INVOICE DETAILS BOX -->
+                                              <tr>
+                                              <td style="padding: 0 24px 16px 24px;">
+                                                <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background: #f9fafb; border: 1px solid #e5e7eb;">
+                                                  <tr>
+                                                  <td width="6" style="background:#4f46e5;">&nbsp;</td>
+                                                    <td style="padding: 14px 16px; font-family: Arial, sans-serif; font-size: 15px; line-height: 22px;">
+                                                      <div style="font-size: 16px; font-weight:600; margin-bottom: 8px;">Invoice Details</div>
+                                                        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                          <tr><td width="120" style="padding: 2px 0; font-weight:600; color:#6b7280;">Invoice Number:</td><td style="padding: 2px 0; color:#111827;">${invoice.invoiceNumber}</td></tr>
+                                                            <tr><td width="120" style="padding: 2px 0; font-weight:600; color:#6b7280;">Issue Date:</td><td style="padding: 2px 0; color:#111827;">${issueDate}</td></tr>
+                                                              <tr><td width="120" style="padding: 2px 0; font-weight:600; color:#6b7280;">Due Date:</td><td style="padding: 2px 0; color:#111827;">${dueDate}</td></tr>
+                                                                <tr><td colspan="2" style="padding-top: 8px; border-top: 1px solid #e5e7eb; margin-top: 8px;"></td></tr>
+                                                                  <tr><td width="120" style="padding: 2px 0; font-weight:600; color:#6b7280; font-size: 16px;">Total Amount:</td><td style="padding: 2px 0; color:#4f46e5; font-weight: bold; font-size: 16px;">${formattedTotal}</td></tr>
+                                                                    </table>
+                                                                    </td>
+                                                                    </tr>
+                                                                    </table>
+                                                                    </td>
+                                                                    </tr>
+                                                                    <!-- CLOSING -->
+                                                                      <tr>
+                                                                      <td style="padding: 8px 24px 8px 24px; font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; color:#4b5563;">
+                                                                        Please arrange for payment by the due date stated above.
+                                                                        <br><br>
+                                                                          If you have any questions regarding this invoice, please do not hesitate to contact us.
+                                                                          </td>
+                                                                          </tr>
+                                                                          <tr>
+                                                                          <td style="padding: 8px 24px 16px 24px; font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; color:#4b5563;">
+                                                                            Best regards,<br><strong style="color:#4b5563;">HandokHelper Team</strong>
+                                                                              </td>
+                                                                              </tr>
+                                                                              <!-- FOOTER DIVIDER -->
+                                                                                <tr>
+                                                                                <td style="padding: 0 24px 0 24px;">
+                                                                                  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                                                    <tr><td style="border-top: 1px solid #e5e7eb; font-size:0; line-height:0;">&nbsp;</td></tr>
+                                                                                      </table>
+                                                                                      </td>
+                                                                                      </tr>
+                                                                                      <!-- FOOTER -->
+                                                                                        <tr>
+                                                                                        <td class="footer-text" style="padding: 16px 24px 20px 24px; font-family: Arial, sans-serif; font-size: 13px; line-height: 20px; color:#9ca3af; text-align:left;">
+                                                                                          HandokHelper<br>MichaelstraÃŸe 26 Â· 65936 Frankfurt am Main Â· Germany<br><br>
+                                                                                            <a href="https://www.handokhelper.de/imprint" target="_blank" style="color:#6d28d9; text-decoration:none;">Imprint</a>
+                                                                                              &nbsp;â€¢&nbsp;
+                                                                                              <a href="https://www.handokhelper.de/privacy-policy" target="_blank" style="color:#6d28d9; text-decoration:none;">Privacy policy</a>
+                                                                                              </td>
+                                                                                              </tr>
+                                                                                              </table>
+                                                                                              </td>
+                                                                                              </tr>
+                                                                                              </table>
+                                                                                              </body>
+                                                                                              </html>`;
 }

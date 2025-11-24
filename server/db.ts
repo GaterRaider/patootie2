@@ -17,7 +17,15 @@ import { ENV } from "./_core/env";
 console.log("DATABASE_URL from env:", process.env.DATABASE_URL);
 
 let pool: Pool | null = null;
-let _db: ReturnType<typeof drizzle> | null = null;
+export let _db: ReturnType<typeof drizzle> | null = null;
+export const db = _db!; // Export for use in other files, assuming initialized. Better pattern would be to always use getDb() but for now matching existing usage if any.
+
+// Actually, looking at email-templates.ts, it imports `db` from `./db`.
+// But `db` is not exported in the original file.
+// I should export a `db` proxy or similar, or update email-templates to use getDb().
+// Updating email-templates to use getDb() is cleaner but `db` export is requested by the error.
+// Let's export a getter or just the variable.
+
 
 // Lazily create the drizzle instance so local tooling can run without a DB.
 export async function getDb() {
@@ -512,7 +520,7 @@ export async function checkAdminLoginRateLimit(
 
     const attemptCount = result[0]?.count || 0;
     const isRateLimited = attemptCount >= MAX_ATTEMPTS;
-    
+
     return !isRateLimited;
   } catch (error) {
     console.error("[AdminRateLimit] Failed to check rate limit:", error);
@@ -538,7 +546,7 @@ export async function recordAdminLoginAttempt(
 
   try {
     const { adminLoginAttempts } = await import("../drizzle/schema");
-    
+
     await db.insert(adminLoginAttempts).values({
       ipAddress,
       attemptedUsername: username,

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
-import { Loader2, LayoutDashboard, LogOut, ScrollText, FileText, Settings as SettingsIcon, Moon, Sun, Menu, X, FileStack } from "lucide-react";
+import { Loader2, LayoutDashboard, LogOut, ScrollText, FileText, Settings as SettingsIcon, Moon, Sun, Menu, X, FileStack, Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/contexts/ThemeContext";
 
@@ -100,6 +100,15 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                     )}>
                         <ScrollText className="h-4 w-4" />
                         Activity Log
+                    </a>
+                </Link>
+                <Link href="/admin/emails">
+                    <a className={cn(
+                        "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
+                        location.startsWith("/admin/emails") ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
+                    )}>
+                        <Mail className="h-4 w-4" />
+                        Emails
                     </a>
                 </Link>
                 <Link href="/admin/settings">

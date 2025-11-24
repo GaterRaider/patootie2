@@ -798,83 +798,80 @@ export const appRouter = router({
     }),
 
     analytics: router({
-      getSummaryMetrics: adminProcedure
-        .input(
-          z.object({
-            startDate: z.string().optional(),
-            endDate: z.string().optional(),
-          }).optional()
-        )
+      getSummary: adminProcedure.query(async () => {
+        return await getSummaryMetrics();
+      }),
+      getSubmissionsOverTime: adminProcedure.query(async () => {
+        return await getSubmissionsOverTime();
+      }),
+      getSubmissionsByService: adminProcedure.query(async () => {
+        return await getSubmissionsByService();
+      }),
+      getRevenueTrends: adminProcedure.query(async () => {
+        return await getRevenueTrends();
+      }),
+      getInvoiceStatusDistribution: adminProcedure.query(async () => {
+        return await getInvoiceStatusDistribution();
+      }),
+      getResponseTimeMetrics: adminProcedure.query(async () => {
+        return await getResponseTimeMetrics();
+      }),
+      getTopServicesByRevenue: adminProcedure.query(async () => {
+        return await getTopServicesByRevenue();
+      }),
+    }),
+
+    emailTemplates: router({
+      getAll: adminProcedure.query(async () => {
+        const { getAllEmailTemplates, initializeEmailTemplates } = await import("./email-templates");
+        // Ensure templates exist
+        await initializeEmailTemplates();
+        return await getAllEmailTemplates();
+      }),
+
+      getOne: adminProcedure
+        .input(z.object({ key: z.string(), language: z.string() }))
         .query(async ({ input }) => {
-          return await getSummaryMetrics(input);
+          const { getEmailTemplate } = await import("./email-templates");
+          const template = await getEmailTemplate(input.key, input.language);
+          if (!template) {
+            throw new TRPCError({ code: "NOT_FOUND", message: "Template not found" });
+          }
+          return template;
         }),
 
-      getSubmissionsOverTime: adminProcedure
+      update: adminProcedure
         .input(
           z.object({
-            startDate: z.string().optional(),
-            endDate: z.string().optional(),
-            groupBy: z.enum(['day', 'week', 'month']).optional(),
-          }).optional()
+            id: z.number(),
+            subject: z.string(),
+            htmlContent: z.string(),
+            textContent: z.string().optional(),
+            senderName: z.string().optional(),
+            senderEmail: z.string().optional(),
+          })
         )
-        .query(async ({ input }) => {
-          return await getSubmissionsOverTime(input, input?.groupBy);
+        .mutation(async ({ input, ctx }) => {
+          const { updateEmailTemplate } = await import("./email-templates");
+          const updated = await updateEmailTemplate(input.id, input, ctx.adminId);
+
+          await logActivity({
+            adminId: ctx.adminId,
+            action: "UPDATE_EMAIL_TEMPLATE",
+            entityType: "EMAIL_TEMPLATE",
+            entityId: input.id,
+            ipAddress: ctx.req.ip || ctx.req.socket.remoteAddress,
+            userAgent: ctx.req.headers["user-agent"],
+          });
+
+          return updated;
         }),
 
-      getSubmissionsByService: adminProcedure
-        .input(
-          z.object({
-            startDate: z.string().optional(),
-            endDate: z.string().optional(),
-          }).optional()
-        )
+      getPlaceholders: adminProcedure
+        .input(z.object({ key: z.string() }))
         .query(async ({ input }) => {
-          return await getSubmissionsByService(input);
-        }),
-
-      getRevenueTrends: adminProcedure
-        .input(
-          z.object({
-            startDate: z.string().optional(),
-            endDate: z.string().optional(),
-          }).optional()
-        )
-        .query(async ({ input }) => {
-          return await getRevenueTrends(input);
-        }),
-
-      getInvoiceStatusDistribution: adminProcedure
-        .input(
-          z.object({
-            startDate: z.string().optional(),
-            endDate: z.string().optional(),
-          }).optional()
-        )
-        .query(async ({ input }) => {
-          return await getInvoiceStatusDistribution(input);
-        }),
-
-      getResponseTimeMetrics: adminProcedure
-        .input(
-          z.object({
-            startDate: z.string().optional(),
-            endDate: z.string().optional(),
-          }).optional()
-        )
-        .query(async ({ input }) => {
-          return await getResponseTimeMetrics(input);
-        }),
-
-      getTopServicesByRevenue: adminProcedure
-        .input(
-          z.object({
-            startDate: z.string().optional(),
-            endDate: z.string().optional(),
-            limit: z.number().optional(),
-          }).optional()
-        )
-        .query(async ({ input }) => {
-          return await getTopServicesByRevenue(input, input?.limit);
+          const { PLACEHOLDERS } = await import("./email-templates");
+          return PLACEHOLDERS[input.key as keyof typeof PLACEHOLDERS] || [];
         }),
     }),
   }),

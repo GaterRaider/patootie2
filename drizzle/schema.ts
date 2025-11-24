@@ -1,4 +1,4 @@
-import { integer, pgEnum, pgTable, text, timestamp, varchar, boolean, jsonb, decimal, date } from "drizzle-orm/pg-core";
+import { integer, pgEnum, pgTable, text, timestamp, varchar, boolean, jsonb, decimal, date, unique } from "drizzle-orm/pg-core";
 
 /**
  * Define enum for user roles
@@ -261,3 +261,23 @@ export const paymentHistory = pgTable("paymentHistory", {
 export type PaymentHistory = typeof paymentHistory.$inferSelect;
 export type InsertPaymentHistory = typeof paymentHistory.$inferInsert;
 
+/**
+ * Email templates for dynamic email content
+ */
+export const emailTemplates = pgTable("emailTemplates", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  templateKey: varchar("templateKey", { length: 100 }).notNull(), // e.g., 'form_submission', 'invoice_creation'
+  language: varchar("language", { length: 10 }).notNull(), // 'en' or 'ko'
+  subject: text("subject").notNull(),
+  senderName: varchar("senderName", { length: 100 }),
+  senderEmail: varchar("senderEmail", { length: 320 }),
+  htmlContent: text("htmlContent").notNull(),
+  textContent: text("textContent"),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+  updatedBy: integer("updatedBy").references(() => adminUsers.id),
+}, (t) => ({
+  uniqueKeyLang: unique().on(t.templateKey, t.language),
+}));
+
+export type EmailTemplate = typeof emailTemplates.$inferSelect;
+export type InsertEmailTemplate = typeof emailTemplates.$inferInsert;

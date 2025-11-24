@@ -43,6 +43,13 @@
       "when": 1763922350964,
       "tag": "0005_odd_roulette",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1763989295279,
+      "tag": "0006_chilly_mesmero",
+      "breakpoints": true
     }
   ]
 }

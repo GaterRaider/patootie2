@@ -17,6 +17,8 @@ import SubmissionDetail from "./pages/admin/SubmissionDetail";
 import Invoices from "./pages/admin/Invoices";
 import InvoiceForm from "./pages/admin/InvoiceForm";
 import Settings from "./pages/admin/Settings";
+import EmailTemplates from "./pages/admin/EmailTemplates";
+import EmailTemplateEditor from "./pages/admin/EmailTemplateEditor";
 import AdminLayout from "./components/AdminLayout";
 
 function Router() {
@@ -74,6 +76,18 @@ function Router() {
       <Route path="/admin/settings">
         <AdminLayout>
           <Settings />
+        </AdminLayout>
+      </Route>
+
+      <Route path="/admin/emails/:key/:language">
+        <AdminLayout>
+          <EmailTemplateEditor />
+        </AdminLayout>
+      </Route>
+
+      <Route path="/admin/emails">
+        <AdminLayout>
+          <EmailTemplates />
         </AdminLayout>
       </Route>
 
