@@ -24,9 +24,9 @@ export function LanguageProvider({ children, initialLanguage }: LanguageProvider
   const [location, setLocation] = useLocation();
   const search = useSearch();
 
-  // Get country from IP geolocation
+  // Get country from IP geolocation (skip in SSR mode)
   const { data: geoData } = trpc.geo.getCountry.useQuery(undefined, {
-    enabled: !initialized,
+    enabled: !initialized && !initialLanguage, // Disable in SSR mode
   });
 
   // Sync state with URL path
