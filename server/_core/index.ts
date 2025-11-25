@@ -9,6 +9,11 @@ import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
 
+// Set NODE_ENV to development if not set (for Windows compatibility)
+if (!process.env.NODE_ENV) {
+  process.env.NODE_ENV = "development";
+}
+
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
     const server = net.createServer();
@@ -61,9 +66,12 @@ async function startServer() {
     })
   );
   // development mode uses Vite, production mode uses static files
+  console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
   if (process.env.NODE_ENV === "development") {
+    console.log("📦 Running in DEVELOPMENT mode - using Vite");
     await setupVite(app, server);
   } else {
+    console.log("📦 Running in PRODUCTION mode - serving static files");
     serveStatic(app);
   }
 

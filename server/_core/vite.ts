@@ -7,6 +7,7 @@ import { createServer as createViteServer } from "vite";
 import viteConfig from "../../vite.config";
 
 export async function setupVite(app: Express, server: Server) {
+  console.log("🚀 Setting up Vite dev server...");
   const serverOptions = {
     middlewareMode: true,
     hmr: { server },
@@ -21,6 +22,29 @@ export async function setupVite(app: Express, server: Server) {
   });
 
   app.use(vite.middlewares);
+
+  // Serve index.html for all routes (SPA fallback)
+  app.use("*", async (req, res, next) => {
+    const url = req.originalUrl;
+
+    try {
+      // Read index.html
+      const template = fs.readFileSync(
+        path.resolve(import.meta.dirname, "../../client/index.html"),
+        "utf-8"
+      );
+
+      // Transform HTML with Vite
+      const html = await vite.transformIndexHtml(url, template);
+
+      res.status(200).set({ "Content-Type": "text/html" }).end(html);
+    } catch (e) {
+      vite.ssrFixStacktrace(e as Error);
+      next(e);
+    }
+  });
+
+  console.log("✅ Vite dev server ready!");
 }
 
 export function serveStatic(app: Express) {
