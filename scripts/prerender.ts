@@ -59,8 +59,7 @@ if (typeof window === 'undefined') {
     removeItem: () => { },
   };
 
-    userAgent: 'Node.js'
-  };
+
 }
 
 // Import providers and pages
