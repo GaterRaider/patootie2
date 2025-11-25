@@ -14,8 +14,22 @@ if (typeof window === 'undefined') {
   const globalAny = global as any;
 
   globalAny.window = {
-    location: { search: '' },
-    matchMedia: () => ({ matches: false, addListener: () => { }, removeListener: () => { } }),
+    location: {
+      search: '',
+      pathname: '/',
+      href: 'http://localhost:3000',
+      origin: 'http://localhost:3000'
+    },
+    matchMedia: () => ({ matches: false, addListener: () => { }, removeListener: () => { }, addEventListener: () => { }, removeEventListener: () => { } }),
+    addEventListener: () => { },
+    removeEventListener: () => { },
+    history: {
+      replaceState: () => { },
+      pushState: () => { }
+    },
+    scrollTo: () => { },
+    requestAnimationFrame: (cb: any) => setTimeout(cb, 0),
+    cancelAnimationFrame: () => { },
   };
 
   globalAny.document = {
@@ -23,11 +37,30 @@ if (typeof window === 'undefined') {
       classList: { add: () => { }, remove: () => { } },
     },
     getElementById: () => null,
+    querySelector: () => null,
+    querySelectorAll: () => [],
+    addEventListener: () => { },
+    removeEventListener: () => { },
+    createElement: () => ({
+      setAttribute: () => { },
+      style: {}
+    })
   };
 
   globalAny.localStorage = {
     getItem: () => null,
     setItem: () => { },
+    removeItem: () => { },
+  };
+
+  globalAny.sessionStorage = {
+    getItem: () => null,
+    setItem: () => { },
+    removeItem: () => { },
+  };
+
+  globalAny.navigator = {
+    userAgent: 'Node.js'
   };
 }
 
