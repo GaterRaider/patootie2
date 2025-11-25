@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
-import { Loader2, LayoutDashboard, LogOut, ScrollText, FileText, Settings as SettingsIcon, Moon, Sun, Menu, X, FileStack, Mail } from "lucide-react";
+import { Loader2, LayoutDashboard, LogOut, ScrollText, FileText, Settings as SettingsIcon, Moon, Sun, Menu, X, FileStack, Mail, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/contexts/ThemeContext";
 
@@ -82,6 +82,15 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                     )}>
                         <FileStack className="h-4 w-4" />
                         Submissions
+                    </a>
+                </Link>
+                <Link href="/admin/board">
+                    <a className={cn(
+                        "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
+                        location === "/admin/board" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
+                    )}>
+                        <LayoutDashboard className="h-4 w-4" />
+                        Board
                     </a>
                 </Link>
                 <Link href="/admin/invoices">
@@ -197,6 +206,15 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                                 Submissions
                             </a>
                         </Link>
+                        <Link href="/admin/board">
+                            <a className={cn(
+                                "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
+                                location === "/admin/board" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
+                            )}>
+                                <LayoutDashboard className="h-4 w-4" />
+                                Board
+                            </a>
+                        </Link>
                         <Link href="/admin/invoices">
                             <a className={cn(
                                 "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
@@ -222,6 +240,15 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                             )}>
                                 <SettingsIcon className="h-4 w-4" />
                                 Settings
+                            </a>
+                        </Link>
+                        <Link href="/admin/users">
+                            <a className={cn(
+                                "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
+                                location === "/admin/users" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
+                            )}>
+                                <Users className="h-4 w-4" />
+                                Users
                             </a>
                         </Link>
                     </nav>

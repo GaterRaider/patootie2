@@ -408,15 +408,74 @@ export async function getContactSubmissionsByIds(ids: number[]) {
 /**
  * Get all activity logs
  */
-export async function getAllActivityLogs(limit = 50) {
+export async function getAllActivityLogs(options?: {
+  limit?: number;
+  offset?: number;
+  adminId?: number;
+  action?: string;
+  entityType?: string;
+  search?: string;
+}) {
   const db = await getDb();
-  if (!db) return [];
+  if (!db) return { logs: [], total: 0 };
 
-  return await db
-    .select()
-    .from(activityLogs)
-    .orderBy(desc(activityLogs.createdAt))
-    .limit(limit);
+  const limit = options?.limit || 50;
+  const offset = options?.offset || 0;
+
+  const conditions = [];
+  if (options?.adminId) {
+    conditions.push(eq(activityLogs.adminId, options.adminId));
+  }
+  if (options?.action) {
+    conditions.push(eq(activityLogs.action, options.action));
+  }
+  if (options?.entityType) {
+    conditions.push(eq(activityLogs.entityType, options.entityType));
+  }
+  if (options?.search) {
+    // Search in details JSON or other fields if needed.
+    // For now, let's search in action or entityType if not exact match,
+    // or maybe we can cast details to text.
+    // Drizzle doesn't support JSON search easily in all drivers, but PG does.
+    // Let's stick to simple search for now.
+    const search = `%${options.search}%`;
+    conditions.push(
+      or(
+        ilike(activityLogs.action, search),
+        ilike(activityLogs.entityType, search),
+        // ilike(activityLogs.details, search) // JSONB search is tricky
+      )
+    );
+  }
+
+  const [logs, total] = await Promise.all([
+    db
+      .select({
+        id: activityLogs.id,
+        adminId: activityLogs.adminId,
+        action: activityLogs.action,
+        entityType: activityLogs.entityType,
+        entityId: activityLogs.entityId,
+        details: activityLogs.details,
+        ipAddress: activityLogs.ipAddress,
+        userAgent: activityLogs.userAgent,
+        createdAt: activityLogs.createdAt,
+        adminUsername: adminUsers.username,
+      })
+      .from(activityLogs)
+      .leftJoin(adminUsers, eq(activityLogs.adminId, adminUsers.id))
+      .where(and(...conditions))
+      .orderBy(desc(activityLogs.createdAt))
+      .limit(limit)
+      .offset(offset),
+    db
+      .select({ count: count() })
+      .from(activityLogs)
+      .where(and(...conditions))
+      .then((res) => res[0]?.count || 0),
+  ]);
+
+  return { logs, total };
 }
 
 /**
@@ -558,4 +617,72 @@ export async function recordAdminLoginAttempt(
     console.error("[AdminRateLimit] Failed to record login attempt:", error);
     // Don't throw - we don't want to block login on logging failure
   }
+}
+
+/**
+ * Get all admin users
+ */
+export async function getAllAdminUsers() {
+  const db = await getDb();
+  if (!db) return [];
+
+  return await db
+    .select({
+      id: adminUsers.id,
+      username: adminUsers.username,
+      createdAt: adminUsers.createdAt,
+    })
+    .from(adminUsers)
+    .orderBy(desc(adminUsers.createdAt));
+}
+
+/**
+ * Create a new admin user
+ */
+export async function createAdminUser(username: string, passwordHash: string) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  const result = await db
+    .insert(adminUsers)
+    .values({
+      username,
+      passwordHash,
+    })
+    .returning({
+      id: adminUsers.id,
+      username: adminUsers.username,
+      createdAt: adminUsers.createdAt,
+    });
+
+  return result[0];
+}
+
+/**
+ * Delete an admin user
+ */
+export async function deleteAdminUser(id: number) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  await db.delete(adminUsers).where(eq(adminUsers.id, id));
+}
+
+/**
+ * Update admin user password
+ */
+export async function updateAdminUserPassword(id: number, passwordHash: string) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  await db
+    .update(adminUsers)
+    .set({ passwordHash })
+    .where(eq(adminUsers.id, id));
 }

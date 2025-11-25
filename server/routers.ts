@@ -18,6 +18,10 @@ import {
   updateContactSubmissionStatus,
   getSubmissionNotes,
   createSubmissionNote,
+  getAllAdminUsers,
+  createAdminUser,
+  deleteAdminUser,
+  updateAdminUserPassword,
 } from "./db";
 import {
   getCompanySettings,
@@ -310,6 +314,84 @@ export const appRouter = router({
       }),
     }),
 
+    users: router({
+      getAll: adminProcedure.query(async () => {
+        return await getAllAdminUsers();
+      }),
+
+      create: adminProcedure
+        .input(
+          z.object({
+            username: z.string().min(3, "Username must be at least 3 characters"),
+            password: z.string().min(6, "Password must be at least 6 characters"),
+          })
+        )
+        .mutation(async ({ input, ctx }) => {
+          const passwordHash = await hashPassword(input.password);
+          const newAdmin = await createAdminUser(input.username, passwordHash);
+
+          await logActivity({
+            adminId: ctx.adminId,
+            action: "CREATE_ADMIN",
+            entityType: "ADMIN",
+            entityId: newAdmin.id,
+            details: { username: newAdmin.username },
+            ipAddress: ctx.req.ip || ctx.req.socket.remoteAddress,
+            userAgent: ctx.req.headers["user-agent"],
+          });
+
+          return newAdmin;
+        }),
+
+      delete: adminProcedure
+        .input(z.object({ id: z.number() }))
+        .mutation(async ({ input, ctx }) => {
+          // Prevent deleting yourself
+          if (input.id === ctx.adminId) {
+            throw new TRPCError({
+              code: "BAD_REQUEST",
+              message: "You cannot delete your own account",
+            });
+          }
+
+          await deleteAdminUser(input.id);
+
+          await logActivity({
+            adminId: ctx.adminId,
+            action: "DELETE_ADMIN",
+            entityType: "ADMIN",
+            entityId: input.id,
+            ipAddress: ctx.req.ip || ctx.req.socket.remoteAddress,
+            userAgent: ctx.req.headers["user-agent"],
+          });
+
+          return { success: true };
+        }),
+
+      updatePassword: adminProcedure
+        .input(
+          z.object({
+            id: z.number(),
+            password: z.string().min(6, "Password must be at least 6 characters"),
+          })
+        )
+        .mutation(async ({ input, ctx }) => {
+          const passwordHash = await hashPassword(input.password);
+          await updateAdminUserPassword(input.id, passwordHash);
+
+          await logActivity({
+            adminId: ctx.adminId,
+            action: "UPDATE_ADMIN_PASSWORD",
+            entityType: "ADMIN",
+            entityId: input.id,
+            ipAddress: ctx.req.ip || ctx.req.socket.remoteAddress,
+            userAgent: ctx.req.headers["user-agent"],
+          });
+
+          return { success: true };
+        }),
+    }),
+
     submissions: router({
       getAll: adminProcedure
         .input(
@@ -437,9 +519,18 @@ export const appRouter = router({
 
     activity: router({
       getAll: adminProcedure
-        .input(z.object({ limit: z.number().optional() }))
+        .input(
+          z.object({
+            limit: z.number().optional(),
+            offset: z.number().optional(),
+            adminId: z.number().optional(),
+            action: z.string().optional(),
+            entityType: z.string().optional(),
+            search: z.string().optional(),
+          })
+        )
         .query(async ({ input }) => {
-          return await getAllActivityLogs(input.limit);
+          return await getAllActivityLogs(input);
         }),
     }),
 

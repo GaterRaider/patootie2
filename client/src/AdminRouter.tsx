@@ -9,6 +9,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import AdminLogin from "./pages/admin/Login";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminSubmissions from "./pages/admin/Submissions";
+import SubmissionBoard from "./pages/admin/SubmissionBoard";
 import ActivityLog from "./pages/admin/ActivityLog";
 import SubmissionDetail from "./pages/admin/SubmissionDetail";
 import Invoices from "./pages/admin/Invoices";
@@ -16,6 +17,7 @@ import InvoiceForm from "./pages/admin/InvoiceForm";
 import Settings from "./pages/admin/Settings";
 import EmailTemplates from "./pages/admin/EmailTemplates";
 import EmailTemplateEditor from "./pages/admin/EmailTemplateEditor";
+import AdminUsers from "./pages/admin/AdminUsers";
 import AdminLayout from "./components/AdminLayout";
 
 function AdminRouter() {
@@ -39,6 +41,12 @@ function AdminRouter() {
                             <Route path="/admin/submissions">
                                 <AdminLayout>
                                     <AdminSubmissions />
+                                </AdminLayout>
+                            </Route>
+
+                            <Route path="/admin/board">
+                                <AdminLayout>
+                                    <SubmissionBoard />
                                 </AdminLayout>
                             </Route>
 
@@ -75,6 +83,12 @@ function AdminRouter() {
                             <Route path="/admin/settings">
                                 <AdminLayout>
                                     <Settings />
+                                </AdminLayout>
+                            </Route>
+
+                            <Route path="/admin/users">
+                                <AdminLayout>
+                                    <AdminUsers />
                                 </AdminLayout>
                             </Route>
 
