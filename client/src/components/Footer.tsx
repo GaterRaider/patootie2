@@ -34,30 +34,46 @@ export function Footer() {
                     <div>
                         <h3 className="font-semibold text-base mb-3">{t.footerQuickLinks}</h3>
                         <div className="space-y-2.5">
-                            <button
-                                onClick={() => handleNavigation("services")}
+                            <a
+                                href="#services"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    handleNavigation("services");
+                                }}
                                 className="block text-sm text-muted-foreground hover:text-primary transition-colors"
                             >
                                 {t.navServices}
-                            </button>
-                            <button
-                                onClick={() => handleNavigation("process")}
+                            </a>
+                            <a
+                                href="#process"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    handleNavigation("process");
+                                }}
                                 className="block text-sm text-muted-foreground hover:text-primary transition-colors"
                             >
                                 {t.navProcess}
-                            </button>
-                            <button
-                                onClick={() => handleNavigation("about")}
+                            </a>
+                            <a
+                                href="#about"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    handleNavigation("about");
+                                }}
                                 className="block text-sm text-muted-foreground hover:text-primary transition-colors"
                             >
                                 {t.navAbout}
-                            </button>
-                            <button
-                                onClick={() => handleNavigation("contact")}
+                            </a>
+                            <a
+                                href="#contact"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    handleNavigation("contact");
+                                }}
                                 className="block text-sm text-muted-foreground hover:text-primary transition-colors"
                             >
                                 {t.navContact}
-                            </button>
+                            </a>
                         </div>
                     </div>
 
@@ -65,19 +81,27 @@ export function Footer() {
                     <div>
                         <h3 className="font-semibold text-base mb-3">{t.footerLegal}</h3>
                         <div className="space-y-3">
-                            <button
-                                onClick={() => setLocation("/privacy-policy")}
+                            <a
+                                href="/privacy-policy"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    setLocation("/privacy-policy");
+                                }}
                                 className="block text-sm text-muted-foreground hover:text-primary transition-colors"
                             >
                                 {t.footerPrivacy}
-                            </button>
+                            </a>
                             <div className="text-sm text-muted-foreground pt-1">
-                                <button
-                                    onClick={() => setLocation("/imprint")}
+                                <a
+                                    href="/imprint"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        setLocation("/imprint");
+                                    }}
                                     className="block text-sm text-muted-foreground hover:text-primary transition-colors"
                                 >
                                     {t.footerImpressum}
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </div>

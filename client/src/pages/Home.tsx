@@ -116,11 +116,78 @@ export default function Home() {
     <div className="min-h-screen flex flex-col">
       <Helmet>
         <html lang={language} />
-        <title>{`${t.siteTitle} - ${t.heroTitle}`}</title>
-        <meta name="description" content={t.heroDescription} />
-        <meta property="og:title" content={`${t.siteTitle} - ${t.heroTitle}`} />
-        <meta property="og:description" content={t.heroDescription} />
+
+        {/* Primary Meta Tags */}
+        <title>
+          {language === "ko"
+            ? "독일 관료 업무 지원 | 주택, 비자 & 이민 서비스 - HandokHelper"
+            : "German Bureaucracy Help for Expats | Housing, Visa & Immigration Support"}
+        </title>
+        <meta
+          name="description"
+          content={language === "ko"
+            ? "독일 관료, 주택, 비자 및 Anmeldung 전문 지원. 독일 거주 외국인을 위한 전문 서비스. 영어, 한국어, 독일어 지원."
+            : "Expert help with German bureaucracy, housing, visas & Anmeldung. Professional support for expats in Germany. English, Korean & German service."}
+        />
+        <meta name="keywords" content="German bureaucracy, expat services Germany, housing Germany, visa assistance, Anmeldung, immigration help, German authorities, 독일 관료, 독일 비자, 독일 주택" />
+        <meta name="author" content="HandokHelper" />
+
+        {/* Canonical URL */}
+        <link rel="canonical" href="https://www.handokhelper.de/" />
+
+        {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.handokhelper.de/" />
+        <meta property="og:site_name" content="HandokHelper" />
+        <meta
+          property="og:title"
+          content={language === "ko"
+            ? "독일 관료 업무 지원 | HandokHelper"
+            : "German Bureaucracy Help for Expats | HandokHelper"}
+        />
+        <meta
+          property="og:description"
+          content={language === "ko"
+            ? "독일 관료, 주택, 비자 및 Anmeldung 전문 지원. 독일 거주 외국인을 위한 전문 서비스."
+            : "Expert help with German bureaucracy, housing, visas & Anmeldung. Professional support for expats in Germany."}
+        />
+        <meta property="og:image" content="https://www.handokhelper.de/images/HandokHelperLogoOnly.png" />
+        <meta property="og:image:width" content="512" />
+        <meta property="og:image:height" content="512" />
+        <meta property="og:locale" content={language === "ko" ? "ko_KR" : "en_US"} />
+        <meta property="og:locale:alternate" content="en_US" />
+        <meta property="og:locale:alternate" content="ko_KR" />
+        <meta property="og:locale:alternate" content="de_DE" />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content={language === "ko"
+            ? "독일 관료 업무 지원 | HandokHelper"
+            : "German Bureaucracy Help for Expats | HandokHelper"}
+        />
+        <meta
+          name="twitter:description"
+          content={language === "ko"
+            ? "독일 관료, 주택, 비자 및 Anmeldung 전문 지원. 영어, 한국어, 독일어 서비스."
+            : "Expert help with German bureaucracy, housing, visas & Anmeldung. English, Korean & German service."}
+        />
+        <meta name="twitter:image" content="https://www.handokhelper.de/images/HandokHelperLogoOnly.png" />
+
+        {/* Multilingual / hreflang */}
+        <link rel="alternate" hrefLang="en" href="https://www.handokhelper.de/" />
+        <link rel="alternate" hrefLang="ko" href="https://www.handokhelper.de/" />
+        <link rel="alternate" hrefLang="de" href="https://www.handokhelper.de/" />
+        <link rel="alternate" hrefLang="x-default" href="https://www.handokhelper.de/" />
+
+        {/* Favicon */}
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+        {/* Theme Color */}
+        <meta name="theme-color" content="#3b82f6" />
 
         {/* Structured Data (JSON-LD) for SEO */}
         <script type="application/ld+json">
@@ -131,9 +198,9 @@ export default function Home() {
             "description": language === "ko"
               ? "독일 관공서 업무 처리를 위한 전문 지원 서비스"
               : "Professional assistance for dealing with German authorities",
-            "url": "https://handokhelper.de",
-            "logo": "https://handokhelper.de/images/HandokHelperLogoOnly.png",
-            "image": "https://handokhelper.de/images/HandokHelperLogoOnly.png",
+            "url": "https://www.handokhelper.de",
+            "logo": "https://www.handokhelper.de/images/HandokHelperLogoOnly.png",
+            "image": "https://www.handokhelper.de/images/HandokHelperLogoOnly.png",
             "email": "info@handokhelper.de",
             "address": {
               "@type": "PostalAddress",
@@ -155,7 +222,7 @@ export default function Home() {
               "Pension & Social Benefits",
               "German Authority Support"
             ],
-            "priceRange": "$$",
+            "priceRange": "€€",
             "availableLanguage": [
               {
                 "@type": "Language",
@@ -176,7 +243,10 @@ export default function Home() {
               "Residence Permits",
               "German Bureaucracy",
               "Pension Claims",
-              "Social Benefits"
+              "Social Benefits",
+              "Anmeldung",
+              "Housing Search Germany",
+              "Expat Services"
             ]
           })}
         </script>
@@ -199,35 +269,47 @@ export default function Home() {
           {/* Logo + Text - Centered on mobile, left-aligned on desktop */}
           <div className="flex items-center gap-2 md:gap-3 flex-1 md:flex-initial justify-center md:justify-start min-w-0">
             <img src="/images/HandokHelperLogoOnly.png" alt="HandokHelper Logo" className="h-8 md:h-10 w-auto flex-shrink-0 object-contain" />
-            <h1 className="text-base md:text-xl font-bold leading-tight whitespace-nowrap">
+            <div className="text-base md:text-xl font-bold leading-tight whitespace-nowrap">
               <span className="hidden sm:inline">{t.siteTitle}</span>
               <span className="sm:hidden">HandokHelper</span>
-            </h1>
+            </div>
           </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-6 flex-1 justify-center">
-            <button
-              onClick={() => scrollToSection("services")}
+            <a
+              href="#services"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection("services");
+              }}
               className="text-sm font-medium hover:text-primary transition-all duration-300 relative group hover:-translate-y-0.5"
             >
               {t.navServices}
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 ease-out group-hover:w-full"></span>
-            </button>
-            <button
-              onClick={() => scrollToSection("process")}
+            </a>
+            <a
+              href="#process"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection("process");
+              }}
               className="text-sm font-medium hover:text-primary transition-all duration-300 relative group hover:-translate-y-0.5"
             >
               {t.navProcess}
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 ease-out group-hover:w-full"></span>
-            </button>
-            <button
-              onClick={() => scrollToSection("about")}
+            </a>
+            <a
+              href="#about"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection("about");
+              }}
               className="text-sm font-medium hover:text-primary transition-all duration-300 relative group hover:-translate-y-0.5"
             >
               {t.navAbout}
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 ease-out group-hover:w-full"></span>
-            </button>
+            </a>
             <Button
               onClick={() => scrollToSection("contact")}
               size="sm"
@@ -324,215 +406,217 @@ export default function Home() {
       )}
 
 
+      {/* Main Content */}
+      <main>
+        {/* Hero Section */}
+        {/* Hero Section */}
+        <section className="py-8 md:py-14 bg-gradient-to-b from-primary/5 to-background dark:from-primary/10 dark:to-background">
+          <div className="container">
+            <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+              <div>
+                <h1 className="text-3xl md:text-5xl font-bold mb-4 md:mb-6 leading-tight">{t.heroTitle}</h1>
+                <p className="text-base md:text-lg text-muted-foreground mb-6 md:mb-8 leading-relaxed">{t.heroDescription}</p>
 
-      {/* Hero Section */}
-      {/* Hero Section */}
-      <section className="py-8 md:py-14 bg-gradient-to-b from-primary/5 to-background dark:from-primary/10 dark:to-background">
-        <div className="container">
-          <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
-            <div>
-              <h2 className="text-3xl md:text-5xl font-bold mb-4 md:mb-6 leading-tight">{t.heroTitle}</h2>
-              <p className="text-base md:text-lg text-muted-foreground mb-6 md:mb-8 leading-relaxed">{t.heroDescription}</p>
+                <div className="space-y-2 md:space-y-3 mb-6 md:mb-8">
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                    <p className="text-sm md:text-base text-foreground">{t.heroBullet1}</p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                    <p className="text-sm md:text-base text-foreground">{t.heroBullet2}</p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                    <p className="text-sm md:text-base text-foreground">{t.heroBullet3}</p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                    <p className="text-sm md:text-base text-foreground">{t.heroBullet4}</p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                    <p className="text-sm md:text-base text-foreground">{t.heroBullet5}</p>
+                  </div>
+                </div>
 
-              <div className="space-y-2 md:space-y-3 mb-6 md:mb-8">
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                  <p className="text-sm md:text-base text-foreground">{t.heroBullet1}</p>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                  <p className="text-sm md:text-base text-foreground">{t.heroBullet2}</p>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                  <p className="text-sm md:text-base text-foreground">{t.heroBullet3}</p>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                  <p className="text-sm md:text-base text-foreground">{t.heroBullet4}</p>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                  <p className="text-sm md:text-base text-foreground">{t.heroBullet5}</p>
-                </div>
+                <Button size="lg" onClick={() => scrollToSection("contact")} className="shadow-lg hover:shadow-xl transition-shadow">
+                  {t.navContact}
+                </Button>
               </div>
 
-              <Button size="lg" onClick={() => scrollToSection("contact")} className="shadow-lg hover:shadow-xl transition-shadow">
-                {t.navContact}
-              </Button>
-            </div>
-
-            <div className="relative">
-              <div className="aspect-square rounded-2xl overflow-hidden shadow-2xl">
-                <img
-                  src="/images/patootie-portrait.jpg"
-                  alt="Kwon EasyBureau"
-                  className="w-full h-full object-cover"
-                />
+              <div className="relative">
+                <div className="aspect-square rounded-2xl overflow-hidden shadow-2xl">
+                  <img
+                    src="/images/patootie-portrait.jpg"
+                    alt="Kwon EasyBureau"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Services Section */}
-      <section id="services" className="py-8 md:py-14">
-        <div className="container">
-          <div className="text-center mb-12 md:mb-16">
-            <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.servicesLabel}</span>
-            <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">{t.servicesHeading}</h2>
-            <div className="h-1 w-20 bg-blue-600 rounded-full mx-auto mb-6"></div>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              {language === "ko"
-                ? "독일 관료 업무를 전문적으로 지원합니다. 서비스를 선택하여 자세히 알아보세요."
-                : "Professional support for German bureaucracy. Select a service to learn more."}
+        {/* Services Section */}
+        <section id="services" className="py-8 md:py-14">
+          <div className="container">
+            <div className="text-center mb-12 md:mb-16">
+              <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.servicesLabel}</span>
+              <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">{t.servicesHeading}</h2>
+              <div className="h-1 w-20 bg-blue-600 rounded-full mx-auto mb-6"></div>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                {language === "ko"
+                  ? "독일 관료 업무를 전문적으로 지원합니다. 서비스를 선택하여 자세히 알아보세요."
+                  : "Professional support for German bureaucracy. Select a service to learn more."}
+              </p>
+            </div>
+
+            <ServicesBentoGrid
+              services={[
+                {
+                  id: "immigration",
+                  icon: Plane,
+                  title: t.serviceCard1Title,
+                  description: t.serviceCard1Desc,
+                  servicesList: t.serviceCard1Services,
+                  ctaText: t.serviceCard1CTA,
+                },
+                {
+                  id: "registration",
+                  icon: FileText,
+                  title: t.serviceCard2Title,
+                  description: t.serviceCard2Desc,
+                  servicesList: t.serviceCard2Services,
+                  ctaText: t.serviceCard2CTA,
+                },
+                {
+                  id: "pension",
+                  icon: Users,
+                  title: t.serviceCard3Title,
+                  description: t.serviceCard3Desc,
+                  servicesList: t.serviceCard3Services,
+                  ctaText: t.serviceCard3CTA,
+                },
+                {
+                  id: "other",
+                  icon: HelpCircle,
+                  title: t.serviceCard4Title,
+                  description: t.serviceCard4Desc,
+                  servicesList: t.serviceCard4Services,
+                  ctaText: t.serviceCard4CTA,
+                },
+              ]}
+              onSelect={handleServiceCardClick}
+              language={language}
+            />
+          </div>
+        </section>
+
+        {/* Process Section */}
+        <section id="process" className="py-8 md:py-14 bg-slate-50 dark:bg-secondary/10">
+          <div className="container">
+            <div className="text-center mb-12 md:mb-16">
+              <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.processLabel}</span>
+              <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">{t.processHeading}</h2>
+              <div className="h-1 w-20 bg-blue-600 rounded-full mx-auto"></div>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-lg">
+                  1
+                </div>
+                <h3 className="text-lg md:text-xl font-semibold mb-2 md:mb-3">{t.processStep1Title}</h3>
+                <p className="text-sm md:text-base text-muted-foreground">{t.processStep1Desc}</p>
+              </div>
+
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-lg">
+                  2
+                </div>
+                <h3 className="text-lg md:text-xl font-semibold mb-2 md:mb-3">{t.processStep2Title}</h3>
+                <p className="text-sm md:text-base text-muted-foreground">{t.processStep2Desc}</p>
+              </div>
+
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-lg">
+                  3
+                </div>
+                <h3 className="text-lg md:text-xl font-semibold mb-2 md:mb-3">{t.processStep3Title}</h3>
+                <p className="text-sm md:text-base text-muted-foreground">{t.processStep3Desc}</p>
+              </div>
+            </div>
+
+            <p className="text-center text-xs md:text-sm text-muted-foreground mt-6 md:mt-8 max-w-2xl mx-auto">
+              {t.processNote}
             </p>
           </div>
+        </section>
 
-          <ServicesBentoGrid
-            services={[
-              {
-                id: "immigration",
-                icon: Plane,
-                title: t.serviceCard1Title,
-                description: t.serviceCard1Desc,
-                servicesList: t.serviceCard1Services,
-                ctaText: t.serviceCard1CTA,
-              },
-              {
-                id: "registration",
-                icon: FileText,
-                title: t.serviceCard2Title,
-                description: t.serviceCard2Desc,
-                servicesList: t.serviceCard2Services,
-                ctaText: t.serviceCard2CTA,
-              },
-              {
-                id: "pension",
-                icon: Users,
-                title: t.serviceCard3Title,
-                description: t.serviceCard3Desc,
-                servicesList: t.serviceCard3Services,
-                ctaText: t.serviceCard3CTA,
-              },
-              {
-                id: "other",
-                icon: HelpCircle,
-                title: t.serviceCard4Title,
-                description: t.serviceCard4Desc,
-                servicesList: t.serviceCard4Services,
-                ctaText: t.serviceCard4CTA,
-              },
-            ]}
-            onSelect={handleServiceCardClick}
-            language={language}
-          />
-        </div>
-      </section>
-
-      {/* Process Section */}
-      <section id="process" className="py-8 md:py-14 bg-slate-50 dark:bg-secondary/10">
-        <div className="container">
-          <div className="text-center mb-12 md:mb-16">
-            <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.processLabel}</span>
-            <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">{t.processHeading}</h2>
-            <div className="h-1 w-20 bg-blue-600 rounded-full mx-auto"></div>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="text-center">
-              <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-lg">
-                1
-              </div>
-              <h3 className="text-lg md:text-xl font-semibold mb-2 md:mb-3">{t.processStep1Title}</h3>
-              <p className="text-sm md:text-base text-muted-foreground">{t.processStep1Desc}</p>
+        {/* Contact Form Section */}
+        <section id="contact" className="py-8 md:py-14">
+          <div className="container max-w-4xl">
+            <div className="text-center mb-12 md:mb-16">
+              <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.contactLabel}</span>
+              <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">{t.contactHeading}</h2>
+              <div className="h-1 w-20 bg-blue-600 rounded-full mx-auto"></div>
             </div>
 
-            <div className="text-center">
-              <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-lg">
-                2
-              </div>
-              <h3 className="text-lg md:text-xl font-semibold mb-2 md:mb-3">{t.processStep2Title}</h3>
-              <p className="text-sm md:text-base text-muted-foreground">{t.processStep2Desc}</p>
+            <Card className="shadow-xl border-2">
+              <CardContent className="pt-8 px-6 md:px-10">
+                <ContactForm
+                  t={t}
+                  selectedService={selectedService}
+                  selectedSubService={selectedSubService}
+                  setSelectedService={setSelectedService}
+                  setSelectedSubService={setSelectedSubService}
+                  selectedViaCard={selectedViaCard}
+                  setSelectedViaCard={setSelectedViaCard}
+                  onSubmit={handleSubmit}
+                  isSubmitting={isSubmitting}
+                  onLocationChange={setLocation}
+                  isSuccess={showSuccess}
+                  onReset={handleReset}
+                  refId={refId}
+                />
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        {/* About Section */}
+        <section id="about" className="py-8 md:py-14 bg-slate-50 dark:bg-secondary/10">
+          <div className="container max-w-4xl">
+            <div className="text-center mb-12 md:mb-16">
+              <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.aboutLabel}</span>
+              <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">{t.aboutHeading}</h2>
+              <div className="h-1 w-20 bg-blue-600 rounded-full mx-auto"></div>
             </div>
 
-            <div className="text-center">
-              <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-lg">
-                3
-              </div>
-              <h3 className="text-lg md:text-xl font-semibold mb-2 md:mb-3">{t.processStep3Title}</h3>
-              <p className="text-sm md:text-base text-muted-foreground">{t.processStep3Desc}</p>
-            </div>
-          </div>
+            <div className="space-y-4 md:space-y-6 text-base md:text-lg leading-relaxed">
+              <p>{t.aboutParagraph1}</p>
+              <p>{t.aboutParagraph2}</p>
+              <p>{t.aboutParagraph3}</p>
 
-          <p className="text-center text-xs md:text-sm text-muted-foreground mt-6 md:mt-8 max-w-2xl mx-auto">
-            {t.processNote}
-          </p>
-        </div>
-      </section>
-
-      {/* Contact Form Section */}
-      <section id="contact" className="py-8 md:py-14">
-        <div className="container max-w-4xl">
-          <div className="text-center mb-12 md:mb-16">
-            <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.contactLabel}</span>
-            <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">{t.contactHeading}</h2>
-            <div className="h-1 w-20 bg-blue-600 rounded-full mx-auto"></div>
-          </div>
-
-          <Card className="shadow-xl border-2">
-            <CardContent className="pt-8 px-6 md:px-10">
-              <ContactForm
-                t={t}
-                selectedService={selectedService}
-                selectedSubService={selectedSubService}
-                setSelectedService={setSelectedService}
-                setSelectedSubService={setSelectedSubService}
-                selectedViaCard={selectedViaCard}
-                setSelectedViaCard={setSelectedViaCard}
-                onSubmit={handleSubmit}
-                isSubmitting={isSubmitting}
-                onLocationChange={setLocation}
-                isSuccess={showSuccess}
-                onReset={handleReset}
-                refId={refId}
-              />
-            </CardContent>
-          </Card>
-        </div>
-      </section>
-
-      {/* About Section */}
-      <section id="about" className="py-8 md:py-14 bg-slate-50 dark:bg-secondary/10">
-        <div className="container max-w-4xl">
-          <div className="text-center mb-12 md:mb-16">
-            <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.aboutLabel}</span>
-            <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">{t.aboutHeading}</h2>
-            <div className="h-1 w-20 bg-blue-600 rounded-full mx-auto"></div>
-          </div>
-
-          <div className="space-y-4 md:space-y-6 text-base md:text-lg leading-relaxed">
-            <p>{t.aboutParagraph1}</p>
-            <p>{t.aboutParagraph2}</p>
-            <p>{t.aboutParagraph3}</p>
-
-            <div className="flex flex-col items-center gap-4 pt-8">
-              <h3 className="font-semibold text-muted-foreground uppercase tracking-wider text-sm">{t.aboutLanguages}</h3>
-              <div className="flex flex-wrap justify-center gap-3">
-                <Badge variant="outline" className="px-4 py-2 text-base font-medium bg-background/50 dark:bg-secondary backdrop-blur-sm border-primary/20 text-foreground hover:bg-primary/5 dark:hover:bg-primary/20 hover:border-primary/40 dark:hover:border-primary/60 transition-all duration-300 cursor-default shadow-sm">
-                  🇺🇸 English
-                </Badge>
-                <Badge variant="outline" className="px-4 py-2 text-base font-medium bg-background/50 dark:bg-secondary backdrop-blur-sm border-primary/20 text-foreground hover:bg-primary/5 dark:hover:bg-primary/20 hover:border-primary/40 dark:hover:border-primary/60 transition-all duration-300 cursor-default shadow-sm">
-                  🇰🇷 Korean (한국어)
-                </Badge>
-                <Badge variant="outline" className="px-4 py-2 text-base font-medium bg-background/50 dark:bg-secondary backdrop-blur-sm border-primary/20 text-foreground hover:bg-primary/5 dark:hover:bg-primary/20 hover:border-primary/40 dark:hover:border-primary/60 transition-all duration-300 cursor-default shadow-sm">
-                  🇩🇪 German (Deutsch)
-                </Badge>
+              <div className="flex flex-col items-center gap-4 pt-8">
+                <h3 className="font-semibold text-muted-foreground uppercase tracking-wider text-sm">{t.aboutLanguages}</h3>
+                <div className="flex flex-wrap justify-center gap-3">
+                  <Badge variant="outline" className="px-4 py-2 text-base font-medium bg-background/50 dark:bg-secondary backdrop-blur-sm border-primary/20 text-foreground hover:bg-primary/5 dark:hover:bg-primary/20 hover:border-primary/40 dark:hover:border-primary/60 transition-all duration-300 cursor-default shadow-sm">
+                    🇺🇸 English
+                  </Badge>
+                  <Badge variant="outline" className="px-4 py-2 text-base font-medium bg-background/50 dark:bg-secondary backdrop-blur-sm border-primary/20 text-foreground hover:bg-primary/5 dark:hover:bg-primary/20 hover:border-primary/40 dark:hover:border-primary/60 transition-all duration-300 cursor-default shadow-sm">
+                    🇰🇷 Korean (한국어)
+                  </Badge>
+                  <Badge variant="outline" className="px-4 py-2 text-base font-medium bg-background/50 dark:bg-secondary backdrop-blur-sm border-primary/20 text-foreground hover:bg-primary/5 dark:hover:bg-primary/20 hover:border-primary/40 dark:hover:border-primary/60 transition-all duration-300 cursor-default shadow-sm">
+                    🇩🇪 German (Deutsch)
+                  </Badge>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </main>
 
       {/* Footer */}
       <Footer />

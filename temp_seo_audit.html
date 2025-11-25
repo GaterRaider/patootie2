@@ -1,0 +1,2277 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HandokHelper</title>
+    <script type="module" crossorigin src="/assets/index-sfU-NVBy.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/react-libs-BZ8ACrct.js" />
+    <link rel="modulepreload" crossorigin href="/assets/vendor-DLWbSR45.js" />
+    <link rel="modulepreload" crossorigin href="/assets/react-core-C-6Vn-eS.js" />
+    <link rel="modulepreload" crossorigin href="/assets/query-vendor-BZBwuORb.js" />
+    <link rel="modulepreload" crossorigin href="/assets/radix-vendor-fEIKS-xG.js" />
+    <link rel="modulepreload" crossorigin href="/assets/charts-vendor-y4TaaBQ2.js" />
+    <link rel="modulepreload" crossorigin href="/assets/dnd-vendor-LFy2lisu.js" />
+    <link rel="stylesheet" crossorigin href="/assets/index-CyQ9bv08.css" />
+
+    <title data-rh="true" data-loc="client/src/pages/Home.tsx:119">
+      HandokHelper - Your support for German housing and bureaucracy
+    </title>
+    <meta
+      data-rh="true"
+      data-loc="client/src/pages/Home.tsx:120"
+      name="description"
+      content="Moving to Germany or dealing with German authorities can be overwhelming, especially from abroad. HandokHelper assists with finding housing, immigration matters, official registrations, pension requests, and any task that requires someone in Germany to handle the process for you."
+    />
+    <meta
+      data-rh="true"
+      data-loc="client/src/pages/Home.tsx:121"
+      property="og:title"
+      content="HandokHelper - Your support for German housing and bureaucracy"
+    />
+    <meta
+      data-rh="true"
+      data-loc="client/src/pages/Home.tsx:122"
+      property="og:description"
+      content="Moving to Germany or dealing with German authorities can be overwhelming, especially from abroad. HandokHelper assists with finding housing, immigration matters, official registrations, pension requests, and any task that requires someone in Germany to handle the process for you."
+    />
+    <meta
+      data-rh="true"
+      data-loc="client/src/pages/Home.tsx:123"
+      property="og:type"
+      content="website"
+    />
+
+    <script data-rh="true" data-loc="client/src/pages/Home.tsx:126" type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "name": "HandokHelper",
+        "description": "Professional assistance for dealing with German authorities",
+        "url": "https://handokhelper.de",
+        "logo": "https://handokhelper.de/images/HandokHelperLogoOnly.png",
+        "image": "https://handokhelper.de/images/HandokHelperLogoOnly.png",
+        "email": "info@handokhelper.de",
+        "address": { "@type": "PostalAddress", "addressCountry": "DE" },
+        "areaServed": [
+          { "@type": "Country", "name": "Germany" },
+          { "@type": "Country", "name": "South Korea" }
+        ],
+        "serviceType": [
+          "Immigration & Residence Services",
+          "Registration & Bureaucracy",
+          "Pension & Social Benefits",
+          "German Authority Support"
+        ],
+        "priceRange": "$",
+        "availableLanguage": [
+          { "@type": "Language", "name": "English" },
+          { "@type": "Language", "name": "Korean" },
+          { "@type": "Language", "name": "German" }
+        ],
+        "knowsAbout": [
+          "German Immigration Law",
+          "Visa Applications",
+          "Residence Permits",
+          "German Bureaucracy",
+          "Pension Claims",
+          "Social Benefits"
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root">
+      <link rel="preload" as="image" href="/images/HandokHelperLogoOnly.png" /><link
+        rel="preload"
+        as="image"
+        href="/flags/usa.svg"
+      /><link rel="preload" as="image" href="/flags/south-korea.svg" /><link
+        rel="preload"
+        as="image"
+        href="/images/patootie-portrait.jpg"
+      />
+      <div data-loc="client/src/pages/Home.tsx:116" class="min-h-screen flex flex-col">
+        <div
+          data-loc="client/src/pages/Home.tsx:185"
+          class="h-1 bg-gradient-to-r from-primary via-blue-500 to-primary"
+        ></div>
+        <header
+          data-loc="client/src/pages/Home.tsx:188"
+          class="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60 shadow-sm"
+        >
+          <div
+            data-loc="client/src/pages/Home.tsx:189"
+            class="container flex h-20 items-center gap-2 md:gap-4"
+          >
+            <button
+              data-loc="client/src/pages/Home.tsx:191"
+              class="md:hidden p-2 -ml-2 rounded-md hover:bg-secondary/80 transition-colors flex-shrink-0"
+              aria-label="Toggle menu"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-menu h-6 w-6"
+                data-loc="client/src/pages/Home.tsx:196"
+              >
+                <line x1="4" x2="20" y1="12" y2="12"></line>
+                <line x1="4" x2="20" y1="6" y2="6"></line>
+                <line x1="4" x2="20" y1="18" y2="18"></line>
+              </svg>
+            </button>
+            <div
+              data-loc="client/src/pages/Home.tsx:200"
+              class="flex items-center gap-2 md:gap-3 flex-1 md:flex-initial justify-center md:justify-start min-w-0"
+            >
+              <img
+                data-loc="client/src/pages/Home.tsx:201"
+                src="/images/HandokHelperLogoOnly.png"
+                alt="HandokHelper Logo"
+                class="h-8 md:h-10 w-auto flex-shrink-0 object-contain"
+              />
+              <h1
+                data-loc="client/src/pages/Home.tsx:202"
+                class="text-base md:text-xl font-bold leading-tight whitespace-nowrap"
+              >
+                <span data-loc="client/src/pages/Home.tsx:203" class="hidden sm:inline"
+                  >HandokHelper</span
+                ><span data-loc="client/src/pages/Home.tsx:204" class="sm:hidden"
+                  >HandokHelper</span
+                >
+              </h1>
+            </div>
+            <nav
+              data-loc="client/src/pages/Home.tsx:209"
+              class="hidden md:flex items-center gap-6 flex-1 justify-center"
+            >
+              <button
+                data-loc="client/src/pages/Home.tsx:210"
+                class="text-sm font-medium hover:text-primary transition-all duration-300 relative group hover:-translate-y-0.5"
+              >
+                Services<span
+                  data-loc="client/src/pages/Home.tsx:215"
+                  class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 ease-out group-hover:w-full"
+                ></span></button
+              ><button
+                data-loc="client/src/pages/Home.tsx:217"
+                class="text-sm font-medium hover:text-primary transition-all duration-300 relative group hover:-translate-y-0.5"
+              >
+                Process<span
+                  data-loc="client/src/pages/Home.tsx:222"
+                  class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 ease-out group-hover:w-full"
+                ></span></button
+              ><button
+                data-loc="client/src/pages/Home.tsx:224"
+                class="text-sm font-medium hover:text-primary transition-all duration-300 relative group hover:-translate-y-0.5"
+              >
+                About<span
+                  data-loc="client/src/pages/Home.tsx:229"
+                  class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 ease-out group-hover:w-full"
+                ></span></button
+              ><button
+                data-loc="client/src/pages/Home.tsx:231"
+                data-slot="button"
+                class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:scale-105"
+              >
+                Contact
+              </button>
+            </nav>
+            <div
+              data-loc="client/src/pages/Home.tsx:241"
+              class="flex items-center gap-2 md:gap-4 flex-shrink-0"
+            >
+              <div
+                data-loc="client/src/components/LanguageSelector.tsx:7"
+                class="flex items-center gap-0.5 sm:gap-0.5 md:gap-1 px-1.5 sm:px-2 md:px-2.5 py-1 sm:py-1.5 md:py-2 rounded-full bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm transition-colors duration-200"
+              >
+                <button
+                  data-loc="client/src/components/LanguageSelector.tsx:8"
+                  class="transition-all duration-200 flex-shrink-0 px-1.5 sm:px-2 md:px-2.5 py-0.5 sm:py-1 md:py-1.5 rounded-full border-2 flex items-center justify-center border-blue-400 bg-blue-50 dark:bg-blue-900/30 dark:border-blue-500 shadow-sm"
+                  title="English"
+                  aria-label="Switch to English"
+                >
+                  <img
+                    data-loc="client/src/components/LanguageSelector.tsx:17"
+                    src="/flags/usa.svg"
+                    alt="USA Flag"
+                    class="h-3 sm:h-3.5 md:h-4 lg:h-5 w-auto"
+                  /></button
+                ><button
+                  data-loc="client/src/components/LanguageSelector.tsx:23"
+                  class="transition-all duration-200 flex-shrink-0 px-1.5 sm:px-2 md:px-2.5 py-0.5 sm:py-1 md:py-1.5 rounded-full border-2 flex items-center justify-center border-transparent bg-transparent opacity-75 hover:opacity-100 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:border-blue-300 dark:hover:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-1 dark:focus:ring-offset-gray-900"
+                  title="Korean"
+                  aria-label="Switch to Korean"
+                >
+                  <img
+                    data-loc="client/src/components/LanguageSelector.tsx:32"
+                    src="/flags/south-korea.svg"
+                    alt="South Korea Flag"
+                    class="h-3.5 sm:h-4 md:h-5 lg:h-6 w-auto"
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+        </header>
+        <section
+          data-loc="client/src/pages/Home.tsx:330"
+          class="py-8 md:py-14 bg-gradient-to-b from-primary/5 to-background dark:from-primary/10 dark:to-background"
+        >
+          <div data-loc="client/src/pages/Home.tsx:331" class="container">
+            <div
+              data-loc="client/src/pages/Home.tsx:332"
+              class="grid md:grid-cols-2 gap-8 md:gap-12 items-center"
+            >
+              <div data-loc="client/src/pages/Home.tsx:333">
+                <h2
+                  data-loc="client/src/pages/Home.tsx:334"
+                  class="text-3xl md:text-5xl font-bold mb-4 md:mb-6 leading-tight"
+                >
+                  Your support for German housing and bureaucracy
+                </h2>
+                <p
+                  data-loc="client/src/pages/Home.tsx:335"
+                  class="text-base md:text-lg text-muted-foreground mb-6 md:mb-8 leading-relaxed"
+                >
+                  Moving to Germany or dealing with German authorities can be overwhelming,
+                  especially from abroad. HandokHelper assists with finding housing, immigration
+                  matters, official registrations, pension requests, and any task that requires
+                  someone in Germany to handle the process for you.
+                </p>
+                <div
+                  data-loc="client/src/pages/Home.tsx:337"
+                  class="space-y-2 md:space-y-3 mb-6 md:mb-8"
+                >
+                  <div data-loc="client/src/pages/Home.tsx:338" class="flex items-start gap-3">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-circle-check-big h-5 w-5 text-primary mt-0.5 flex-shrink-0"
+                      data-loc="client/src/pages/Home.tsx:339"
+                    >
+                      <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+                      <path d="m9 11 3 3L22 4"></path>
+                    </svg>
+                    <p
+                      data-loc="client/src/pages/Home.tsx:340"
+                      class="text-sm md:text-base text-foreground"
+                    >
+                      For clients inside and outside Germany
+                    </p>
+                  </div>
+                  <div data-loc="client/src/pages/Home.tsx:342" class="flex items-start gap-3">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-circle-check-big h-5 w-5 text-primary mt-0.5 flex-shrink-0"
+                      data-loc="client/src/pages/Home.tsx:343"
+                    >
+                      <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+                      <path d="m9 11 3 3L22 4"></path>
+                    </svg>
+                    <p
+                      data-loc="client/src/pages/Home.tsx:344"
+                      class="text-sm md:text-base text-foreground"
+                    >
+                      Housing search, viewings, and relocation support
+                    </p>
+                  </div>
+                  <div data-loc="client/src/pages/Home.tsx:346" class="flex items-start gap-3">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-circle-check-big h-5 w-5 text-primary mt-0.5 flex-shrink-0"
+                      data-loc="client/src/pages/Home.tsx:347"
+                    >
+                      <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+                      <path d="m9 11 3 3L22 4"></path>
+                    </svg>
+                    <p
+                      data-loc="client/src/pages/Home.tsx:348"
+                      class="text-sm md:text-base text-foreground"
+                    >
+                      Assistance with authorities, documents, and official procedures
+                    </p>
+                  </div>
+                  <div data-loc="client/src/pages/Home.tsx:350" class="flex items-start gap-3">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-circle-check-big h-5 w-5 text-primary mt-0.5 flex-shrink-0"
+                      data-loc="client/src/pages/Home.tsx:351"
+                    >
+                      <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+                      <path d="m9 11 3 3L22 4"></path>
+                    </svg>
+                    <p
+                      data-loc="client/src/pages/Home.tsx:352"
+                      class="text-sm md:text-base text-foreground"
+                    >
+                      Fixed price, hourly rate, or percentage depending on service
+                    </p>
+                  </div>
+                  <div data-loc="client/src/pages/Home.tsx:354" class="flex items-start gap-3">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-circle-check-big h-5 w-5 text-primary mt-0.5 flex-shrink-0"
+                      data-loc="client/src/pages/Home.tsx:355"
+                    >
+                      <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+                      <path d="m9 11 3 3L22 4"></path>
+                    </svg>
+                    <p
+                      data-loc="client/src/pages/Home.tsx:356"
+                      class="text-sm md:text-base text-foreground"
+                    >
+                      Fast and personal communication via phone or email
+                    </p>
+                  </div>
+                </div>
+                <button
+                  data-loc="client/src/pages/Home.tsx:360"
+                  data-slot="button"
+                  class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-10 rounded-md px-6 has-[&gt;svg]:px-4 shadow-lg hover:shadow-xl transition-shadow"
+                >
+                  Contact
+                </button>
+              </div>
+              <div data-loc="client/src/pages/Home.tsx:365" class="relative">
+                <div
+                  data-loc="client/src/pages/Home.tsx:366"
+                  class="aspect-square rounded-2xl overflow-hidden shadow-2xl"
+                >
+                  <img
+                    data-loc="client/src/pages/Home.tsx:367"
+                    src="/images/patootie-portrait.jpg"
+                    alt="Kwon EasyBureau"
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section data-loc="client/src/pages/Home.tsx:379" id="services" class="py-8 md:py-14">
+          <div data-loc="client/src/pages/Home.tsx:380" class="container">
+            <div data-loc="client/src/pages/Home.tsx:381" class="text-center mb-12 md:mb-16">
+              <span
+                data-loc="client/src/pages/Home.tsx:382"
+                class="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block"
+                >WHAT WE OFFER</span
+              >
+              <h2
+                data-loc="client/src/pages/Home.tsx:383"
+                class="text-3xl md:text-4xl font-extrabold tracking-tight mb-4"
+              >
+                Our Services
+              </h2>
+              <div
+                data-loc="client/src/pages/Home.tsx:384"
+                class="h-1 w-20 bg-blue-600 rounded-full mx-auto mb-6"
+              ></div>
+              <p
+                data-loc="client/src/pages/Home.tsx:385"
+                class="text-muted-foreground max-w-2xl mx-auto"
+              >
+                Professional support for German bureaucracy. Select a service to learn more.
+              </p>
+            </div>
+            <div
+              data-loc="client/src/components/ServicesBentoGrid.tsx:104"
+              class="hidden md:grid grid-cols-2 gap-6 max-w-5xl mx-auto"
+            >
+              <div
+                data-loc="client/src/components/ServicesBentoGrid.tsx:77"
+                data-slot="card"
+                class="text-card-foreground flex flex-col gap-6 rounded-xl py-6 shadow-sm h-full cursor-pointer group hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/20 relative overflow-hidden bg-card/50 backdrop-blur-sm"
+              >
+                <div
+                  data-loc="client/src/components/ServicesBentoGrid.tsx:81"
+                  class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                ></div>
+                <div
+                  data-loc="client/src/components/ServicesBentoGrid.tsx:82"
+                  data-slot="card-header"
+                  class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6"
+                >
+                  <div
+                    data-loc="client/src/components/ServicesBentoGrid.tsx:83"
+                    class="mb-4 w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-plane h-6 w-6 text-primary"
+                      data-loc="client/src/components/ServicesBentoGrid.tsx:84"
+                    >
+                      <path
+                        d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"
+                      ></path>
+                    </svg>
+                  </div>
+                  <div
+                    data-loc="client/src/components/ServicesBentoGrid.tsx:86"
+                    data-slot="card-title"
+                    class="font-semibold text-xl mb-2 group-hover:text-primary transition-colors"
+                  >
+                    Housing &amp; Relocation
+                  </div>
+                  <div
+                    data-loc="client/src/components/ServicesBentoGrid.tsx:89"
+                    data-slot="card-description"
+                    class="text-muted-foreground text-sm line-clamp-3"
+                  >
+                    Find your perfect home and settle in smoothly. We assist with property search,
+                    viewings, contracts, and all registration formalities.
+                  </div>
+                </div>
+                <div
+                  data-loc="client/src/components/ServicesBentoGrid.tsx:93"
+                  data-slot="card-content"
+                  class="px-6"
+                >
+                  <div
+                    data-loc="client/src/components/ServicesBentoGrid.tsx:94"
+                    class="flex items-center text-sm text-primary font-medium mt-auto group-hover:translate-x-1 transition-transform"
+                  >
+                    Learn more<!-- -->
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-arrow-right ml-1 h-4 w-4"
+                      data-loc="client/src/components/ServicesBentoGrid.tsx:95"
+                    >
+                      <path d="M5 12h14"></path>
+                      <path d="m12 5 7 7-7 7"></path>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div
+                data-loc="client/src/components/ServicesBentoGrid.tsx:77"
+                data-slot="card"
+                class="text-card-foreground flex flex-col gap-6 rounded-xl py-6 shadow-sm h-full cursor-pointer group hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/20 relative overflow-hidden bg-card/50 backdrop-blur-sm"
+              >
+                <div
+                  data-loc="client/src/components/ServicesBentoGrid.tsx:81"
+                  class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                ></div>
+                <div
+                  data-loc="client/src/components/ServicesBentoGrid.tsx:82"
+                  data-slot="card-header"
+                  class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6"
+                >
+                  <div
+                    data-loc="client/src/components/ServicesBentoGrid.tsx:83"
+                    class="mb-4 w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-file-text h-6 w-6 text-primary"
+                      data-loc="client/src/components/ServicesBentoGrid.tsx:84"
+                    >
+                      <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
+                      <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                      <path d="M10 9H8"></path>
+                      <path d="M16 13H8"></path>
+                      <path d="M16 17H8"></path>
+                    </svg>
+                  </div>
+                  <div
+                    data-loc="client/src/components/ServicesBentoGrid.tsx:86"
+                    data-slot="card-title"
+                    class="font-semibold text-xl mb-2 group-hover:text-primary transition-colors"
+                  >
+                    Immigration &amp; Legal Services
+                  </div>
+                  <div
+                    data-loc="client/src/components/ServicesBentoGrid.tsx:89"
+                    data-slot="card-description"
+                    class="text-muted-foreground text-sm line-clamp-3"
+                  >
+                    Expert support for all your visa and legal needs. From work permits to
+                    driver&#x27;s license exchange, we guide you through the German legal system.
+                  </div>
+                </div>
+                <div
+                  data-loc="client/src/components/ServicesBentoGrid.tsx:93"
+                  data-slot="card-content"
+                  class="px-6"
+                >
+                  <div
+                    data-loc="client/src/components/ServicesBentoGrid.tsx:94"
+                    class="flex items-center text-sm text-primary font-medium mt-auto group-hover:translate-x-1 transition-transform"
+                  >
+                    Learn more<!-- -->
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-arrow-right ml-1 h-4 w-4"
+                      data-loc="client/src/components/ServicesBentoGrid.tsx:95"
+                    >
+                      <path d="M5 12h14"></path>
+                      <path d="m12 5 7 7-7 7"></path>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div
+                data-loc="client/src/components/ServicesBentoGrid.tsx:77"
+                data-slot="card"
+                class="text-card-foreground flex flex-col gap-6 rounded-xl py-6 shadow-sm h-full cursor-pointer group hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/20 relative overflow-hidden bg-card/50 backdrop-blur-sm"
+              >
+                <div
+                  data-loc="client/src/components/ServicesBentoGrid.tsx:81"
+                  class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                ></div>
+                <div
+                  data-loc="client/src/components/ServicesBentoGrid.tsx:82"
+                  data-slot="card-header"
+                  class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6"
+                >
+                  <div
+                    data-loc="client/src/components/ServicesBentoGrid.tsx:83"
+                    class="mb-4 w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-users h-6 w-6 text-primary"
+                      data-loc="client/src/components/ServicesBentoGrid.tsx:84"
+                    >
+                      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                      <circle cx="9" cy="7" r="4"></circle>
+                      <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                      <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                  </div>
+                  <div
+                    data-loc="client/src/components/ServicesBentoGrid.tsx:86"
+                    data-slot="card-title"
+                    class="font-semibold text-xl mb-2 group-hover:text-primary transition-colors"
+                  >
+                    Benefits &amp; Financial Services
+                  </div>
+                  <div
+                    data-loc="client/src/components/ServicesBentoGrid.tsx:89"
+                    data-slot="card-description"
+                    class="text-muted-foreground text-sm line-clamp-3"
+                  >
+                    Maximize your financial benefits. We help with pension refunds, child benefits,
+                    and setting up your banking foundations.
+                  </div>
+                </div>
+                <div
+                  data-loc="client/src/components/ServicesBentoGrid.tsx:93"
+                  data-slot="card-content"
+                  class="px-6"
+                >
+                  <div
+                    data-loc="client/src/components/ServicesBentoGrid.tsx:94"
+                    class="flex items-center text-sm text-primary font-medium mt-auto group-hover:translate-x-1 transition-transform"
+                  >
+                    Learn more<!-- -->
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-arrow-right ml-1 h-4 w-4"
+                      data-loc="client/src/components/ServicesBentoGrid.tsx:95"
+                    >
+                      <path d="M5 12h14"></path>
+                      <path d="m12 5 7 7-7 7"></path>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div
+                data-loc="client/src/components/ServicesBentoGrid.tsx:77"
+                data-slot="card"
+                class="text-card-foreground flex flex-col gap-6 rounded-xl py-6 shadow-sm h-full cursor-pointer group hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/20 relative overflow-hidden bg-card/50 backdrop-blur-sm"
+              >
+                <div
+                  data-loc="client/src/components/ServicesBentoGrid.tsx:81"
+                  class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                ></div>
+                <div
+                  data-loc="client/src/components/ServicesBentoGrid.tsx:82"
+                  data-slot="card-header"
+                  class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6"
+                >
+                  <div
+                    data-loc="client/src/components/ServicesBentoGrid.tsx:83"
+                    class="mb-4 w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-circle-help h-6 w-6 text-primary"
+                      data-loc="client/src/components/ServicesBentoGrid.tsx:84"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                      <path d="M12 17h.01"></path>
+                    </svg>
+                  </div>
+                  <div
+                    data-loc="client/src/components/ServicesBentoGrid.tsx:86"
+                    data-slot="card-title"
+                    class="font-semibold text-xl mb-2 group-hover:text-primary transition-colors"
+                  >
+                    Integration &amp; Daily Life
+                  </div>
+                  <div
+                    data-loc="client/src/components/ServicesBentoGrid.tsx:89"
+                    data-slot="card-description"
+                    class="text-muted-foreground text-sm line-clamp-3"
+                  >
+                    Essential support for your daily life in Germany. We handle utilities,
+                    insurance, and other contracts so you can focus on living.
+                  </div>
+                </div>
+                <div
+                  data-loc="client/src/components/ServicesBentoGrid.tsx:93"
+                  data-slot="card-content"
+                  class="px-6"
+                >
+                  <div
+                    data-loc="client/src/components/ServicesBentoGrid.tsx:94"
+                    class="flex items-center text-sm text-primary font-medium mt-auto group-hover:translate-x-1 transition-transform"
+                  >
+                    Learn more<!-- -->
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-arrow-right ml-1 h-4 w-4"
+                      data-loc="client/src/components/ServicesBentoGrid.tsx:95"
+                    >
+                      <path d="M5 12h14"></path>
+                      <path d="m12 5 7 7-7 7"></path>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div data-loc="client/src/components/ServicesBentoGrid.tsx:111" class="md:hidden">
+              <div
+                data-loc="client/src/components/ServicesBentoGrid.tsx:112"
+                class="relative w-full max-w-sm mx-auto"
+                role="region"
+                aria-roledescription="carousel"
+                data-slot="carousel"
+              >
+                <div
+                  data-loc="client/src/components/ui/carousel.tsx:137"
+                  class="overflow-hidden"
+                  data-slot="carousel-content"
+                >
+                  <div
+                    data-loc="client/src/components/ServicesBentoGrid.tsx:120"
+                    class="flex -ml-2 md:-ml-4"
+                  >
+                    <div
+                      data-loc="client/src/components/ServicesBentoGrid.tsx:122"
+                      role="group"
+                      aria-roledescription="slide"
+                      data-slot="carousel-item"
+                      class="min-w-0 shrink-0 grow-0 pl-2 md:pl-4 basis-11/12"
+                    >
+                      <div
+                        data-loc="client/src/components/ServicesBentoGrid.tsx:123"
+                        class="p-1 h-full"
+                      >
+                        <div
+                          data-loc="client/src/components/ServicesBentoGrid.tsx:77"
+                          data-slot="card"
+                          class="text-card-foreground flex flex-col gap-6 rounded-xl py-6 shadow-sm h-full cursor-pointer group hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/20 relative overflow-hidden bg-card/50 backdrop-blur-sm"
+                        >
+                          <div
+                            data-loc="client/src/components/ServicesBentoGrid.tsx:81"
+                            class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                          ></div>
+                          <div
+                            data-loc="client/src/components/ServicesBentoGrid.tsx:82"
+                            data-slot="card-header"
+                            class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6"
+                          >
+                            <div
+                              data-loc="client/src/components/ServicesBentoGrid.tsx:83"
+                              class="mb-4 w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="lucide lucide-plane h-6 w-6 text-primary"
+                                data-loc="client/src/components/ServicesBentoGrid.tsx:84"
+                              >
+                                <path
+                                  d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"
+                                ></path>
+                              </svg>
+                            </div>
+                            <div
+                              data-loc="client/src/components/ServicesBentoGrid.tsx:86"
+                              data-slot="card-title"
+                              class="font-semibold text-xl mb-2 group-hover:text-primary transition-colors"
+                            >
+                              Housing &amp; Relocation
+                            </div>
+                            <div
+                              data-loc="client/src/components/ServicesBentoGrid.tsx:89"
+                              data-slot="card-description"
+                              class="text-muted-foreground text-sm line-clamp-3"
+                            >
+                              Find your perfect home and settle in smoothly. We assist with property
+                              search, viewings, contracts, and all registration formalities.
+                            </div>
+                          </div>
+                          <div
+                            data-loc="client/src/components/ServicesBentoGrid.tsx:93"
+                            data-slot="card-content"
+                            class="px-6"
+                          >
+                            <div
+                              data-loc="client/src/components/ServicesBentoGrid.tsx:94"
+                              class="flex items-center text-sm text-primary font-medium mt-auto group-hover:translate-x-1 transition-transform"
+                            >
+                              Learn more<!-- -->
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="lucide lucide-arrow-right ml-1 h-4 w-4"
+                                data-loc="client/src/components/ServicesBentoGrid.tsx:95"
+                              >
+                                <path d="M5 12h14"></path>
+                                <path d="m12 5 7 7-7 7"></path>
+                              </svg>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      data-loc="client/src/components/ServicesBentoGrid.tsx:122"
+                      role="group"
+                      aria-roledescription="slide"
+                      data-slot="carousel-item"
+                      class="min-w-0 shrink-0 grow-0 pl-2 md:pl-4 basis-11/12"
+                    >
+                      <div
+                        data-loc="client/src/components/ServicesBentoGrid.tsx:123"
+                        class="p-1 h-full"
+                      >
+                        <div
+                          data-loc="client/src/components/ServicesBentoGrid.tsx:77"
+                          data-slot="card"
+                          class="text-card-foreground flex flex-col gap-6 rounded-xl py-6 shadow-sm h-full cursor-pointer group hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/20 relative overflow-hidden bg-card/50 backdrop-blur-sm"
+                        >
+                          <div
+                            data-loc="client/src/components/ServicesBentoGrid.tsx:81"
+                            class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                          ></div>
+                          <div
+                            data-loc="client/src/components/ServicesBentoGrid.tsx:82"
+                            data-slot="card-header"
+                            class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6"
+                          >
+                            <div
+                              data-loc="client/src/components/ServicesBentoGrid.tsx:83"
+                              class="mb-4 w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="lucide lucide-file-text h-6 w-6 text-primary"
+                                data-loc="client/src/components/ServicesBentoGrid.tsx:84"
+                              >
+                                <path
+                                  d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                                ></path>
+                                <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                <path d="M10 9H8"></path>
+                                <path d="M16 13H8"></path>
+                                <path d="M16 17H8"></path>
+                              </svg>
+                            </div>
+                            <div
+                              data-loc="client/src/components/ServicesBentoGrid.tsx:86"
+                              data-slot="card-title"
+                              class="font-semibold text-xl mb-2 group-hover:text-primary transition-colors"
+                            >
+                              Immigration &amp; Legal Services
+                            </div>
+                            <div
+                              data-loc="client/src/components/ServicesBentoGrid.tsx:89"
+                              data-slot="card-description"
+                              class="text-muted-foreground text-sm line-clamp-3"
+                            >
+                              Expert support for all your visa and legal needs. From work permits to
+                              driver&#x27;s license exchange, we guide you through the German legal
+                              system.
+                            </div>
+                          </div>
+                          <div
+                            data-loc="client/src/components/ServicesBentoGrid.tsx:93"
+                            data-slot="card-content"
+                            class="px-6"
+                          >
+                            <div
+                              data-loc="client/src/components/ServicesBentoGrid.tsx:94"
+                              class="flex items-center text-sm text-primary font-medium mt-auto group-hover:translate-x-1 transition-transform"
+                            >
+                              Learn more<!-- -->
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="lucide lucide-arrow-right ml-1 h-4 w-4"
+                                data-loc="client/src/components/ServicesBentoGrid.tsx:95"
+                              >
+                                <path d="M5 12h14"></path>
+                                <path d="m12 5 7 7-7 7"></path>
+                              </svg>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      data-loc="client/src/components/ServicesBentoGrid.tsx:122"
+                      role="group"
+                      aria-roledescription="slide"
+                      data-slot="carousel-item"
+                      class="min-w-0 shrink-0 grow-0 pl-2 md:pl-4 basis-11/12"
+                    >
+                      <div
+                        data-loc="client/src/components/ServicesBentoGrid.tsx:123"
+                        class="p-1 h-full"
+                      >
+                        <div
+                          data-loc="client/src/components/ServicesBentoGrid.tsx:77"
+                          data-slot="card"
+                          class="text-card-foreground flex flex-col gap-6 rounded-xl py-6 shadow-sm h-full cursor-pointer group hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/20 relative overflow-hidden bg-card/50 backdrop-blur-sm"
+                        >
+                          <div
+                            data-loc="client/src/components/ServicesBentoGrid.tsx:81"
+                            class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                          ></div>
+                          <div
+                            data-loc="client/src/components/ServicesBentoGrid.tsx:82"
+                            data-slot="card-header"
+                            class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6"
+                          >
+                            <div
+                              data-loc="client/src/components/ServicesBentoGrid.tsx:83"
+                              class="mb-4 w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="lucide lucide-users h-6 w-6 text-primary"
+                                data-loc="client/src/components/ServicesBentoGrid.tsx:84"
+                              >
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                              </svg>
+                            </div>
+                            <div
+                              data-loc="client/src/components/ServicesBentoGrid.tsx:86"
+                              data-slot="card-title"
+                              class="font-semibold text-xl mb-2 group-hover:text-primary transition-colors"
+                            >
+                              Benefits &amp; Financial Services
+                            </div>
+                            <div
+                              data-loc="client/src/components/ServicesBentoGrid.tsx:89"
+                              data-slot="card-description"
+                              class="text-muted-foreground text-sm line-clamp-3"
+                            >
+                              Maximize your financial benefits. We help with pension refunds, child
+                              benefits, and setting up your banking foundations.
+                            </div>
+                          </div>
+                          <div
+                            data-loc="client/src/components/ServicesBentoGrid.tsx:93"
+                            data-slot="card-content"
+                            class="px-6"
+                          >
+                            <div
+                              data-loc="client/src/components/ServicesBentoGrid.tsx:94"
+                              class="flex items-center text-sm text-primary font-medium mt-auto group-hover:translate-x-1 transition-transform"
+                            >
+                              Learn more<!-- -->
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="lucide lucide-arrow-right ml-1 h-4 w-4"
+                                data-loc="client/src/components/ServicesBentoGrid.tsx:95"
+                              >
+                                <path d="M5 12h14"></path>
+                                <path d="m12 5 7 7-7 7"></path>
+                              </svg>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      data-loc="client/src/components/ServicesBentoGrid.tsx:122"
+                      role="group"
+                      aria-roledescription="slide"
+                      data-slot="carousel-item"
+                      class="min-w-0 shrink-0 grow-0 pl-2 md:pl-4 basis-11/12"
+                    >
+                      <div
+                        data-loc="client/src/components/ServicesBentoGrid.tsx:123"
+                        class="p-1 h-full"
+                      >
+                        <div
+                          data-loc="client/src/components/ServicesBentoGrid.tsx:77"
+                          data-slot="card"
+                          class="text-card-foreground flex flex-col gap-6 rounded-xl py-6 shadow-sm h-full cursor-pointer group hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/20 relative overflow-hidden bg-card/50 backdrop-blur-sm"
+                        >
+                          <div
+                            data-loc="client/src/components/ServicesBentoGrid.tsx:81"
+                            class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                          ></div>
+                          <div
+                            data-loc="client/src/components/ServicesBentoGrid.tsx:82"
+                            data-slot="card-header"
+                            class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6"
+                          >
+                            <div
+                              data-loc="client/src/components/ServicesBentoGrid.tsx:83"
+                              class="mb-4 w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="lucide lucide-circle-help h-6 w-6 text-primary"
+                                data-loc="client/src/components/ServicesBentoGrid.tsx:84"
+                              >
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                <path d="M12 17h.01"></path>
+                              </svg>
+                            </div>
+                            <div
+                              data-loc="client/src/components/ServicesBentoGrid.tsx:86"
+                              data-slot="card-title"
+                              class="font-semibold text-xl mb-2 group-hover:text-primary transition-colors"
+                            >
+                              Integration &amp; Daily Life
+                            </div>
+                            <div
+                              data-loc="client/src/components/ServicesBentoGrid.tsx:89"
+                              data-slot="card-description"
+                              class="text-muted-foreground text-sm line-clamp-3"
+                            >
+                              Essential support for your daily life in Germany. We handle utilities,
+                              insurance, and other contracts so you can focus on living.
+                            </div>
+                          </div>
+                          <div
+                            data-loc="client/src/components/ServicesBentoGrid.tsx:93"
+                            data-slot="card-content"
+                            class="px-6"
+                          >
+                            <div
+                              data-loc="client/src/components/ServicesBentoGrid.tsx:94"
+                              class="flex items-center text-sm text-primary font-medium mt-auto group-hover:translate-x-1 transition-transform"
+                            >
+                              Learn more<!-- -->
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="lucide lucide-arrow-right ml-1 h-4 w-4"
+                                data-loc="client/src/components/ServicesBentoGrid.tsx:95"
+                              >
+                                <path d="M5 12h14"></path>
+                                <path d="m12 5 7 7-7 7"></path>
+                              </svg>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  data-loc="client/src/components/ServicesBentoGrid.tsx:129"
+                  class="flex justify-center gap-2 mt-4"
+                >
+                  <button
+                    data-loc="client/src/components/ServicesBentoGrid.tsx:131"
+                    class="h-2 w-2 rounded-full transition-all duration-300 bg-primary w-4"
+                    aria-label="Go to slide 1"
+                  ></button
+                  ><button
+                    data-loc="client/src/components/ServicesBentoGrid.tsx:131"
+                    class="h-2 w-2 rounded-full transition-all duration-300 bg-gray-300 dark:bg-gray-700"
+                    aria-label="Go to slide 2"
+                  ></button
+                  ><button
+                    data-loc="client/src/components/ServicesBentoGrid.tsx:131"
+                    class="h-2 w-2 rounded-full transition-all duration-300 bg-gray-300 dark:bg-gray-700"
+                    aria-label="Go to slide 3"
+                  ></button
+                  ><button
+                    data-loc="client/src/components/ServicesBentoGrid.tsx:131"
+                    class="h-2 w-2 rounded-full transition-all duration-300 bg-gray-300 dark:bg-gray-700"
+                    aria-label="Go to slide 4"
+                  ></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section
+          data-loc="client/src/pages/Home.tsx:434"
+          id="process"
+          class="py-8 md:py-14 bg-slate-50 dark:bg-secondary/10"
+        >
+          <div data-loc="client/src/pages/Home.tsx:435" class="container">
+            <div data-loc="client/src/pages/Home.tsx:436" class="text-center mb-12 md:mb-16">
+              <span
+                data-loc="client/src/pages/Home.tsx:437"
+                class="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block"
+                >OUR PROCESS</span
+              >
+              <h2
+                data-loc="client/src/pages/Home.tsx:438"
+                class="text-3xl md:text-4xl font-extrabold tracking-tight mb-4"
+              >
+                How It Works
+              </h2>
+              <div
+                data-loc="client/src/pages/Home.tsx:439"
+                class="h-1 w-20 bg-blue-600 rounded-full mx-auto"
+              ></div>
+            </div>
+            <div
+              data-loc="client/src/pages/Home.tsx:442"
+              class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto"
+            >
+              <div data-loc="client/src/pages/Home.tsx:443" class="text-center">
+                <div
+                  data-loc="client/src/pages/Home.tsx:444"
+                  class="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-lg"
+                >
+                  1
+                </div>
+                <h3
+                  data-loc="client/src/pages/Home.tsx:447"
+                  class="text-lg md:text-xl font-semibold mb-2 md:mb-3"
+                >
+                  Submit your request
+                </h3>
+                <p
+                  data-loc="client/src/pages/Home.tsx:448"
+                  class="text-sm md:text-base text-muted-foreground"
+                >
+                  Select your service and send your details.
+                </p>
+              </div>
+              <div data-loc="client/src/pages/Home.tsx:451" class="text-center">
+                <div
+                  data-loc="client/src/pages/Home.tsx:452"
+                  class="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-lg"
+                >
+                  2
+                </div>
+                <h3
+                  data-loc="client/src/pages/Home.tsx:455"
+                  class="text-lg md:text-xl font-semibold mb-2 md:mb-3"
+                >
+                  Consultation
+                </h3>
+                <p
+                  data-loc="client/src/pages/Home.tsx:456"
+                  class="text-sm md:text-base text-muted-foreground"
+                >
+                  HandokHelper reviews your situation and contacts you.
+                </p>
+              </div>
+              <div data-loc="client/src/pages/Home.tsx:459" class="text-center">
+                <div
+                  data-loc="client/src/pages/Home.tsx:460"
+                  class="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-lg"
+                >
+                  3
+                </div>
+                <h3
+                  data-loc="client/src/pages/Home.tsx:463"
+                  class="text-lg md:text-xl font-semibold mb-2 md:mb-3"
+                >
+                  Start working together
+                </h3>
+                <p
+                  data-loc="client/src/pages/Home.tsx:464"
+                  class="text-sm md:text-base text-muted-foreground"
+                >
+                  After agreement on fees, HandokHelper assists with your case.
+                </p>
+              </div>
+            </div>
+            <p
+              data-loc="client/src/pages/Home.tsx:468"
+              class="text-center text-xs md:text-sm text-muted-foreground mt-6 md:mt-8 max-w-2xl mx-auto"
+            >
+              Note: submitting the form does not create a binding contract; HandokHelper will first
+              provide an offer.
+            </p>
+          </div>
+        </section>
+        <section data-loc="client/src/pages/Home.tsx:475" id="contact" class="py-8 md:py-14">
+          <div data-loc="client/src/pages/Home.tsx:476" class="container max-w-4xl">
+            <div data-loc="client/src/pages/Home.tsx:477" class="text-center mb-12 md:mb-16">
+              <span
+                data-loc="client/src/pages/Home.tsx:478"
+                class="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block"
+                >CONTACT</span
+              >
+              <h2
+                data-loc="client/src/pages/Home.tsx:479"
+                class="text-3xl md:text-4xl font-extrabold tracking-tight mb-4"
+              >
+                Get in Touch
+              </h2>
+              <div
+                data-loc="client/src/pages/Home.tsx:480"
+                class="h-1 w-20 bg-blue-600 rounded-full mx-auto"
+              ></div>
+            </div>
+            <div
+              data-loc="client/src/pages/Home.tsx:483"
+              data-slot="card"
+              class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl py-6 shadow-xl border-2"
+            >
+              <div
+                data-loc="client/src/pages/Home.tsx:484"
+                data-slot="card-content"
+                class="pt-8 px-6 md:px-10"
+              >
+                <div
+                  data-loc="client/src/components/ContactForm.tsx:281"
+                  id="contact-form-container"
+                >
+                  <form
+                    data-loc="client/src/components/ContactForm.tsx:282"
+                    class="space-y-8"
+                    novalidate=""
+                  >
+                    <div data-loc="client/src/components/ContactForm.tsx:283" class="space-y-2">
+                      <div
+                        data-loc="client/src/components/ContactForm.tsx:284"
+                        class="flex justify-between text-sm"
+                      >
+                        <span
+                          data-loc="client/src/components/ContactForm.tsx:285"
+                          class="text-muted-foreground"
+                          >Form Progress</span
+                        ><span
+                          data-loc="client/src/components/ContactForm.tsx:286"
+                          class="font-medium text-primary"
+                          >0<!-- -->%</span
+                        >
+                      </div>
+                      <div
+                        data-loc="client/src/components/ContactForm.tsx:288"
+                        class="h-2 bg-secondary rounded-full overflow-hidden"
+                      >
+                        <div
+                          data-loc="client/src/components/ContactForm.tsx:289"
+                          class="h-full bg-gradient-to-r from-primary to-primary/80 transition-all duration-300 ease-out"
+                          style="width: 0%"
+                        ></div>
+                      </div>
+                    </div>
+                    <input
+                      data-loc="client/src/components/ContactForm.tsx:297"
+                      type="text"
+                      class="hidden"
+                      tabindex="-1"
+                      autocomplete="off"
+                      name="honeypot"
+                    />
+                    <div
+                      data-loc="client/src/components/ContactForm.tsx:300"
+                      class="space-y-3 p-4 bg-primary/5 rounded-lg border-2 border-primary/20"
+                    >
+                      <div
+                        data-loc="client/src/components/ContactForm.tsx:301"
+                        class="flex items-center justify-between"
+                      >
+                        <h3
+                          data-loc="client/src/components/ContactForm.tsx:302"
+                          class="text-lg font-semibold text-primary dark:text-blue-100 flex items-center gap-2"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="lucide lucide-briefcase h-5 w-5 text-primary dark:text-blue-400"
+                            data-loc="client/src/components/ContactForm.tsx:303"
+                          >
+                            <path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                            <rect width="20" height="14" x="2" y="6" rx="2"></rect></svg
+                          >Service<!-- -->
+                          *
+                        </h3>
+                      </div>
+                      <button
+                        type="button"
+                        role="combobox"
+                        aria-controls="radix-_R_278_"
+                        aria-expanded="false"
+                        aria-required="true"
+                        aria-autocomplete="none"
+                        dir="ltr"
+                        data-state="closed"
+                        data-placeholder=""
+                        data-loc="client/src/components/ContactForm.tsx:321"
+                        data-slot="select-trigger"
+                        data-size="default"
+                        class="border-input data-[placeholder]:text-muted-foreground [&amp;_svg:not([class*=&#x27;text-&#x27;])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex w-fit items-center justify-between gap-2 rounded-md border bg-white px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4"
+                      >
+                        <span
+                          data-loc="client/src/components/ContactForm.tsx:322"
+                          data-slot="select-value"
+                          style="pointer-events: none"
+                          >Select a category</span
+                        ><svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="lucide lucide-chevron-down size-4 opacity-50"
+                          data-loc="client/src/components/ui/select.tsx:45"
+                          aria-hidden="true"
+                        >
+                          <path d="m6 9 6 6 6-6"></path>
+                        </svg></button
+                      ><select
+                        aria-hidden="true"
+                        required=""
+                        tabindex="-1"
+                        name="service"
+                        style="
+                          position: absolute;
+                          border: 0;
+                          width: 1px;
+                          height: 1px;
+                          padding: 0;
+                          margin: -1px;
+                          overflow: hidden;
+                          clip: rect(0, 0, 0, 0);
+                          white-space: nowrap;
+                          word-wrap: normal;
+                        "
+                      ></select>
+                    </div>
+                    <div
+                      data-loc="client/src/components/ContactForm.tsx:374"
+                      class="space-y-4 p-4 bg-blue-50/40 dark:bg-blue-950/20 rounded-lg border border-blue-100/50 dark:border-blue-900/50"
+                    >
+                      <h3
+                        data-loc="client/src/components/ContactForm.tsx:375"
+                        class="text-lg font-semibold text-blue-900 dark:text-blue-100 flex items-center gap-2"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="lucide lucide-user h-5 w-5 text-blue-600 dark:text-blue-400"
+                          data-loc="client/src/components/ContactForm.tsx:376"
+                        >
+                          <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                          <circle cx="12" cy="7" r="4"></circle></svg
+                        >Personal Information
+                      </h3>
+                      <div data-loc="client/src/components/ContactForm.tsx:381" class="space-y-2">
+                        <div
+                          data-loc="client/src/components/ContactForm.tsx:382"
+                          class="flex items-center justify-between"
+                        >
+                          <label
+                            data-loc="client/src/components/ContactForm.tsx:383"
+                            data-slot="label"
+                            class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+                            for="salutation"
+                            >Salutation<!-- -->
+                            *</label
+                          >
+                        </div>
+                        <button
+                          type="button"
+                          role="combobox"
+                          aria-controls="radix-_R_i98_"
+                          aria-expanded="false"
+                          aria-required="true"
+                          aria-autocomplete="none"
+                          dir="ltr"
+                          data-state="closed"
+                          data-placeholder=""
+                          data-loc="client/src/components/ContactForm.tsx:396"
+                          data-slot="select-trigger"
+                          data-size="default"
+                          class="border-input data-[placeholder]:text-muted-foreground [&amp;_svg:not([class*=&#x27;text-&#x27;])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex w-fit items-center justify-between gap-2 rounded-md border bg-white px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4"
+                        >
+                          <span
+                            data-loc="client/src/components/ContactForm.tsx:397"
+                            data-slot="select-value"
+                            style="pointer-events: none"
+                            >Select salutation</span
+                          ><svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="lucide lucide-chevron-down size-4 opacity-50"
+                            data-loc="client/src/components/ui/select.tsx:45"
+                            aria-hidden="true"
+                          >
+                            <path d="m6 9 6 6 6-6"></path>
+                          </svg></button
+                        ><select
+                          aria-hidden="true"
+                          required=""
+                          tabindex="-1"
+                          name="salutation"
+                          style="
+                            position: absolute;
+                            border: 0;
+                            width: 1px;
+                            height: 1px;
+                            padding: 0;
+                            margin: -1px;
+                            overflow: hidden;
+                            clip: rect(0, 0, 0, 0);
+                            white-space: nowrap;
+                            word-wrap: normal;
+                          "
+                        >
+                          <option value=""></option>
+                        </select>
+                      </div>
+                      <div
+                        data-loc="client/src/components/ContactForm.tsx:409"
+                        class="grid md:grid-cols-2 gap-4"
+                      >
+                        <div data-loc="client/src/components/ContactForm.tsx:410" class="space-y-2">
+                          <div
+                            data-loc="client/src/components/ContactForm.tsx:411"
+                            class="flex items-center justify-between"
+                          >
+                            <label
+                              data-loc="client/src/components/ContactForm.tsx:412"
+                              data-slot="label"
+                              class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+                              for="firstName"
+                              >First Name<!-- -->
+                              *</label
+                            >
+                          </div>
+                          <input
+                            data-loc="client/src/components/ContactForm.tsx:417"
+                            data-slot="input"
+                            class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-white px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                            id="firstName"
+                            required=""
+                            name="firstName"
+                          />
+                        </div>
+                        <div data-loc="client/src/components/ContactForm.tsx:426" class="space-y-2">
+                          <div
+                            data-loc="client/src/components/ContactForm.tsx:427"
+                            class="flex items-center justify-between"
+                          >
+                            <label
+                              data-loc="client/src/components/ContactForm.tsx:428"
+                              data-slot="label"
+                              class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+                              for="lastName"
+                              >Last Name<!-- -->
+                              *</label
+                            >
+                          </div>
+                          <input
+                            data-loc="client/src/components/ContactForm.tsx:433"
+                            data-slot="input"
+                            class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-white px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                            id="lastName"
+                            required=""
+                            name="lastName"
+                          />
+                        </div>
+                      </div>
+                      <div data-loc="client/src/components/ContactForm.tsx:445" class="space-y-2">
+                        <div
+                          data-loc="client/src/components/ContactForm.tsx:446"
+                          class="flex items-center justify-between"
+                        >
+                          <label
+                            data-loc="client/src/components/ContactForm.tsx:447"
+                            data-slot="label"
+                            class="text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 flex items-center gap-2"
+                            for="dateOfBirth"
+                            ><svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="24"
+                              height="24"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              class="lucide lucide-calendar h-4 w-4 text-gray-500"
+                              data-loc="client/src/components/ContactForm.tsx:448"
+                            >
+                              <path d="M8 2v4"></path>
+                              <path d="M16 2v4"></path>
+                              <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+                              <path d="M3 10h18"></path></svg
+                            >Date of Birth<!-- -->
+                            *</label
+                          >
+                        </div>
+                        <input
+                          data-loc="client/src/components/ContactForm.tsx:455"
+                          type="date"
+                          data-slot="input"
+                          class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-white px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                          id="dateOfBirth"
+                          required=""
+                          name="dateOfBirth"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      data-loc="client/src/components/ContactForm.tsx:468"
+                      class="space-y-4 p-4 bg-blue-50/40 dark:bg-blue-950/20 rounded-lg border border-blue-100/50 dark:border-blue-900/50"
+                    >
+                      <h3
+                        data-loc="client/src/components/ContactForm.tsx:469"
+                        class="text-lg font-semibold text-blue-900 dark:text-blue-100 flex items-center gap-2"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="lucide lucide-mail h-5 w-5 text-blue-600 dark:text-blue-400"
+                          data-loc="client/src/components/ContactForm.tsx:470"
+                        >
+                          <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg
+                        >Contact Information
+                      </h3>
+                      <div
+                        data-loc="client/src/components/ContactForm.tsx:474"
+                        class="grid md:grid-cols-2 gap-4"
+                      >
+                        <div data-loc="client/src/components/ContactForm.tsx:475" class="space-y-2">
+                          <div
+                            data-loc="client/src/components/ContactForm.tsx:476"
+                            class="flex items-center justify-between"
+                          >
+                            <label
+                              data-loc="client/src/components/ContactForm.tsx:477"
+                              data-slot="label"
+                              class="text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 flex items-center gap-2"
+                              for="email"
+                              ><svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="lucide lucide-mail h-4 w-4 text-gray-500"
+                                data-loc="client/src/components/ContactForm.tsx:478"
+                              >
+                                <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg
+                              >Email<!-- -->
+                              *</label
+                            >
+                          </div>
+                          <input
+                            data-loc="client/src/components/ContactForm.tsx:485"
+                            type="email"
+                            data-slot="input"
+                            class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-white px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                            id="email"
+                            required=""
+                            name="email"
+                          />
+                        </div>
+                        <div data-loc="client/src/components/ContactForm.tsx:501" class="space-y-2">
+                          <div
+                            data-loc="client/src/components/ContactForm.tsx:502"
+                            class="flex items-center justify-between"
+                          >
+                            <label
+                              data-loc="client/src/components/ContactForm.tsx:503"
+                              data-slot="label"
+                              class="text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 flex items-center gap-2"
+                              for="phoneNumber"
+                              ><svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="lucide lucide-phone h-4 w-4 text-gray-500"
+                                data-loc="client/src/components/ContactForm.tsx:504"
+                              >
+                                <path
+                                  d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+                                ></path></svg
+                              >Phone Number<!-- -->
+                              *</label
+                            >
+                          </div>
+                          <input
+                            data-loc="client/src/components/ContactForm.tsx:511"
+                            type="tel"
+                            data-slot="input"
+                            class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-white px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                            id="phoneNumber"
+                            required=""
+                            placeholder="+49 123 456789"
+                            name="phoneNumber"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      data-loc="client/src/components/ContactForm.tsx:526"
+                      class="space-y-4 p-4 bg-blue-50/40 dark:bg-blue-950/20 rounded-lg border border-blue-100/50 dark:border-blue-900/50"
+                    >
+                      <h3
+                        data-loc="client/src/components/ContactForm.tsx:527"
+                        class="text-lg font-semibold text-blue-900 dark:text-blue-100 flex items-center gap-2"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="lucide lucide-map-pin h-5 w-5 text-blue-600 dark:text-blue-400"
+                          data-loc="client/src/components/ContactForm.tsx:528"
+                        >
+                          <path
+                            d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"
+                          ></path>
+                          <circle cx="12" cy="10" r="3"></circle></svg
+                        >Address
+                      </h3>
+                      <div data-loc="client/src/components/ContactForm.tsx:532" class="space-y-2">
+                        <div
+                          data-loc="client/src/components/ContactForm.tsx:533"
+                          class="flex items-center justify-between"
+                        >
+                          <label
+                            data-loc="client/src/components/ContactForm.tsx:534"
+                            data-slot="label"
+                            class="text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 flex items-center gap-2"
+                            for="street"
+                            ><svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="24"
+                              height="24"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              class="lucide lucide-house h-4 w-4 text-gray-500"
+                              data-loc="client/src/components/ContactForm.tsx:535"
+                            >
+                              <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+                              <path
+                                d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+                              ></path></svg
+                            >Street &amp; House Number<!-- -->
+                            *</label
+                          >
+                        </div>
+                        <input
+                          data-loc="client/src/components/ContactForm.tsx:542"
+                          data-slot="input"
+                          class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-white px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                          id="street"
+                          required=""
+                          name="street"
+                        />
+                      </div>
+                      <div data-loc="client/src/components/ContactForm.tsx:552" class="space-y-2">
+                        <label
+                          data-loc="client/src/components/ContactForm.tsx:553"
+                          data-slot="label"
+                          class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+                          for="addressLine2"
+                          >Address Line 2 (optional)</label
+                        ><input
+                          data-loc="client/src/components/ContactForm.tsx:554"
+                          data-slot="input"
+                          class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-white px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                          id="addressLine2"
+                          name="addressLine2"
+                        />
+                      </div>
+                      <div
+                        data-loc="client/src/components/ContactForm.tsx:557"
+                        class="grid md:grid-cols-2 gap-4"
+                      >
+                        <div data-loc="client/src/components/ContactForm.tsx:558" class="space-y-2">
+                          <div
+                            data-loc="client/src/components/ContactForm.tsx:559"
+                            class="flex items-center justify-between"
+                          >
+                            <label
+                              data-loc="client/src/components/ContactForm.tsx:560"
+                              data-slot="label"
+                              class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+                              for="postalCode"
+                              >Postal Code<!-- -->
+                              *</label
+                            >
+                          </div>
+                          <input
+                            data-loc="client/src/components/ContactForm.tsx:565"
+                            data-slot="input"
+                            class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-white px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                            id="postalCode"
+                            required=""
+                            name="postalCode"
+                          />
+                        </div>
+                        <div data-loc="client/src/components/ContactForm.tsx:574" class="space-y-2">
+                          <div
+                            data-loc="client/src/components/ContactForm.tsx:575"
+                            class="flex items-center justify-between"
+                          >
+                            <label
+                              data-loc="client/src/components/ContactForm.tsx:576"
+                              data-slot="label"
+                              class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+                              for="city"
+                              >City<!-- -->
+                              *</label
+                            >
+                          </div>
+                          <input
+                            data-loc="client/src/components/ContactForm.tsx:581"
+                            data-slot="input"
+                            class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-white px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+                            id="city"
+                            required=""
+                            name="city"
+                          />
+                        </div>
+                      </div>
+                      <div data-loc="client/src/components/ContactForm.tsx:612" class="space-y-2">
+                        <div
+                          data-loc="client/src/components/ContactForm.tsx:613"
+                          class="flex items-center justify-between"
+                        >
+                          <label
+                            data-loc="client/src/components/ContactForm.tsx:614"
+                            data-slot="label"
+                            class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+                            for="country"
+                            >Country<!-- -->
+                            *</label
+                          >
+                        </div>
+                        <button
+                          type="button"
+                          role="combobox"
+                          aria-controls="radix-_R_md8_"
+                          aria-expanded="false"
+                          aria-required="true"
+                          aria-autocomplete="none"
+                          dir="ltr"
+                          data-state="closed"
+                          data-placeholder=""
+                          data-loc="client/src/components/ContactForm.tsx:632"
+                          data-slot="select-trigger"
+                          data-size="default"
+                          class="border-input data-[placeholder]:text-muted-foreground [&amp;_svg:not([class*=&#x27;text-&#x27;])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex w-fit items-center justify-between gap-2 rounded-md border bg-white px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4"
+                        >
+                          <span
+                            data-loc="client/src/components/ContactForm.tsx:633"
+                            data-slot="select-value"
+                            style="pointer-events: none"
+                            >Select country</span
+                          ><svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="lucide lucide-chevron-down size-4 opacity-50"
+                            data-loc="client/src/components/ui/select.tsx:45"
+                            aria-hidden="true"
+                          >
+                            <path d="m6 9 6 6 6-6"></path>
+                          </svg></button
+                        ><select
+                          aria-hidden="true"
+                          required=""
+                          tabindex="-1"
+                          name="country"
+                          style="
+                            position: absolute;
+                            border: 0;
+                            width: 1px;
+                            height: 1px;
+                            padding: 0;
+                            margin: -1px;
+                            overflow: hidden;
+                            clip: rect(0, 0, 0, 0);
+                            white-space: nowrap;
+                            word-wrap: normal;
+                          "
+                        >
+                          <option value=""></option>
+                        </select>
+                      </div>
+                    </div>
+                    <div
+                      data-loc="client/src/components/ContactForm.tsx:675"
+                      class="space-y-4 p-4 bg-blue-50/40 dark:bg-blue-950/20 rounded-lg border border-blue-100/50 dark:border-blue-900/50"
+                    >
+                      <div
+                        data-loc="client/src/components/ContactForm.tsx:676"
+                        class="flex items-center justify-between"
+                      >
+                        <label
+                          data-loc="client/src/components/ContactForm.tsx:677"
+                          data-slot="label"
+                          class="select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 text-lg font-semibold text-blue-900 dark:text-blue-100 flex items-center gap-2"
+                          for="message"
+                          ><svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="lucide lucide-message-square h-5 w-5 text-blue-600 dark:text-blue-400"
+                            data-loc="client/src/components/ContactForm.tsx:678"
+                          >
+                            <path
+                              d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+                            ></path></svg
+                          >Describe your situation<!-- -->
+                          *</label
+                        >
+                      </div>
+                      <textarea
+                        data-loc="client/src/components/ContactForm.tsx:685"
+                        data-slot="textarea"
+                        class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-white px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm resize-none"
+                        id="message"
+                        name="message"
+                        rows="5"
+                        required=""
+                        minlength="10"
+                        placeholder="Please describe your specific situation, what services you need, and any relevant details about your case."
+                      ></textarea>
+                    </div>
+                    <div
+                      data-loc="client/src/components/ContactForm.tsx:704"
+                      class="space-y-4 p-4 rounded-lg border border-border/50 bg-[#FDFDFD] dark:bg-secondary/10 shadow-sm"
+                    >
+                      <div
+                        data-loc="client/src/components/ContactForm.tsx:705"
+                        class="flex items-start gap-3"
+                      >
+                        <input
+                          data-loc="client/src/components/ContactForm.tsx:706"
+                          type="checkbox"
+                          id="contactConsent"
+                          required=""
+                          class=""
+                          style="
+                            width: 20px;
+                            height: 20px;
+                            min-width: 20px;
+                            min-height: 20px;
+                            margin-top: 2px;
+                            cursor: pointer;
+                            accent-color: var(--color-primary);
+                            border: 1px solid var(--color-primary);
+                            border-radius: 4px;
+                          "
+                          name="contactConsent"
+                        /><label
+                          data-loc="client/src/components/ContactForm.tsx:725"
+                          for="contactConsent"
+                          class="text-sm leading-relaxed cursor-pointer"
+                          >I agree to be contacted by email and/or phone<!-- -->
+                          *</label
+                        >
+                      </div>
+                      <div
+                        data-loc="client/src/components/ContactForm.tsx:729"
+                        class="flex items-start gap-3"
+                      >
+                        <input
+                          data-loc="client/src/components/ContactForm.tsx:730"
+                          type="checkbox"
+                          id="privacy-policy-consent"
+                          required=""
+                          class=""
+                          style="
+                            width: 20px;
+                            height: 20px;
+                            min-width: 20px;
+                            min-height: 20px;
+                            flex-shrink: 0;
+                            margin-top: 2px;
+                            cursor: pointer;
+                            accent-color: var(--color-primary);
+                            border: 1px solid var(--color-primary);
+                            border-radius: 4px;
+                            display: block;
+                            position: relative;
+                          "
+                          name="privacyConsent"
+                        /><label
+                          data-loc="client/src/components/ContactForm.tsx:752"
+                          for="privacy-policy-consent"
+                          class="text-sm leading-relaxed cursor-pointer"
+                          >I have read and agree to the<!-- -->
+                          <button
+                            data-loc="client/src/components/ContactForm.tsx:754"
+                            type="button"
+                            class="text-primary hover:underline font-medium"
+                          >
+                            Privacy Policy
+                          </button>
+                          <!-- -->*</label
+                        >
+                      </div>
+                    </div>
+                    <button
+                      data-loc="client/src/components/ContactForm.tsx:767"
+                      data-slot="button"
+                      class="inline-flex items-center justify-center gap-2 whitespace-nowrap disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive text-primary-foreground hover:bg-primary/90 rounded-md px-6 has-[&gt;svg]:px-4 w-full shadow-lg hover:shadow-xl transition-all text-base h-12 bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary/80 font-semibold"
+                      type="submit"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="lucide lucide-send mr-2 h-5 w-5"
+                        data-loc="client/src/components/ContactForm.tsx:780"
+                      >
+                        <path
+                          d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"
+                        ></path>
+                        <path d="m21.854 2.147-10.94 10.939"></path></svg
+                      >Submit Inquiry
+                    </button>
+                    <p
+                      data-loc="client/src/components/ContactForm.tsx:788"
+                      class="text-sm text-center text-muted-foreground"
+                    >
+                      Please complete all required fields to submit
+                    </p>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section
+          data-loc="client/src/pages/Home.tsx:506"
+          id="about"
+          class="py-8 md:py-14 bg-slate-50 dark:bg-secondary/10"
+        >
+          <div data-loc="client/src/pages/Home.tsx:507" class="container max-w-4xl">
+            <div data-loc="client/src/pages/Home.tsx:508" class="text-center mb-12 md:mb-16">
+              <span
+                data-loc="client/src/pages/Home.tsx:509"
+                class="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block"
+                >WHO WE ARE</span
+              >
+              <h2
+                data-loc="client/src/pages/Home.tsx:510"
+                class="text-3xl md:text-4xl font-extrabold tracking-tight mb-4"
+              >
+                About HandokHelper
+              </h2>
+              <div
+                data-loc="client/src/pages/Home.tsx:511"
+                class="h-1 w-20 bg-blue-600 rounded-full mx-auto"
+              ></div>
+            </div>
+            <div
+              data-loc="client/src/pages/Home.tsx:514"
+              class="space-y-4 md:space-y-6 text-base md:text-lg leading-relaxed"
+            >
+              <p data-loc="client/src/pages/Home.tsx:515">
+                HandokHelper is experienced in dealing with German authorities and understands the
+                complexities of German bureaucracy. With years of experience navigating the system,
+                HandokHelper provides personalized assistance to make your journey smoother.
+              </p>
+              <p data-loc="client/src/pages/Home.tsx:516">
+                Whether you are an immigrant, a foreign resident in Germany, or someone living
+                abroad who needs to interact with German authorities, we can help. From visa
+                applications to pension claims, every case receives dedicated attention and
+                professional guidance.
+              </p>
+              <p data-loc="client/src/pages/Home.tsx:517">
+                We specialize in helping individuals abroad obtain German pension payments and other
+                social benefits, ensuring that distance is never a barrier to accessing what
+                you&#x27;re entitled to.
+              </p>
+              <div
+                data-loc="client/src/pages/Home.tsx:519"
+                class="flex flex-col items-center gap-4 pt-8"
+              >
+                <h3
+                  data-loc="client/src/pages/Home.tsx:520"
+                  class="font-semibold text-muted-foreground uppercase tracking-wider text-sm"
+                >
+                  Languages Spoken
+                </h3>
+                <div
+                  data-loc="client/src/pages/Home.tsx:521"
+                  class="flex flex-wrap justify-center gap-3"
+                >
+                  <span
+                    data-loc="client/src/pages/Home.tsx:522"
+                    data-slot="badge"
+                    class="inline-flex items-center justify-center rounded-md border w-fit whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 gap-1 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive overflow-hidden [a&amp;]:hover:bg-accent [a&amp;]:hover:text-accent-foreground px-4 py-2 text-base font-medium bg-background/50 dark:bg-secondary backdrop-blur-sm border-primary/20 text-foreground hover:bg-primary/5 dark:hover:bg-primary/20 hover:border-primary/40 dark:hover:border-primary/60 transition-all duration-300 cursor-default shadow-sm"
+                    >🇺🇸 English</span
+                  ><span
+                    data-loc="client/src/pages/Home.tsx:525"
+                    data-slot="badge"
+                    class="inline-flex items-center justify-center rounded-md border w-fit whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 gap-1 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive overflow-hidden [a&amp;]:hover:bg-accent [a&amp;]:hover:text-accent-foreground px-4 py-2 text-base font-medium bg-background/50 dark:bg-secondary backdrop-blur-sm border-primary/20 text-foreground hover:bg-primary/5 dark:hover:bg-primary/20 hover:border-primary/40 dark:hover:border-primary/60 transition-all duration-300 cursor-default shadow-sm"
+                    >🇰🇷 Korean (한국어)</span
+                  ><span
+                    data-loc="client/src/pages/Home.tsx:528"
+                    data-slot="badge"
+                    class="inline-flex items-center justify-center rounded-md border w-fit whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 gap-1 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive overflow-hidden [a&amp;]:hover:bg-accent [a&amp;]:hover:text-accent-foreground px-4 py-2 text-base font-medium bg-background/50 dark:bg-secondary backdrop-blur-sm border-primary/20 text-foreground hover:bg-primary/5 dark:hover:bg-primary/20 hover:border-primary/40 dark:hover:border-primary/60 transition-all duration-300 cursor-default shadow-sm"
+                    >🇩🇪 German (Deutsch)</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <footer
+          data-loc="client/src/components/Footer.tsx:22"
+          class="py-10 md:py-14 border-t bg-muted/20"
+        >
+          <div data-loc="client/src/components/Footer.tsx:23" class="container">
+            <div
+              data-loc="client/src/components/Footer.tsx:24"
+              class="grid md:grid-cols-3 gap-10 md:gap-12 mb-10"
+            >
+              <div data-loc="client/src/components/Footer.tsx:26">
+                <h3
+                  data-loc="client/src/components/Footer.tsx:27"
+                  class="font-semibold text-base mb-3"
+                >
+                  About HandokHelper
+                </h3>
+                <p
+                  data-loc="client/src/components/Footer.tsx:28"
+                  class="text-sm text-muted-foreground leading-relaxed"
+                >
+                  Support for handling German authorities from anywhere in the world. Assistance
+                  with forms, certificates, residence matters, pension support, and more.
+                </p>
+              </div>
+              <div data-loc="client/src/components/Footer.tsx:34">
+                <h3
+                  data-loc="client/src/components/Footer.tsx:35"
+                  class="font-semibold text-base mb-3"
+                >
+                  Quick Links
+                </h3>
+                <div data-loc="client/src/components/Footer.tsx:36" class="space-y-2.5">
+                  <button
+                    data-loc="client/src/components/Footer.tsx:37"
+                    class="block text-sm text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    Services</button
+                  ><button
+                    data-loc="client/src/components/Footer.tsx:43"
+                    class="block text-sm text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    Process</button
+                  ><button
+                    data-loc="client/src/components/Footer.tsx:49"
+                    class="block text-sm text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    About</button
+                  ><button
+                    data-loc="client/src/components/Footer.tsx:55"
+                    class="block text-sm text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    Contact
+                  </button>
+                </div>
+              </div>
+              <div data-loc="client/src/components/Footer.tsx:65">
+                <h3
+                  data-loc="client/src/components/Footer.tsx:66"
+                  class="font-semibold text-base mb-3"
+                >
+                  Legal
+                </h3>
+                <div data-loc="client/src/components/Footer.tsx:67" class="space-y-3">
+                  <button
+                    data-loc="client/src/components/Footer.tsx:68"
+                    class="block text-sm text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    Privacy Policy
+                  </button>
+                  <div
+                    data-loc="client/src/components/Footer.tsx:74"
+                    class="text-sm text-muted-foreground pt-1"
+                  >
+                    <button
+                      data-loc="client/src/components/Footer.tsx:75"
+                      class="block text-sm text-muted-foreground hover:text-primary transition-colors"
+                    >
+                      Imprint
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              data-loc="client/src/components/Footer.tsx:86"
+              class="text-center text-sm text-muted-foreground pt-8 border-t"
+            >
+              <p data-loc="client/src/components/Footer.tsx:87">
+                © 2025 HandokHelper -
+                <!-- -->Support for German Authorities Worldwide
+              </p>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>
