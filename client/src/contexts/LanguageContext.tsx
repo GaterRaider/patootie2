@@ -34,6 +34,15 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
     const pathParts = location.split('/');
     const firstPart = pathParts[1];
 
+    // Skip language detection for admin routes
+    if (firstPart === 'admin') {
+      if (!initialized) {
+        setLanguageState('en'); // Default to English for admin
+        setInitialized(true);
+      }
+      return;
+    }
+
     if (firstPart === 'en' || firstPart === 'ko' || firstPart === 'de') {
       if (language !== firstPart) {
         setLanguageState(firstPart as Language);
