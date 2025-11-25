@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Moon, Sun } from "lucide-react";
 import { useLocation } from "wouter";
 import { Footer } from "@/components/Footer";
+import { Helmet } from "react-helmet-async";
 
 export default function PrivacyPolicy() {
   const { language, setLanguage, t } = useLanguage();
@@ -427,6 +428,27 @@ https://www.dataprivacyframework.gov/participant/5780`
 
   return (
     <div className="min-h-screen flex flex-col">
+      <Helmet>
+        <html lang={language} />
+
+        <title>
+          {language === "ko"
+            ? "개인정보 처리방침 - HandokHelper"
+            : "Privacy Policy - HandokHelper"}
+        </title>
+        <meta
+          name="description"
+          content={language === "ko"
+            ? "HandokHelper의 개인정보 처리방침. 귀하의 개인정보가 어떻게 수집, 사용 및 보호되는지 알아보세요."
+            : "HandokHelper's Privacy Policy. Learn how your personal data is collected, used, and protected."}
+        />
+
+        {/* Hreflang tags */}
+        <link rel="alternate" hrefLang="en" href="https://www.handokhelper.de/en/privacy-policy/" />
+        <link rel="alternate" hrefLang="ko" href="https://www.handokhelper.de/ko/privacy-policy/" />
+        <link rel="alternate" hrefLang="x-default" href="https://www.handokhelper.de/en/privacy-policy/" />
+      </Helmet>
+
       {/* Accent Bar */}
       <div className="h-1 bg-gradient-to-r from-primary via-blue-500 to-primary"></div>
 

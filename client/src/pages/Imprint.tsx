@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Moon, Sun } from "lucide-react";
 import { useLocation } from "wouter";
 import { Footer } from "@/components/Footer";
+import { Helmet } from "react-helmet-async";
 
 export default function Imprint() {
     const { language, setLanguage, t } = useLanguage();
@@ -17,6 +18,27 @@ export default function Imprint() {
 
     return (
         <div className="min-h-screen flex flex-col">
+            <Helmet>
+                <html lang={language} />
+
+                <title>
+                    {language === "ko"
+                        ? "법적 고지 (Impressum) - HandokHelper"
+                        : "Imprint (Impressum) - HandokHelper"}
+                </title>
+                <meta
+                    name="description"
+                    content={language === "ko"
+                        ? "HandokHelper의 법적 고지 및 연락처 정보."
+                        : "Legal notice and contact information for HandokHelper."}
+                />
+
+                {/* Hreflang tags */}
+                <link rel="alternate" hrefLang="en" href="https://www.handokhelper.de/en/imprint/" />
+                <link rel="alternate" hrefLang="ko" href="https://www.handokhelper.de/ko/imprint/" />
+                <link rel="alternate" hrefLang="x-default" href="https://www.handokhelper.de/en/imprint/" />
+            </Helmet>
+
             {/* Accent Bar */}
             <div className="h-1 bg-gradient-to-r from-primary via-blue-500 to-primary"></div>
 

@@ -178,6 +178,16 @@ async function prerender() {
 
       // Inject Helmet data
       if (helmet) {
+        // Inject HTML attributes (like lang)
+        if (helmet.htmlAttributes) {
+          const htmlAttrs = helmet.htmlAttributes.toString();
+          // Extract lang attribute from helmet
+          const langMatch = htmlAttrs.match(/lang="([^"]+)"/);
+          if (langMatch) {
+            html = html.replace('<html lang="en">', `<html lang="${langMatch[1]}">`);
+          }
+        }
+
         const helmetHead = `
         ${helmet.title.toString()}
         ${helmet.meta.toString()}
