@@ -28,40 +28,53 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
     enabled: !initialized,
   });
 
-  // Sync state with URL query param
+  // Sync state with URL path
   useEffect(() => {
-    const params = new URLSearchParams(search);
-    const langParam = params.get('lang') as Language | null;
+    // Check if path starts with /en or /ko or /de
+    const pathParts = location.split('/');
+    const firstPart = pathParts[1];
 
-    if (langParam && (langParam === 'en' || langParam === 'ko')) {
-      if (language !== langParam) {
-        setLanguageState(langParam);
+    if (firstPart === 'en' || firstPart === 'ko' || firstPart === 'de') {
+      if (language !== firstPart) {
+        setLanguageState(firstPart as Language);
       }
       setInitialized(true);
     } else if (!initialized) {
-      // Initial load logic (Storage -> IP -> Default)
       const storedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY) as Language | null;
-      if (storedLanguage && (storedLanguage === 'en' || storedLanguage === 'ko')) {
+      if (storedLanguage && (storedLanguage === 'en' || storedLanguage === 'ko' || storedLanguage === 'de')) {
         setLanguageState(storedLanguage);
       } else if (geoData) {
         if (geoData.countryCode === 'KR') {
           setLanguageState('ko');
+        } else if (geoData.countryCode === 'DE') {
+          setLanguageState('de');
         } else {
           setLanguageState('en');
         }
       }
       setInitialized(true);
     }
-  }, [search, geoData, initialized, language]);
+  }, [location, geoData, initialized, language]);
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
     localStorage.setItem(LANGUAGE_STORAGE_KEY, lang);
 
-    // Update URL
-    const params = new URLSearchParams(search);
-    params.set('lang', lang);
-    setLocation(`${location}?${params.toString()}`);
+    const pathParts = location.split('/');
+    const firstPart = pathParts[1];
+
+    let newPath;
+    if (firstPart === 'en' || firstPart === 'ko' || firstPart === 'de') {
+      pathParts[1] = lang;
+      newPath = pathParts.join('/');
+    } else {
+      if (location === '/') {
+        newPath = `/${lang}`;
+      } else {
+        newPath = `/${lang}${location}`;
+      }
+    }
+    setLocation(newPath);
   };
 
   const t = getTranslations(language);

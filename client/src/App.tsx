@@ -21,14 +21,34 @@ import EmailTemplates from "./pages/admin/EmailTemplates";
 import EmailTemplateEditor from "./pages/admin/EmailTemplateEditor";
 import AdminLayout from "./components/AdminLayout";
 
+import { useLanguage } from "./contexts/LanguageContext";
+import { useLocation } from "wouter";
+import { useEffect } from "react";
+
+function RootRedirect() {
+  const { language } = useLanguage();
+  const [, setLocation] = useLocation();
+
+  useEffect(() => {
+    // Redirect to the current language version
+    setLocation(`/${language}`);
+  }, [language, setLocation]);
+
+  return null;
+}
+
 function Router() {
   return (
     <Switch>
-      <Route path={"/"} component={Home} />
-      <Route path={"/privacy-policy"} component={PrivacyPolicy} />
-      <Route path={"/imprint"} component={Imprint} />
+      {/* Root redirect */}
+      <Route path="/" component={RootRedirect} />
 
-      {/* Admin Routes */}
+      {/* Language-specific routes */}
+      <Route path="/:lang" component={Home} />
+      <Route path="/:lang/privacy-policy" component={PrivacyPolicy} />
+      <Route path="/:lang/imprint" component={Imprint} />
+
+      {/* Admin Routes (Keep unlocalized) */}
       <Route path="/admin/login" component={AdminLogin} />
 
       <Route path="/admin/dashboard">

@@ -76,9 +76,23 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const routes = [
+  // Root (redirects)
   { path: '/', component: Home, outPath: 'index.html' },
-  { path: '/privacy-policy', component: PrivacyPolicy, outPath: 'privacy-policy/index.html' },
-  { path: '/imprint', component: Imprint, outPath: 'imprint/index.html' },
+
+  // English
+  { path: '/en', component: Home, outPath: 'en/index.html' },
+  { path: '/en/privacy-policy', component: PrivacyPolicy, outPath: 'en/privacy-policy/index.html' },
+  { path: '/en/imprint', component: Imprint, outPath: 'en/imprint/index.html' },
+
+  // Korean
+  { path: '/ko', component: Home, outPath: 'ko/index.html' },
+  { path: '/ko/privacy-policy', component: PrivacyPolicy, outPath: 'ko/privacy-policy/index.html' },
+  { path: '/ko/imprint', component: Imprint, outPath: 'ko/imprint/index.html' },
+
+  // German
+  { path: '/de', component: Home, outPath: 'de/index.html' },
+  { path: '/de/privacy-policy', component: PrivacyPolicy, outPath: 'de/privacy-policy/index.html' },
+  { path: '/de/imprint', component: Imprint, outPath: 'de/imprint/index.html' },
 ];
 
 // Static location hook for wouter

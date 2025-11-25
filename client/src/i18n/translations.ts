@@ -1,4 +1,5 @@
-export type Language = 'en' | 'ko';
+export type Language = 'en' | 'ko' | 'de';
+
 
 export interface Translations {
   // Header
@@ -405,6 +406,148 @@ export const translations: Record<Language, Translations> = {
     errorEmail: "유효한 이메일 주소를 입력하세요",
     errorMinLength: "더 자세한 정보를 제공해주세요",
     errorConsent: "계속하려면 동의해야 합니다",
+  },
+  de: {
+    // Header
+    siteTitle: "HandokHelper",
+    navServices: "Services",
+    navProcess: "Process",
+    navAbout: "About",
+    navContact: "Contact",
+    navLegal: "Impressum / Privacy",
+
+    // Hero Section
+    heroTitle: "Your support for German housing and bureaucracy",
+    heroDescription: "Moving to Germany or dealing with German authorities can be overwhelming, especially from abroad. HandokHelper assists with finding housing, immigration matters, official registrations, pension requests, and any task that requires someone in Germany to handle the process for you.",
+    heroBullet1: "For clients inside and outside Germany",
+    heroBullet2: "Housing search, viewings, and relocation support",
+    heroBullet3: "Assistance with authorities, documents, and official procedures",
+    heroBullet4: "Fixed price, hourly rate, or percentage depending on service",
+    heroBullet5: "Fast and personal communication via phone or email",
+
+    // Service Cards
+    servicesHeading: "Our Services",
+    servicesLabel: "WHAT WE OFFER",
+    serviceCard1Title: "Housing & Relocation",
+    serviceCard1Desc: "Find your perfect home and settle in smoothly. We assist with property search, viewings, contracts, and all registration formalities.",
+    serviceCard1Services: [
+      "Apartment/house search assistance",
+      "Property viewing accompaniment & interpretation",
+      "Rental contract review & negotiation support",
+      "Anmeldung support (document preparation, on-site accompaniment & interpretation)",
+      "Deregistration (Abmeldung) assistance",
+      "Cancellation support before departure (e.g. housing, contracts)"
+    ],
+    serviceCard1CTA: "Select Housing & Relocation",
+    serviceCard2Title: "Immigration & Legal Services",
+    serviceCard2Desc: "Expert support for all your visa and legal needs. From work permits to driver's license exchange, we guide you through the German legal system.",
+    serviceCard2Services: [
+      "Expat assignment visa application & extension",
+      "Expat family visa application & extension",
+      "Work visa consultation & application support",
+      "Visa interview accompaniment & interpretation",
+      "Visa pickup service on behalf of client",
+      "Driver's license exchange support & interpretation",
+      "Tax class (Steuerklasse) change application"
+    ],
+    serviceCard2CTA: "Select Immigration & Legal Services",
+    serviceCard3Title: "Benefits & Financial Services",
+    serviceCard3Desc: "Maximize your financial benefits. We help with pension refunds, child benefits, and setting up your banking foundations.",
+    serviceCard3Services: [
+      "Pension refund application service",
+      "Child benefit (Kindergeld) application",
+      "Bank account opening assistance"
+    ],
+    serviceCard3CTA: "Select Benefits & Financial Services",
+    serviceCard4Title: "Integration & Daily Life",
+    serviceCard4Desc: "Essential support for your daily life in Germany. We handle utilities, insurance, and other contracts so you can focus on living.",
+    serviceCard4Services: [
+      "Internet & electricity contract setup",
+      "Insurance enrollment support (liability & legal insurance)"
+    ],
+    serviceCard4CTA: "Select Integration & Daily Life",
+
+    // Process Section
+    processHeading: "How It Works",
+    processLabel: "OUR PROCESS",
+    processStep1Title: "Submit your request",
+    processStep1Desc: "Select your service and send your details.",
+    processStep2Title: "Consultation",
+    processStep2Desc: "HandokHelper reviews your situation and contacts you.",
+    processStep3Title: "Start working together",
+    processStep3Desc: "After agreement on fees, HandokHelper assists with your case.",
+    processNote: "Note: submitting the form does not create a binding contract; HandokHelper will first provide an offer.",
+
+    // Contact Form
+    contactHeading: "Get in Touch",
+    contactLabel: "CONTACT",
+    formService: "Service",
+    formServicePlaceholder: "Select a category",
+    formSubService: "Specific Service (Optional)",
+    formSubServicePlaceholder: "Select a specific service",
+    formSectionPersonal: "Personal Information",
+    formSectionContact: "Contact Information",
+    formSectionAddress: "Address",
+    formValidationMessage: "Please complete all required fields to submit",
+    formSalutation: "Salutation",
+    formSalutationPlaceholder: "Select salutation",
+    formSalutationMr: "Mr",
+    formSalutationMs: "Ms",
+    formSalutationMx: "Mx",
+    formSalutationPreferNot: "Prefer not to say",
+    formFirstName: "First Name",
+    formLastName: "Last Name",
+    formDateOfBirth: "Date of Birth",
+    formEmail: "Email",
+    formPhone: "Phone Number",
+    formStreet: "Street & House Number",
+    formAddressLine2: "Address Line 2 (optional)",
+    formPostalCode: "Postal Code",
+    formCity: "City",
+    formStateProvince: "State/Province (optional)",
+    formCountry: "Country",
+    formCountryPlaceholder: "Select country",
+    formCurrentResidence: "Country of Current Residence",
+    formCurrentResidencePlaceholder: "Select country",
+    formPreferredLanguage: "Preferred Contact Language",
+    formPreferredLanguagePlaceholder: "Select language",
+    formMessage: "Describe your situation",
+    formContactConsent: "I agree to be contacted by email and/or phone",
+    formPrivacyConsent: "I have read and agree to the",
+    formPrivacyConsentLink: "Privacy Policy",
+    formSubmit: "Submit Inquiry",
+    formSubmitting: "Submitting...",
+    formSuccessTitle: "Thank You!",
+    formSuccessMessage: "Your inquiry has been submitted successfully. We will contact you soon!",
+
+    // About Section
+    aboutHeading: "About HandokHelper",
+    aboutLabel: "WHO WE ARE",
+    aboutParagraph1: "HandokHelper is experienced in dealing with German authorities and understands the complexities of German bureaucracy. With years of experience navigating the system, HandokHelper provides personalized assistance to make your journey smoother.",
+    aboutParagraph2: "Whether you are an immigrant, a foreign resident in Germany, or someone living abroad who needs to interact with German authorities, we can help. From visa applications to pension claims, every case receives dedicated attention and professional guidance.",
+    aboutParagraph3: "We specialize in helping individuals abroad obtain German pension payments and other social benefits, ensuring that distance is never a barrier to accessing what you're entitled to.",
+    aboutLanguages: "Languages Spoken",
+
+    // Footer
+    footerAboutTitle: "About HandokHelper",
+    footerAboutDesc: "Support for handling German authorities from anywhere in the world. Assistance with forms, certificates, residence matters, pension support, and more.",
+    footerQuickLinks: "Quick Links",
+    footerLegal: "Legal",
+    footerPrivacy: "Privacy Policy",
+    footerImpressum: "Imprint",
+    footerCopyright: "Support for German Authorities Worldwide",
+
+    // Legal Pages
+    impressumTitle: "Impressum",
+    impressumContent: "HandokHelper\n\nContact:\nEmail: info ( at ) handokhelper.de\n\nThis is a placeholder impressum. Please update with actual legal information as required by German law (§5 TMG).",
+    privacyTitle: "Privacy Policy",
+    privacyContent: "This Privacy Policy describes how we collect, use, and protect your personal information.\n\n1. Data Collection\nWe collect personal information that you provide through our contact form, including your name, email, phone number, address, and message content.\n\n2. Purpose of Data Processing\nYour data is used solely for the purpose of handling your inquiry and providing our services. We will contact you via email or phone as you have consented.\n\n3. Data Storage\nYour data is stored securely in our database and is only accessible to authorized personnel.\n\n4. Your Rights\nYou have the right to access, correct, or delete your personal data at any time. Please contact us at info@patootie-germany.com.\n\n5. Consent\nBy submitting the contact form, you consent to the processing of your personal data as described in this policy.\n\nThis is a placeholder privacy policy. Please update with complete legal information as required by GDPR and German data protection laws.",
+
+    // Errors
+    errorRequired: "This field is required",
+    errorEmail: "Please enter a valid email address",
+    errorMinLength: "Please provide more details",
+    errorConsent: "You must agree to continue",
   },
 };
 

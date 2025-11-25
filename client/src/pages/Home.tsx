@@ -105,7 +105,16 @@ export default function Home() {
   };
 
   const scrollToSection = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    const isHome = location === `/${language}` || location === `/${language}/`;
+
+    if (isHome) {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      setLocation(`/${language}`);
+      setTimeout(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    }
   };
 
   const getThemeIcon = () => {
@@ -133,11 +142,11 @@ export default function Home() {
         <meta name="author" content="HandokHelper" />
 
         {/* Canonical URL */}
-        <link rel="canonical" href="https://www.handokhelper.de/" />
+        <link rel="canonical" href={`https://www.handokhelper.de/${language}/`} />
 
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.handokhelper.de/" />
+        <meta property="og:url" content={`https://www.handokhelper.de/${language}/`} />
         <meta property="og:site_name" content="HandokHelper" />
         <meta
           property="og:title"
@@ -176,10 +185,10 @@ export default function Home() {
         <meta name="twitter:image" content="https://www.handokhelper.de/images/HandokHelperLogoOnly.png" />
 
         {/* Multilingual / hreflang */}
-        <link rel="alternate" hrefLang="en" href="https://www.handokhelper.de/" />
-        <link rel="alternate" hrefLang="ko" href="https://www.handokhelper.de/" />
-        <link rel="alternate" hrefLang="de" href="https://www.handokhelper.de/" />
-        <link rel="alternate" hrefLang="x-default" href="https://www.handokhelper.de/" />
+        <link rel="alternate" hrefLang="en" href="https://www.handokhelper.de/en/" />
+        <link rel="alternate" hrefLang="ko" href="https://www.handokhelper.de/ko/" />
+        <link rel="alternate" hrefLang="de" href="https://www.handokhelper.de/de/" />
+        <link rel="alternate" hrefLang="x-default" href="https://www.handokhelper.de/en/" />
 
         {/* Favicon */}
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -198,7 +207,7 @@ export default function Home() {
             "description": language === "ko"
               ? "독일 관공서 업무 처리를 위한 전문 지원 서비스"
               : "Professional assistance for dealing with German authorities",
-            "url": "https://www.handokhelper.de",
+            "url": `https://www.handokhelper.de/${language}/`,
             "logo": "https://www.handokhelper.de/images/HandokHelperLogoOnly.png",
             "image": "https://www.handokhelper.de/images/HandokHelperLogoOnly.png",
             "email": "info@handokhelper.de",
@@ -278,7 +287,7 @@ export default function Home() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-6 flex-1 justify-center">
             <a
-              href="#services"
+              href={`/${language}#services`}
               onClick={(e) => {
                 e.preventDefault();
                 scrollToSection("services");
@@ -289,7 +298,7 @@ export default function Home() {
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 ease-out group-hover:w-full"></span>
             </a>
             <a
-              href="#process"
+              href={`/${language}#process`}
               onClick={(e) => {
                 e.preventDefault();
                 scrollToSection("process");
@@ -300,7 +309,7 @@ export default function Home() {
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 ease-out group-hover:w-full"></span>
             </a>
             <a
-              href="#about"
+              href={`/${language}#about`}
               onClick={(e) => {
                 e.preventDefault();
                 scrollToSection("about");

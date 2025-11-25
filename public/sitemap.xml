@@ -1,24 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <!-- Home Page -->
   <url>
-    <loc>https://www.handokhelper.de/</loc>
+    <loc>https://www.handokhelper.de/en/</loc>
     <lastmod>2025-11-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.handokhelper.de/" />
-    <xhtml:link rel="alternate" hreflang="ko" href="https://www.handokhelper.de/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.handokhelper.de/en/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.handokhelper.de/ko/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.handokhelper.de/de/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.handokhelper.de/en/" />
   </url>
   <url>
-    <loc>https://www.handokhelper.de/privacy-policy</loc>
+    <loc>https://www.handokhelper.de/ko/</loc>
+    <lastmod>2025-11-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.handokhelper.de/en/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.handokhelper.de/ko/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.handokhelper.de/de/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.handokhelper.de/en/" />
+  </url>
+  <url>
+    <loc>https://www.handokhelper.de/de/</loc>
+    <lastmod>2025-11-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.handokhelper.de/en/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.handokhelper.de/ko/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.handokhelper.de/de/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.handokhelper.de/en/" />
+  </url>
+
+  <!-- Privacy Policy -->
+  <url>
+    <loc>https://www.handokhelper.de/en/privacy-policy</loc>
     <lastmod>2025-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.handokhelper.de/en/privacy-policy" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.handokhelper.de/ko/privacy-policy" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.handokhelper.de/de/privacy-policy" />
   </url>
   <url>
-    <loc>https://www.handokhelper.de/imprint</loc>
+    <loc>https://www.handokhelper.de/ko/privacy-policy</loc>
     <lastmod>2025-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.handokhelper.de/en/privacy-policy" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.handokhelper.de/ko/privacy-policy" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.handokhelper.de/de/privacy-policy" />
+  </url>
+  <url>
+    <loc>https://www.handokhelper.de/de/privacy-policy</loc>
+    <lastmod>2025-11-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.handokhelper.de/en/privacy-policy" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.handokhelper.de/ko/privacy-policy" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.handokhelper.de/de/privacy-policy" />
+  </url>
+
+  <!-- Imprint -->
+  <url>
+    <loc>https://www.handokhelper.de/en/imprint</loc>
+    <lastmod>2025-11-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.handokhelper.de/en/imprint" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.handokhelper.de/ko/imprint" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.handokhelper.de/de/imprint" />
+  </url>
+  <url>
+    <loc>https://www.handokhelper.de/ko/imprint</loc>
+    <lastmod>2025-11-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.handokhelper.de/en/imprint" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.handokhelper.de/ko/imprint" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.handokhelper.de/de/imprint" />
+  </url>
+  <url>
+    <loc>https://www.handokhelper.de/de/imprint</loc>
+    <lastmod>2025-11-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.handokhelper.de/en/imprint" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://www.handokhelper.de/ko/imprint" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.handokhelper.de/de/imprint" />
   </url>
 </urlset>

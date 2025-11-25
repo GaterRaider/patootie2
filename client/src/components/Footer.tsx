@@ -2,16 +2,18 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useLocation } from "wouter";
 
 export function Footer() {
-    const { t } = useLanguage();
+    const { t, language } = useLanguage();
     const [location, setLocation] = useLocation();
 
     const handleNavigation = (sectionId: string) => {
-        if (location === "/") {
+        // Check if we are on the home page (e.g. /en or /ko)
+        const isHome = location === `/${language}` || location === `/${language}/`;
+
+        if (isHome) {
             document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
         } else {
-            setLocation("/");
+            setLocation(`/${language}`);
             // Small timeout to allow navigation to happen before scrolling
-            // In a real app with a router, we might use a hash or a context to handle this better
             setTimeout(() => {
                 document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
             }, 100);
@@ -35,7 +37,7 @@ export function Footer() {
                         <h3 className="font-semibold text-base mb-3">{t.footerQuickLinks}</h3>
                         <div className="space-y-2.5">
                             <a
-                                href="#services"
+                                href={`/${language}#services`}
                                 onClick={(e) => {
                                     e.preventDefault();
                                     handleNavigation("services");
@@ -45,7 +47,7 @@ export function Footer() {
                                 {t.navServices}
                             </a>
                             <a
-                                href="#process"
+                                href={`/${language}#process`}
                                 onClick={(e) => {
                                     e.preventDefault();
                                     handleNavigation("process");
@@ -55,7 +57,7 @@ export function Footer() {
                                 {t.navProcess}
                             </a>
                             <a
-                                href="#about"
+                                href={`/${language}#about`}
                                 onClick={(e) => {
                                     e.preventDefault();
                                     handleNavigation("about");
@@ -65,7 +67,7 @@ export function Footer() {
                                 {t.navAbout}
                             </a>
                             <a
-                                href="#contact"
+                                href={`/${language}#contact`}
                                 onClick={(e) => {
                                     e.preventDefault();
                                     handleNavigation("contact");
@@ -82,10 +84,10 @@ export function Footer() {
                         <h3 className="font-semibold text-base mb-3">{t.footerLegal}</h3>
                         <div className="space-y-3">
                             <a
-                                href="/privacy-policy"
+                                href={`/${language}/privacy-policy`}
                                 onClick={(e) => {
                                     e.preventDefault();
-                                    setLocation("/privacy-policy");
+                                    setLocation(`/${language}/privacy-policy`);
                                 }}
                                 className="block text-sm text-muted-foreground hover:text-primary transition-colors"
                             >
@@ -93,10 +95,10 @@ export function Footer() {
                             </a>
                             <div className="text-sm text-muted-foreground pt-1">
                                 <a
-                                    href="/imprint"
+                                    href={`/${language}/imprint`}
                                     onClick={(e) => {
                                         e.preventDefault();
-                                        setLocation("/imprint");
+                                        setLocation(`/${language}/imprint`);
                                     }}
                                     className="block text-sm text-muted-foreground hover:text-primary transition-colors"
                                 >
