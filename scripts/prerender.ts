@@ -59,7 +59,6 @@ if (typeof window === 'undefined') {
     removeItem: () => { },
   };
 
-  globalAny.navigator = {
     userAgent: 'Node.js'
   };
 }
