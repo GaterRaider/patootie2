@@ -8,6 +8,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { httpBatchLink } from '@trpc/client';
 import superjson from 'superjson';
 import { Router } from 'wouter';
+import prettier from 'prettier';
 
 // Mock browser environment BEFORE imports that might use them
 if (typeof window === 'undefined') {
@@ -172,11 +173,19 @@ async function prerender() {
         html = html.replace('</head>', `${helmetHead}</head>`);
       }
 
+      // Format HTML with prettier
+      const formattedHtml = await prettier.format(html, {
+        parser: 'html',
+        printWidth: 100,
+        tabWidth: 2,
+        useTabs: false,
+      });
+
       // Write file
       const outFilePath = path.join(distPublic, route.outPath);
       const outDir = path.dirname(outFilePath);
       fs.mkdirSync(outDir, { recursive: true });
-      fs.writeFileSync(outFilePath, html);
+      fs.writeFileSync(outFilePath, formattedHtml);
       console.log(`✓ Written ${outFilePath}`);
     } catch (error) {
       console.error(`Error rendering ${route.path}:`, error);
