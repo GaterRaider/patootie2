@@ -15,10 +15,11 @@ const LANGUAGE_STORAGE_KEY = 'preferred-language';
 
 interface LanguageProviderProps {
   children: ReactNode;
+  initialLanguage?: Language; // For SSR: pre-set language without client-side detection
 }
 
-export function LanguageProvider({ children }: LanguageProviderProps) {
-  const [language, setLanguageState] = useState<Language>('en');
+export function LanguageProvider({ children, initialLanguage }: LanguageProviderProps) {
+  const [language, setLanguageState] = useState<Language>(initialLanguage || 'en');
   const [initialized, setInitialized] = useState(false);
   const [location, setLocation] = useLocation();
   const search = useSearch();
@@ -30,6 +31,12 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
 
   // Sync state with URL path
   useEffect(() => {
+    // SSR mode: if initialLanguage is provided, skip client-side detection
+    if (initialLanguage) {
+      setInitialized(true);
+      return;
+    }
+
     // Check if path starts with /en or /ko or /de
     const pathParts = location.split('/');
     const firstPart = pathParts[1];
@@ -63,7 +70,7 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
       }
       setInitialized(true);
     }
-  }, [location, geoData, initialized, language]);
+  }, [location, geoData, initialized, language, initialLanguage]);
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);

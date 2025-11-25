@@ -77,22 +77,22 @@ const __dirname = path.dirname(__filename);
 
 const routes = [
   // Root (redirects)
-  { path: '/', component: Home, outPath: 'index.html' },
+  { path: '/', component: Home, outPath: 'index.html', language: 'en' as const },
 
   // English
-  { path: '/en', component: Home, outPath: 'en/index.html' },
-  { path: '/en/privacy-policy', component: PrivacyPolicy, outPath: 'en/privacy-policy/index.html' },
-  { path: '/en/imprint', component: Imprint, outPath: 'en/imprint/index.html' },
+  { path: '/en', component: Home, outPath: 'en/index.html', language: 'en' as const },
+  { path: '/en/privacy-policy', component: PrivacyPolicy, outPath: 'en/privacy-policy/index.html', language: 'en' as const },
+  { path: '/en/imprint', component: Imprint, outPath: 'en/imprint/index.html', language: 'en' as const },
 
   // Korean
-  { path: '/ko', component: Home, outPath: 'ko/index.html' },
-  { path: '/ko/privacy-policy', component: PrivacyPolicy, outPath: 'ko/privacy-policy/index.html' },
-  { path: '/ko/imprint', component: Imprint, outPath: 'ko/imprint/index.html' },
+  { path: '/ko', component: Home, outPath: 'ko/index.html', language: 'ko' as const },
+  { path: '/ko/privacy-policy', component: PrivacyPolicy, outPath: 'ko/privacy-policy/index.html', language: 'ko' as const },
+  { path: '/ko/imprint', component: Imprint, outPath: 'ko/imprint/index.html', language: 'ko' as const },
 
   // German
-  { path: '/de', component: Home, outPath: 'de/index.html' },
-  { path: '/de/privacy-policy', component: PrivacyPolicy, outPath: 'de/privacy-policy/index.html' },
-  { path: '/de/imprint', component: Imprint, outPath: 'de/imprint/index.html' },
+  { path: '/de', component: Home, outPath: 'de/index.html', language: 'de' as const },
+  { path: '/de/privacy-policy', component: PrivacyPolicy, outPath: 'de/privacy-policy/index.html', language: 'de' as const },
+  { path: '/de/imprint', component: Imprint, outPath: 'de/imprint/index.html', language: 'de' as const },
 ];
 
 // Static location hook for wouter
@@ -152,7 +152,7 @@ async function prerender() {
                   {},
                   React.createElement(
                     LanguageProvider,
-                    {},
+                    { initialLanguage: route.language }, // Pass language for SSR
                     React.createElement(
                       TooltipProvider,
                       {},
