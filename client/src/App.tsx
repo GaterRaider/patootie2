@@ -40,15 +40,7 @@ function RootRedirect() {
 function Router() {
   return (
     <Switch>
-      {/* Root redirect */}
-      <Route path="/" component={RootRedirect} />
-
-      {/* Language-specific routes */}
-      <Route path="/:lang" component={Home} />
-      <Route path="/:lang/privacy-policy" component={PrivacyPolicy} />
-      <Route path="/:lang/imprint" component={Imprint} />
-
-      {/* Admin Routes (Keep unlocalized) */}
+      {/* Admin Routes - MUST come before language routes to avoid /:lang matching /admin */}
       <Route path="/admin/login" component={AdminLogin} />
 
       <Route path="/admin/dashboard">
@@ -112,6 +104,14 @@ function Router() {
       </Route>
 
       <Route path="/admin" component={() => <AdminLogin />} /> {/* Redirect /admin to login */}
+
+      {/* Root redirect */}
+      <Route path="/" component={RootRedirect} />
+
+      {/* Language-specific routes */}
+      <Route path="/:lang" component={Home} />
+      <Route path="/:lang/privacy-policy" component={PrivacyPolicy} />
+      <Route path="/:lang/imprint" component={Imprint} />
 
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}

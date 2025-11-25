@@ -48,10 +48,9 @@ export async function setupVite(app: Express, server: Server) {
 }
 
 export function serveStatic(app: Express) {
-  // Vike build output is in dist/public
-  const distPath = process.env.NODE_ENV === "production"
-    ? path.resolve(import.meta.dirname, "../../dist/public")
-    : path.resolve(import.meta.dirname, "../../dist/public");
+  // When bundled by esbuild, server runs from dist/index.js
+  // So import.meta.dirname is 'dist/', and we need './public' to get to dist/public
+  const distPath = path.resolve(import.meta.dirname, "./public");
 
   if (!fs.existsSync(distPath)) {
     console.error(
