@@ -27,9 +27,13 @@ export default defineConfig({
       output: {
         manualChunks(id) {
           if (id.includes('node_modules')) {
-            // Split React and React-DOM into their own chunk
-            if (id.includes('react') || id.includes('react-dom')) {
-              return 'react-vendor';
+            // Split core React and React-DOM
+            if (id.includes('react/') || id.includes('react-dom/')) {
+              return 'react-core';
+            }
+            // Split Framer Motion (animation library, can be large)
+            if (id.includes('framer-motion')) {
+              return 'framer-vendor';
             }
             // Split Radix UI components into their own chunk
             if (id.includes('@radix-ui')) {
@@ -46,6 +50,10 @@ export default defineConfig({
             // Split DnD kit
             if (id.includes('@dnd-kit')) {
               return 'dnd-vendor';
+            }
+            // Split other React ecosystem libraries
+            if (id.includes('react-')) {
+              return 'react-libs';
             }
             // Everything else goes to vendor
             return 'vendor';
