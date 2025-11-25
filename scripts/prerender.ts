@@ -118,63 +118,70 @@ async function prerender() {
 
     const helmetContext: any = {};
 
-    const appHtml = renderToString(
-      React.createElement(
-        trpc.Provider,
-        { client: trpcClient, queryClient },
+    try {
+      const appHtml = renderToString(
         React.createElement(
-          QueryClientProvider,
-          { client: queryClient },
+          trpc.Provider,
+          { client: trpcClient, queryClient },
           React.createElement(
-            HelmetProvider,
-            { context: helmetContext },
+            QueryClientProvider,
+            { client: queryClient },
             React.createElement(
-              Router,
-              { hook: staticLocation(route.path) },
+              HelmetProvider,
+              { context: helmetContext },
               React.createElement(
-                ThemeProvider,
-                {},
+                Router,
+                { hook: staticLocation(route.path) },
                 React.createElement(
-                  LanguageProvider,
+                  ThemeProvider,
                   {},
                   React.createElement(
-                    TooltipProvider,
+                    LanguageProvider,
                     {},
-                    React.createElement(route.component)
+                    React.createElement(
+                      TooltipProvider,
+                      {},
+                      React.createElement(route.component)
+                    )
                   )
                 )
               )
             )
           )
         )
-      )
-    );
+      );
 
-    const { helmet } = helmetContext;
+      console.log(`Rendered ${route.path}, HTML length: ${appHtml.length} characters`);
 
-    // Inject into template
-    let html = template.replace(
-      '<div id="root"></div>',
-      `<div id="root">${appHtml}</div>`
-    );
+      const { helmet } = helmetContext;
 
-    // Inject Helmet data
-    if (helmet) {
-      const helmetHead = `
+      // Inject into template
+      let html = template.replace(
+        '<div id="root"></div>',
+        `<div id="root">${appHtml}</div>`
+      );
+
+      // Inject Helmet data
+      if (helmet) {
+        const helmetHead = `
         ${helmet.title.toString()}
         ${helmet.meta.toString()}
         ${helmet.link.toString()}
         ${helmet.script.toString()}
       `;
-      html = html.replace('</head>', `${helmetHead}</head>`);
-    }
+        html = html.replace('</head>', `${helmetHead}</head>`);
+      }
 
-    // Write file
-    const outFilePath = path.join(distPublic, route.outPath);
-    const outDir = path.dirname(outFilePath);
-    fs.mkdirSync(outDir, { recursive: true });
-    fs.writeFileSync(outFilePath, html);
-    console.log(`✓ Written ${outFilePath}`);
+      // Write file
+      const outFilePath = path.join(distPublic, route.outPath);
+      const outDir = path.dirname(outFilePath);
+      fs.mkdirSync(outDir, { recursive: true });
+      fs.writeFileSync(outFilePath, html);
+      console.log(`✓ Written ${outFilePath}`);
+    } catch (error) {
+      console.error(`Error rendering ${route.path}:`, error);
+      throw error;
+    }
   }
 
   console.log('✓ SSG complete!');
