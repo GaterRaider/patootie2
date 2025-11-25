@@ -25,40 +25,7 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: {
       output: {
-        manualChunks(id) {
-          if (id.includes('node_modules')) {
-            // Split core React and React-DOM
-            if (id.includes('react/') || id.includes('react-dom/')) {
-              return 'react-core';
-            }
-            // Split Framer Motion (animation library, can be large)
-            if (id.includes('framer-motion')) {
-              return 'framer-vendor';
-            }
-            // Split Radix UI components into their own chunk
-            if (id.includes('@radix-ui')) {
-              return 'radix-vendor';
-            }
-            // Split charting/visualization libraries
-            if (id.includes('recharts') || id.includes('d3-')) {
-              return 'charts-vendor';
-            }
-            // Split tRPC and React Query
-            if (id.includes('@trpc') || id.includes('@tanstack')) {
-              return 'query-vendor';
-            }
-            // Split DnD kit
-            if (id.includes('@dnd-kit')) {
-              return 'dnd-vendor';
-            }
-            // Split other React ecosystem libraries
-            if (id.includes('react-')) {
-              return 'react-libs';
-            }
-            // Everything else goes to vendor
-            return 'vendor';
-          }
-        },
+        // Manual chunks removed to prevent circular dependencies
       },
     },
   },
