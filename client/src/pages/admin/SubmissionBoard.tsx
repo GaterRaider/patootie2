@@ -13,6 +13,7 @@ import {
     DragEndEvent,
     defaultDropAnimationSideEffects,
     DropAnimation,
+    useDroppable,
 } from "@dnd-kit/core";
 import {
     arrayMove,
@@ -22,10 +23,11 @@ import {
     useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { Loader2, Calendar, User, Mail, Phone, MapPin, MessageSquare } from "lucide-react";
+import { Loader2, Calendar, User, Mail, Phone, MapPin, MessageSquare, Layers, LayoutGrid } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 import { toast } from "sonner";
 import { Link } from "wouter";
@@ -117,11 +119,24 @@ function SortableItem({ submission }: SortableItemProps) {
     );
 }
 
+function DroppableColumn({ id, children }: { id: string; children: React.ReactNode }) {
+    const { setNodeRef } = useDroppable({
+        id: id,
+    });
+
+    return (
+        <div ref={setNodeRef} className="min-h-[150px] h-full">
+            {children}
+        </div>
+    );
+}
+
 export default function SubmissionBoard() {
     const utils = trpc.useContext();
-    const { data, isLoading } = trpc.admin.submissions.getAll.useQuery({ limit: 100 }); // Fetch more for board
+    const { data, isLoading } = trpc.admin.submissions.getAll.useQuery({ limit: 100 });
     const [activeId, setActiveId] = useState<number | null>(null);
     const [activeSubmission, setActiveSubmission] = useState<Submission | null>(null);
+    const [groupByService, setGroupByService] = useState(false);
 
     const updateStatusMutation = trpc.admin.submissions.updateStatus.useMutation({
         onSuccess: () => {
@@ -130,14 +145,14 @@ export default function SubmissionBoard() {
         },
         onError: (error) => {
             toast.error(`Failed to update status: ${error.message}`);
-            utils.admin.submissions.getAll.invalidate(); // Revert optimistic update
+            utils.admin.submissions.getAll.invalidate();
         },
     });
 
     const sensors = useSensors(
         useSensor(PointerSensor, {
             activationConstraint: {
-                distance: 5, // Require 5px movement before drag starts
+                distance: 5,
             },
         }),
         useSensor(KeyboardSensor, {
@@ -145,38 +160,54 @@ export default function SubmissionBoard() {
         })
     );
 
-    // Group submissions by status
-    const columns = useMemo(() => {
-        const cols: Record<string, Submission[]> = {};
-        COLUMNS.forEach((col) => {
-            cols[col.id] = [];
-        });
+    // Group submissions
+    const groupedData = useMemo(() => {
+        if (!data?.submissions) return { default: {} };
 
-        if (data?.submissions) {
+        if (!groupByService) {
+            const cols: Record<string, Submission[]> = {};
+            COLUMNS.forEach((col) => { cols[col.id] = []; });
+
             data.submissions.forEach((sub: any) => {
                 const status = sub.status || "new";
-                if (cols[status]) {
-                    cols[status].push(sub);
-                } else {
-                    // Handle unknown statuses by putting them in 'new' or creating a fallback
+                if (cols[status]) cols[status].push(sub);
+                else {
                     if (!cols["new"]) cols["new"] = [];
                     cols["new"].push(sub);
                 }
             });
+            return { default: cols };
+        } else {
+            // Group by Service -> Status
+            const services: Record<string, Record<string, Submission[]>> = {};
+
+            data.submissions.forEach((sub: any) => {
+                const service = sub.service || "Other";
+                const status = sub.status || "new";
+
+                if (!services[service]) {
+                    services[service] = {};
+                    COLUMNS.forEach((col) => { services[service][col.id] = []; });
+                }
+
+                if (services[service][status]) {
+                    services[service][status].push(sub);
+                } else {
+                    // Fallback for unknown status
+                    if (!services[service]["new"]) services[service]["new"] = [];
+                    services[service]["new"].push(sub);
+                }
+            });
+
+            return services;
         }
-        return cols;
-    }, [data]);
+    }, [data, groupByService]);
 
     const handleDragStart = (event: DragStartEvent) => {
         const { active } = event;
         setActiveId(active.id as number);
         const sub = data?.submissions.find((s: any) => s.id === active.id);
         if (sub) setActiveSubmission(sub);
-    };
-
-    const handleDragOver = (event: DragOverEvent) => {
-        // We don't need complex drag over logic for simple Kanban
-        // as we just drop into columns
     };
 
     const handleDragEnd = (event: DragEndEvent) => {
@@ -187,7 +218,7 @@ export default function SubmissionBoard() {
         if (!over) return;
 
         const activeId = active.id as number;
-        const overId = over.id; // This could be a submission ID or a column ID
+        const overId = over.id as string; // Could be "status" or "service::status"
 
         // Find the submission
         const submission = data?.submissions.find((s: any) => s.id === activeId);
@@ -195,19 +226,25 @@ export default function SubmissionBoard() {
 
         let newStatus = "";
 
-        // Check if dropped on a column
-        if (COLUMNS.some((col) => col.id === overId)) {
-            newStatus = overId as string;
+        // Parse overId to get status
+        if (overId.includes("::")) {
+            // It's a swimlane column: "Service Name::status"
+            const parts = overId.split("::");
+            newStatus = parts[parts.length - 1];
         } else {
-            // Dropped on another item, find its status
-            const overSubmission = data?.submissions.find((s: any) => s.id === overId);
-            if (overSubmission) {
-                newStatus = overSubmission.status;
+            // It's a standard column or another item
+            if (COLUMNS.some((col) => col.id === overId)) {
+                newStatus = overId;
+            } else {
+                // Dropped on another item
+                const overSubmission = data?.submissions.find((s: any) => s.id === overId);
+                if (overSubmission) {
+                    newStatus = overSubmission.status;
+                }
             }
         }
 
         if (newStatus && newStatus !== submission.status) {
-            // Optimistic update could be done here, but for now we rely on mutation success
             updateStatusMutation.mutate({
                 id: activeId,
                 status: newStatus,
@@ -218,9 +255,7 @@ export default function SubmissionBoard() {
     const dropAnimation: DropAnimation = {
         sideEffects: defaultDropAnimationSideEffects({
             styles: {
-                active: {
-                    opacity: "0.5",
-                },
+                active: { opacity: "0.5" },
             },
         }),
     };
@@ -242,49 +277,66 @@ export default function SubmissionBoard() {
                         Manage submission workflow
                     </p>
                 </div>
+                <Button
+                    variant="outline"
+                    onClick={() => setGroupByService(!groupByService)}
+                    className="gap-2"
+                >
+                    {groupByService ? <LayoutGrid className="h-4 w-4" /> : <Layers className="h-4 w-4" />}
+                    {groupByService ? "Default View" : "Group by Service"}
+                </Button>
             </div>
 
             <DndContext
                 sensors={sensors}
                 collisionDetection={closestCorners}
                 onDragStart={handleDragStart}
-                onDragOver={handleDragOver}
                 onDragEnd={handleDragEnd}
             >
                 <div className="flex-1 overflow-x-auto pb-4">
-                    <div className="flex gap-4 min-w-[1200px] h-full">
-                        {COLUMNS.map((col) => (
-                            <div key={col.id} className="flex-1 min-w-[280px] flex flex-col bg-muted/30 rounded-lg border">
-                                <div className={`p-3 border-b font-medium flex justify-between items-center ${statusColors[col.id] || "bg-gray-100"}`}>
-                                    <span>{col.title}</span>
-                                    <Badge variant="secondary" className="bg-white/50 text-inherit border-0">
-                                        {columns[col.id]?.length || 0}
-                                    </Badge>
-                                </div>
-                                <div className="flex-1 p-2">
-                                    <SortableContext
-                                        id={col.id}
-                                        items={columns[col.id]?.map((s) => s.id) || []}
-                                        strategy={verticalListSortingStrategy}
-                                    >
-                                        <ScrollArea className="h-full">
-                                            <div className="space-y-3 min-h-[100px]" ref={(node) => {
-                                                // This is a hack to make the empty column droppable
-                                                // We attach the ref of the column to useDroppable if we were using it directly
-                                                // But SortableContext handles items.
-                                                // For empty columns, we need a droppable area.
-                                                // Actually, DndKit's SortableContext doesn't automatically make the container droppable if empty.
-                                                // We need a Droppable component for the column.
-                                            }}>
-                                                {/* We need to make the column itself droppable */}
-                                                <DroppableColumn id={col.id}>
-                                                    {columns[col.id]?.map((submission) => (
-                                                        <SortableItem key={submission.id} submission={submission} />
-                                                    ))}
-                                                </DroppableColumn>
+                    <div className="min-w-[1200px] h-full space-y-8">
+                        {Object.entries(groupedData).map(([groupName, columns]) => (
+                            <div key={groupName} className="space-y-2">
+                                {groupByService && (
+                                    <h3 className="font-semibold text-lg px-1 flex items-center gap-2">
+                                        <Badge variant="secondary" className="rounded-sm">
+                                            {groupName}
+                                        </Badge>
+                                    </h3>
+                                )}
+                                <div className="flex gap-4">
+                                    {COLUMNS.map((col) => {
+                                        // Generate unique ID for the column droppable area
+                                        // If grouping, use "Service::Status", else just "Status"
+                                        const columnId = groupByService ? `${groupName}::${col.id}` : col.id;
+                                        const items = columns[col.id] || [];
+
+                                        return (
+                                            <div key={columnId} className="flex-1 min-w-[280px] flex flex-col bg-muted/30 rounded-lg border">
+                                                <div className={`p-3 border-b font-medium flex justify-between items-center ${statusColors[col.id] || "bg-gray-100"}`}>
+                                                    <span>{col.title}</span>
+                                                    <Badge variant="secondary" className="bg-white/50 text-inherit border-0">
+                                                        {items.length}
+                                                    </Badge>
+                                                </div>
+                                                <div className="flex-1 p-2">
+                                                    <SortableContext
+                                                        id={columnId}
+                                                        items={items.map((s) => s.id)}
+                                                        strategy={verticalListSortingStrategy}
+                                                    >
+                                                        <ScrollArea className="h-full max-h-[500px]">
+                                                            <DroppableColumn id={columnId}>
+                                                                {items.map((submission) => (
+                                                                    <SortableItem key={submission.id} submission={submission} />
+                                                                ))}
+                                                            </DroppableColumn>
+                                                        </ScrollArea>
+                                                    </SortableContext>
+                                                </div>
                                             </div>
-                                        </ScrollArea>
-                                    </SortableContext>
+                                        );
+                                    })}
                                 </div>
                             </div>
                         ))}
@@ -314,21 +366,6 @@ export default function SubmissionBoard() {
                     ) : null}
                 </DragOverlay>
             </DndContext>
-        </div>
-    );
-}
-
-// Helper component to make the column droppable
-import { useDroppable } from "@dnd-kit/core";
-
-function DroppableColumn({ id, children }: { id: string; children: React.ReactNode }) {
-    const { setNodeRef } = useDroppable({
-        id: id,
-    });
-
-    return (
-        <div ref={setNodeRef} className="min-h-[150px] h-full">
-            {children}
         </div>
     );
 }

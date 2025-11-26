@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Loader2, LayoutDashboard, LogOut, ScrollText, FileText, Settings as SettingsIcon, Moon, Sun, Menu, X, FileStack, Mail, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/contexts/ThemeContext";
+import { CommandPalette } from "@/components/CommandPalette";
 
 interface AdminLayoutProps {
     children: React.ReactNode;
@@ -159,6 +160,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
     return (
         <div className="min-h-screen flex bg-gray-100 dark:bg-gray-900">
+            <CommandPalette />
             {/* Mobile Overlay - Only visible when menu is open on mobile */}
             {mobileMenuOpen && (
                 <div
