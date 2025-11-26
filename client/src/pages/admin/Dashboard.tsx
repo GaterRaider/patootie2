@@ -227,10 +227,35 @@ export default function AdminDashboard() {
         toast.success("Analytics exported successfully");
     };
 
+    const pdfMutation = trpc.admin.analytics.generatePdf.useMutation();
+
     const handleExportPDF = async () => {
-        // PDF export would require server-side generation
-        // For now, show a message
-        toast.info("PDF export with charts coming soon");
+        try {
+            toast.info("Generating PDF...");
+
+            const result = await pdfMutation.mutateAsync(debouncedDateRange);
+
+            // Convert base64 to blob and download
+            const byteCharacters = atob(result.pdf);
+            const byteNumbers = new Array(byteCharacters.length);
+            for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            const pdfBlob = new Blob([byteArray], { type: 'application/pdf' });
+
+            const url = URL.createObjectURL(pdfBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = result.filename;
+            link.click();
+            URL.revokeObjectURL(url);
+
+            toast.success("PDF exported successfully");
+        } catch (error) {
+            console.error("PDF export failed:", error);
+            toast.error("Failed to export PDF");
+        }
     };
 
     return (

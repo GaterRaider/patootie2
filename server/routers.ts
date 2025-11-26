@@ -947,6 +947,38 @@ export const appRouter = router({
         .query(async ({ input }) => {
           return await getTopServicesByRevenue(input, input?.limit);
         }),
+      generatePdf: adminProcedure
+        .input(z.object({
+          startDate: z.string().optional(),
+          endDate: z.string().optional(),
+        }).optional())
+        .mutation(async ({ input }) => {
+          // Fetch all analytics data
+          const summaryMetrics = await getSummaryMetrics(input);
+          const submissionsOverTime = await getSubmissionsOverTime(input);
+          const submissionsByService = await getSubmissionsByService(input);
+          const revenueTrends = await getRevenueTrends(input);
+          const invoiceStatus = await getInvoiceStatusDistribution(input);
+          const topServices = await getTopServicesByRevenue(input, 10);
+
+          // Generate PDF
+          const { generateAnalyticsPDF } = await import("./analytics-pdf-generator");
+          const pdfBuffer = await generateAnalyticsPDF({
+            summaryMetrics: summaryMetrics as any,
+            submissionsOverTime: submissionsOverTime as any,
+            submissionsByService: submissionsByService as any,
+            revenueTrends: revenueTrends as any,
+            invoiceStatus: invoiceStatus as any,
+            topServices: topServices as any,
+            dateRange: input,
+          });
+
+          // Return base64 encoded PDF
+          return {
+            pdf: pdfBuffer.toString("base64"),
+            filename: `analytics_report_${new Date().toISOString().split('T')[0]}.pdf`,
+          };
+        }),
     }),
 
     emailTemplates: router({
