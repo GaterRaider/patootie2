@@ -29,13 +29,20 @@ const SubmissionBoard = lazy(() => import("./pages/admin/SubmissionBoard"));
 const AdminUsers = lazy(() => import("./pages/admin/AdminUsers"));
 
 function RootRedirect() {
-  const { language } = useLanguage();
+  const { language, isInitialized } = useLanguage();
   const [, setLocation] = useLocation();
 
   useEffect(() => {
-    // Redirect to the current language version
-    setLocation(`/${language}`);
-  }, [language, setLocation]);
+    // Redirect to the current language version only after initialization
+    if (isInitialized) {
+      setLocation(`/${language}`);
+    }
+  }, [language, setLocation, isInitialized]);
+
+  // Optional: Show a loading spinner while determining language
+  if (!isInitialized) {
+    return <div className="flex items-center justify-center min-h-screen"></div>;
+  }
 
   return null;
 }
@@ -146,6 +153,7 @@ function Router() {
         </Suspense>
       </Route>
 
+      {/* Match /admin and /admin/ */}
       <Route path="/admin">
         <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
           <AdminLogin />
@@ -155,10 +163,15 @@ function Router() {
       {/* Root redirect */}
       <Route path="/" component={RootRedirect} />
 
-      {/* Language-specific routes */}
-      <Route path="/:lang" component={Home} />
-      <Route path="/:lang/privacy-policy" component={PrivacyPolicy} />
-      <Route path="/:lang/imprint" component={Imprint} />
+      {/* Language-specific routes - STRICT MATCHING to avoid capturing admin routes */}
+      {/* Matches /en, /ko, /de */}
+      <Route path={/^\/(en|ko|de)\/?$/} component={Home} />
+
+      {/* Matches /en/privacy-policy, etc */}
+      <Route path={/^\/(en|ko|de)\/privacy-policy\/?$/} component={PrivacyPolicy} />
+
+      {/* Matches /en/imprint, etc */}
+      <Route path={/^\/(en|ko|de)\/imprint\/?$/} component={Imprint} />
 
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}

@@ -7,6 +7,7 @@ interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
   t: Translations;
+  isInitialized: boolean;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -25,8 +26,9 @@ export function LanguageProvider({ children, initialLanguage }: LanguageProvider
   const search = useSearch();
 
   // Get country from IP geolocation (skip in SSR mode)
-  const { data: geoData } = trpc.geo.getCountry.useQuery(undefined, {
+  const { data: geoData, isLoading: isGeoLoading } = trpc.geo.getCountry.useQuery(undefined, {
     enabled: !initialized && !initialLanguage, // Disable in SSR mode
+    retry: false, // Don't retry if it fails, just fallback
   });
 
   // Sync state with URL path
@@ -59,18 +61,25 @@ export function LanguageProvider({ children, initialLanguage }: LanguageProvider
       const storedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY) as Language | null;
       if (storedLanguage && (storedLanguage === 'en' || storedLanguage === 'ko' || storedLanguage === 'de')) {
         setLanguageState(storedLanguage);
-      } else if (geoData) {
-        if (geoData.countryCode === 'KR') {
-          setLanguageState('ko');
-        } else if (geoData.countryCode === 'DE') {
-          setLanguageState('de');
+        setInitialized(true);
+      } else if (!isGeoLoading) {
+        // Only proceed if geo query is finished (success or error)
+        if (geoData) {
+          if (geoData.countryCode === 'KR') {
+            setLanguageState('ko');
+          } else if (geoData.countryCode === 'DE') {
+            setLanguageState('de');
+          } else {
+            setLanguageState('en');
+          }
         } else {
+          // If geoData failed or is missing, fallback to 'en'
           setLanguageState('en');
         }
+        setInitialized(true);
       }
-      setInitialized(true);
     }
-  }, [location, geoData, initialized, language, initialLanguage]);
+  }, [location, geoData, isGeoLoading, initialized, language, initialLanguage]);
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
@@ -96,7 +105,7 @@ export function LanguageProvider({ children, initialLanguage }: LanguageProvider
   const t = getTranslations(language);
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+    <LanguageContext.Provider value={{ language, setLanguage, t, isInitialized: initialized }}>
       {children}
     </LanguageContext.Provider>
   );
