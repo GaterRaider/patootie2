@@ -13,20 +13,10 @@ import { useLanguage } from "./contexts/LanguageContext";
 import { useLocation } from "wouter";
 import { useEffect, lazy, Suspense } from "react";
 
-// Lazy load admin routes to reduce initial bundle size
+// Lazy load admin bundles to reduce initial bundle size
+// Login page is separate, admin app loads all pages at once after login
 const AdminLogin = lazy(() => import("./pages/admin/Login"));
-const AdminDashboard = lazy(() => import("./pages/admin/Dashboard"));
-const AdminSubmissions = lazy(() => import("./pages/admin/Submissions"));
-const ActivityLog = lazy(() => import("./pages/admin/ActivityLog"));
-const SubmissionDetail = lazy(() => import("./pages/admin/SubmissionDetail"));
-const Invoices = lazy(() => import("./pages/admin/Invoices"));
-const InvoiceForm = lazy(() => import("./pages/admin/InvoiceForm"));
-const Settings = lazy(() => import("./pages/admin/Settings"));
-const EmailTemplates = lazy(() => import("./pages/admin/EmailTemplates"));
-const EmailTemplateEditor = lazy(() => import("./pages/admin/EmailTemplateEditor"));
-const AdminLayout = lazy(() => import("./components/AdminLayout"));
-const SubmissionBoard = lazy(() => import("./pages/admin/SubmissionBoard"));
-const AdminUsers = lazy(() => import("./pages/admin/AdminUsers"));
+const AdminApp = lazy(() => import("./AdminApp"));
 
 function RootRedirect() {
   const { language, isInitialized } = useLanguage();
@@ -51,109 +41,22 @@ function Router() {
   return (
     <Switch>
       {/* Admin Routes - MUST come before language routes to avoid /:lang matching /admin */}
+
+      {/* Login page - separate bundle */}
       <Route path="/admin/login">
         <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
           <AdminLogin />
         </Suspense>
       </Route>
 
-      <Route path="/admin/dashboard">
+      {/* All other admin routes - single bundle loaded after login */}
+      <Route path="/admin/:rest*">
         <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
-          <AdminLayout>
-            <AdminDashboard />
-          </AdminLayout>
+          <AdminApp />
         </Suspense>
       </Route>
 
-      <Route path="/admin/submissions">
-        <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
-          <AdminLayout>
-            <AdminSubmissions />
-          </AdminLayout>
-        </Suspense>
-      </Route>
-
-      <Route path="/admin/board">
-        <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
-          <AdminLayout>
-            <SubmissionBoard />
-          </AdminLayout>
-        </Suspense>
-      </Route>
-
-      <Route path="/admin/activity">
-        <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
-          <AdminLayout>
-            <ActivityLog />
-          </AdminLayout>
-        </Suspense>
-      </Route>
-
-      <Route path="/admin/submissions/:id">
-        <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
-          <AdminLayout>
-            <SubmissionDetail />
-          </AdminLayout>
-        </Suspense>
-      </Route>
-
-      <Route path="/admin/invoices">
-        <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
-          <AdminLayout>
-            <Invoices />
-          </AdminLayout>
-        </Suspense>
-      </Route>
-
-      <Route path="/admin/invoices/new">
-        <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
-          <AdminLayout>
-            <InvoiceForm />
-          </AdminLayout>
-        </Suspense>
-      </Route>
-
-      <Route path="/admin/invoices/:id/edit">
-        <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
-          <AdminLayout>
-            <InvoiceForm />
-          </AdminLayout>
-        </Suspense>
-      </Route>
-
-      <Route path="/admin/settings">
-        <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
-          <AdminLayout>
-            <Settings />
-          </AdminLayout>
-        </Suspense>
-      </Route>
-
-      <Route path="/admin/users">
-        <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
-          <AdminLayout>
-            <AdminUsers />
-          </AdminLayout>
-        </Suspense>
-      </Route>
-
-      <Route path="/admin/emails/:key/:language">
-        <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
-          <AdminLayout>
-            <EmailTemplateEditor />
-          </AdminLayout>
-        </Suspense>
-      </Route>
-
-      <Route path="/admin/emails">
-        <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
-          <AdminLayout>
-            <EmailTemplates />
-          </AdminLayout>
-        </Suspense>
-      </Route>
-
-      {/* Match /admin and /admin/ */}
+      {/* Match /admin and /admin/ - redirect to login */}
       <Route path="/admin">
         <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
           <AdminLogin />
