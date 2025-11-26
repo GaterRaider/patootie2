@@ -183,12 +183,12 @@ export function ContactForm({
         </div>
 
         <h3 className="text-2xl md:text-3xl font-bold mb-2 relative z-10">
-          Thanks for reaching out, {submittedName}!
+          {t.formSuccessGreeting}{submittedName}!
         </h3>
 
         {/* Restored Body Text */}
         <p className="text-muted-foreground max-w-md mx-auto mb-8 relative z-10">
-          We have received your request. We will review it and get back to you as soon as possible.
+          {t.formSuccessBody}
         </p>
 
         {/* Receipt Box - With Service Added - Full Width */}
@@ -199,7 +199,7 @@ export function ContactForm({
               <Briefcase className="h-4 w-4" />
             </div>
             <div className="text-left overflow-hidden">
-              <p className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground/70">Service</p>
+              <p className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground/70">{t.formService}</p>
               <p className="font-medium text-foreground truncate">{selectedService}</p>
             </div>
           </div>
@@ -213,7 +213,7 @@ export function ContactForm({
               <Mail className="h-4 w-4" />
             </div>
             <div className="text-left overflow-hidden">
-              <p className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground/70">Sent to</p>
+              <p className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground/70">{t.formSentTo}</p>
               <p className="font-medium text-foreground truncate">{submittedEmail}</p>
             </div>
           </div>
@@ -227,7 +227,7 @@ export function ContactForm({
               <Hash className="h-4 w-4" />
             </div>
             <div className="text-left">
-              <p className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground/70">Reference ID</p>
+              <p className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground/70">{t.formReferenceId}</p>
               <p className="font-mono font-bold text-foreground">{refId || "Generating..."}</p>
             </div>
           </div>
@@ -244,7 +244,7 @@ export function ContactForm({
               <div className="w-8 h-8 rounded-full bg-green-600 text-white flex items-center justify-center shadow-sm ring-4 ring-background">
                 <CheckCircle2 className="h-5 w-5" />
               </div>
-              <span className="text-sm font-bold text-green-700 dark:text-green-400 bg-background/80 px-2 rounded-full backdrop-blur-sm">Received</span>
+              <span className="text-sm font-bold text-green-700 dark:text-green-400 bg-background/80 px-2 rounded-full backdrop-blur-sm">{t.formStatusReceived}</span>
             </div>
 
             {/* Step 2: Reviewing - Layer 2 */}
@@ -252,7 +252,7 @@ export function ContactForm({
               <div className="w-8 h-8 rounded-full bg-background border-2 border-muted-foreground/30 flex items-center justify-center ring-4 ring-background">
                 <div className="w-2 h-2 rounded-full bg-muted-foreground/30"></div>
               </div>
-              <span className="text-sm font-medium text-muted-foreground bg-background/80 px-2 rounded-full backdrop-blur-sm">Reviewing</span>
+              <span className="text-sm font-medium text-muted-foreground bg-background/80 px-2 rounded-full backdrop-blur-sm">{t.formStatusReviewing}</span>
             </div>
 
             {/* Step 3: Response - Layer 2 */}
@@ -260,7 +260,7 @@ export function ContactForm({
               <div className="w-8 h-8 rounded-full bg-background border-2 border-muted-foreground/30 flex items-center justify-center ring-4 ring-background">
                 <div className="w-2 h-2 rounded-full bg-muted-foreground/30"></div>
               </div>
-              <span className="text-sm font-medium text-muted-foreground bg-background/80 px-2 rounded-full backdrop-blur-sm">Response</span>
+              <span className="text-sm font-medium text-muted-foreground bg-background/80 px-2 rounded-full backdrop-blur-sm">{t.formStatusResponse}</span>
             </div>
           </div>
         </div>
@@ -271,7 +271,7 @@ export function ContactForm({
           className="rounded-full px-8 py-6 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300 border-primary/20 hover:bg-primary/5 hover:text-primary group relative z-10"
         >
           <RefreshCw className="mr-2 h-4 w-4 group-hover:rotate-180 transition-transform duration-500" />
-          Send another request
+          {t.formSendAnother}
         </Button>
       </div>
     );
@@ -282,7 +282,7 @@ export function ContactForm({
       <form onSubmit={handleFormSubmit} className="space-y-8" noValidate>
         <div className="space-y-2">
           <div className="flex justify-between text-sm">
-            <span className="text-muted-foreground">Form Progress</span>
+            <span className="text-muted-foreground">{t.formProgress}</span>
             <span className="font-medium text-primary">{progress}%</span>
           </div>
           <div className="h-2 bg-secondary rounded-full overflow-hidden">
@@ -364,18 +364,18 @@ export function ContactForm({
           {selectedViaCard && selectedSubService && (
             <div className="mt-3 flex items-center gap-2 text-sm text-muted-foreground bg-secondary/50 p-2.5 rounded-md border border-primary/20 animate-in fade-in slide-in-from-top-1">
               <CheckCircle2 className="h-4 w-4 text-primary" />
-              <span className="font-medium text-foreground">Selected Option:</span>
+              <span className="font-medium text-foreground">{t.formSelectedOption}</span>
               <span>{selectedSubService}</span>
             </div>
           )}
         </div>
 
         {/* Personal Information */}
-        <div className="space-y-4 p-4 bg-blue-50/40 dark:bg-blue-950/20 rounded-lg border border-blue-100/50 dark:border-blue-900/50">
-          <h3 className="text-lg font-semibold text-blue-900 dark:text-blue-100 flex items-center gap-2">
+        <fieldset className="space-y-4 p-4 bg-blue-50/40 dark:bg-blue-950/20 rounded-lg border border-blue-100/50 dark:border-blue-900/50">
+          <legend className="text-lg font-semibold text-blue-900 dark:text-blue-100 flex items-center gap-2 px-2">
             <User className="h-5 w-5 text-blue-600 dark:text-blue-400" />
             {t.formSectionPersonal}
-          </h3>
+          </legend>
 
           {/* Salutation */}
           <div className="space-y-2">
@@ -462,14 +462,14 @@ export function ContactForm({
               className={showValidation('dateOfBirth') && !isFieldValid('dateOfBirth') ? 'border-red-500' : ''}
             />
           </div>
-        </div>
+        </fieldset>
 
         {/* Contact Information */}
-        <div className="space-y-4 p-4 bg-blue-50/40 dark:bg-blue-950/20 rounded-lg border border-blue-100/50 dark:border-blue-900/50">
-          <h3 className="text-lg font-semibold text-blue-900 dark:text-blue-100 flex items-center gap-2">
+        <fieldset className="space-y-4 p-4 bg-blue-50/40 dark:bg-blue-950/20 rounded-lg border border-blue-100/50 dark:border-blue-900/50">
+          <legend className="text-lg font-semibold text-blue-900 dark:text-blue-100 flex items-center gap-2 px-2">
             <Mail className="h-5 w-5 text-blue-600 dark:text-blue-400" />
             {t.formSectionContact}
-          </h3>
+          </legend>
 
           <div className="grid md:grid-cols-2 gap-4">
             <div className="space-y-2">
@@ -520,14 +520,14 @@ export function ContactForm({
               />
             </div>
           </div>
-        </div>
+        </fieldset>
 
         {/* Address */}
-        <div className="space-y-4 p-4 bg-blue-50/40 dark:bg-blue-950/20 rounded-lg border border-blue-100/50 dark:border-blue-900/50">
-          <h3 className="text-lg font-semibold text-blue-900 dark:text-blue-100 flex items-center gap-2">
+        <fieldset className="space-y-4 p-4 bg-blue-50/40 dark:bg-blue-950/20 rounded-lg border border-blue-100/50 dark:border-blue-900/50">
+          <legend className="text-lg font-semibold text-blue-900 dark:text-blue-100 flex items-center gap-2 px-2">
             <MapPin className="h-5 w-5 text-blue-600 dark:text-blue-400" />
             {t.formSectionAddress}
-          </h3>
+          </legend>
 
           <div className="space-y-2">
             <div className="flex items-center justify-between">
@@ -604,7 +604,7 @@ export function ContactForm({
                 onBlur={() => handleBlur('stateProvince')}
               />
               <p className="text-xs text-blue-600 dark:text-blue-400 font-medium">
-                {formData.country === 'United States' ? 'State is required for USA' : 'Province is required for Canada'}
+                {formData.country === 'United States' ? t.formStateRequiredUSA : t.formProvinceRequiredCanada}
               </p>
             </div>
           )}
@@ -635,7 +635,7 @@ export function ContactForm({
               <SelectContent>
                 {/* Suggested Countries */}
                 <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">
-                  Suggested
+                  {t.formSuggestedCountries}
                 </div>
                 {["Germany", "Korea, South", "United States"].map((countryName) => {
                   const country = countries.find(c => c.name === countryName);
@@ -655,7 +655,7 @@ export function ContactForm({
 
                 {/* All Countries */}
                 <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">
-                  All Countries
+                  {t.formAllCountries}
                 </div>
                 {countries.map((country) => (
                   <SelectItem key={country.code} value={country.name}>
@@ -668,7 +668,7 @@ export function ContactForm({
               </SelectContent>
             </Select>
           </div>
-        </div>
+        </fieldset>
 
 
         {/* Message/Describe your situation */}
@@ -688,14 +688,14 @@ export function ContactForm({
             rows={5}
             required
             minLength={10}
-            placeholder="Please describe your specific situation, what services you need, and any relevant details about your case."
+            placeholder={t.formMessagePlaceholder}
             onChange={(e) => handleInputChange('message', e.target.value)}
             onBlur={() => handleBlur('message')}
             className={`resize-none ${showValidation('message') && !isFieldValid('message') ? 'border-red-500' : ''}`}
           />
           {formData.message && (
             <p className="text-xs text-blue-600 dark:text-blue-400 font-medium">
-              {formData.message.length} characters
+              {formData.message.length} {t.formCharacters}
             </p>
           )}
         </div>

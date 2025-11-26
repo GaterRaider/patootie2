@@ -1,6 +1,5 @@
 export type Language = 'en' | 'ko' | 'de';
 
-
 export interface Translations {
   // Header
   siteTitle: string;
@@ -91,6 +90,27 @@ export interface Translations {
   formSubmitting: string;
   formSuccessTitle: string;
   formSuccessMessage: string;
+
+  // New additions
+  formMessagePlaceholder: string;
+  formStateRequiredUSA: string;
+  formProvinceRequiredCanada: string;
+  formSuggestedCountries: string;
+  formAllCountries: string;
+  formErrorGeneral: string;
+  formSuccessGreeting: string;
+  formSuccessBody: string;
+  formSentTo: string;
+  formReferenceId: string;
+  formStatusReceived: string;
+  formStatusReviewing: string;
+  formStatusResponse: string;
+  formSendAnother: string;
+  formProgress: string;
+  formSelectedOption: string;
+  formCharacters: string;
+  serviceSelectOptional: string;
+  serviceLearnMore: string;
 
   // About Section
   aboutHeading: string;
@@ -264,6 +284,27 @@ export const translations: Record<Language, Translations> = {
     errorEmail: "Please enter a valid email address",
     errorMinLength: "Please provide more details",
     errorConsent: "You must agree to continue",
+
+    // New additions
+    formMessagePlaceholder: "Please describe your specific situation, what services you need, and any relevant details about your case.",
+    formStateRequiredUSA: "State is required for USA",
+    formProvinceRequiredCanada: "Province is required for Canada",
+    formSuggestedCountries: "Suggested",
+    formAllCountries: "All Countries",
+    formErrorGeneral: "Please correct the highlighted errors to proceed.",
+    formSuccessGreeting: "Thanks for reaching out, ",
+    formSuccessBody: "We have received your request. We will review it and get back to you as soon as possible.",
+    formSentTo: "Sent to",
+    formReferenceId: "Reference ID",
+    formStatusReceived: "Received",
+    formStatusReviewing: "Reviewing",
+    formStatusResponse: "Response",
+    formSendAnother: "Send another request",
+    formProgress: "Form Progress",
+    formSelectedOption: "Selected Option:",
+    formCharacters: "characters",
+    serviceSelectOptional: "Select a Service (Optional)",
+    serviceLearnMore: "Learn more",
   },
   ko: {
     // Header
@@ -406,148 +447,190 @@ export const translations: Record<Language, Translations> = {
     errorEmail: "유효한 이메일 주소를 입력하세요",
     errorMinLength: "더 자세한 정보를 제공해주세요",
     errorConsent: "계속하려면 동의해야 합니다",
+
+    // New additions
+    formMessagePlaceholder: "구체적인 상황, 필요한 서비스 및 관련 세부 정보를 설명해주세요.",
+    formStateRequiredUSA: "미국의 경우 주(State) 입력은 필수입니다",
+    formProvinceRequiredCanada: "캐나다의 경우 주(Province) 입력은 필수입니다",
+    formSuggestedCountries: "추천 국가",
+    formAllCountries: "모든 국가",
+    formErrorGeneral: "진행하려면 강조 표시된 오류를 수정해주세요.",
+    formSuccessGreeting: "문의해 주셔서 감사합니다, ",
+    formSuccessBody: "요청이 접수되었습니다. 검토 후 가능한 한 빨리 연락드리겠습니다.",
+    formSentTo: "수신",
+    formReferenceId: "참조 ID",
+    formStatusReceived: "접수됨",
+    formStatusReviewing: "검토 중",
+    formStatusResponse: "답변 완료",
+    formSendAnother: "다른 문의 보내기",
+    formProgress: "양식 진행률",
+    formSelectedOption: "선택된 옵션:",
+    formCharacters: "자",
+    serviceSelectOptional: "서비스 선택 (선택사항)",
+    serviceLearnMore: "자세히 보기",
   },
   de: {
     // Header
     siteTitle: "HandokHelper",
     navServices: "Services",
-    navProcess: "Process",
-    navAbout: "About",
-    navContact: "Contact",
-    navLegal: "Impressum / Privacy",
+    navProcess: "Ablauf",
+    navAbout: "Über uns",
+    navContact: "Kontakt",
+    navLegal: "Impressum / Datenschutz",
 
     // Hero Section
-    heroTitle: "Your support for German housing and bureaucracy",
-    heroDescription: "Moving to Germany or dealing with German authorities can be overwhelming, especially from abroad. HandokHelper assists with finding housing, immigration matters, official registrations, pension requests, and any task that requires someone in Germany to handle the process for you.",
-    heroBullet1: "For clients inside and outside Germany",
-    heroBullet2: "Housing search, viewings, and relocation support",
-    heroBullet3: "Assistance with authorities, documents, and official procedures",
-    heroBullet4: "Fixed price, hourly rate, or percentage depending on service",
-    heroBullet5: "Fast and personal communication via phone or email",
+    heroTitle: "Ihre Unterstützung für deutsche Behörden und Wohnen",
+    heroDescription: "Der Umzug nach Deutschland oder der Umgang mit deutschen Behörden kann überwältigend sein, besonders aus dem Ausland. HandokHelper unterstützt Sie bei der Wohnungssuche, Einwanderungsfragen, behördlichen Anmeldungen, Rentenanträgen und allen Aufgaben, die jemanden vor Ort in Deutschland erfordern.",
+    heroBullet1: "Für Kunden innerhalb und außerhalb Deutschlands",
+    heroBullet2: "Wohnungssuche, Besichtigungen und Umzugsunterstützung",
+    heroBullet3: "Unterstützung bei Behörden, Dokumenten und offiziellen Verfahren",
+    heroBullet4: "Festpreis, Stundensatz oder Prozentsatz je nach Service",
+    heroBullet5: "Schnelle und persönliche Kommunikation per Telefon oder E-Mail",
 
     // Service Cards
-    servicesHeading: "Our Services",
-    servicesLabel: "WHAT WE OFFER",
-    serviceCard1Title: "Housing & Relocation",
-    serviceCard1Desc: "Find your perfect home and settle in smoothly. We assist with property search, viewings, contracts, and all registration formalities.",
+    servicesHeading: "Unsere Leistungen",
+    servicesLabel: "WAS WIR BIETEN",
+    serviceCard1Title: "Wohnen & Umzug",
+    serviceCard1Desc: "Finden Sie Ihr perfektes Zuhause und leben Sie sich reibungslos ein. Wir unterstützen bei der Immobiliensuche, Besichtigungen, Verträgen und allen Anmeldeformalitäten.",
     serviceCard1Services: [
-      "Apartment/house search assistance",
-      "Property viewing accompaniment & interpretation",
-      "Rental contract review & negotiation support",
-      "Anmeldung support (document preparation, on-site accompaniment & interpretation)",
-      "Deregistration (Abmeldung) assistance",
-      "Cancellation support before departure (e.g. housing, contracts)"
+      "Wohnungs-/Haussuche",
+      "Begleitung bei Besichtigungen & Dolmetschen",
+      "Prüfung von Mietverträgen & Verhandlungsunterstützung",
+      "Anmeldung (Vorbereitung der Unterlagen, Begleitung & Dolmetschen)",
+      "Abmeldung",
+      "Kündigungsunterstützung vor Abreise (z.B. Wohnung, Verträge)"
     ],
-    serviceCard1CTA: "Select Housing & Relocation",
-    serviceCard2Title: "Immigration & Legal Services",
-    serviceCard2Desc: "Expert support for all your visa and legal needs. From work permits to driver's license exchange, we guide you through the German legal system.",
+    serviceCard1CTA: "Wohnen & Umzug wählen",
+    serviceCard2Title: "Einwanderung & Rechtliches",
+    serviceCard2Desc: "Expertenunterstützung für alle Ihre Visa- und Rechtsfragen. Von Arbeitserlaubnissen bis zum Führerscheinumtausch führen wir Sie durch das deutsche Rechtssystem.",
     serviceCard2Services: [
-      "Expat assignment visa application & extension",
-      "Expat family visa application & extension",
-      "Work visa consultation & application support",
-      "Visa interview accompaniment & interpretation",
-      "Visa pickup service on behalf of client",
-      "Driver's license exchange support & interpretation",
-      "Tax class (Steuerklasse) change application"
+      "Visumantrag & Verlängerung für Expat-Entsendungen",
+      "Visumantrag & Verlängerung für Expat-Familien",
+      "Beratung & Antragsunterstützung für Arbeitsvisa",
+      "Begleitung bei Visa-Interviews & Dolmetschen",
+      "Visumabholung im Auftrag des Kunden",
+      "Unterstützung beim Führerscheinumtausch & Dolmetschen",
+      "Antrag auf Steuerklassenwechsel"
     ],
-    serviceCard2CTA: "Select Immigration & Legal Services",
-    serviceCard3Title: "Benefits & Financial Services",
-    serviceCard3Desc: "Maximize your financial benefits. We help with pension refunds, child benefits, and setting up your banking foundations.",
+    serviceCard2CTA: "Einwanderung & Rechtliches wählen",
+    serviceCard3Title: "Leistungen & Finanzen",
+    serviceCard3Desc: "Maximieren Sie Ihre finanziellen Vorteile. Wir helfen bei Rentenerstattungen, Kindergeld und der Einrichtung Ihrer Bankgeschäfte.",
     serviceCard3Services: [
-      "Pension refund application service",
-      "Child benefit (Kindergeld) application",
-      "Bank account opening assistance"
+      "Antragsservice für Rentenerstattung",
+      "Kindergeldantrag",
+      "Unterstützung bei der Kontoeröffnung"
     ],
-    serviceCard3CTA: "Select Benefits & Financial Services",
-    serviceCard4Title: "Integration & Daily Life",
-    serviceCard4Desc: "Essential support for your daily life in Germany. We handle utilities, insurance, and other contracts so you can focus on living.",
+    serviceCard3CTA: "Leistungen & Finanzen wählen",
+    serviceCard4Title: "Integration & Alltag",
+    serviceCard4Desc: "Wesentliche Unterstützung für Ihren Alltag in Deutschland. Wir kümmern uns um Versorgungsunternehmen, Versicherungen und andere Verträge, damit Sie sich auf das Leben konzentrieren können.",
     serviceCard4Services: [
-      "Internet & electricity contract setup",
-      "Insurance enrollment support (liability & legal insurance)"
+      "Einrichtung von Internet- & Stromverträgen",
+      "Unterstützung bei Versicherungsanmeldungen (Haftpflicht- & Rechtsschutzversicherung)"
     ],
-    serviceCard4CTA: "Select Integration & Daily Life",
+    serviceCard4CTA: "Integration & Alltag wählen",
 
     // Process Section
-    processHeading: "How It Works",
-    processLabel: "OUR PROCESS",
-    processStep1Title: "Submit your request",
-    processStep1Desc: "Select your service and send your details.",
-    processStep2Title: "Consultation",
-    processStep2Desc: "HandokHelper reviews your situation and contacts you.",
-    processStep3Title: "Start working together",
-    processStep3Desc: "After agreement on fees, HandokHelper assists with your case.",
-    processNote: "Note: submitting the form does not create a binding contract; HandokHelper will first provide an offer.",
+    processHeading: "Wie es funktioniert",
+    processLabel: "UNSER ABLAUF",
+    processStep1Title: "Anfrage senden",
+    processStep1Desc: "Wählen Sie Ihren Service und senden Sie Ihre Details.",
+    processStep2Title: "Beratung",
+    processStep2Desc: "HandokHelper prüft Ihre Situation und kontaktiert Sie.",
+    processStep3Title: "Zusammenarbeit starten",
+    processStep3Desc: "Nach Einigung über die Kosten unterstützt HandokHelper Ihren Fall.",
+    processNote: "Hinweis: Das Absenden des Formulars begründet keinen verbindlichen Vertrag; HandokHelper erstellt zunächst ein Angebot.",
 
     // Contact Form
-    contactHeading: "Get in Touch",
-    contactLabel: "CONTACT",
+    contactHeading: "Kontakt aufnehmen",
+    contactLabel: "KONTAKT",
     formService: "Service",
-    formServicePlaceholder: "Select a category",
-    formSubService: "Specific Service (Optional)",
-    formSubServicePlaceholder: "Select a specific service",
-    formSectionPersonal: "Personal Information",
-    formSectionContact: "Contact Information",
-    formSectionAddress: "Address",
-    formValidationMessage: "Please complete all required fields to submit",
-    formSalutation: "Salutation",
-    formSalutationPlaceholder: "Select salutation",
-    formSalutationMr: "Mr",
-    formSalutationMs: "Ms",
+    formServicePlaceholder: "Kategorie wählen",
+    formSubService: "Spezifischer Service (Optional)",
+    formSubServicePlaceholder: "Spezifischen Service wählen",
+    formSectionPersonal: "Persönliche Informationen",
+    formSectionContact: "Kontaktinformationen",
+    formSectionAddress: "Adresse",
+    formValidationMessage: "Bitte füllen Sie alle Pflichtfelder aus",
+    formSalutation: "Anrede",
+    formSalutationPlaceholder: "Anrede wählen",
+    formSalutationMr: "Herr",
+    formSalutationMs: "Frau",
     formSalutationMx: "Mx",
-    formSalutationPreferNot: "Prefer not to say",
-    formFirstName: "First Name",
-    formLastName: "Last Name",
-    formDateOfBirth: "Date of Birth",
-    formEmail: "Email",
-    formPhone: "Phone Number",
-    formStreet: "Street & House Number",
-    formAddressLine2: "Address Line 2 (optional)",
-    formPostalCode: "Postal Code",
-    formCity: "City",
-    formStateProvince: "State/Province (optional)",
-    formCountry: "Country",
-    formCountryPlaceholder: "Select country",
-    formCurrentResidence: "Country of Current Residence",
-    formCurrentResidencePlaceholder: "Select country",
-    formPreferredLanguage: "Preferred Contact Language",
-    formPreferredLanguagePlaceholder: "Select language",
-    formMessage: "Describe your situation",
-    formContactConsent: "I agree to be contacted by email and/or phone",
-    formPrivacyConsent: "I have read and agree to the",
-    formPrivacyConsentLink: "Privacy Policy",
-    formSubmit: "Submit Inquiry",
-    formSubmitting: "Submitting...",
-    formSuccessTitle: "Thank You!",
-    formSuccessMessage: "Your inquiry has been submitted successfully. We will contact you soon!",
+    formSalutationPreferNot: "Keine Angabe",
+    formFirstName: "Vorname",
+    formLastName: "Nachname",
+    formDateOfBirth: "Geburtsdatum",
+    formEmail: "E-Mail",
+    formPhone: "Telefonnummer",
+    formStreet: "Straße & Hausnummer",
+    formAddressLine2: "Adresszusatz (optional)",
+    formPostalCode: "Postleitzahl",
+    formCity: "Stadt",
+    formStateProvince: "Bundesland/Provinz (optional)",
+    formCountry: "Land",
+    formCountryPlaceholder: "Land wählen",
+    formCurrentResidence: "Land des aktuellen Wohnsitzes",
+    formCurrentResidencePlaceholder: "Land wählen",
+    formPreferredLanguage: "Bevorzugte Kontaktsprache",
+    formPreferredLanguagePlaceholder: "Sprache wählen",
+    formMessage: "Beschreiben Sie Ihre Situation",
+    formContactConsent: "Ich stimme der Kontaktaufnahme per E-Mail und/oder Telefon zu",
+    formPrivacyConsent: "Ich habe die Datenschutzerklärung gelesen und stimme zu",
+    formPrivacyConsentLink: "Datenschutzerklärung",
+    formSubmit: "Anfrage senden",
+    formSubmitting: "Wird gesendet...",
+    formSuccessTitle: "Vielen Dank!",
+    formSuccessMessage: "Ihre Anfrage wurde erfolgreich gesendet. Wir werden uns bald bei Ihnen melden!",
 
     // About Section
-    aboutHeading: "About HandokHelper",
-    aboutLabel: "WHO WE ARE",
-    aboutParagraph1: "HandokHelper is experienced in dealing with German authorities and understands the complexities of German bureaucracy. With years of experience navigating the system, HandokHelper provides personalized assistance to make your journey smoother.",
-    aboutParagraph2: "Whether you are an immigrant, a foreign resident in Germany, or someone living abroad who needs to interact with German authorities, we can help. From visa applications to pension claims, every case receives dedicated attention and professional guidance.",
-    aboutParagraph3: "We specialize in helping individuals abroad obtain German pension payments and other social benefits, ensuring that distance is never a barrier to accessing what you're entitled to.",
-    aboutLanguages: "Languages Spoken",
+    aboutHeading: "Über HandokHelper",
+    aboutLabel: "WER WIR SIND",
+    aboutParagraph1: "HandokHelper ist erfahren im Umgang mit deutschen Behörden und versteht die Komplexität der deutschen Bürokratie. Mit jahrelanger Erfahrung im System bietet HandokHelper persönliche Unterstützung, um Ihren Weg reibungsloser zu gestalten.",
+    aboutParagraph2: "Ob Sie Einwanderer, ausländischer Einwohner in Deutschland oder im Ausland lebend sind und mit deutschen Behörden interagieren müssen, wir können helfen. Von Visumanträgen bis zu Rentenansprüchen erhält jeder Fall engagierte Aufmerksamkeit und professionelle Beratung.",
+    aboutParagraph3: "Wir sind darauf spezialisiert, Einzelpersonen im Ausland bei der Erlangung deutscher Rentenzahlungen und anderer Sozialleistungen zu helfen und sicherzustellen, dass Entfernung kein Hindernis für den Zugang zu Ihren Ansprüchen darstellt.",
+    aboutLanguages: "Gesprochene Sprachen",
 
     // Footer
-    footerAboutTitle: "About HandokHelper",
-    footerAboutDesc: "Support for handling German authorities from anywhere in the world. Assistance with forms, certificates, residence matters, pension support, and more.",
-    footerQuickLinks: "Quick Links",
-    footerLegal: "Legal",
-    footerPrivacy: "Privacy Policy",
-    footerImpressum: "Imprint",
-    footerCopyright: "Support for German Authorities Worldwide",
+    footerAboutTitle: "Über HandokHelper",
+    footerAboutDesc: "Unterstützung beim Umgang mit deutschen Behörden von überall auf der Welt. Hilfe bei Formularen, Bescheinigungen, Wohnsitzangelegenheiten, Rentenunterstützung und mehr.",
+    footerQuickLinks: "Schnelllinks",
+    footerLegal: "Rechtliches",
+    footerPrivacy: "Datenschutzerklärung",
+    footerImpressum: "Impressum",
+    footerCopyright: "Unterstützung für deutsche Behörden weltweit",
 
     // Legal Pages
     impressumTitle: "Impressum",
-    impressumContent: "HandokHelper\n\nContact:\nEmail: info ( at ) handokhelper.de\n\nThis is a placeholder impressum. Please update with actual legal information as required by German law (§5 TMG).",
-    privacyTitle: "Privacy Policy",
-    privacyContent: "This Privacy Policy describes how we collect, use, and protect your personal information.\n\n1. Data Collection\nWe collect personal information that you provide through our contact form, including your name, email, phone number, address, and message content.\n\n2. Purpose of Data Processing\nYour data is used solely for the purpose of handling your inquiry and providing our services. We will contact you via email or phone as you have consented.\n\n3. Data Storage\nYour data is stored securely in our database and is only accessible to authorized personnel.\n\n4. Your Rights\nYou have the right to access, correct, or delete your personal data at any time. Please contact us at info@patootie-germany.com.\n\n5. Consent\nBy submitting the contact form, you consent to the processing of your personal data as described in this policy.\n\nThis is a placeholder privacy policy. Please update with complete legal information as required by GDPR and German data protection laws.",
+    impressumContent: "HandokHelper\n\nKontakt:\nE-Mail: info ( at ) handokhelper.de\n\nDies ist ein Platzhalter-Impressum. Bitte aktualisieren Sie es mit den tatsächlichen rechtlichen Informationen gemäß §5 TMG.",
+    privacyTitle: "Datenschutzerklärung",
+    privacyContent: "Diese Datenschutzerklärung beschreibt, wie wir Ihre personenbezogenen Daten erfassen, verwenden und schützen.\n\n1. Datenerfassung\nWir erfassen personenbezogene Daten, die Sie über unser Kontaktformular bereitstellen, einschließlich Name, E-Mail, Telefonnummer, Adresse und Nachrichteninhalt.\n\n2. Zweck der Datenverarbeitung\nIhre Daten werden ausschließlich zur Bearbeitung Ihrer Anfrage und zur Erbringung unserer Dienstleistungen verwendet. Wir kontaktieren Sie per E-Mail oder Telefon, wie von Ihnen zugestimmt.\n\n3. Datenspeicherung\nIhre Daten werden sicher in unserer Datenbank gespeichert und sind nur autorisiertem Personal zugänglich.\n\n4. Ihre Rechte\nSie haben das Recht, jederzeit auf Ihre personenbezogenen Daten zuzugreifen, diese zu korrigieren oder zu löschen. Bitte kontaktieren Sie uns unter info@patootie-germany.com.\n\n5. Einwilligung\nDurch das Absenden des Kontaktformulars stimmen Sie der Verarbeitung Ihrer personenbezogenen Daten wie in dieser Richtlinie beschrieben zu.\n\nDies ist eine Platzhalter-Datenschutzerklärung. Bitte aktualisieren Sie sie mit vollständigen rechtlichen Informationen gemäß DSGVO und deutschen Datenschutzgesetzen.",
 
     // Errors
-    errorRequired: "This field is required",
-    errorEmail: "Please enter a valid email address",
-    errorMinLength: "Please provide more details",
-    errorConsent: "You must agree to continue",
+    errorRequired: "Dieses Feld ist erforderlich",
+    errorEmail: "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+    errorMinLength: "Bitte geben Sie mehr Details an",
+    errorConsent: "Sie müssen zustimmen, um fortzufahren",
+
+    // New additions
+    formMessagePlaceholder: "Bitte beschreiben Sie Ihre spezifische Situation, welche Dienstleistungen Sie benötigen und alle relevanten Details zu Ihrem Fall.",
+    formStateRequiredUSA: "Bundesstaat ist für USA erforderlich",
+    formProvinceRequiredCanada: "Provinz ist für Kanada erforderlich",
+    formSuggestedCountries: "Vorgeschlagen",
+    formAllCountries: "Alle Länder",
+    formErrorGeneral: "Bitte korrigieren Sie die markierten Fehler, um fortzufahren.",
+    formSuccessGreeting: "Danke für Ihre Nachricht, ",
+    formSuccessBody: "Wir haben Ihre Anfrage erhalten. Wir werden sie prüfen und uns so schnell wie möglich bei Ihnen melden.",
+    formSentTo: "Gesendet an",
+    formReferenceId: "Referenz-ID",
+    formStatusReceived: "Empfangen",
+    formStatusReviewing: "In Prüfung",
+    formStatusResponse: "Antwort",
+    formSendAnother: "Weitere Anfrage senden",
+    formProgress: "Formularfortschritt",
+    formSelectedOption: "Gewählte Option:",
+    formCharacters: "Zeichen",
+    serviceSelectOptional: "Service wählen (Optional)",
+    serviceLearnMore: "Mehr erfahren",
   },
 };
 

@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
-import { LucideIcon, ArrowRight, Check, X } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { Language, getTranslations } from "@/i18n/translations";
+import { LucideIcon, ArrowRight, X } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,15 +13,6 @@ import {
 } from "@/components/ui/dialog";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import {
-    Carousel,
-    CarouselContent,
-    CarouselItem,
-    CarouselNext,
-    CarouselPrevious,
-    type CarouselApi,
-} from "@/components/ui/carousel";
-import { useMediaQuery } from "@/hooks/use-mobile";
 
 export interface ServiceItem {
     id: string;
@@ -34,27 +26,31 @@ export interface ServiceItem {
 interface ServicesBentoGridProps {
     services: ServiceItem[];
     onSelect: (serviceTitle: string, subService?: string) => void;
-    language: "en" | "ko";
+    language: Language;
 }
 
 export function ServicesBentoGrid({ services, onSelect, language }: ServicesBentoGridProps) {
+    const t = getTranslations(language);
     const [selectedService, setSelectedService] = useState<ServiceItem | null>(null);
     const [selectedSubService, setSelectedSubService] = useState<string>("");
-    const [api, setApi] = useState<CarouselApi>();
-    const [current, setCurrent] = useState(0);
-    const isMobile = useMediaQuery("(max-width: 768px)");
+    const [activeIndex, setActiveIndex] = useState(0);
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
 
+    // Track scroll position to update active dot
     useEffect(() => {
-        if (!api) {
-            return;
-        }
+        const container = scrollContainerRef.current;
+        if (!container) return;
 
-        setCurrent(api.selectedScrollSnap());
+        const handleScroll = () => {
+            const scrollLeft = container.scrollLeft;
+            const cardWidth = container.scrollWidth / services.length;
+            const newIndex = Math.round(scrollLeft / cardWidth);
+            setActiveIndex(newIndex);
+        };
 
-        api.on("select", () => {
-            setCurrent(api.selectedScrollSnap());
-        });
-    }, [api]);
+        container.addEventListener('scroll', handleScroll);
+        return () => container.removeEventListener('scroll', handleScroll);
+    }, [services.length]);
 
     const handleCardClick = (service: ServiceItem) => {
         setSelectedService(service);
@@ -92,7 +88,7 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
             </CardHeader>
             <CardContent>
                 <div className="flex items-center text-sm text-primary font-medium mt-auto group-hover:translate-x-1 transition-transform">
-                    {language === "ko" ? "자세히 보기" : "Learn more"} <ArrowRight className="ml-1 h-4 w-4" />
+                    {t.serviceLearnMore} <ArrowRight className="ml-1 h-4 w-4" />
                 </div>
             </CardContent>
         </Card>
@@ -100,44 +96,44 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
 
     return (
         <>
-            {/* Desktop Grid */}
-            <div className="hidden md:grid grid-cols-2 gap-6 max-w-5xl mx-auto">
+            {/* Unified Responsive Grid/Slider */}
+            <div
+                ref={scrollContainerRef}
+                className="
+                    flex overflow-x-auto snap-x snap-mandatory gap-4 pb-6 -mx-4 px-4
+                    md:grid md:grid-cols-2 md:gap-6 md:overflow-visible md:pb-0 md:mx-auto md:px-0 md:max-w-5xl
+                    scrollbar-hide
+                "
+            >
                 {services.map((service) => (
-                    <ServiceCardContent key={service.id} service={service} />
+                    <div
+                        key={service.id}
+                        className="min-w-[85vw] sm:min-w-[350px] snap-center md:min-w-0 h-full"
+                    >
+                        <ServiceCardContent service={service} />
+                    </div>
                 ))}
             </div>
 
-            {/* Mobile Carousel */}
-            <div className="md:hidden">
-                <Carousel
-                    setApi={setApi}
-                    opts={{
-                        align: "start",
-                        loop: true,
-                    }}
-                    className="w-full max-w-sm mx-auto"
-                >
-                    <CarouselContent className="-ml-2 md:-ml-4">
-                        {services.map((service) => (
-                            <CarouselItem key={service.id} className="pl-2 md:pl-4 basis-11/12">
-                                <div className="p-1 h-full">
-                                    <ServiceCardContent service={service} />
-                                </div>
-                            </CarouselItem>
-                        ))}
-                    </CarouselContent>
-                    <div className="flex justify-center gap-2 mt-4">
-                        {services.map((_, index) => (
-                            <button
-                                key={index}
-                                onClick={() => api?.scrollTo(index)}
-                                className={`h-2 w-2 rounded-full transition-all duration-300 ${current === index ? "bg-primary w-4" : "bg-gray-300 dark:bg-gray-700"
-                                    }`}
-                                aria-label={`Go to slide ${index + 1}`}
-                            />
-                        ))}
-                    </div>
-                </Carousel>
+            {/* Pagination Dots - Mobile Only */}
+            <div className="flex justify-center gap-2 mt-4 md:hidden">
+                {services.map((_, index) => (
+                    <button
+                        key={index}
+                        onClick={() => {
+                            const container = scrollContainerRef.current;
+                            if (container) {
+                                const cardWidth = container.scrollWidth / services.length;
+                                container.scrollTo({ left: cardWidth * index, behavior: 'smooth' });
+                            }
+                        }}
+                        className={`h-2 rounded-full transition-all duration-300 ${index === activeIndex
+                                ? 'w-8 bg-primary'
+                                : 'w-2 bg-primary/30 hover:bg-primary/50'
+                            }`}
+                        aria-label={`Go to service ${index + 1}`}
+                    />
+                ))}
             </div>
 
             {/* Detail Modal */}
@@ -170,7 +166,7 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
 
                             <div className="py-6">
                                 <h4 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">
-                                    {language === "ko" ? "서비스 선택 (선택사항)" : "Select a Service (Optional)"}
+                                    {t.serviceSelectOptional}
                                 </h4>
                                 <RadioGroup value={selectedSubService} onValueChange={setSelectedSubService} className="grid gap-3">
                                     {selectedService.servicesList.map((item, index) => (
@@ -178,8 +174,8 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
                                             key={index}
                                             htmlFor={`service-${index}`}
                                             className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all ${selectedSubService === item
-                                                    ? "border-primary bg-primary/5 shadow-sm"
-                                                    : "border-border/40 hover:bg-secondary/50 hover:border-primary/30"
+                                                ? "border-primary bg-primary/5 shadow-sm"
+                                                : "border-border/40 hover:bg-secondary/50 hover:border-primary/30"
                                                 }`}
                                         >
                                             <RadioGroupItem value={item} id={`service-${index}`} className="mt-1" />
