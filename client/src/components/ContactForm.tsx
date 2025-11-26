@@ -709,18 +709,7 @@ export function ContactForm({
               name="contactConsent"
               required
               onChange={(e) => handleInputChange('contactConsent', e.target.checked ? 'true' : 'false')}
-              className={showValidation('contactConsent') && !isFieldValid('contactConsent') ? 'outline-2 outline-red-500' : ''}
-              style={{
-                width: '20px',
-                height: '20px',
-                minWidth: '20px',
-                minHeight: '20px',
-                marginTop: '2px',
-                cursor: 'pointer',
-                accentColor: 'var(--color-primary)',
-                border: '1px solid var(--color-primary)',
-                borderRadius: '4px'
-              }}
+              className={`custom-checkbox ${showValidation('contactConsent') && !isFieldValid('contactConsent') ? 'outline-2 outline-red-500' : ''}`}
             />
             <label htmlFor="contactConsent" className={`text-sm leading-relaxed cursor-pointer ${showValidation('contactConsent') && !isFieldValid('contactConsent') ? 'text-red-500' : ''}`}>
               {t.formContactConsent} *
@@ -733,21 +722,7 @@ export function ContactForm({
               name="privacyConsent"
               required
               onChange={(e) => handleInputChange('privacyConsent', e.target.checked ? 'true' : 'false')}
-              className={showValidation('privacyConsent') && !isFieldValid('privacyConsent') ? 'outline-2 outline-red-500' : ''}
-              style={{
-                width: '20px',
-                height: '20px',
-                minWidth: '20px',
-                minHeight: '20px',
-                flexShrink: 0,
-                marginTop: '2px',
-                cursor: 'pointer',
-                accentColor: 'var(--color-primary)',
-                border: '1px solid var(--color-primary)',
-                borderRadius: '4px',
-                display: 'block',
-                position: 'relative'
-              }}
+              className={`custom-checkbox ${showValidation('privacyConsent') && !isFieldValid('privacyConsent') ? 'outline-2 outline-red-500' : ''}`}
             />
             <label htmlFor="privacy-policy-consent" className={`text-sm leading-relaxed cursor-pointer ${showValidation('privacyConsent') && !isFieldValid('privacyConsent') ? 'text-red-500' : ''}`}>
               {t.formPrivacyConsent}{" "}

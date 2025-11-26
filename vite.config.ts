@@ -25,7 +25,45 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: {
       output: {
-        // Manual chunks removed to prevent circular dependencies
+        manualChunks: (id) => {
+          // Core React vendor chunk
+          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) {
+            return 'react-vendor';
+          }
+
+          // Radix UI components (used across app)
+          if (id.includes('node_modules/@radix-ui')) {
+            return 'ui-vendor';
+          }
+
+          // Admin-only: Charts library
+          if (id.includes('node_modules/recharts')) {
+            return 'admin-charts';
+          }
+
+          // Admin-only: Table and query
+          if (id.includes('node_modules/@tanstack/react-table') ||
+            id.includes('node_modules/@tanstack/react-query')) {
+            return 'admin-table';
+          }
+
+          // Admin-only: Drag and drop
+          if (id.includes('node_modules/@dnd-kit')) {
+            return 'admin-dnd';
+          }
+
+          // Heavy utilities (PDF generation)
+          if (id.includes('node_modules/jspdf') ||
+            id.includes('node_modules/html2canvas') ||
+            id.includes('node_modules/pdfkit')) {
+            return 'pdf-utils';
+          }
+
+          // Other node_modules go to vendor chunk
+          if (id.includes('node_modules')) {
+            return 'vendor';
+          }
+        },
       },
     },
   },
