@@ -160,7 +160,7 @@ export default function Home() {
             ? "독일 관료, 주택, 비자 및 Anmeldung 전문 지원. 독일 거주 외국인을 위한 전문 서비스."
             : "Expert help with German bureaucracy, housing, visas & Anmeldung. Professional support for expats in Germany."}
         />
-        <meta property="og:image" content="https://www.handokhelper.de/images/HandokHelperLogoOnly.png" />
+        <meta property="og:image" content="https://www.handokhelper.de/images/HandokHelperLogoOnly.webp" />
         <meta property="og:image:width" content="512" />
         <meta property="og:image:height" content="512" />
         <meta property="og:locale" content={language === "ko" ? "ko_KR" : "en_US"} />
@@ -182,7 +182,7 @@ export default function Home() {
             ? "독일 관료, 주택, 비자 및 Anmeldung 전문 지원. 영어, 한국어, 독일어 서비스."
             : "Expert help with German bureaucracy, housing, visas & Anmeldung. English, Korean & German service."}
         />
-        <meta name="twitter:image" content="https://www.handokhelper.de/images/HandokHelperLogoOnly.png" />
+        <meta name="twitter:image" content="https://www.handokhelper.de/images/HandokHelperLogoOnly.webp" />
 
         {/* Multilingual / hreflang */}
         <link rel="alternate" hrefLang="en" href="https://www.handokhelper.de/en/" />
@@ -208,8 +208,8 @@ export default function Home() {
               ? "독일 관공서 업무 처리를 위한 전문 지원 서비스"
               : "Professional assistance for dealing with German authorities",
             "url": `https://www.handokhelper.de/${language}/`,
-            "logo": "https://www.handokhelper.de/images/HandokHelperLogoOnly.png",
-            "image": "https://www.handokhelper.de/images/HandokHelperLogoOnly.png",
+            "logo": "https://www.handokhelper.de/images/HandokHelperLogoOnly.webp",
+            "image": "https://www.handokhelper.de/images/HandokHelperLogoOnly.webp",
             "email": "info@handokhelper.de",
             "address": {
               "@type": "PostalAddress",
