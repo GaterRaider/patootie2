@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, ArrowLeft } from "lucide-react";
+import { Loader2, ArrowLeft, FileText } from "lucide-react";
 import { format } from "date-fns";
 import { useState } from "react";
 
@@ -138,6 +138,14 @@ export default function SubmissionDetail() {
                             <SelectItem value="archived">Archived</SelectItem>
                         </SelectContent>
                     </Select>
+                    <Button
+                        size="sm"
+                        onClick={() => setLocation(`/admin/invoices/new?submissionId=${id}`)}
+                        className="gap-2"
+                    >
+                        <FileText className="h-4 w-4" />
+                        Create Invoice
+                    </Button>
                 </div>
             </div>
 

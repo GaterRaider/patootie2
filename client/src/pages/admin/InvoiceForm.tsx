@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLocation, useParams } from "wouter";
+import { useLocation, useParams, useSearch } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -24,6 +24,9 @@ export default function InvoiceForm() {
     const utils = trpc.useContext();
     const isEdit = !!params.id;
     const invoiceId = params.id ? parseInt(params.id) : undefined;
+    const searchString = useSearch();
+    const queryParams = new URLSearchParams(searchString);
+    const submissionIdParam = queryParams.get("submissionId");
 
     const [clientName, setClientName] = useState("");
     const [clientEmail, setClientEmail] = useState("");
@@ -36,7 +39,7 @@ export default function InvoiceForm() {
     const [items, setItems] = useState<LineItem[]>([
         { description: "", quantity: "1", unitPrice: "0.00", amount: "0.00" },
     ]);
-    const [selectedSubmissionId, setSelectedSubmissionId] = useState<string>("");
+    const [selectedSubmissionId, setSelectedSubmissionId] = useState<string>(submissionIdParam || "");
 
     const { data: submissionsData } = trpc.admin.submissions.getAll.useQuery(
         { limit: 100, sortBy: "createdAt", sortOrder: "desc" },
