@@ -105,7 +105,7 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
                     scrollbar-hide
                 "
             >
-                {services.map((service) => (
+                {services.map((service, index) => (
                     <div
                         key={service.id}
                         className="min-w-[85vw] sm:min-w-[350px] snap-center md:min-w-0 h-full"
