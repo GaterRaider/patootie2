@@ -20,6 +20,8 @@ import Settings from "./pages/admin/Settings";
 import EmailTemplates from "./pages/admin/EmailTemplates";
 import EmailTemplateEditor from "./pages/admin/EmailTemplateEditor";
 import AdminLayout from "./components/AdminLayout";
+import SubmissionBoard from "./pages/admin/SubmissionBoard";
+import AdminUsers from "./pages/admin/AdminUsers";
 
 import { useLanguage } from "./contexts/LanguageContext";
 import { useLocation } from "wouter";
@@ -52,6 +54,12 @@ function Router() {
       <Route path="/admin/submissions">
         <AdminLayout>
           <AdminSubmissions />
+        </AdminLayout>
+      </Route>
+
+      <Route path="/admin/board">
+        <AdminLayout>
+          <SubmissionBoard />
         </AdminLayout>
       </Route>
 
@@ -88,6 +96,12 @@ function Router() {
       <Route path="/admin/settings">
         <AdminLayout>
           <Settings />
+        </AdminLayout>
+      </Route>
+
+      <Route path="/admin/users">
+        <AdminLayout>
+          <AdminUsers />
         </AdminLayout>
       </Route>
 

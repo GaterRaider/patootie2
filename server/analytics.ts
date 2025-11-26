@@ -267,25 +267,31 @@ export async function getSubmissionsOverTime(dateRange?: DateRange, groupBy: 'da
             break;
     }
 
-    const result = await db
-        .select({
-            date: sql<string>`TO_CHAR(${contactSubmissions.createdAt}, ${dateFormat})`,
-            count: count(),
-        })
-        .from(contactSubmissions)
-        .where(
-            and(
-                gte(contactSubmissions.createdAt, startDate),
-                lte(contactSubmissions.createdAt, endDate)
+    try {
+        const result = await db
+            .select({
+                date: sql<string>`TO_CHAR(${contactSubmissions.createdAt}, ${sql.raw(`'${dateFormat}'`)})`,
+                count: count(),
+            })
+            .from(contactSubmissions)
+            .where(
+                and(
+                    gte(contactSubmissions.createdAt, startDate),
+                    lte(contactSubmissions.createdAt, endDate)
+                )
             )
-        )
-        .groupBy(sql`TO_CHAR(${contactSubmissions.createdAt}, ${dateFormat})`)
-        .orderBy(sql`TO_CHAR(${contactSubmissions.createdAt}, ${dateFormat})`);
+            .groupBy(sql`TO_CHAR(${contactSubmissions.createdAt}, ${sql.raw(`'${dateFormat}'`)})`)
+            .orderBy(sql`TO_CHAR(${contactSubmissions.createdAt}, ${sql.raw(`'${dateFormat}'`)})`);
 
-    return result.map((row: any) => ({
-        date: row.date,
-        count: row.count,
-    }));
+        return result.map((row: any) => ({
+            date: row.date,
+            count: row.count,
+        }));
+    } catch (error) {
+        console.error("[Analytics] Failed to get submissions over time:", error);
+        // Return empty array instead of crashing
+        return [];
+    }
 }
 
 /**
