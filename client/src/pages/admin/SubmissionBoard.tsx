@@ -218,7 +218,7 @@ export default function SubmissionBoard() {
         if (!over) return;
 
         const activeId = active.id as number;
-        const overId = over.id as string; // Could be "status" or "service::status"
+        const overId = over.id; // Could be number (submission ID), "status", or "service::status"
 
         // Find the submission
         const submission = data?.submissions.find((s: any) => s.id === activeId);
@@ -226,17 +226,20 @@ export default function SubmissionBoard() {
 
         let newStatus = "";
 
+        // Convert overId to string for parsing
+        const overIdStr = String(overId);
+
         // Parse overId to get status
-        if (overId.includes("::")) {
+        if (overIdStr.includes("::")) {
             // It's a swimlane column: "Service Name::status"
-            const parts = overId.split("::");
+            const parts = overIdStr.split("::");
             newStatus = parts[parts.length - 1];
         } else {
             // It's a standard column or another item
-            if (COLUMNS.some((col) => col.id === overId)) {
-                newStatus = overId;
+            if (COLUMNS.some((col) => col.id === overIdStr)) {
+                newStatus = overIdStr;
             } else {
-                // Dropped on another item
+                // Dropped on another item (overId is a number)
                 const overSubmission = data?.submissions.find((s: any) => s.id === overId);
                 if (overSubmission) {
                     newStatus = overSubmission.status;
@@ -325,7 +328,7 @@ export default function SubmissionBoard() {
                                                         items={items.map((s) => s.id)}
                                                         strategy={verticalListSortingStrategy}
                                                     >
-                                                        <ScrollArea className="h-full max-h-[500px]">
+                                                        <ScrollArea className="h-full">
                                                             <DroppableColumn id={columnId}>
                                                                 {items.map((submission) => (
                                                                     <SortableItem key={submission.id} submission={submission} />
