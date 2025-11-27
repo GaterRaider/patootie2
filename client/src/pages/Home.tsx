@@ -33,6 +33,12 @@ export default function Home() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [refId, setRefId] = useState<string | undefined>(undefined);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  // Load FAQ data
+  const [faqData, setFaqData] = useState<{ items: { question: string; answer: string }[]; jsonLd: any } | null>(null);
+
+  useEffect(() => {
+    loadFAQ(language as 'en' | 'ko' | 'de').then(setFaqData);
+  }, [language]);
 
   // Handle scroll to section from URL query params
   useEffect(() => {
@@ -261,6 +267,12 @@ export default function Home() {
             ]
           })}
         </script>
+        {/* FAQ Schema */}
+        {faqData?.jsonLd && (
+          <script type="application/ld+json">
+            {JSON.stringify(faqData.jsonLd)}
+          </script>
+        )}
       </Helmet>
       {/* Accent Bar */}
       <div className="h-1 bg-gradient-to-r from-primary via-blue-500 to-primary"></div>
@@ -628,6 +640,28 @@ export default function Home() {
                 </div>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* FAQ Section */}
+        <section id="faq" className="py-8 md:py-14 scroll-mt-20">
+          <div className="container max-w-4xl">
+            <div className="text-center mb-12 md:mb-16">
+              <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">
+                FAQ
+              </span>
+              <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">
+                {t.faqHeading}
+              </h2>
+              <div className="h-1 w-20 bg-blue-600 rounded-full mx-auto mb-6"></div>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                {t.faqSubheading}
+              </p>
+            </div>
+
+            {faqData?.items && (
+              <FAQ items={faqData.items} language={language as 'en' | 'ko' | 'de'} />
+            )}
           </div>
         </section>
       </main>
