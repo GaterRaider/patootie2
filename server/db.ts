@@ -11,6 +11,9 @@ import {
   submissionNotes,
   InsertSubmissionNote,
   adminUsers,
+  faqItems,
+  InsertFAQItem,
+  FAQItem,
 } from "../drizzle/schema";
 import { ENV } from "./_core/env";
 
@@ -685,4 +688,171 @@ export async function updateAdminUserPassword(id: number, passwordHash: string) 
     .update(adminUsers)
     .set({ passwordHash })
     .where(eq(adminUsers.id, id));
+}
+
+// ============================================================================
+// FAQ Management Functions
+// ============================================================================
+
+/**
+ * Get all published FAQ items for a specific language, ordered by displayOrder
+ */
+export async function getFAQItemsByLanguage(language: string): Promise<FAQItem[]> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get FAQ items: database not available");
+    return [];
+  }
+
+  return await db
+    .select()
+    .from(faqItems)
+    .where(and(eq(faqItems.language, language), eq(faqItems.isPublished, true)))
+    .orderBy(faqItems.displayOrder);
+}
+
+/**
+ * Get all FAQ items (including unpublished) for admin management
+ */
+export async function getAllFAQItems(): Promise<FAQItem[]> {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  return await db
+    .select()
+    .from(faqItems)
+    .orderBy(faqItems.language, faqItems.displayOrder);
+}
+
+/**
+ * Get FAQ item by ID
+ */
+export async function getFAQItemById(id: number): Promise<FAQItem | null> {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  const results = await db
+    .select()
+    .from(faqItems)
+    .where(eq(faqItems.id, id))
+    .limit(1);
+
+  return results[0] || null;
+}
+
+/**
+ * Create a new FAQ item
+ */
+export async function createFAQItem(data: InsertFAQItem): Promise<FAQItem> {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  // Get the max display order for this language
+  const maxOrderResult = await db
+    .select({ maxOrder: faqItems.displayOrder })
+    .from(faqItems)
+    .where(eq(faqItems.language, data.language))
+    .orderBy(desc(faqItems.displayOrder))
+    .limit(1);
+
+  const nextOrder = (maxOrderResult[0]?.maxOrder ?? -1) + 1;
+
+  const results = await db
+    .insert(faqItems)
+    .values({
+      ...data,
+      displayOrder: data.displayOrder ?? nextOrder,
+    })
+    .returning();
+
+  return results[0];
+}
+
+/**
+ * Update an existing FAQ item
+ */
+export async function updateFAQItem(id: number, data: Partial<InsertFAQItem>): Promise<FAQItem> {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  const results = await db
+    .update(faqItems)
+    .set({
+      ...data,
+      updatedAt: new Date(),
+    })
+    .where(eq(faqItems.id, id))
+    .returning();
+
+  if (!results[0]) {
+    throw new Error(`FAQ item with id ${id} not found`);
+  }
+
+  return results[0];
+}
+
+/**
+ * Delete a FAQ item
+ */
+export async function deleteFAQItem(id: number): Promise<void> {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  await db.delete(faqItems).where(eq(faqItems.id, id));
+}
+
+/**
+ * Reorder FAQ items for a specific language
+ * @param language - The language code
+ * @param itemIds - Array of FAQ item IDs in the desired order
+ */
+export async function reorderFAQItems(language: string, itemIds: number[]): Promise<void> {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  // Update each item's displayOrder based on its position in the array
+  for (let i = 0; i < itemIds.length; i++) {
+    await db
+      .update(faqItems)
+      .set({ displayOrder: i, updatedAt: new Date() })
+      .where(and(eq(faqItems.id, itemIds[i]), eq(faqItems.language, language)));
+  }
+}
+
+/**
+ * Toggle publish status of a FAQ item
+ */
+export async function toggleFAQItemPublish(id: number): Promise<FAQItem> {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  const item = await getFAQItemById(id);
+  if (!item) {
+    throw new Error(`FAQ item with id ${id} not found`);
+  }
+
+  const results = await db
+    .update(faqItems)
+    .set({
+      isPublished: !item.isPublished,
+      updatedAt: new Date(),
+    })
+    .where(eq(faqItems.id, id))
+    .returning();
+
+  return results[0];
 }

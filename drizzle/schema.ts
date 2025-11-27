@@ -281,3 +281,23 @@ export const emailTemplates = pgTable("emailTemplates", {
 
 export type EmailTemplate = typeof emailTemplates.$inferSelect;
 export type InsertEmailTemplate = typeof emailTemplates.$inferInsert;
+
+/**
+ * FAQ items for the public website
+ * Supports multiple languages with ordering and publish status
+ */
+export const faqItems = pgTable("faqItems", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  language: varchar("language", { length: 2 }).notNull(), // 'en', 'ko', 'de'
+  question: text("question").notNull(),
+  answer: text("answer").notNull(),
+  displayOrder: integer("displayOrder").notNull().default(0),
+  isPublished: boolean("isPublished").notNull().default(true),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+  createdBy: integer("createdBy").references(() => adminUsers.id),
+  updatedBy: integer("updatedBy").references(() => adminUsers.id),
+});
+
+export type FAQItem = typeof faqItems.$inferSelect;
+export type InsertFAQItem = typeof faqItems.$inferInsert;

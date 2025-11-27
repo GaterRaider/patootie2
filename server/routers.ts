@@ -22,6 +22,13 @@ import {
   createAdminUser,
   deleteAdminUser,
   updateAdminUserPassword,
+  getFAQItemsByLanguage,
+  getAllFAQItems,
+  createFAQItem,
+  updateFAQItem,
+  deleteFAQItem,
+  reorderFAQItems,
+  toggleFAQItemPublish,
 } from "./db";
 import {
   getCompanySettings,
@@ -1032,6 +1039,151 @@ export const appRouter = router({
         .query(async ({ input }) => {
           const { PLACEHOLDERS } = await import("./email-templates");
           return PLACEHOLDERS[input.key as keyof typeof PLACEHOLDERS] || [];
+        }),
+    }),
+  }),
+
+  // FAQ Management
+  faq: router({
+    // Public endpoint - get published FAQ items by language
+    getByLanguage: publicProcedure
+      .input(z.object({
+        language: z.enum(['en', 'ko', 'de']),
+      }))
+      .query(async ({ input }) => {
+        const items = await getFAQItemsByLanguage(input.language);
+
+        // Transform to JSON-LD format for SEO
+        const jsonLd = {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": items.map((item) => ({
+            "@type": "Question",
+            "name": item.question,
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": item.answer,
+            },
+          })),
+        };
+
+        return {
+          items: items.map(({ question, answer }) => ({ question, answer })),
+          jsonLd,
+        };
+      }),
+
+    // Admin endpoints
+    admin: router({
+      getAll: adminProcedure
+        .query(async ({ ctx }) => {
+          return await getAllFAQItems();
+        }),
+
+      create: adminProcedure
+        .input(z.object({
+          language: z.enum(['en', 'ko', 'de']),
+          question: z.string().min(1),
+          answer: z.string().min(1),
+          isPublished: z.boolean().optional(),
+        }))
+        .mutation(async ({ input, ctx }) => {
+          const item = await createFAQItem({
+            ...input,
+            createdBy: ctx.adminId,
+            updatedBy: ctx.adminId,
+          });
+
+          await logActivity({
+            adminId: ctx.adminId,
+            action: "CREATE_FAQ",
+            entityType: "FAQ_ITEM",
+            entityId: item.id,
+            ipAddress: ctx.req.ip || ctx.req.socket.remoteAddress,
+            userAgent: ctx.req.headers["user-agent"],
+          });
+
+          return item;
+        }),
+
+      update: adminProcedure
+        .input(z.object({
+          id: z.number(),
+          question: z.string().min(1).optional(),
+          answer: z.string().min(1).optional(),
+          isPublished: z.boolean().optional(),
+        }))
+        .mutation(async ({ input, ctx }) => {
+          const { id, ...data } = input;
+          const item = await updateFAQItem(id, {
+            ...data,
+            updatedBy: ctx.adminId,
+          });
+
+          await logActivity({
+            adminId: ctx.adminId,
+            action: "UPDATE_FAQ",
+            entityType: "FAQ_ITEM",
+            entityId: id,
+            ipAddress: ctx.req.ip || ctx.req.socket.remoteAddress,
+            userAgent: ctx.req.headers["user-agent"],
+          });
+
+          return item;
+        }),
+
+      delete: adminProcedure
+        .input(z.object({ id: z.number() }))
+        .mutation(async ({ input, ctx }) => {
+          await deleteFAQItem(input.id);
+
+          await logActivity({
+            adminId: ctx.adminId,
+            action: "DELETE_FAQ",
+            entityType: "FAQ_ITEM",
+            entityId: input.id,
+            ipAddress: ctx.req.ip || ctx.req.socket.remoteAddress,
+            userAgent: ctx.req.headers["user-agent"],
+          });
+
+          return { success: true };
+        }),
+
+      reorder: adminProcedure
+        .input(z.object({
+          language: z.enum(['en', 'ko', 'de']),
+          itemIds: z.array(z.number()),
+        }))
+        .mutation(async ({ input, ctx }) => {
+          await reorderFAQItems(input.language, input.itemIds);
+
+          await logActivity({
+            adminId: ctx.adminId,
+            action: "REORDER_FAQ",
+            entityType: "FAQ_ITEM",
+            details: { language: input.language, count: input.itemIds.length },
+            ipAddress: ctx.req.ip || ctx.req.socket.remoteAddress,
+            userAgent: ctx.req.headers["user-agent"],
+          });
+
+          return { success: true };
+        }),
+
+      togglePublish: adminProcedure
+        .input(z.object({ id: z.number() }))
+        .mutation(async ({ input, ctx }) => {
+          const item = await toggleFAQItemPublish(input.id);
+
+          await logActivity({
+            adminId: ctx.adminId,
+            action: item.isPublished ? "PUBLISH_FAQ" : "UNPUBLISH_FAQ",
+            entityType: "FAQ_ITEM",
+            entityId: input.id,
+            ipAddress: ctx.req.ip || ctx.req.socket.remoteAddress,
+            userAgent: ctx.req.headers["user-agent"],
+          });
+
+          return item;
         }),
     }),
   }),

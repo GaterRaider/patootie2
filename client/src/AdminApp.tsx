@@ -11,6 +11,7 @@ import Settings from "./pages/admin/Settings";
 import EmailTemplates from "./pages/admin/EmailTemplates";
 import EmailTemplateEditor from "./pages/admin/EmailTemplateEditor";
 import AdminUsers from "./pages/admin/AdminUsers";
+import FAQManager from "./pages/admin/FAQManager";
 
 /**
  * Admin application router
@@ -77,6 +78,12 @@ export default function AdminApp() {
             <Route path="/admin/users">
                 <AdminLayout>
                     <AdminUsers />
+                </AdminLayout>
+            </Route>
+
+            <Route path="/admin/faq">
+                <AdminLayout>
+                    <FAQManager />
                 </AdminLayout>
             </Route>
 

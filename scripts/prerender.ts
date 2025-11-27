@@ -6,9 +6,13 @@ import { renderToString } from 'react-dom/server';
 import { HelmetProvider } from 'react-helmet-async';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { httpBatchLink } from '@trpc/client';
+import { getQueryKey } from '@trpc/react-query';
 import superjson from 'superjson';
 import { Router } from 'wouter';
 import prettier from 'prettier';
+
+// Import server router for direct calling
+import { appRouter } from '../server/routers';
 
 // Mock browser environment BEFORE imports that might use them
 if (typeof window === 'undefined') {
@@ -59,8 +63,6 @@ if (typeof window === 'undefined') {
     setItem: () => { },
     removeItem: () => { },
   };
-
-
 }
 
 // Import providers and pages
@@ -110,6 +112,14 @@ async function prerender() {
 
   const template = fs.readFileSync(templatePath, 'utf-8');
 
+  // Create tRPC caller for direct database access
+  // Mock context - public procedures don't need real request/response
+  const caller = appRouter.createCaller({
+    req: {} as any,
+    res: {} as any,
+    user: null,
+  });
+
   // Setup providers
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -130,6 +140,21 @@ async function prerender() {
 
   for (const route of routes) {
     console.log(`Prerendering ${route.path}...`);
+
+    // Prefetch FAQ data for Home pages
+    if (route.component === Home) {
+      try {
+        console.log(`  Fetching FAQ data for ${route.language}...`);
+        const faqData = await caller.faq.getByLanguage({ language: route.language });
+
+        const queryKey = getQueryKey(trpc.faq.getByLanguage, { language: route.language }, 'query');
+        queryClient.setQueryData(queryKey, faqData);
+        console.log(`  ✓ FAQ data cached (${faqData.items.length} items)`);
+      } catch (error) {
+        console.warn(`  ⚠ Failed to fetch FAQ data for ${route.language}:`, error);
+        // Continue rendering without FAQ data if database fails
+      }
+    }
 
     const helmetContext: any = {};
 

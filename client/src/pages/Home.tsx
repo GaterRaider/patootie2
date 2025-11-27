@@ -20,7 +20,6 @@ import { useLocation } from "wouter";
 import { Footer } from "@/components/Footer";
 import { Helmet } from "react-helmet-async";
 import { FAQ } from "@/components/FAQ";
-import { loadFAQ } from "@/lib/faq-loader";
 
 export default function Home() {
   const { language, setLanguage, t } = useLanguage();
@@ -33,12 +32,10 @@ export default function Home() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [refId, setRefId] = useState<string | undefined>(undefined);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  // Load FAQ data
-  const [faqData, setFaqData] = useState<{ items: { question: string; answer: string }[]; jsonLd: any } | null>(null);
-
-  useEffect(() => {
-    loadFAQ(language as 'en' | 'ko' | 'de').then(setFaqData);
-  }, [language]);
+  // Load FAQ data from database via tRPC
+  const { data: faqData } = trpc.faq.getByLanguage.useQuery({
+    language: language as 'en' | 'ko' | 'de',
+  });
 
   // Handle scroll to section from URL query params
   useEffect(() => {
@@ -273,6 +270,7 @@ export default function Home() {
             {JSON.stringify(faqData.jsonLd)}
           </script>
         )}
+
       </Helmet>
       {/* Accent Bar */}
       <div className="h-1 bg-gradient-to-r from-primary via-blue-500 to-primary"></div>

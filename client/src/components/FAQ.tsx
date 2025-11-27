@@ -1,6 +1,9 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { motion } from 'framer-motion';
-import type { FAQItem } from '@/types/faq';
+interface FAQItem {
+    question: string;
+    answer: string;
+}
 
 interface FAQProps {
     items: FAQItem[];

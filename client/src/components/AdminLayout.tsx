@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
-import { Loader2, LayoutDashboard, LogOut, ScrollText, FileText, Settings as SettingsIcon, Moon, Sun, Menu, X, FileStack, Mail, Users } from "lucide-react";
+import { Loader2, LayoutDashboard, LogOut, ScrollText, FileText, Settings as SettingsIcon, Moon, Sun, Menu, X, FileStack, Mail, Users, HelpCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/contexts/ThemeContext";
 import { CommandPalette } from "@/components/CommandPalette";
@@ -108,6 +108,13 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                 )}>
                     <Mail className="h-4 w-4" />
                     Emails
+                </Link>
+                <Link href="/admin/faq" className={cn(
+                    "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
+                    location === "/admin/faq" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
+                )}>
+                    <HelpCircle className="h-4 w-4" />
+                    FAQ
                 </Link>
                 <Link href="/admin/settings" className={cn(
                     "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
