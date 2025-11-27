@@ -8,6 +8,7 @@ import { Send, CheckCircle2, AlertCircle, User, Mail, Phone, MapPin, Calendar, G
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Translations } from "@/i18n/translations";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { countries } from "@/lib/countries";
 
 interface ContactFormProps {
@@ -48,6 +49,8 @@ export function ContactForm({
   // Store the name and email for the success message so it persists even if we clear formData later
   const [submittedName, setSubmittedName] = useState("");
   const [submittedEmail, setSubmittedEmail] = useState("");
+
+  const { language } = useLanguage();
 
   useEffect(() => {
     if (isSuccess) {
@@ -728,7 +731,7 @@ export function ContactForm({
               {t.formPrivacyConsent}{" "}
               <button
                 type="button"
-                onClick={() => onLocationChange("/privacy-policy?from=contact")}
+                onClick={() => onLocationChange(`/${language}/privacy-policy?from=contact`)}
                 className="text-primary hover:underline font-medium"
               >
                 {t.formPrivacyConsentLink}
