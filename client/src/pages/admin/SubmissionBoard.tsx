@@ -273,7 +273,7 @@ export default function SubmissionBoard() {
 
     return (
         <div className="h-[calc(100vh-100px)] flex flex-col">
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight">Submission Board</h1>
                     <p className="text-muted-foreground">
@@ -283,7 +283,7 @@ export default function SubmissionBoard() {
                 <Button
                     variant="outline"
                     onClick={() => setGroupByService(!groupByService)}
-                    className="gap-2"
+                    className="gap-2 w-full sm:w-auto"
                 >
                     {groupByService ? <LayoutGrid className="h-4 w-4" /> : <Layers className="h-4 w-4" />}
                     {groupByService ? "Default View" : "Group by Service"}

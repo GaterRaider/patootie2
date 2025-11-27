@@ -130,18 +130,18 @@ export default function AdminDashboard() {
         localStorage.setItem("dashboard-chart-order", JSON.stringify(chartOrder));
     }, [chartOrder]);
 
-    const handleDateRangeChange = (startDate?: string, endDate?: string) => {
-        const newRange = { startDate, endDate };
-        setDateRange(newRange);
-        setIsUpdating(true);
-
-        // Debounce the actual query trigger by 500ms
+    useEffect(() => {
         const timeoutId = setTimeout(() => {
-            setDebouncedDateRange(newRange);
+            setDebouncedDateRange(dateRange);
             setIsUpdating(false);
         }, 500);
 
         return () => clearTimeout(timeoutId);
+    }, [dateRange]);
+
+    const handleDateRangeChange = (startDate?: string, endDate?: string) => {
+        setDateRange({ startDate, endDate });
+        setIsUpdating(true);
     };
 
     // Analytics queries - use debounced date range and add staleTime

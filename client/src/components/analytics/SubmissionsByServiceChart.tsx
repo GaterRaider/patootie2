@@ -110,7 +110,7 @@ export function SubmissionsByServiceChart({ data }: SubmissionsByServiceChartPro
                 <CardTitle>Submissions by Service</CardTitle>
             </CardHeader>
             <CardContent>
-                <ResponsiveContainer width="100%" height={400}>
+                <ResponsiveContainer width="100%" height={500}>
                     <PieChart margin={{ top: 20, right: 0, bottom: 0, left: 0 }}>
                         <Pie
                             data={data}

@@ -318,14 +318,14 @@ export function ContactForm({
             }}
             required
           >
-            <SelectTrigger className={showValidation('service') && !isFieldValid('service') ? 'border-red-500' : ''}>
+            <SelectTrigger className={`w-full [&>span]:truncate [&>span]:min-w-0 [&>span]:block [&>span]:w-full text-left ${showValidation('service') && !isFieldValid('service') ? 'border-red-500' : ''}`}>
               <SelectValue placeholder={t.formServicePlaceholder} />
             </SelectTrigger>
-            <SelectContent>
-              <SelectItem value={t.serviceCard1Title}>{t.serviceCard1Title}</SelectItem>
-              <SelectItem value={t.serviceCard2Title}>{t.serviceCard2Title}</SelectItem>
-              <SelectItem value={t.serviceCard3Title}>{t.serviceCard3Title}</SelectItem>
-              <SelectItem value={t.serviceCard4Title}>{t.serviceCard4Title}</SelectItem>
+            <SelectContent className="max-w-[calc(100vw-2rem)]">
+              <SelectItem value={t.serviceCard1Title} className="truncate">{t.serviceCard1Title}</SelectItem>
+              <SelectItem value={t.serviceCard2Title} className="truncate">{t.serviceCard2Title}</SelectItem>
+              <SelectItem value={t.serviceCard3Title} className="truncate">{t.serviceCard3Title}</SelectItem>
+              <SelectItem value={t.serviceCard4Title} className="truncate">{t.serviceCard4Title}</SelectItem>
             </SelectContent>
           </Select>
 
@@ -343,16 +343,16 @@ export function ContactForm({
                   setSelectedViaCard(false);
                 }}
               >
-                <SelectTrigger className="bg-white dark:bg-input/30">
+                <SelectTrigger className="w-full bg-white dark:bg-input/30 [&>span]:truncate [&>span]:min-w-0 [&>span]:block [&>span]:w-full text-left">
                   <SelectValue placeholder={t.formSubServicePlaceholder} />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="max-w-[calc(100vw-2rem)]">
                   {(selectedService === t.serviceCard1Title ? t.serviceCard1Services :
                     selectedService === t.serviceCard2Title ? t.serviceCard2Services :
                       selectedService === t.serviceCard3Title ? t.serviceCard3Services :
                         selectedService === t.serviceCard4Title ? t.serviceCard4Services : []
                   ).map((service) => (
-                    <SelectItem key={service} value={service}>
+                    <SelectItem key={service} value={service} className="truncate">
                       {service}
                     </SelectItem>
                   ))}

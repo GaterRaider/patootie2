@@ -65,7 +65,7 @@ export default function AdminLogin() {
                             <Checkbox
                                 id="keepMeLoggedIn"
                                 checked={keepMeLoggedIn}
-                                onCheckedChange={(checked) => setKeepMeLoggedIn(checked === true)}
+                                onCheckedChange={(checked) => setKeepMeLoggedIn(!!checked)}
                             />
                             <Label
                                 htmlFor="keepMeLoggedIn"

@@ -218,6 +218,7 @@ export async function getConversionRate(dateRange?: DateRange) {
     const paidInvoices = await db
         .select({ count: count() })
         .from(invoices)
+        .innerJoin(contactSubmissions, eq(invoices.submissionId, contactSubmissions.id))
         .where(
             and(
                 eq(invoices.status, 'paid'),

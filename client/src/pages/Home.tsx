@@ -23,7 +23,7 @@ import { Helmet } from "react-helmet-async";
 export default function Home() {
   const { language, setLanguage, t } = useLanguage();
   const { theme, toggleTheme } = useTheme();
-  const [, setLocation] = useLocation();
+  const [location, setLocation] = useLocation();
   const [selectedService, setSelectedService] = useState<string>("");
   const [selectedSubService, setSelectedSubService] = useState<string>("");
   const [selectedViaCard, setSelectedViaCard] = useState<boolean>(false);
@@ -94,7 +94,7 @@ export default function Home() {
       postalCode: formData.get("postalCode") as string,
       city: formData.get("city") as string,
       stateProvince: formData.get("stateProvince") as string || undefined,
-      country: formData.get("country") as string,
+      country: formData.get("country")?.toString().replace("suggested__", "") as string,
       message: formData.get("message") as string,
       contactConsent: formData.get("contactConsent") === "on",
       privacyConsent: formData.get("privacyConsent") === "on",
@@ -468,7 +468,7 @@ export default function Home() {
         </section>
 
         {/* Services Section */}
-        <section id="services" className="py-8 md:py-14">
+        <section id="services" className="py-8 md:py-14 scroll-mt-20">
           <div className="container">
             <div className="text-center mb-12 md:mb-16">
               <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.servicesLabel}</span>
@@ -523,7 +523,7 @@ export default function Home() {
         </section>
 
         {/* Process Section */}
-        <section id="process" className="py-8 md:py-14 bg-slate-50 dark:bg-secondary/10">
+        <section id="process" className="py-8 md:py-14 bg-slate-50 dark:bg-secondary/10 scroll-mt-20">
           <div className="container">
             <div className="text-center mb-12 md:mb-16">
               <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.processLabel}</span>
@@ -564,7 +564,7 @@ export default function Home() {
         </section>
 
         {/* Contact Form Section */}
-        <section id="contact" className="py-8 md:py-14">
+        <section id="contact" className="py-8 md:py-14 scroll-mt-20">
           <div className="container max-w-4xl">
             <div className="text-center mb-12 md:mb-16">
               <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.contactLabel}</span>
@@ -595,7 +595,7 @@ export default function Home() {
         </section>
 
         {/* About Section */}
-        <section id="about" className="py-8 md:py-14 bg-slate-50 dark:bg-secondary/10">
+        <section id="about" className="py-8 md:py-14 bg-slate-50 dark:bg-secondary/10 scroll-mt-20">
           <div className="container max-w-4xl">
             <div className="text-center mb-12 md:mb-16">
               <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.aboutLabel}</span>

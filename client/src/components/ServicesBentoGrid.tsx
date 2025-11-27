@@ -100,15 +100,15 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
             <div
                 ref={scrollContainerRef}
                 className="
-                    flex overflow-x-auto snap-x snap-mandatory gap-4 pb-6 -mx-4 px-4
-                    md:grid md:grid-cols-2 md:gap-6 md:overflow-visible md:pb-0 md:mx-auto md:px-0 md:max-w-5xl
+                    grid grid-flow-col auto-cols-[calc(100vw-4rem)] sm:auto-cols-[350px] overflow-x-auto snap-x snap-mandatory gap-4 pb-6 -mx-4 px-4
+                    md:grid-flow-row md:grid-cols-2 md:auto-cols-auto md:gap-6 md:overflow-visible md:pb-0 md:mx-auto md:px-0 md:max-w-5xl
                     scrollbar-hide
                 "
             >
                 {services.map((service, index) => (
                     <div
                         key={service.id}
-                        className="min-w-[85vw] sm:min-w-[350px] snap-center md:min-w-0 h-full"
+                        className="w-full h-full snap-center"
                     >
                         <ServiceCardContent service={service} />
                     </div>
@@ -128,8 +128,8 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
                             }
                         }}
                         className={`h-2 rounded-full transition-all duration-300 ${index === activeIndex
-                                ? 'w-8 bg-primary'
-                                : 'w-2 bg-primary/30 hover:bg-primary/50'
+                            ? 'w-8 bg-primary'
+                            : 'w-2 bg-primary/30 hover:bg-primary/50'
                             }`}
                         aria-label={`Go to service ${index + 1}`}
                     />

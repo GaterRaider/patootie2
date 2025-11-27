@@ -67,68 +67,54 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                 <h1 className="text-xl font-bold">Admin Panel</h1>
             </div>
             <nav className="flex-1 p-4 space-y-2 overflow-y-auto pb-32" role="navigation">
-                <Link href="/admin/dashboard">
-                    <a className={cn(
-                        "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                        location === "/admin/dashboard" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
-                    )}>
-                        <LayoutDashboard className="h-4 w-4" />
-                        Dashboard
-                    </a>
+                <Link href="/admin/dashboard" className={cn(
+                    "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
+                    location === "/admin/dashboard" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
+                )}>
+                    <LayoutDashboard className="h-4 w-4" />
+                    Dashboard
                 </Link>
-                <Link href="/admin/submissions">
-                    <a className={cn(
-                        "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                        location === "/admin/submissions" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
-                    )}>
-                        <FileStack className="h-4 w-4" />
-                        Submissions
-                    </a>
+                <Link href="/admin/submissions" className={cn(
+                    "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
+                    location === "/admin/submissions" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
+                )}>
+                    <FileStack className="h-4 w-4" />
+                    Submissions
                 </Link>
-                <Link href="/admin/board">
-                    <a className={cn(
-                        "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                        location === "/admin/board" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
-                    )}>
-                        <LayoutDashboard className="h-4 w-4" />
-                        Board
-                    </a>
+                <Link href="/admin/board" className={cn(
+                    "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
+                    location === "/admin/board" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
+                )}>
+                    <LayoutDashboard className="h-4 w-4" />
+                    Board
                 </Link>
-                <Link href="/admin/invoices">
-                    <a className={cn(
-                        "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                        location.startsWith("/admin/invoices") ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
-                    )}>
-                        <FileText className="h-4 w-4" />
-                        Invoices
-                    </a>
+                <Link href="/admin/invoices" className={cn(
+                    "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
+                    location.startsWith("/admin/invoices") ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
+                )}>
+                    <FileText className="h-4 w-4" />
+                    Invoices
                 </Link>
-                <Link href="/admin/activity">
-                    <a className={cn(
-                        "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                        location === "/admin/activity" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
-                    )}>
-                        <ScrollText className="h-4 w-4" />
-                        Activity Log
-                    </a>
+                <Link href="/admin/activity" className={cn(
+                    "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
+                    location === "/admin/activity" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
+                )}>
+                    <ScrollText className="h-4 w-4" />
+                    Activity Log
                 </Link>
-                <Link href="/admin/emails">
-                    <a className={cn(
-                        "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                        location.startsWith("/admin/emails") ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
-                    )}>
-                        <Mail className="h-4 w-4" />
-                        Emails
-                    </a>
+                <Link href="/admin/emails" className={cn(
+                    "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
+                    location.startsWith("/admin/emails") ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
+                )}>
+                    <Mail className="h-4 w-4" />
+                    Emails
                 </Link>
-                <Link href="/admin/settings">
-                    <a className={cn(
-                        "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                        location === "/admin/settings" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
-                    )}>
-                        <SettingsIcon className="h-4 w-4" />
-                        Settings
-                    </a>
+                <Link href="/admin/settings" className={cn(
+                    "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
+                    location === "/admin/settings" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
+                )}>
+                    <SettingsIcon className="h-4 w-4" />
+                    Settings
                 </Link>
             </nav>
             <div className="fixed bottom-0 left-0 w-64 p-4 border-t space-y-2 bg-white dark:bg-gray-800 hidden md:block">
@@ -190,68 +176,54 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                         </button>
                     </div>
                     <nav className="flex-1 p-4 space-y-2 overflow-y-auto pb-32" role="navigation">
-                        <Link href="/admin/dashboard">
-                            <a className={cn(
-                                "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                                location === "/admin/dashboard" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
-                            )}>
-                                <LayoutDashboard className="h-4 w-4" />
-                                Dashboard
-                            </a>
+                        <Link href="/admin/dashboard" className={cn(
+                            "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
+                            location === "/admin/dashboard" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
+                        )}>
+                            <LayoutDashboard className="h-4 w-4" />
+                            Dashboard
                         </Link>
-                        <Link href="/admin/submissions">
-                            <a className={cn(
-                                "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                                location === "/admin/submissions" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
-                            )}>
-                                <FileStack className="h-4 w-4" />
-                                Submissions
-                            </a>
+                        <Link href="/admin/submissions" className={cn(
+                            "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
+                            location === "/admin/submissions" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
+                        )}>
+                            <FileStack className="h-4 w-4" />
+                            Submissions
                         </Link>
-                        <Link href="/admin/board">
-                            <a className={cn(
-                                "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                                location === "/admin/board" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
-                            )}>
-                                <LayoutDashboard className="h-4 w-4" />
-                                Board
-                            </a>
+                        <Link href="/admin/board" className={cn(
+                            "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
+                            location === "/admin/board" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
+                        )}>
+                            <LayoutDashboard className="h-4 w-4" />
+                            Board
                         </Link>
-                        <Link href="/admin/invoices">
-                            <a className={cn(
-                                "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                                location.startsWith("/admin/invoices") ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
-                            )}>
-                                <FileText className="h-4 w-4" />
-                                Invoices
-                            </a>
+                        <Link href="/admin/invoices" className={cn(
+                            "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
+                            location.startsWith("/admin/invoices") ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
+                        )}>
+                            <FileText className="h-4 w-4" />
+                            Invoices
                         </Link>
-                        <Link href="/admin/activity">
-                            <a className={cn(
-                                "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                                location === "/admin/activity" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
-                            )}>
-                                <ScrollText className="h-4 w-4" />
-                                Activity Log
-                            </a>
+                        <Link href="/admin/activity" className={cn(
+                            "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
+                            location === "/admin/activity" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
+                        )}>
+                            <ScrollText className="h-4 w-4" />
+                            Activity Log
                         </Link>
-                        <Link href="/admin/settings">
-                            <a className={cn(
-                                "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                                location === "/admin/settings" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
-                            )}>
-                                <SettingsIcon className="h-4 w-4" />
-                                Settings
-                            </a>
+                        <Link href="/admin/settings" className={cn(
+                            "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
+                            location === "/admin/settings" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
+                        )}>
+                            <SettingsIcon className="h-4 w-4" />
+                            Settings
                         </Link>
-                        <Link href="/admin/users">
-                            <a className={cn(
-                                "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                                location === "/admin/users" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
-                            )}>
-                                <Users className="h-4 w-4" />
-                                Users
-                            </a>
+                        <Link href="/admin/users" className={cn(
+                            "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
+                            location === "/admin/users" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
+                        )}>
+                            <Users className="h-4 w-4" />
+                            Users
                         </Link>
                     </nav>
                     <div className="absolute bottom-0 left-0 right-0 p-4 border-t space-y-2 bg-white dark:bg-gray-800">
