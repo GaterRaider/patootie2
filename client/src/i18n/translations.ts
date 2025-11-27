@@ -121,6 +121,10 @@ export interface Translations {
   aboutParagraph3: string;
   aboutLanguages: string;
 
+  // FAQ Section
+  faqHeading: string;
+  faqSubheading: string;
+
   // Footer
   footerAboutTitle: string;
   footerAboutDesc: string;
@@ -264,6 +268,10 @@ export const translations: Record<Language, Translations> = {
     aboutParagraph2: "Whether you are an immigrant, a foreign resident in Germany, or someone living abroad who needs to interact with German authorities, we can help. From visa applications to pension claims, every case receives dedicated attention and professional guidance.",
     aboutParagraph3: "We specialize in helping individuals abroad obtain German pension payments and other social benefits, ensuring that distance is never a barrier to accessing what you're entitled to.",
     aboutLanguages: "Languages Spoken",
+
+    // FAQ Section
+    faqHeading: "Frequently Asked Questions",
+    faqSubheading: "Find answers to common questions about our services",
 
     // Footer
     footerAboutTitle: "About HandokHelper",
@@ -429,6 +437,10 @@ export const translations: Record<Language, Translations> = {
     aboutParagraph3: "HandokHelper는 해외 거주자가 독일 연금 및 기타 사회 복지를 받을 수 있도록 전문적으로 지원하며, 거리가 귀하의 권리를 받는 데 장애가 되지 않도록 합니다.",
     aboutLanguages: "지원 언어",
 
+    // FAQ Section
+    faqHeading: "자주 묻는 질문",
+    faqSubheading: "서비스에 대한 일반적인 질문과 답변을 확인하세요",
+
     // Footer
     footerAboutTitle: "HandokHelper 소개",
     footerAboutDesc: "전 세계 어디서나 독일 관공서 업무를 지원합니다. 서류, 증명서, 거주 문제, 연금 지원 등을 도와드립니다.",
@@ -592,6 +604,10 @@ export const translations: Record<Language, Translations> = {
     aboutParagraph2: "Ob Sie Einwanderer, ausländischer Einwohner in Deutschland oder im Ausland lebend sind und mit deutschen Behörden interagieren müssen, wir können helfen. Von Visumanträgen bis zu Rentenansprüchen erhält jeder Fall engagierte Aufmerksamkeit und professionelle Beratung.",
     aboutParagraph3: "Wir sind darauf spezialisiert, Einzelpersonen im Ausland bei der Erlangung deutscher Rentenzahlungen und anderer Sozialleistungen zu helfen und sicherzustellen, dass Entfernung kein Hindernis für den Zugang zu Ihren Ansprüchen darstellt.",
     aboutLanguages: "Gesprochene Sprachen",
+
+    // FAQ Section
+    faqHeading: "Häufig gestellte Fragen",
+    faqSubheading: "Finden Sie Antworten auf häufige Fragen zu unseren Dienstleistungen",
 
     // Footer
     footerAboutTitle: "Über HandokHelper",
