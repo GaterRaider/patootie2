@@ -393,11 +393,11 @@ export function ContactForm({
         </div>
 
         {/* Personal Information */}
-        <fieldset className="space-y-4 p-4 bg-blue-50/40 dark:bg-blue-950/20 rounded-lg border border-blue-100/50 dark:border-blue-900/50">
-          <legend className="text-lg font-semibold text-blue-900 dark:text-blue-100 flex items-center gap-2 px-2">
+        <div className="space-y-4 p-4 bg-blue-50/40 dark:bg-blue-950/20 rounded-lg border border-blue-100/50 dark:border-blue-900/50">
+          <h3 className="text-lg font-semibold text-blue-900 dark:text-blue-100 flex items-center gap-2">
             <User className="h-5 w-5 text-blue-600 dark:text-blue-400" />
             {t.formSectionPersonal}
-          </legend>
+          </h3>
 
           {/* Salutation */}
           <div className="space-y-2">
@@ -484,14 +484,14 @@ export function ContactForm({
               className={showValidation('dateOfBirth') && !isFieldValid('dateOfBirth') ? 'border-red-500' : ''}
             />
           </div>
-        </fieldset>
+        </div>
 
         {/* Contact Information */}
-        <fieldset className="space-y-4 p-4 bg-blue-50/40 dark:bg-blue-950/20 rounded-lg border border-blue-100/50 dark:border-blue-900/50">
-          <legend className="text-lg font-semibold text-blue-900 dark:text-blue-100 flex items-center gap-2 px-2">
+        <div className="space-y-4 p-4 bg-blue-50/40 dark:bg-blue-950/20 rounded-lg border border-blue-100/50 dark:border-blue-900/50">
+          <h3 className="text-lg font-semibold text-blue-900 dark:text-blue-100 flex items-center gap-2">
             <Mail className="h-5 w-5 text-blue-600 dark:text-blue-400" />
             {t.formSectionContact}
-          </legend>
+          </h3>
 
           <div className="grid md:grid-cols-2 gap-4">
             <div className="space-y-2">
@@ -542,14 +542,14 @@ export function ContactForm({
               />
             </div>
           </div>
-        </fieldset>
+        </div>
 
         {/* Address */}
-        <fieldset className="space-y-4 p-4 bg-blue-50/40 dark:bg-blue-950/20 rounded-lg border border-blue-100/50 dark:border-blue-900/50">
-          <legend className="text-lg font-semibold text-blue-900 dark:text-blue-100 flex items-center gap-2 px-2">
+        <div className="space-y-4 p-4 bg-blue-50/40 dark:bg-blue-950/20 rounded-lg border border-blue-100/50 dark:border-blue-900/50">
+          <h3 className="text-lg font-semibold text-blue-900 dark:text-blue-100 flex items-center gap-2">
             <MapPin className="h-5 w-5 text-blue-600 dark:text-blue-400" />
             {t.formSectionAddress}
-          </legend>
+          </h3>
 
           <div className="space-y-2">
             <div className="flex items-center justify-between">
@@ -690,7 +690,7 @@ export function ContactForm({
               </SelectContent>
             </Select>
           </div>
-        </fieldset>
+        </div>
 
 
         {/* Message/Describe your situation */}
