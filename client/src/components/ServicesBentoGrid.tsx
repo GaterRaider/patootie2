@@ -224,11 +224,16 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
                                                 </Label>
                                                 {/* Show sub-items if this is the Relocation Bundle item */}
                                                 {(item === "Relocation Bundle" || item === "이주 패키지" || item === "Relocation Bundle") && t.relocationBundleItems && (
-                                                    <div className="ml-12 mt-2 space-y-1.5 border-l-2 border-primary/20 pl-4 py-1">
+                                                    <div className="ml-4 mt-3 p-4 rounded-lg bg-secondary/30 border border-border/50 space-y-2.5 animate-in fade-in slide-in-from-top-2 duration-300">
+                                                        <div className="text-xs font-semibold text-primary/80 uppercase tracking-wider mb-2">Included in Bundle:</div>
                                                         {t.relocationBundleItems.map((subItem, subIndex) => (
-                                                            <div key={subIndex} className="flex items-center gap-2 text-sm text-muted-foreground">
-                                                                <div className="w-1.5 h-1.5 rounded-full bg-primary/40" />
-                                                                <span>{subItem}</span>
+                                                            <div key={subIndex} className="flex items-start gap-2.5 text-sm text-foreground/90">
+                                                                <div className="mt-1 w-4 h-4 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                                                                    {selectedSubServices.includes(item) && (
+                                                                        <div className="w-1.5 h-1.5 rounded-full bg-primary animate-in zoom-in duration-200" />
+                                                                    )}
+                                                                </div>
+                                                                <span className={cn("leading-relaxed transition-colors duration-200", selectedSubServices.includes(item) ? "text-foreground" : "text-muted-foreground")}>{subItem}</span>
                                                             </div>
                                                         ))}
                                                     </div>
