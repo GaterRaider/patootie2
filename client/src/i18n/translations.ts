@@ -26,6 +26,7 @@ export interface Translations {
   serviceCard1Badge: string;
   serviceCard1Desc: string;
   serviceCard1Services: string[];
+  relocationBundleItems: string[];
   serviceCard1CTA: string;
   serviceCard2Title: string;
   serviceCard2Desc: string;
@@ -171,16 +172,22 @@ export const translations: Record<Language, Translations> = {
     // Service Cards
     servicesHeading: "Our Services",
     servicesLabel: "WHAT WE OFFER",
-    serviceCard1Title: "Relocation Bundle",
+    serviceCard1Title: "Housing & Relocation",
     serviceCard1Tagline: "Complete housing search to move-in support",
-    serviceCard1Badge: "3 Services Included",
+    serviceCard1Badge: "",
     serviceCard1Desc: "Find your perfect home and settle in smoothly. We assist with property search, viewings, contracts, and all registration formalities.",
     serviceCard1Services: [
+      "Relocation Bundle",
+      "Anmeldung support (document preparation, on-site accompaniment & interpretation)",
+      "Deregistration (Abmeldung) assistance",
+      "Cancellation support before departure (e.g. housing, contracts)"
+    ],
+    relocationBundleItems: [
       "Apartment/house search assistance",
       "Property viewing accompaniment & interpretation",
       "Rental contract review & negotiation support"
     ],
-    serviceCard1CTA: "Select Relocation Bundle",
+    serviceCard1CTA: "Select Housing & Relocation",
     serviceCard2Title: "Immigration & Legal Services",
     serviceCard2Desc: "Expert support for all your visa and legal needs. From work permits to driver's license exchange, we guide you through the German legal system.",
     serviceCard2Services: [
@@ -338,16 +345,22 @@ export const translations: Record<Language, Translations> = {
     // Service Cards
     servicesHeading: "서비스 안내",
     servicesLabel: "제공 서비스",
-    serviceCard1Title: "이주 패키지",
+    serviceCard1Title: "주거 및 정착",
     serviceCard1Tagline: "완벽한 주택 검색부터 입주 지원까지",
-    serviceCard1Badge: "3가지 서비스 포함",
+    serviceCard1Badge: "",
     serviceCard1Desc: "완벽한 집을 찾고 편안하게 정착하세요. 부동산 검색, 방문, 계약 및 모든 거주 등록 절차를 지원합니다.",
     serviceCard1Services: [
+      "이주 패키지",
+      "안멜둥(거주지 등록) 지원 (서류 준비, 현장 동행 및 통역)",
+      "압멜둥(거주지 말소) 지원",
+      "출국 전 해지 지원 (주택, 각종 계약 등)"
+    ],
+    relocationBundleItems: [
       "아파트/주택 검색 지원",
       "부동산 방문 동행 및 통역",
       "임대 계약서 검토 및 협상 지원"
     ],
-    serviceCard1CTA: "이주 패키지 선택",
+    serviceCard1CTA: "주거 및 정착 선택",
     serviceCard2Title: "이민 및 법률 서비스",
     serviceCard2Desc: "비자 및 법률 문제에 대한 전문적인 지원을 받으세요. 취업 비자부터 운전면허 교환까지 독일 법률 시스템을 안내해 드립니다.",
     serviceCard2Services: [
@@ -505,16 +518,22 @@ export const translations: Record<Language, Translations> = {
     // Service Cards
     servicesHeading: "Unsere Leistungen",
     servicesLabel: "WAS WIR BIETEN",
-    serviceCard1Title: "Relocation Bundle",
+    serviceCard1Title: "Wohnen & Umzug",
     serviceCard1Tagline: "Complete housing search to move-in support",
-    serviceCard1Badge: "3 Services Included",
+    serviceCard1Badge: "",
     serviceCard1Desc: "Finden Sie Ihr perfektes Zuhause und leben Sie sich reibungslos ein. Wir unterstützen bei der Immobiliensuche, Besichtigungen, Verträgen und allen Anmeldeformalitäten.",
     serviceCard1Services: [
-      "Apartment/house search assistance",
-      "Property viewing accompaniment & interpretation",
-      "Rental contract review & negotiation support"
+      "Relocation Bundle",
+      "Anmeldung (Vorbereitung der Unterlagen, Begleitung & Dolmetschen)",
+      "Abmeldung",
+      "Kündigungsunterstützung vor Abreise (z.B. Wohnung, Verträge)"
     ],
-    serviceCard1CTA: "Select Relocation Bundle",
+    relocationBundleItems: [
+      "Wohnungs-/Haussuche",
+      "Begleitung bei Besichtigungen & Dolmetschen",
+      "Prüfung von Mietverträgen & Verhandlungsunterstützung"
+    ],
+    serviceCard1CTA: "Wohnen & Umzug wählen",
     serviceCard2Title: "Einwanderung & Rechtliches",
     serviceCard2Desc: "Expertenunterstützung für alle Ihre Visa- und Rechtsfragen. Von Arbeitserlaubnissen bis zum Führerscheinumtausch führen wir Sie durch das deutsche Rechtssystem.",
     serviceCard2Services: [

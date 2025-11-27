@@ -348,56 +348,34 @@ export function ContactForm({
               <Label htmlFor="subService" className="text-sm font-medium text-muted-foreground ml-1">
                 {t.formSubService}
               </Label>
-              {selectedService === t.serviceCard1Title ? (
-                <div className="grid gap-3 p-3 bg-secondary/20 rounded-md border border-border/50">
-                  {t.serviceCard1Services.map((service, index) => (
-                    <div key={index} className="flex items-start gap-3">
-                      <Checkbox
-                        id={`form-service-${index}`}
-                        checked={selectedSubServices.includes(service)}
-                        onCheckedChange={(checked) => {
-                          if (checked) {
-                            setSelectedSubServices([...selectedSubServices, service]);
-                          } else {
-                            setSelectedSubServices(selectedSubServices.filter(s => s !== service));
-                          }
-                          setSelectedViaCard(false);
-                        }}
-                      />
-                      <label
-                        htmlFor={`form-service-${index}`}
-                        className="text-sm leading-tight peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer pt-0.5"
-                      >
-                        {service}
-                      </label>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <Select
-                  name="subService"
-                  value={selectedSubService}
-                  onValueChange={(value) => {
-                    setSelectedSubService(value);
-                    setSelectedViaCard(false);
-                  }}
-                >
-                  <SelectTrigger className="w-full bg-white dark:bg-input/30 [&>span]:truncate [&>span]:min-w-0 [&>span]:block [&>span]:w-full text-left">
-                    <SelectValue placeholder={t.formSubServicePlaceholder} />
-                  </SelectTrigger>
-                  <SelectContent className="max-w-[calc(100vw-2rem)]">
-                    {(selectedService === t.serviceCard1Title ? t.serviceCard1Services :
-                      selectedService === t.serviceCard2Title ? t.serviceCard2Services :
-                        selectedService === t.serviceCard3Title ? t.serviceCard3Services :
-                          selectedService === t.serviceCard4Title ? t.serviceCard4Services : []
-                    ).map((service) => (
-                      <SelectItem key={service} value={service} className="truncate">
-                        {service}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              )}
+              <div className="grid gap-3 p-3 bg-secondary/20 rounded-md border border-border/50">
+                {(selectedService === t.serviceCard1Title ? t.serviceCard1Services :
+                  selectedService === t.serviceCard2Title ? t.serviceCard2Services :
+                    selectedService === t.serviceCard3Title ? t.serviceCard3Services :
+                      selectedService === t.serviceCard4Title ? t.serviceCard4Services : []
+                ).map((service, index) => (
+                  <div key={index} className="flex items-start gap-3">
+                    <Checkbox
+                      id={`form-service-${index}`}
+                      checked={selectedSubServices.includes(service)}
+                      onCheckedChange={(checked) => {
+                        if (checked) {
+                          setSelectedSubServices([...selectedSubServices, service]);
+                        } else {
+                          setSelectedSubServices(selectedSubServices.filter(s => s !== service));
+                        }
+                        setSelectedViaCard(false);
+                      }}
+                    />
+                    <label
+                      htmlFor={`form-service-${index}`}
+                      className="text-sm leading-tight peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer pt-0.5"
+                    >
+                      {service}
+                    </label>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 

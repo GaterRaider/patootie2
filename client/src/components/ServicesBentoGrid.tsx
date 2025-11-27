@@ -84,7 +84,7 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
 
     const ServiceCardContent = ({ service }: { service: ServiceItem }) => (
         <Card
-            className="h-full cursor-pointer group hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/20 relative overflow-hidden bg-card/50 backdrop-blur-sm"
+            className="h-full cursor-pointer group hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/20 relative overflow-hidden bg-card/50 backdrop-blur-sm flex flex-col"
             onClick={() => handleCardClick(service)}
         >
             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -109,7 +109,7 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
                     {service.description}
                 </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex-1 flex flex-col justify-end">
                 <div className="flex items-center text-sm text-primary font-medium mt-auto group-hover:translate-x-1 transition-transform">
                     {t.serviceLearnMore} <ArrowRight className="ml-1 h-4 w-4" />
                 </div>
@@ -194,34 +194,46 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
                                 {selectedService.isBundle ? (
                                     <div className="grid gap-3">
                                         {selectedService.servicesList.map((item, index) => (
-                                            <Label
-                                                key={index}
-                                                htmlFor={`service-${index}`}
-                                                className={cn(
-                                                    "flex items-start gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 relative overflow-hidden",
-                                                    "hover:shadow-md active:scale-[0.99]",
-                                                    selectedSubServices.includes(item)
-                                                        ? "border-primary bg-primary/10 shadow-sm"
-                                                        : "border-muted/60 bg-[#f7f8fa] dark:bg-card hover:border-primary/50 hover:bg-accent/50"
+                                            <div key={index}>
+                                                <Label
+                                                    htmlFor={`service-${index}`}
+                                                    className={cn(
+                                                        "flex items-start gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 relative overflow-hidden",
+                                                        "hover:shadow-md active:scale-[0.99]",
+                                                        selectedSubServices.includes(item)
+                                                            ? "border-primary bg-primary/10 shadow-sm"
+                                                            : "border-muted/60 bg-[#f7f8fa] dark:bg-card hover:border-primary/50 hover:bg-accent/50"
+                                                    )}
+                                                >
+                                                    <Checkbox
+                                                        id={`service-${index}`}
+                                                        checked={selectedSubServices.includes(item)}
+                                                        onCheckedChange={(checked) => {
+                                                            if (checked) {
+                                                                setSelectedSubServices([...selectedSubServices, item]);
+                                                            } else {
+                                                                setSelectedSubServices(selectedSubServices.filter(s => s !== item));
+                                                            }
+                                                        }}
+                                                        className="mt-1 shrink-0"
+                                                    />
+                                                    <span className="text-base font-medium leading-relaxed">{item}</span>
+                                                    {selectedSubServices.includes(item) && (
+                                                        <div className="absolute inset-0 bg-primary/5 pointer-events-none animate-in fade-in duration-200" />
+                                                    )}
+                                                </Label>
+                                                {/* Show sub-items if this is the Relocation Bundle item */}
+                                                {(item === "Relocation Bundle" || item === "이주 패키지" || item === "Relocation Bundle") && t.relocationBundleItems && (
+                                                    <div className="ml-12 mt-2 space-y-1.5 border-l-2 border-primary/20 pl-4 py-1">
+                                                        {t.relocationBundleItems.map((subItem, subIndex) => (
+                                                            <div key={subIndex} className="flex items-center gap-2 text-sm text-muted-foreground">
+                                                                <div className="w-1.5 h-1.5 rounded-full bg-primary/40" />
+                                                                <span>{subItem}</span>
+                                                            </div>
+                                                        ))}
+                                                    </div>
                                                 )}
-                                            >
-                                                <Checkbox
-                                                    id={`service-${index}`}
-                                                    checked={selectedSubServices.includes(item)}
-                                                    onCheckedChange={(checked) => {
-                                                        if (checked) {
-                                                            setSelectedSubServices([...selectedSubServices, item]);
-                                                        } else {
-                                                            setSelectedSubServices(selectedSubServices.filter(s => s !== item));
-                                                        }
-                                                    }}
-                                                    className="mt-1 shrink-0"
-                                                />
-                                                <span className="text-base font-medium leading-relaxed">{item}</span>
-                                                {selectedSubServices.includes(item) && (
-                                                    <div className="absolute inset-0 bg-primary/5 pointer-events-none animate-in fade-in duration-200" />
-                                                )}
-                                            </Label>
+                                            </div>
                                         ))}
                                     </div>
                                 ) : (
