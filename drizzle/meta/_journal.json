@@ -57,6 +57,13 @@
       "when": 1764258630612,
       "tag": "0007_great_frightful_four",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1764261436670,
+      "tag": "0008_glamorous_bedlam",
+      "breakpoints": true
     }
   ]
 }

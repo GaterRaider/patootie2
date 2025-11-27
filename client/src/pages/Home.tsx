@@ -27,6 +27,7 @@ export default function Home() {
   const [location, setLocation] = useLocation();
   const [selectedService, setSelectedService] = useState<string>("");
   const [selectedSubService, setSelectedSubService] = useState<string>("");
+  const [selectedSubServices, setSelectedSubServices] = useState<string[]>([]);
   const [selectedViaCard, setSelectedViaCard] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -68,13 +69,18 @@ export default function Home() {
     setRefId(undefined);
   };
 
-  const handleServiceCardClick = (service: string, subService?: string) => {
+  const handleServiceCardClick = (service: string, subService?: string, subServices?: string[]) => {
     setSelectedService(service);
     setSelectedViaCard(true);
     if (subService) {
       setSelectedSubService(subService);
     } else {
       setSelectedSubService("");
+    }
+    if (subServices) {
+      setSelectedSubServices(subServices);
+    } else {
+      setSelectedSubServices([]);
     }
     // Scroll to contact form
     document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
@@ -88,6 +94,7 @@ export default function Home() {
     const data = {
       service: formData.get("service") as string,
       subService: selectedSubService || undefined,
+      subServices: selectedSubServices.length > 0 ? selectedSubServices : undefined,
       salutation: formData.get("salutation") as string,
       firstName: formData.get("firstName") as string,
       lastName: formData.get("lastName") as string,
@@ -499,6 +506,9 @@ export default function Home() {
                   id: "immigration",
                   icon: Plane,
                   title: t.serviceCard1Title,
+                  tagline: t.serviceCard1Tagline,
+                  badge: t.serviceCard1Badge,
+                  isBundle: true,
                   description: t.serviceCard1Desc,
                   servicesList: t.serviceCard1Services,
                   ctaText: t.serviceCard1CTA,
@@ -590,8 +600,10 @@ export default function Home() {
                   t={t}
                   selectedService={selectedService}
                   selectedSubService={selectedSubService}
+                  selectedSubServices={selectedSubServices}
                   setSelectedService={setSelectedService}
                   setSelectedSubService={setSelectedSubService}
+                  setSelectedSubServices={setSelectedSubServices}
                   selectedViaCard={selectedViaCard}
                   setSelectedViaCard={setSelectedViaCard}
                   onSubmit={handleSubmit}

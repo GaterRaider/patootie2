@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 
 import { Send, CheckCircle2, AlertCircle, User, Mail, Phone, MapPin, Calendar, Globe, MessageSquare, Home, Briefcase, RefreshCw, Circle, Hash } from "lucide-react";
 import { useState, useEffect } from "react";
@@ -15,8 +16,10 @@ interface ContactFormProps {
   t: Translations;
   selectedService: string;
   selectedSubService?: string;
+  selectedSubServices: string[];
   setSelectedService: (value: string) => void;
   setSelectedSubService: (value: string) => void;
+  setSelectedSubServices: (value: string[]) => void;
   selectedViaCard: boolean;
   setSelectedViaCard: (value: boolean) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -31,8 +34,10 @@ export function ContactForm({
   t,
   selectedService,
   selectedSubService,
+  selectedSubServices,
   setSelectedService,
   setSelectedSubService,
+  setSelectedSubServices,
   selectedViaCard,
   setSelectedViaCard,
   onSubmit,
@@ -112,7 +117,11 @@ export function ContactForm({
   };
 
   const isFieldValid = (name: string): boolean => {
-    if (name === 'service') return !!selectedService;
+    if (name === 'service') {
+      if (!selectedService) return false;
+      if (selectedService === t.serviceCard1Title && selectedSubServices.length === 0) return false;
+      return true;
+    }
     if (name === 'email') {
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData[name] || '');
     }
@@ -316,6 +325,7 @@ export function ContactForm({
             onValueChange={(value) => {
               setSelectedService(value);
               setSelectedSubService("");
+              setSelectedSubServices([]);
               setSelectedViaCard(false);
               handleBlur('service');
             }}
@@ -338,37 +348,68 @@ export function ContactForm({
               <Label htmlFor="subService" className="text-sm font-medium text-muted-foreground ml-1">
                 {t.formSubService}
               </Label>
-              <Select
-                name="subService"
-                value={selectedSubService}
-                onValueChange={(value) => {
-                  setSelectedSubService(value);
-                  setSelectedViaCard(false);
-                }}
-              >
-                <SelectTrigger className="w-full bg-white dark:bg-input/30 [&>span]:truncate [&>span]:min-w-0 [&>span]:block [&>span]:w-full text-left">
-                  <SelectValue placeholder={t.formSubServicePlaceholder} />
-                </SelectTrigger>
-                <SelectContent className="max-w-[calc(100vw-2rem)]">
-                  {(selectedService === t.serviceCard1Title ? t.serviceCard1Services :
-                    selectedService === t.serviceCard2Title ? t.serviceCard2Services :
-                      selectedService === t.serviceCard3Title ? t.serviceCard3Services :
-                        selectedService === t.serviceCard4Title ? t.serviceCard4Services : []
-                  ).map((service) => (
-                    <SelectItem key={service} value={service} className="truncate">
-                      {service}
-                    </SelectItem>
+              {selectedService === t.serviceCard1Title ? (
+                <div className="grid gap-3 p-3 bg-secondary/20 rounded-md border border-border/50">
+                  {t.serviceCard1Services.map((service, index) => (
+                    <div key={index} className="flex items-start gap-3">
+                      <Checkbox
+                        id={`form-service-${index}`}
+                        checked={selectedSubServices.includes(service)}
+                        onCheckedChange={(checked) => {
+                          if (checked) {
+                            setSelectedSubServices([...selectedSubServices, service]);
+                          } else {
+                            setSelectedSubServices(selectedSubServices.filter(s => s !== service));
+                          }
+                          setSelectedViaCard(false);
+                        }}
+                      />
+                      <label
+                        htmlFor={`form-service-${index}`}
+                        className="text-sm leading-tight peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer pt-0.5"
+                      >
+                        {service}
+                      </label>
+                    </div>
                   ))}
-                </SelectContent>
-              </Select>
+                </div>
+              ) : (
+                <Select
+                  name="subService"
+                  value={selectedSubService}
+                  onValueChange={(value) => {
+                    setSelectedSubService(value);
+                    setSelectedViaCard(false);
+                  }}
+                >
+                  <SelectTrigger className="w-full bg-white dark:bg-input/30 [&>span]:truncate [&>span]:min-w-0 [&>span]:block [&>span]:w-full text-left">
+                    <SelectValue placeholder={t.formSubServicePlaceholder} />
+                  </SelectTrigger>
+                  <SelectContent className="max-w-[calc(100vw-2rem)]">
+                    {(selectedService === t.serviceCard1Title ? t.serviceCard1Services :
+                      selectedService === t.serviceCard2Title ? t.serviceCard2Services :
+                        selectedService === t.serviceCard3Title ? t.serviceCard3Services :
+                          selectedService === t.serviceCard4Title ? t.serviceCard4Services : []
+                    ).map((service) => (
+                      <SelectItem key={service} value={service} className="truncate">
+                        {service}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
             </div>
           )}
 
-          {selectedViaCard && selectedSubService && (
+          {selectedViaCard && (selectedSubService || selectedSubServices.length > 0) && (
             <div className="mt-3 flex items-center gap-2 text-sm text-muted-foreground bg-secondary/50 p-2.5 rounded-md border border-primary/20 animate-in fade-in slide-in-from-top-1">
               <CheckCircle2 className="h-4 w-4 text-primary" />
               <span className="font-medium text-foreground">{t.formSelectedOption}</span>
-              <span>{selectedSubService}</span>
+              <span>
+                {selectedSubServices.length > 0
+                  ? `${selectedSubServices.length} services selected`
+                  : selectedSubService}
+              </span>
             </div>
           )}
         </div>

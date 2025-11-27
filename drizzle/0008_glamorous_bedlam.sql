@@ -1,0 +1,1 @@
+ALTER TABLE "contactSubmissions" ADD COLUMN "subServices" jsonb;

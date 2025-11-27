@@ -13,12 +13,17 @@ import {
     DialogFooter,
 } from "@/components/ui/dialog";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
 
 export interface ServiceItem {
     id: string;
     icon: LucideIcon;
     title: string;
+    tagline?: string;
+    badge?: string;
+    isBundle?: boolean;
     description: string;
     servicesList: string[];
     ctaText: string;
@@ -26,7 +31,7 @@ export interface ServiceItem {
 
 interface ServicesBentoGridProps {
     services: ServiceItem[];
-    onSelect: (serviceTitle: string, subService?: string) => void;
+    onSelect: (serviceTitle: string, subService?: string, subServices?: string[]) => void;
     language: Language;
 }
 
@@ -34,6 +39,7 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
     const t = getTranslations(language);
     const [selectedService, setSelectedService] = useState<ServiceItem | null>(null);
     const [selectedSubService, setSelectedSubService] = useState<string>("");
+    const [selectedSubServices, setSelectedSubServices] = useState<string[]>([]);
     const [activeIndex, setActiveIndex] = useState(0);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
@@ -56,16 +62,22 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
     const handleCardClick = (service: ServiceItem) => {
         setSelectedService(service);
         setSelectedSubService(""); // Reset sub-service when opening a new card
+        setSelectedSubServices([]); // Reset sub-services
     };
 
     const handleClose = () => {
         setSelectedService(null);
         setSelectedSubService("");
+        setSelectedSubServices([]);
     };
 
     const handleCtaClick = () => {
         if (selectedService) {
-            onSelect(selectedService.title, selectedSubService || undefined);
+            onSelect(
+                selectedService.title,
+                selectedSubService || undefined,
+                selectedService.isBundle ? selectedSubServices : undefined
+            );
             handleClose();
         }
     };
@@ -80,9 +92,19 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
                 <div className="mb-4 w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                     <service.icon className="h-6 w-6 text-primary" />
                 </div>
+                {service.badge && (
+                    <Badge variant="secondary" className="mb-2 w-fit bg-primary/10 text-primary hover:bg-primary/20 border-primary/20">
+                        {service.badge}
+                    </Badge>
+                )}
                 <CardTitle className="text-xl mb-2 group-hover:text-primary transition-colors">
                     {service.title}
                 </CardTitle>
+                {service.tagline && (
+                    <p className="text-sm font-medium text-primary/80 mb-2">
+                        {service.tagline}
+                    </p>
+                )}
                 <CardDescription className="line-clamp-3">
                     {service.description}
                 </CardDescription>
@@ -169,27 +191,62 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
                                 <h4 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">
                                     {t.serviceSelectOptional}
                                 </h4>
-                                <RadioGroup value={selectedSubService} onValueChange={setSelectedSubService} className="grid gap-3">
-                                    {selectedService.servicesList.map((item, index) => (
-                                        <Label
-                                            key={index}
-                                            htmlFor={`service-${index}`}
-                                            className={cn(
-                                                "flex items-start gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 relative overflow-hidden",
-                                                "hover:shadow-md active:scale-[0.99]",
-                                                selectedSubService === item
-                                                    ? "border-primary bg-primary/10 shadow-sm"
-                                                    : "border-muted/60 bg-[#f7f8fa] dark:bg-card hover:border-primary/50 hover:bg-accent/50"
-                                            )}
-                                        >
-                                            <RadioGroupItem value={item} id={`service-${index}`} className="mt-1 shrink-0" />
-                                            <span className="text-base font-medium leading-relaxed">{item}</span>
-                                            {selectedSubService === item && (
-                                                <div className="absolute inset-0 bg-primary/5 pointer-events-none animate-in fade-in duration-200" />
-                                            )}
-                                        </Label>
-                                    ))}
-                                </RadioGroup>
+                                {selectedService.isBundle ? (
+                                    <div className="grid gap-3">
+                                        {selectedService.servicesList.map((item, index) => (
+                                            <Label
+                                                key={index}
+                                                htmlFor={`service-${index}`}
+                                                className={cn(
+                                                    "flex items-start gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 relative overflow-hidden",
+                                                    "hover:shadow-md active:scale-[0.99]",
+                                                    selectedSubServices.includes(item)
+                                                        ? "border-primary bg-primary/10 shadow-sm"
+                                                        : "border-muted/60 bg-[#f7f8fa] dark:bg-card hover:border-primary/50 hover:bg-accent/50"
+                                                )}
+                                            >
+                                                <Checkbox
+                                                    id={`service-${index}`}
+                                                    checked={selectedSubServices.includes(item)}
+                                                    onCheckedChange={(checked) => {
+                                                        if (checked) {
+                                                            setSelectedSubServices([...selectedSubServices, item]);
+                                                        } else {
+                                                            setSelectedSubServices(selectedSubServices.filter(s => s !== item));
+                                                        }
+                                                    }}
+                                                    className="mt-1 shrink-0"
+                                                />
+                                                <span className="text-base font-medium leading-relaxed">{item}</span>
+                                                {selectedSubServices.includes(item) && (
+                                                    <div className="absolute inset-0 bg-primary/5 pointer-events-none animate-in fade-in duration-200" />
+                                                )}
+                                            </Label>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <RadioGroup value={selectedSubService} onValueChange={setSelectedSubService} className="grid gap-3">
+                                        {selectedService.servicesList.map((item, index) => (
+                                            <Label
+                                                key={index}
+                                                htmlFor={`service-${index}`}
+                                                className={cn(
+                                                    "flex items-start gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 relative overflow-hidden",
+                                                    "hover:shadow-md active:scale-[0.99]",
+                                                    selectedSubService === item
+                                                        ? "border-primary bg-primary/10 shadow-sm"
+                                                        : "border-muted/60 bg-[#f7f8fa] dark:bg-card hover:border-primary/50 hover:bg-accent/50"
+                                                )}
+                                            >
+                                                <RadioGroupItem value={item} id={`service-${index}`} className="mt-1 shrink-0" />
+                                                <span className="text-base font-medium leading-relaxed">{item}</span>
+                                                {selectedSubService === item && (
+                                                    <div className="absolute inset-0 bg-primary/5 pointer-events-none animate-in fade-in duration-200" />
+                                                )}
+                                            </Label>
+                                        ))}
+                                    </RadioGroup>
+                                )}
                             </div>
 
                             <DialogFooter>
