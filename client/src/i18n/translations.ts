@@ -111,6 +111,7 @@ export interface Translations {
   formCharacters: string;
   serviceSelectOptional: string;
   serviceLearnMore: string;
+  serviceSelectChoice: string;
 
   // About Section
   aboutHeading: string;
@@ -305,6 +306,7 @@ export const translations: Record<Language, Translations> = {
     formCharacters: "characters",
     serviceSelectOptional: "Select a Service (Optional)",
     serviceLearnMore: "Learn more",
+    serviceSelectChoice: "Select choice",
   },
   ko: {
     // Header
@@ -468,6 +470,7 @@ export const translations: Record<Language, Translations> = {
     formCharacters: "자",
     serviceSelectOptional: "서비스 선택 (선택사항)",
     serviceLearnMore: "자세히 보기",
+    serviceSelectChoice: "선택하기",
   },
   de: {
     // Header
@@ -631,6 +634,7 @@ export const translations: Record<Language, Translations> = {
     formCharacters: "Zeichen",
     serviceSelectOptional: "Service wählen (Optional)",
     serviceLearnMore: "Mehr erfahren",
+    serviceSelectChoice: "Auswählen",
   },
 };
 

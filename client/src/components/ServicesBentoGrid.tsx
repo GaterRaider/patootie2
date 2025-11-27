@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { cn } from "@/lib/utils";
 import { Language, getTranslations } from "@/i18n/translations";
 import { LucideIcon, ArrowRight, X } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -145,7 +146,7 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
                 >
                     <button
                         onClick={handleClose}
-                        className="absolute right-4 top-4 rounded-full bg-secondary/50 hover:bg-secondary p-2 transition-colors z-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                        className="absolute right-4 top-4 rounded-full bg-[#f7f8fa] dark:bg-secondary/50 hover:bg-[#eff1f5] dark:hover:bg-secondary p-2 transition-colors z-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                         aria-label="Close"
                     >
                         <X className="h-5 w-5 text-foreground/70" />
@@ -173,13 +174,19 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
                                         <Label
                                             key={index}
                                             htmlFor={`service-${index}`}
-                                            className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all ${selectedSubService === item
-                                                ? "border-primary bg-primary/5 shadow-sm"
-                                                : "border-border/40 hover:bg-secondary/50 hover:border-primary/30"
-                                                }`}
+                                            className={cn(
+                                                "flex items-start gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 relative overflow-hidden",
+                                                "hover:shadow-md active:scale-[0.99]",
+                                                selectedSubService === item
+                                                    ? "border-primary bg-primary/10 shadow-sm"
+                                                    : "border-muted/60 bg-[#f7f8fa] dark:bg-card hover:border-primary/50 hover:bg-accent/50"
+                                            )}
                                         >
-                                            <RadioGroupItem value={item} id={`service-${index}`} className="mt-1" />
-                                            <span className="text-sm font-medium leading-relaxed">{item}</span>
+                                            <RadioGroupItem value={item} id={`service-${index}`} className="mt-1 shrink-0" />
+                                            <span className="text-base font-medium leading-relaxed">{item}</span>
+                                            {selectedSubService === item && (
+                                                <div className="absolute inset-0 bg-primary/5 pointer-events-none animate-in fade-in duration-200" />
+                                            )}
                                         </Label>
                                     ))}
                                 </RadioGroup>
@@ -187,7 +194,7 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
 
                             <DialogFooter>
                                 <Button onClick={handleCtaClick} className="w-full sm:w-auto text-base py-6">
-                                    {selectedService.ctaText}
+                                    {t.serviceSelectChoice}
                                     <ArrowRight className="ml-2 h-4 w-4" />
                                 </Button>
                             </DialogFooter>
