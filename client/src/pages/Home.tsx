@@ -611,14 +611,17 @@ export default function Home() {
               <div className="flex flex-col items-center gap-4 pt-8">
                 <h3 className="font-semibold text-muted-foreground uppercase tracking-wider text-sm">{t.aboutLanguages}</h3>
                 <div className="flex flex-wrap justify-center gap-3">
-                  <Badge variant="outline" className="px-4 py-2 text-base font-medium bg-background/50 dark:bg-secondary backdrop-blur-sm border-primary/20 text-foreground hover:bg-primary/5 dark:hover:bg-primary/20 hover:border-primary/40 dark:hover:border-primary/60 transition-all duration-300 cursor-default shadow-sm">
-                    🇺🇸 English
+                  <Badge variant="outline" className="px-4 py-2 text-base font-medium bg-background/50 dark:bg-secondary backdrop-blur-sm border-primary/20 text-foreground hover:bg-primary/5 dark:hover:bg-primary/20 hover:border-primary/40 dark:hover:border-primary/60 transition-all duration-300 cursor-default shadow-sm gap-2">
+                    <img src="/flags/usa.svg" alt="USA Flag" className="h-4 w-auto object-contain" />
+                    English
                   </Badge>
-                  <Badge variant="outline" className="px-4 py-2 text-base font-medium bg-background/50 dark:bg-secondary backdrop-blur-sm border-primary/20 text-foreground hover:bg-primary/5 dark:hover:bg-primary/20 hover:border-primary/40 dark:hover:border-primary/60 transition-all duration-300 cursor-default shadow-sm">
-                    🇰🇷 Korean (한국어)
+                  <Badge variant="outline" className="px-4 py-2 text-base font-medium bg-background/50 dark:bg-secondary backdrop-blur-sm border-primary/20 text-foreground hover:bg-primary/5 dark:hover:bg-primary/20 hover:border-primary/40 dark:hover:border-primary/60 transition-all duration-300 cursor-default shadow-sm gap-2">
+                    <img src="/flags/south-korea.svg" alt="South Korea Flag" className="h-4 w-auto object-contain" />
+                    Korean (한국어)
                   </Badge>
-                  <Badge variant="outline" className="px-4 py-2 text-base font-medium bg-background/50 dark:bg-secondary backdrop-blur-sm border-primary/20 text-foreground hover:bg-primary/5 dark:hover:bg-primary/20 hover:border-primary/40 dark:hover:border-primary/60 transition-all duration-300 cursor-default shadow-sm">
-                    🇩🇪 German (Deutsch)
+                  <Badge variant="outline" className="px-4 py-2 text-base font-medium bg-background/50 dark:bg-secondary backdrop-blur-sm border-primary/20 text-foreground hover:bg-primary/5 dark:hover:bg-primary/20 hover:border-primary/40 dark:hover:border-primary/60 transition-all duration-300 cursor-default shadow-sm gap-2">
+                    <img src="/flags/germany.svg" alt="Germany Flag" className="h-4 w-auto object-contain" />
+                    German (Deutsch)
                   </Badge>
                 </div>
               </div>
