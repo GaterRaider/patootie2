@@ -29,6 +29,10 @@ import {
   deleteFAQItem,
   reorderFAQItems,
   toggleFAQItemPublish,
+  getAllSiteSettings,
+  getSiteSetting,
+  updateSiteSetting,
+  createSiteSetting,
 } from "./db";
 import {
   getCompanySettings,
@@ -1188,6 +1192,38 @@ export const appRouter = router({
           return item;
         }),
     }),
+  }),
+
+  // Site Settings Router
+  siteSettings: router({
+    getAll: publicProcedure.query(async () => {
+      const settings = await getAllSiteSettings();
+      // Convert array to key-value object for easier access
+      return settings.reduce((acc, setting) => {
+        acc[setting.key] = setting.value;
+        return acc;
+      }, {} as Record<string, string>);
+    }),
+
+    update: adminProcedure
+      .input(z.object({
+        key: z.string(),
+        value: z.string(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        const setting = await updateSiteSetting(input.key, input.value, ctx.adminId);
+
+        await logActivity({
+          adminId: ctx.adminId,
+          action: "UPDATE_SITE_SETTING",
+          entityType: "SITE_SETTING",
+          details: { key: input.key, value: input.value },
+          ipAddress: ctx.req.ip || ctx.req.socket.remoteAddress,
+          userAgent: ctx.req.headers["user-agent"],
+        });
+
+        return setting;
+      }),
   }),
 });
 

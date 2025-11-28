@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 
-import { Send, CheckCircle2, AlertCircle, User, Mail, Phone, MapPin, Calendar, Globe, MessageSquare, Home, Briefcase, RefreshCw, Circle, Hash } from "lucide-react";
+import { Send, CheckCircle2, AlertCircle, User, Mail, Phone, MapPin, Calendar, Globe, MessageSquare, Home, Briefcase, RefreshCw, Circle, Hash, Loader2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Translations } from "@/i18n/translations";
@@ -290,7 +290,20 @@ export function ContactForm({
   }
 
   return (
-    <div id="contact-form-container">
+    <div id="contact-form-container" className="relative">
+      {/* Loading Overlay */}
+      {isSubmitting && (
+        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center rounded-xl">
+          <div className="flex flex-col items-center gap-4 p-8 bg-card rounded-lg shadow-xl border">
+            <Loader2 className="h-12 w-12 text-primary animate-spin" />
+            <div className="text-center">
+              <p className="font-semibold text-lg mb-1">Processing your request...</p>
+              <p className="text-sm text-muted-foreground">This will only take a moment</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       <form onSubmit={handleFormSubmit} className="space-y-8" noValidate>
         <div className="space-y-2">
           <div className="flex justify-between text-sm">

@@ -302,3 +302,19 @@ export const faqItems = pgTable("faqItems", {
 
 export type FAQItem = typeof faqItems.$inferSelect;
 export type InsertFAQItem = typeof faqItems.$inferInsert;
+
+/**
+ * Site settings for toggleable features
+ * Key-value store for admin-configurable site options
+ */
+export const siteSettings = pgTable("siteSettings", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  key: varchar("key", { length: 100 }).notNull().unique(),
+  value: text("value").notNull(),
+  description: text("description"),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+  updatedBy: integer("updatedBy").references(() => adminUsers.id),
+});
+
+export type SiteSetting = typeof siteSettings.$inferSelect;
+export type InsertSiteSetting = typeof siteSettings.$inferInsert;

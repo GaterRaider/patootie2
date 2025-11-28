@@ -20,6 +20,7 @@ import { useLocation } from "wouter";
 import { Footer } from "@/components/Footer";
 import { Helmet } from "react-helmet-async";
 import { FAQ } from "@/components/FAQ";
+import { BackToTop } from "@/components/BackToTop";
 
 export default function Home() {
   const { language, setLanguage, t } = useLanguage();
@@ -468,8 +469,15 @@ export default function Home() {
                   </div>
                 </div>
 
-                <Button size="lg" onClick={() => scrollToSection("contact")} className="shadow-lg hover:shadow-xl transition-shadow">
-                  {t.navContact}
+                <Button
+                  size="lg"
+                  onClick={() => scrollToSection("contact")}
+                  className="shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:-translate-y-1 group relative overflow-hidden"
+                >
+                  <span className="relative z-10 flex items-center gap-2">
+                    {t.navContact}
+                    <Send className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </span>
                 </Button>
               </div>
 
@@ -681,6 +689,9 @@ export default function Home() {
 
       {/* Footer */}
       <Footer />
+
+      {/* Back to Top Button */}
+      <BackToTop />
     </div>
   );
 }

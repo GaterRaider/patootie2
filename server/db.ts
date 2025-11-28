@@ -14,6 +14,9 @@ import {
   faqItems,
   InsertFAQItem,
   FAQItem,
+  siteSettings,
+  InsertSiteSetting,
+  SiteSetting,
 } from "../drizzle/schema";
 import { ENV } from "./_core/env";
 
@@ -853,6 +856,87 @@ export async function toggleFAQItemPublish(id: number): Promise<FAQItem> {
     })
     .where(eq(faqItems.id, id))
     .returning();
+
+  return results[0];
+}
+
+// ============================================================================
+// Site Settings Management Functions
+// ============================================================================
+
+/**
+ * Get all site settings
+ */
+export async function getAllSiteSettings(): Promise<SiteSetting[]> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get site settings: database not available");
+    return [];
+  }
+
+  return await db.select().from(siteSettings);
+}
+
+/**
+ * Get a specific site setting by key
+ */
+export async function getSiteSetting(key: string): Promise<SiteSetting | null> {
+  const db = await getDb();
+  if (!db) {
+    return null;
+  }
+
+  const results = await db
+    .select()
+    .from(siteSettings)
+    .where(eq(siteSettings.key, key))
+    .limit(1);
+
+  return results[0] || null;
+}
+
+/**
+ * Update a site setting value
+ */
+export async function updateSiteSetting(
+  key: string,
+  value: string,
+  updatedBy?: number
+): Promise<SiteSetting> {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  const results = await db
+    .update(siteSettings)
+    .set({
+      value,
+      updatedAt: new Date(),
+      updatedBy,
+    })
+    .where(eq(siteSettings.key, key))
+    .returning();
+
+  if (!results[0]) {
+    throw new Error(`Site setting with key ${key} not found`);
+  }
+
+  return results[0];
+}
+
+/**
+ * Create a new site setting
+ */
+export async function createSiteSetting(
+  data: InsertSiteSetting
+): Promise<SiteSetting> {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  const results = await db.insert(siteSettings).values(data).returning();
 
   return results[0];
 }

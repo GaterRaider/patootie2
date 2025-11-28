@@ -14,7 +14,8 @@ import ActivityLog from "./pages/admin/ActivityLog";
 import SubmissionDetail from "./pages/admin/SubmissionDetail";
 import Invoices from "./pages/admin/Invoices";
 import InvoiceForm from "./pages/admin/InvoiceForm";
-import Settings from "./pages/admin/Settings";
+import SiteSettings from "./pages/admin/SiteSettings";
+import CompanySettings from "./pages/admin/CompanySettings";
 import EmailTemplates from "./pages/admin/EmailTemplates";
 import EmailTemplateEditor from "./pages/admin/EmailTemplateEditor";
 import AdminUsers from "./pages/admin/AdminUsers";
@@ -82,7 +83,13 @@ function AdminRouter() {
 
                             <Route path="/admin/settings">
                                 <AdminLayout>
-                                    <Settings />
+                                    <SiteSettings />
+                                </AdminLayout>
+                            </Route>
+
+                            <Route path="/admin/company-settings">
+                                <AdminLayout>
+                                    <CompanySettings />
                                 </AdminLayout>
                             </Route>
 

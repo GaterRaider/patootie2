@@ -18,6 +18,7 @@ import {
     User,
     Search,
     Loader2,
+    Building2,
 } from "lucide-react";
 
 export function CommandPalette() {
@@ -85,7 +86,13 @@ export function CommandPalette() {
                                 onSelect={() => runCommand(() => setLocation("/admin/settings"))}
                             >
                                 <Settings className="mr-2 h-4 w-4" />
-                                <span>Settings</span>
+                                <span>Site Settings</span>
+                            </CommandItem>
+                            <CommandItem
+                                onSelect={() => runCommand(() => setLocation("/admin/company-settings"))}
+                            >
+                                <Building2 className="mr-2 h-4 w-4" />
+                                <span>Company Settings</span>
                             </CommandItem>
                         </CommandGroup>
                         <CommandSeparator />

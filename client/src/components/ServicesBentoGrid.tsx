@@ -84,7 +84,7 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
 
     const ServiceCardContent = ({ service }: { service: ServiceItem }) => (
         <Card
-            className="h-full cursor-pointer group hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/20 relative overflow-hidden bg-card/50 backdrop-blur-sm flex flex-col"
+            className="h-full cursor-pointer group hover:shadow-2xl transition-all duration-300 border-2 hover:border-primary/20 relative overflow-hidden bg-card/50 backdrop-blur-sm flex flex-col hover:-translate-y-2 hover:scale-[1.02]"
             onClick={() => handleCardClick(service)}
         >
             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />

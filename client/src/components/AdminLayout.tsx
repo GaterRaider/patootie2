@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
-import { Loader2, LayoutDashboard, LogOut, ScrollText, FileText, Settings as SettingsIcon, Moon, Sun, Menu, X, FileStack, Mail, Users, HelpCircle } from "lucide-react";
+import { Loader2, LayoutDashboard, LogOut, ScrollText, FileText, Settings as SettingsIcon, Moon, Sun, Menu, X, FileStack, Mail, Users, HelpCircle, Building2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/contexts/ThemeContext";
 import { CommandPalette } from "@/components/CommandPalette";
@@ -121,7 +121,21 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                     location === "/admin/settings" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
                 )}>
                     <SettingsIcon className="h-4 w-4" />
-                    Settings
+                    Site Settings
+                </Link>
+                <Link href="/admin/company-settings" className={cn(
+                    "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
+                    location === "/admin/company-settings" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
+                )}>
+                    <Building2 className="h-4 w-4" />
+                    Company Settings
+                </Link>
+                <Link href="/admin/users" className={cn(
+                    "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
+                    location === "/admin/users" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
+                )}>
+                    <Users className="h-4 w-4" />
+                    Users
                 </Link>
             </nav>
             <div className="fixed bottom-0 left-0 w-64 p-4 border-t space-y-2 bg-white dark:bg-gray-800 hidden md:block">
@@ -223,7 +237,14 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                             location === "/admin/settings" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
                         )}>
                             <SettingsIcon className="h-4 w-4" />
-                            Settings
+                            Site Settings
+                        </Link>
+                        <Link href="/admin/company-settings" className={cn(
+                            "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
+                            location === "/admin/company-settings" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
+                        )}>
+                            <Building2 className="h-4 w-4" />
+                            Company Settings
                         </Link>
                         <Link href="/admin/users" className={cn(
                             "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
