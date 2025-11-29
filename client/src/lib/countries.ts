@@ -86,6 +86,6 @@ export const countries = [
   { code: "UA", name: "Ukraine", flag: getFlagEmoji("UA") },
   { code: "AE", name: "United Arab Emirates", flag: getFlagEmoji("AE") },
   { code: "GB", name: "United Kingdom", flag: getFlagEmoji("GB") },
-  { code: "US", name: "United States", flag: getFlagEmoji("US") },
+  { code: "US", name: "United States of America", flag: getFlagEmoji("US") },
   { code: "VN", name: "Vietnam", flag: getFlagEmoji("VN") },
 ];

@@ -116,6 +116,16 @@ export interface Translations {
   serviceLearnMore: string;
   serviceSelectChoice: string;
 
+  // Wizard Steps
+  stepService: string;
+  stepPersonal: string;
+  stepContact: string;
+  stepReview: string;
+  stepNext: string;
+  stepBack: string;
+  stepSubmit: string;
+  stepExitWarning: string;
+
   // About Section
   aboutHeading: string;
   aboutLabel: string;
@@ -309,7 +319,7 @@ export const translations: Record<Language, Translations> = {
     formSuggestedCountries: "Suggested",
     formAllCountries: "All Countries",
     formErrorGeneral: "Please correct the highlighted errors to proceed.",
-    formSuccessGreeting: "Thanks for reaching out, ",
+    formSuccessGreeting: "Thanks for reaching out!",
     formSuccessBody: "We have received your request. We will review it and get back to you as soon as possible.",
     formSentTo: "Sent to",
     formReferenceId: "Reference ID",
@@ -323,6 +333,16 @@ export const translations: Record<Language, Translations> = {
     serviceSelectOptional: "Select a Service (Optional)",
     serviceLearnMore: "Learn more",
     serviceSelectChoice: "Select choice",
+
+    // Wizard Steps
+    stepService: "Service",
+    stepPersonal: "Personal",
+    stepContact: "Contact",
+    stepReview: "Review",
+    stepNext: "Next",
+    stepBack: "Back",
+    stepSubmit: "Submit Inquiry",
+    stepExitWarning: "You have unsaved changes. Are you sure you want to leave?",
   },
   ko: {
     // Header
@@ -482,7 +502,7 @@ export const translations: Record<Language, Translations> = {
     formSuggestedCountries: "추천 국가",
     formAllCountries: "모든 국가",
     formErrorGeneral: "진행하려면 강조 표시된 오류를 수정해주세요.",
-    formSuccessGreeting: "문의해 주셔서 감사합니다, ",
+    formSuccessGreeting: "문의해 주셔서 감사합니다!",
     formSuccessBody: "요청이 접수되었습니다. 검토 후 가능한 한 빨리 연락드리겠습니다.",
     formSentTo: "수신",
     formReferenceId: "참조 ID",
@@ -496,6 +516,16 @@ export const translations: Record<Language, Translations> = {
     serviceSelectOptional: "서비스 선택 (선택사항)",
     serviceLearnMore: "자세히 보기",
     serviceSelectChoice: "선택하기",
+
+    // Wizard Steps
+    stepService: "서비스",
+    stepPersonal: "개인 정보",
+    stepContact: "연락처",
+    stepReview: "검토",
+    stepNext: "다음",
+    stepBack: "이전",
+    stepSubmit: "문의 제출",
+    stepExitWarning: "저장되지 않은 변경 사항이 있습니다. 정말 나가시겠습니까?",
   },
   de: {
     // Header
@@ -655,7 +685,7 @@ export const translations: Record<Language, Translations> = {
     formSuggestedCountries: "Vorgeschlagen",
     formAllCountries: "Alle Länder",
     formErrorGeneral: "Bitte korrigieren Sie die markierten Fehler, um fortzufahren.",
-    formSuccessGreeting: "Danke für Ihre Nachricht, ",
+    formSuccessGreeting: "Danke für Ihre Nachricht!",
     formSuccessBody: "Wir haben Ihre Anfrage erhalten. Wir werden sie prüfen und uns so schnell wie möglich bei Ihnen melden.",
     formSentTo: "Gesendet an",
     formReferenceId: "Referenz-ID",
@@ -669,6 +699,16 @@ export const translations: Record<Language, Translations> = {
     serviceSelectOptional: "Service wählen (Optional)",
     serviceLearnMore: "Mehr erfahren",
     serviceSelectChoice: "Auswählen",
+
+    // Wizard Steps
+    stepService: "Service",
+    stepPersonal: "Persönlich",
+    stepContact: "Kontakt",
+    stepReview: "Überprüfung",
+    stepNext: "Weiter",
+    stepBack: "Zurück",
+    stepSubmit: "Anfrage senden",
+    stepExitWarning: "Sie haben ungespeicherte Änderungen. Sind Sie sicher, dass Sie die Seite verlassen möchten?",
   },
 };
 

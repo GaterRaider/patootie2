@@ -60,6 +60,15 @@ export default function Home() {
     },
     onError: (error) => {
       setIsSubmitting(false);
+      try {
+        const parsed = JSON.parse(error.message);
+        if (Array.isArray(parsed)) {
+          toast.error("Please check your inputs and try again.");
+          return;
+        }
+      } catch (e) {
+        // Not JSON, use original message
+      }
       toast.error(error.message);
     },
   });
@@ -109,8 +118,8 @@ export default function Home() {
       stateProvince: formData.get("stateProvince") as string || undefined,
       country: formData.get("country")?.toString().replace("suggested__", "") as string,
       message: formData.get("message") as string,
-      contactConsent: formData.get("contactConsent") === "on",
-      privacyConsent: formData.get("privacyConsent") === "on",
+      contactConsent: formData.get("contactConsent") === "true",
+      privacyConsent: formData.get("privacyConsent") === "true",
       honeypot: formData.get("honeypot") as string || undefined,
     };
 
