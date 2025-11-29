@@ -63,7 +63,7 @@ export const CategoryStep = ({ t, selectedService, setSelectedService, setValue,
             <input type="hidden" {...register('service', { required: t.errorRequired })} />
 
             <p className="text-sm text-muted-foreground mb-6">
-                {t.formServicePlaceholder || "Choose a category so we know where to start."}
+                {t.formServicePlaceholder || "Select a category"}
             </p>
 
             <div className={`border rounded-2xl p-4 md:p-6 bg-gray-50/50 ${errors?.service ? 'border-red-300' : 'border-gray-200'}`}>

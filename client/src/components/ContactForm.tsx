@@ -40,7 +40,9 @@ export function ContactForm({
   isSubmitting,
   isSuccess,
   onReset,
-  refId
+  refId,
+  selectedViaCard,
+  setSelectedViaCard
 }: ContactFormProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const { language } = useLanguage();
@@ -78,11 +80,38 @@ export function ContactForm({
     }
   }, [isSuccess]);
 
+  // Scroll to top of form when step changes
+  useEffect(() => {
+    const contactFormTop = document.getElementById('contact-form-top');
+    if (contactFormTop) {
+      contactFormTop.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [currentStep]);
+
+  // Handle direct navigation from service cards
+  useEffect(() => {
+    if (selectedViaCard && selectedService) {
+      // Update form values
+      setValue('service', selectedService);
+      if (selectedSubService) setValue('subService', selectedSubService);
+
+      // Determine target step
+      if (selectedSubService || selectedSubServices.length > 0) {
+        setCurrentStep(2); // Jump to Personal Details
+      } else {
+        setCurrentStep(1); // Jump to Service Selection
+      }
+
+      // Reset the flag
+      setSelectedViaCard(false);
+    }
+  }, [selectedViaCard, selectedService, selectedSubService, selectedSubServices, setValue, setSelectedViaCard]);
+
   const steps = [
     {
       id: 'category',
       title: t.stepService || 'Category',
-      subtitle: "Answer a few quick questions so we can match you with the right relocation support.",
+      subtitle: "Answer a few quick questions so we can match you with the right support.",
       headline: "How can we help you?",
       component: CategoryStep,
       fields: ['service']
@@ -90,15 +119,15 @@ export function ContactForm({
     {
       id: 'service',
       title: t.formSubService || 'Service',
-      subtitle: "Choose the specific services you need assistance with.",
-      headline: "Select your services",
+      subtitle: "Select a specific service",
+      headline: selectedService || "Select your services",
       component: ServiceSelectionStep,
       fields: ['subService']
     },
     {
       id: 'personal',
       title: t.stepPersonal || 'Details',
-      subtitle: "We need a few details to get in touch and start your relocation journey.",
+      subtitle: "We need a few details to get in touch and start your journey.",
       headline: "Tell us about yourself",
       component: PersonalDetailsStep,
       fields: ['salutation', 'firstName', 'lastName', 'dateOfBirth', 'email', 'phoneNumber', 'street', 'postalCode', 'city', 'country', 'message', 'contactConsent', 'privacyConsent']
@@ -162,7 +191,7 @@ export function ContactForm({
   }
 
   return (
-    <div className="w-full max-w-[1100px] mx-auto bg-white rounded-3xl shadow-[0_18px_45px_rgba(15,23,42,0.12)] border border-gray-200 p-6 md:p-10">
+    <div id="contact-form-top" className="w-full max-w-[1100px] mx-auto bg-white rounded-3xl shadow-[0_18px_45px_rgba(15,23,42,0.12)] border border-gray-200 p-6 md:p-10">
 
       {/* Header */}
       <div className="mb-8">
@@ -218,7 +247,7 @@ export function ContactForm({
           </AnimatePresence>
 
           {/* Footer Navigation */}
-          <div className="flex justify-between md:justify-end items-center gap-3 mt-10 pt-6 border-t border-gray-100">
+          <div className="flex justify-between md:justify-end items-center gap-3 mt-10 pt-6">
             <button
               type="button"
               onClick={handleBack}
