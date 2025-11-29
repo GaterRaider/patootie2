@@ -34,6 +34,7 @@ export default function Home() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [refId, setRefId] = useState<string | undefined>(undefined);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [formKey, setFormKey] = useState(0);
   // Load FAQ data from database via tRPC
   const { data: faqData } = trpc.faq.getByLanguage.useQuery({
     language: language as 'en' | 'ko' | 'de',
@@ -76,7 +77,10 @@ export default function Home() {
   const handleReset = () => {
     setShowSuccess(false);
     setSelectedService("");
+    setSelectedSubService("");
+    setSelectedSubServices([]);
     setRefId(undefined);
+    setFormKey(prev => prev + 1);
   };
 
   const handleServiceCardClick = (service: string, subService?: string, subServices?: string[]) => {
@@ -614,27 +618,24 @@ export default function Home() {
               <div className="h-1 w-20 bg-blue-600 rounded-full mx-auto"></div>
             </div>
 
-            <Card className="shadow-xl border-2">
-              <CardContent className="pt-8 px-6 md:px-10">
-                <ContactForm
-                  t={t}
-                  selectedService={selectedService}
-                  selectedSubService={selectedSubService}
-                  selectedSubServices={selectedSubServices}
-                  setSelectedService={setSelectedService}
-                  setSelectedSubService={setSelectedSubService}
-                  setSelectedSubServices={setSelectedSubServices}
-                  selectedViaCard={selectedViaCard}
-                  setSelectedViaCard={setSelectedViaCard}
-                  onSubmit={handleSubmit}
-                  isSubmitting={isSubmitting}
-                  onLocationChange={setLocation}
-                  isSuccess={showSuccess}
-                  onReset={handleReset}
-                  refId={refId}
-                />
-              </CardContent>
-            </Card>
+            <ContactForm
+              key={formKey}
+              t={t}
+              selectedService={selectedService}
+              selectedSubService={selectedSubService}
+              selectedSubServices={selectedSubServices}
+              setSelectedService={setSelectedService}
+              setSelectedSubService={setSelectedSubService}
+              setSelectedSubServices={setSelectedSubServices}
+              selectedViaCard={selectedViaCard}
+              setSelectedViaCard={setSelectedViaCard}
+              onSubmit={handleSubmit}
+              isSubmitting={isSubmitting}
+              onLocationChange={setLocation}
+              isSuccess={showSuccess}
+              onReset={handleReset}
+              refId={refId}
+            />
           </div>
         </section>
 

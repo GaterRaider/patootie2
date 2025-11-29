@@ -1,12 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check, ArrowRight, ArrowLeft } from 'lucide-react';
 import { Translations } from "@/i18n/translations";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { ServicePersonalStep } from "./contact-form/ServicePersonalStep";
-import { ContactInfoStep } from "./contact-form/ContactInfoStep";
-import { DetailsStep } from "./contact-form/DetailsStep";
+import { CategoryStep } from "./contact-form/CategoryStep";
+import { ServiceSelectionStep } from "./contact-form/ServiceSelectionStep";
+import { PersonalDetailsStep } from "./contact-form/PersonalDetailsStep";
 import { SuccessStep } from "./contact-form/SuccessStep";
 
 interface ContactFormProps {
@@ -26,8 +26,6 @@ interface ContactFormProps {
   onReset: () => void;
   refId?: string;
 }
-
-
 
 // Main Form Component
 export function ContactForm({
@@ -69,12 +67,42 @@ export function ContactForm({
       privacyConsent: false
     }
   });
-  const { handleSubmit, trigger, formState: { errors }, register, watch, setValue } = methods;
+  const { handleSubmit, trigger, formState: { errors }, register, watch, setValue, reset } = methods;
+
+  useEffect(() => {
+    if (isSuccess) {
+      const contactSection = document.getElementById('contact');
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  }, [isSuccess]);
 
   const steps = [
-    { title: t.stepService || 'Service', component: ServicePersonalStep, fields: ['service', 'salutation', 'firstName', 'lastName', 'dateOfBirth'] },
-    { title: t.stepContact || 'Contact', component: ContactInfoStep, fields: ['email', 'phoneNumber'] },
-    { title: 'Address', component: DetailsStep, fields: ['street', 'postalCode', 'city', 'country', 'message', 'contactConsent', 'privacyConsent'] }
+    {
+      id: 'category',
+      title: t.stepService || 'Category',
+      subtitle: "Answer a few quick questions so we can match you with the right relocation support.",
+      headline: "How can we help you?",
+      component: CategoryStep,
+      fields: ['service']
+    },
+    {
+      id: 'service',
+      title: t.formSubService || 'Service',
+      subtitle: "Choose the specific services you need assistance with.",
+      headline: "Select your services",
+      component: ServiceSelectionStep,
+      fields: ['subService']
+    },
+    {
+      id: 'personal',
+      title: t.stepPersonal || 'Details',
+      subtitle: "We need a few details to get in touch and start your relocation journey.",
+      headline: "Tell us about yourself",
+      component: PersonalDetailsStep,
+      fields: ['salutation', 'firstName', 'lastName', 'dateOfBirth', 'email', 'phoneNumber', 'street', 'postalCode', 'city', 'country', 'message', 'contactConsent', 'privacyConsent']
+    }
   ];
 
   const StepComponent = steps[currentStep].component;
@@ -134,40 +162,43 @@ export function ContactForm({
   }
 
   return (
-    <div className="w-full">
-      {/* Progress Bar - Fixed Alignment */}
+    <div className="w-full max-w-[1100px] mx-auto bg-white rounded-3xl shadow-[0_18px_45px_rgba(15,23,42,0.12)] border border-gray-200 p-6 md:p-10">
+
+      {/* Header */}
       <div className="mb-8">
-        <div className="flex justify-between items-center mb-3 px-4">
-          {steps.map((step, index) => (
-            <div key={index} className="flex flex-col items-center">
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold text-sm transition-all ${index < currentStep
-                ? 'bg-green-500 text-white'
-                : index === currentStep
-                  ? 'bg-gradient-to-br from-blue-500 to-purple-600 text-white'
-                  : 'bg-muted text-muted-foreground'
-                }`}>
-                {index < currentStep ? <Check className="w-5 h-5" /> : index + 1}
-              </div>
-              <span className={`text-xs mt-2 font-medium text-center ${index <= currentStep ? 'text-foreground' : 'text-muted-foreground'
-                }`}>
-                {step.title}
-              </span>
-            </div>
-          ))}
+        <div className="inline-flex items-center px-3 py-1 rounded-full border border-indigo-100 bg-indigo-50 text-xs font-bold tracking-wider text-indigo-600 uppercase mb-6">
+          Contact form
         </div>
-        <div className="h-2 bg-muted rounded-full overflow-hidden">
-          <motion.div
-            className="h-full bg-gradient-to-r from-blue-500 to-purple-600"
-            initial={{ width: 0 }}
-            animate={{ width: `${progress}%` }}
-            transition={{ duration: 0.3 }}
-          />
+
+        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+          <div className="flex-1">
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-3">
+              {steps[currentStep].headline}
+            </h1>
+            <p className="text-gray-500 text-sm md:text-base leading-relaxed max-w-2xl">
+              {steps[currentStep].subtitle}
+            </p>
+          </div>
+
+          <div className="flex flex-col items-start md:items-end min-w-[160px]">
+            <div className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">
+              Step {currentStep + 1} of {steps.length}
+            </div>
+            <div className="w-full md:w-40 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+              <motion.div
+                className="h-full bg-gradient-to-r from-indigo-600 to-indigo-500"
+                initial={{ width: 0 }}
+                animate={{ width: `${progress}%` }}
+                transition={{ duration: 0.3 }}
+              />
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Form */}
+      {/* Form Steps */}
       <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(handleFormSubmit)} onKeyDown={handleKeyDown}>
+        <form onSubmit={handleSubmit(handleFormSubmit)} onKeyDown={handleKeyDown} className="relative min-h-[300px]">
           <AnimatePresence mode="wait">
             <StepComponent
               key={currentStep}
@@ -186,46 +217,45 @@ export function ContactForm({
             />
           </AnimatePresence>
 
-          {/* Navigation Buttons */}
-          <div className="flex gap-3 mt-8">
-            {currentStep > 0 && (
-              <button
-                type="button"
-                onClick={handleBack}
-                className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl border-2 border-input font-medium hover:bg-muted transition-all"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                {t.stepBack || "Back"}
-              </button>
-            )}
+          {/* Footer Navigation */}
+          <div className="flex justify-between md:justify-end items-center gap-3 mt-10 pt-6 border-t border-gray-100">
+            <button
+              type="button"
+              onClick={handleBack}
+              disabled={currentStep === 0}
+              className={`
+                px-6 py-2.5 rounded-full text-sm font-medium transition-all
+                ${currentStep === 0
+                  ? 'text-gray-300 cursor-not-allowed'
+                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                }
+              `}
+            >
+              {t.stepBack || "Back"}
+            </button>
 
             {currentStep < steps.length - 1 ? (
               <button
                 type="button"
                 onClick={handleNext}
-                className="flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium hover:shadow-lg hover:scale-[1.02] transition-all"
+                className="group flex items-center gap-2 px-8 py-2.5 rounded-full bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 hover:shadow-lg hover:-translate-y-0.5 transition-all"
               >
                 {t.stepNext || "Continue"}
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </button>
             ) : (
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-green-500 to-emerald-600 text-white font-medium hover:shadow-lg hover:scale-[1.02] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="group flex items-center gap-2 px-8 py-2.5 rounded-full bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 hover:shadow-lg hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none disabled:hover:shadow-none"
               >
-                {isSubmitting ? 'Submitting...' : t.stepSubmit || "Submit"}
-                <Check className="w-4 h-4" />
+                {isSubmitting ? (t.formSubmitting || 'Submitting...') : (t.stepSubmit || "Submit")}
+                {!isSubmitting && <Check className="w-4 h-4" />}
               </button>
             )}
           </div>
         </form>
       </FormProvider>
-
-      {/* Progress Text */}
-      <p className="text-center mt-4 text-sm text-muted-foreground">
-        Step {currentStep + 1} of {steps.length}
-      </p>
     </div>
   );
 }

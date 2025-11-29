@@ -26,6 +26,7 @@ export interface Translations {
   serviceCard1Badge: string;
   serviceCard1Desc: string;
   serviceCard1Services: string[];
+  serviceCard1Descriptions: string[];
   relocationBundleItems: string[];
   serviceCard1CTA: string;
   serviceCard2Title: string;
@@ -191,6 +192,12 @@ export const translations: Record<Language, Translations> = {
       "Anmeldung support (document preparation, on-site accompaniment & interpretation)",
       "Deregistration (Abmeldung) assistance",
       "Cancellation support before departure (e.g. housing, contracts)"
+    ],
+    serviceCard1Descriptions: [
+      "Comprehensive support including search, viewings, and contract negotiation.",
+      "We prepare your forms, book the appointment, and accompany you to the office.",
+      "Leaving Germany? We handle the official deregistration process for you.",
+      "Assistance with cancelling housing, internet, and other contracts before you leave."
     ],
     relocationBundleItems: [
       "Apartment/house search assistance",
@@ -375,6 +382,12 @@ export const translations: Record<Language, Translations> = {
       "압멜둥(거주지 말소) 지원",
       "출국 전 해지 지원 (주택, 각종 계약 등)"
     ],
+    serviceCard1Descriptions: [
+      "주택 검색, 방문, 계약 협상을 포함한 종합적인 지원.",
+      "서류 준비, 예약, 관공서 동행 및 통역을 지원합니다.",
+      "독일을 떠나시나요? 거주지 말소 절차를 대신 처리해 드립니다.",
+      "출국 전 주택, 인터넷 및 기타 계약 해지를 도와드립니다."
+    ],
     relocationBundleItems: [
       "아파트/주택 검색 지원",
       "부동산 방문 동행 및 통역",
@@ -557,6 +570,12 @@ export const translations: Record<Language, Translations> = {
       "Anmeldung (Vorbereitung der Unterlagen, Begleitung & Dolmetschen)",
       "Abmeldung",
       "Kündigungsunterstützung vor Abreise (z.B. Wohnung, Verträge)"
+    ],
+    serviceCard1Descriptions: [
+      "Umfassende Unterstützung bei Suche, Besichtigungen und Vertragsverhandlungen.",
+      "Wir bereiten Ihre Formulare vor, buchen den Termin und begleiten Sie zum Amt.",
+      "Verlassen Sie Deutschland? Wir erledigen die offizielle Abmeldung für Sie.",
+      "Unterstützung bei der Kündigung von Wohnung, Internet und anderen Verträgen."
     ],
     relocationBundleItems: [
       "Wohnungs-/Haussuche",
