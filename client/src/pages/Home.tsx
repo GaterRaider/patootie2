@@ -46,7 +46,7 @@ export default function Home() {
     if (params.get("scrollTo") === "contact") {
       // Small timeout to ensure DOM is ready
       setTimeout(() => {
-        document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+        document.getElementById("contact-form-top")?.scrollIntoView({ behavior: "smooth" });
         // Optional: Clean up URL
         window.history.replaceState({}, "", "/");
       }, 100);
@@ -97,7 +97,7 @@ export default function Home() {
       setSelectedSubServices([]);
     }
     // Scroll to contact form
-    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+    document.getElementById("contact-form-top")?.scrollIntoView({ behavior: "smooth" });
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -134,11 +134,19 @@ export default function Home() {
     const isHome = location === `/${language}` || location === `/${language}/`;
 
     if (isHome) {
-      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      if (id === "contact") {
+        document.getElementById("contact-form-top")?.scrollIntoView({ behavior: "smooth" });
+      } else {
+        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      }
     } else {
       setLocation(`/${language}`);
       setTimeout(() => {
-        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+        if (id === "contact") {
+          document.getElementById("contact-form-top")?.scrollIntoView({ behavior: "smooth" });
+        } else {
+          document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+        }
       }, 100);
     }
   };
@@ -611,7 +619,7 @@ export default function Home() {
 
         {/* Contact Form Section */}
         <section id="contact" className="py-8 md:py-14 scroll-mt-20">
-          <div className="container max-w-4xl">
+          <div className="container max-w-[1100px]">
             <div className="text-center mb-12 md:mb-16">
               <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.contactLabel}</span>
               <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">{t.contactHeading}</h2>

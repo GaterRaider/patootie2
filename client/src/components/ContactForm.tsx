@@ -107,6 +107,19 @@ export function ContactForm({
     }
   }, [selectedViaCard, selectedService, selectedSubService, selectedSubServices, setValue, setSelectedViaCard]);
 
+  // Auto-scroll to footer on Category selection (Step 1)
+  useEffect(() => {
+    if (currentStep === 0 && selectedService) {
+      const footer = document.getElementById('contact-form-footer');
+      if (footer) {
+        // Small timeout to allow state update and render
+        setTimeout(() => {
+          footer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 100);
+      }
+    }
+  }, [selectedService, currentStep]);
+
   const steps = [
     {
       id: 'category',
@@ -191,7 +204,7 @@ export function ContactForm({
   }
 
   return (
-    <div id="contact-form-top" className="w-full max-w-[1100px] mx-auto bg-white rounded-3xl shadow-[0_18px_45px_rgba(15,23,42,0.12)] border border-gray-200 p-6 md:p-10">
+    <div id="contact-form-top" className="w-full max-w-[1100px] mx-auto bg-white rounded-3xl shadow-[0_18px_45px_rgba(15,23,42,0.12)] border border-gray-200 p-6 md:p-10 scroll-mt-32">
 
       {/* Header */}
       <div className="mb-8">
@@ -253,7 +266,7 @@ export function ContactForm({
           </AnimatePresence>
 
           {/* Footer Navigation */}
-          <div className="flex justify-between md:justify-end items-center gap-3 mt-10 pt-6">
+          <div id="contact-form-footer" className="flex justify-between md:justify-end items-center gap-3 mt-10 pt-6">
             <button
               type="button"
               onClick={handleBack}
