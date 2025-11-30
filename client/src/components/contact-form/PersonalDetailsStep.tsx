@@ -19,14 +19,14 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language }: Pe
     const suggestedCountries = countries.filter(c => suggestedCodes.includes(c.code));
 
     const InputWrapper = ({ children, icon: Icon, error, label }: { children: React.ReactNode, icon?: any, error?: any, label?: string }) => (
-        <div className="w-full">
-            {label && <label className="block text-xs font-medium text-gray-700 mb-1.5 ml-1">{label}</label>}
+        <div className="w-full group">
+            {label && <label className="block text-xs font-medium text-gray-700 mb-1.5 ml-1 transition-colors group-focus-within:text-indigo-600">{label}</label>}
             <div className={`
-        flex items-center gap-3 px-4 py-3 bg-gray-50 rounded-xl border transition-all duration-200
-        focus-within:bg-white focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/10
-        ${error ? 'border-red-500 bg-red-50/50' : 'border-gray-200'}
+        flex items-center gap-3 px-4 py-3 bg-gray-50 rounded-xl border transition-all duration-300 ease-out
+        focus-within:bg-white focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/10 focus-within:shadow-md focus-within:-translate-y-0.5
+        ${error ? 'border-red-500 bg-red-50/50' : 'border-gray-200 hover:border-gray-300'}
       `}>
-                {Icon && <Icon className="w-4 h-4 text-gray-400 shrink-0" />}
+                {Icon && <Icon className="w-4 h-4 text-gray-400 shrink-0 transition-colors group-focus-within:text-indigo-500" />}
                 {children}
             </div>
             {error && <p className="mt-1 ml-1 text-xs text-red-500 font-medium">{error.message}</p>}
@@ -198,9 +198,9 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language }: Pe
             {/* Message */}
             <SectionCard title={t.formMessage || "Message"} icon={MessageSquare}>
                 <div className={`
-                    w-full px-4 py-3 bg-gray-50 rounded-xl border transition-all duration-200
-                    focus-within:bg-white focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/10
-                    ${errors.message ? 'border-red-500 bg-red-50/50' : 'border-gray-200'}
+                    w-full px-4 py-3 bg-gray-50 rounded-xl border transition-all duration-300 ease-out
+                    focus-within:bg-white focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/10 focus-within:shadow-md focus-within:-translate-y-0.5
+                    ${errors.message ? 'border-red-500 bg-red-50/50' : 'border-gray-200 hover:border-gray-300'}
                 `}>
                     <textarea
                         {...register('message', { required: t.errorRequired, minLength: { value: 10, message: t.errorRequired } })}

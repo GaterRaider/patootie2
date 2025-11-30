@@ -78,18 +78,18 @@ export const CategoryStep = ({ t, selectedService, setSelectedService, setValue,
                                 type="button"
                                 onClick={() => handleSelect(category.value)}
                                 className={`
-                  relative flex flex-col gap-3 p-5 rounded-2xl border text-left transition-all duration-150 min-h-[120px]
-                  hover:border-gray-400 hover:-translate-y-[1px] hover:shadow-lg
+                  relative flex flex-col gap-3 p-5 rounded-2xl border text-left transition-all duration-200 min-h-[120px] group
+                  hover:scale-[1.02] hover:shadow-xl
                   ${isSelected
-                                        ? 'border-indigo-600 bg-indigo-50/50 shadow-md ring-1 ring-indigo-600/20'
-                                        : 'border-gray-200 bg-white shadow-sm'
+                                        ? 'border-indigo-500 bg-white shadow-[0_0_20px_rgba(99,102,241,0.15)] ring-1 ring-indigo-500'
+                                        : 'border-gray-200 bg-white hover:border-indigo-200'
                                     }
                 `}
                             >
                                 <div className="flex items-center gap-3">
                                     <div className={`
-                    w-12 h-12 rounded-xl flex items-center justify-center transition-colors
-                    ${isSelected ? 'bg-indigo-100 text-indigo-600' : 'bg-gray-100 text-gray-500'}
+                    w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300
+                    ${isSelected ? 'bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-lg scale-110' : 'bg-gray-100 text-gray-500 group-hover:bg-indigo-50 group-hover:text-indigo-600'}
                   `}>
                                         <Icon className="w-6 h-6" />
                                     </div>

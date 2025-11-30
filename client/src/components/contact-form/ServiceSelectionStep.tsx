@@ -106,19 +106,19 @@ export const ServiceSelectionStep = ({
                                 type="button"
                                 onClick={() => handleSelect(service.title)}
                                 className={`
-                  relative flex flex-col items-start p-5 rounded-xl border text-left transition-all duration-150
-                  hover:border-gray-400 hover:-translate-y-[1px] hover:shadow-md w-full
+                  relative flex flex-col items-start p-5 rounded-xl border text-left transition-all duration-200 group
+                  hover:scale-[1.02] hover:shadow-xl w-full
                   ${isSelected
-                                        ? 'border-indigo-600 bg-indigo-50/50 shadow-sm ring-1 ring-indigo-600/20'
-                                        : 'border-gray-200 bg-white'
+                                        ? 'border-indigo-500 bg-white shadow-[0_0_20px_rgba(99,102,241,0.15)] ring-1 ring-indigo-500'
+                                        : 'border-gray-200 bg-white hover:border-indigo-200'
                                     }
                 `}
                             >
                                 <div className="flex items-start gap-4 w-full">
                                     {/* Icon */}
                                     <div className={`
-                    w-10 h-10 rounded-lg flex-shrink-0 flex items-center justify-center transition-colors mt-0.5
-                    ${isSelected ? 'bg-indigo-100 text-indigo-600' : 'bg-gray-100 text-gray-500'}
+                    w-10 h-10 rounded-lg flex-shrink-0 flex items-center justify-center transition-all duration-300 mt-0.5
+                    ${isSelected ? 'bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-md scale-110' : 'bg-gray-100 text-gray-500 group-hover:bg-indigo-50 group-hover:text-indigo-600'}
                   `}>
                                         <Icon className="w-5 h-5" />
                                     </div>

@@ -209,16 +209,22 @@ export function ContactForm({
             </p>
           </div>
 
-          <div className="flex flex-col items-start md:items-end min-w-[160px]">
+          <div className="flex flex-col items-end min-w-[200px]">
             <div className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">
               Step {currentStep + 1} of {steps.length}
             </div>
-            <div className="w-full md:w-40 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+            <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden shadow-inner">
               <motion.div
-                className="h-full bg-gradient-to-r from-indigo-600 to-indigo-500"
+                className="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500 bg-[length:200%_100%]"
                 initial={{ width: 0 }}
-                animate={{ width: `${progress}%` }}
-                transition={{ duration: 0.3 }}
+                animate={{
+                  width: `${progress}%`,
+                  backgroundPosition: ["0% 50%", "100% 50%"]
+                }}
+                transition={{
+                  width: { duration: 0.5, ease: "easeInOut" },
+                  backgroundPosition: { duration: 2, repeat: Infinity, ease: "linear" }
+                }}
               />
             </div>
           </div>
