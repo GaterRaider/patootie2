@@ -262,6 +262,7 @@ export function ContactForm({
               selectedSubServices={selectedSubServices}
               setSelectedSubServices={setSelectedSubServices}
               language={language}
+              control={methods.control}
             />
           </AnimatePresence>
 

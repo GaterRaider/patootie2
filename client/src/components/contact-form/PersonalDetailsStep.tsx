@@ -1,7 +1,17 @@
 import { motion } from 'framer-motion';
 import { User, Mail, MapPin, Calendar, Phone, Globe, MessageSquare, CheckSquare } from 'lucide-react';
+import { Controller } from 'react-hook-form';
 import { Translations } from "@/i18n/translations";
 import { countries } from "@/lib/countries";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 
 interface PersonalDetailsStepProps {
     t: Translations;
@@ -9,9 +19,10 @@ interface PersonalDetailsStepProps {
     register: any;
     watch: any;
     language: string;
+    control: any;
 }
 
-export const PersonalDetailsStep = ({ t, errors, register, watch, language }: PersonalDetailsStepProps) => {
+export const PersonalDetailsStep = ({ t, errors, register, watch, language, control }: PersonalDetailsStepProps) => {
     const country = watch('country');
     const shouldShowStateProvince = country === 'United States of America' || country === 'Canada';
 
@@ -57,16 +68,24 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language }: Pe
             <SectionCard title={t.formSectionPersonal || "Personal Information"} icon={User}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <InputWrapper label={t.formSalutation} error={errors.salutation}>
-                        <select
-                            {...register('salutation', { required: t.errorRequired })}
-                            className="w-full bg-transparent border-none outline-none text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-slate-500 appearance-none cursor-pointer"
-                        >
-                            <option value="">{t.formSalutationPlaceholder}</option>
-                            <option value="Mr">{t.formSalutationMr}</option>
-                            <option value="Ms">{t.formSalutationMs}</option>
-                            <option value="Mx">{t.formSalutationMx}</option>
-                            <option value="Prefer not to say">{t.formSalutationPreferNot}</option>
-                        </select>
+                        <Controller
+                            control={control}
+                            name="salutation"
+                            rules={{ required: t.errorRequired }}
+                            render={({ field }) => (
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <SelectTrigger className="w-full bg-transparent border-none shadow-none focus:ring-0 px-0 h-auto text-sm text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-slate-500">
+                                        <SelectValue placeholder={t.formSalutationPlaceholder} />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="Mr">{t.formSalutationMr}</SelectItem>
+                                        <SelectItem value="Ms">{t.formSalutationMs}</SelectItem>
+                                        <SelectItem value="Mx">{t.formSalutationMx}</SelectItem>
+                                        <SelectItem value="Prefer not to say">{t.formSalutationPreferNot}</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            )}
+                        />
                     </InputWrapper>
 
                     <InputWrapper label={t.formDateOfBirth} icon={Calendar} error={errors.dateOfBirth}>
@@ -160,26 +179,42 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language }: Pe
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <InputWrapper label={t.formCountry} icon={Globe} error={errors.country}>
-                            <select
-                                {...register('country', { required: t.errorRequired })}
-                                className="w-full bg-transparent border-none outline-none text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-slate-500 appearance-none cursor-pointer"
-                            >
-                                <option value="" className="dark:bg-slate-800">{t.formCountryPlaceholder}</option>
-                                <optgroup label={t.formSuggestedCountries} className="dark:bg-slate-800">
-                                    {suggestedCountries.map((country) => (
-                                        <option key={`suggested-${country.code}`} value={country.name} className="dark:bg-slate-800">
-                                            {country.flag} {country.name}
-                                        </option>
-                                    ))}
-                                </optgroup>
-                                <optgroup label={t.formAllCountries} className="dark:bg-slate-800">
-                                    {countries.map((country) => (
-                                        <option key={country.code} value={country.name} className="dark:bg-slate-800">
-                                            {country.flag} {country.name}
-                                        </option>
-                                    ))}
-                                </optgroup>
-                            </select>
+                            <Controller
+                                control={control}
+                                name="country"
+                                rules={{ required: t.errorRequired }}
+                                render={({ field }) => (
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <SelectTrigger className="w-full bg-transparent border-none shadow-none focus:ring-0 px-0 h-auto text-sm text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-slate-500">
+                                            <SelectValue placeholder={t.formCountryPlaceholder} />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectGroup>
+                                                <SelectLabel>{t.formSuggestedCountries}</SelectLabel>
+                                                {suggestedCountries.map((country) => (
+                                                    <SelectItem key={`suggested-${country.code}`} value={country.name}>
+                                                        <span className="flex items-center gap-2">
+                                                            <span>{country.flag}</span>
+                                                            <span>{country.name}</span>
+                                                        </span>
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectGroup>
+                                            <SelectGroup>
+                                                <SelectLabel>{t.formAllCountries}</SelectLabel>
+                                                {countries.map((country) => (
+                                                    <SelectItem key={country.code} value={country.name}>
+                                                        <span className="flex items-center gap-2">
+                                                            <span>{country.flag}</span>
+                                                            <span>{country.name}</span>
+                                                        </span>
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select>
+                                )}
+                            />
                         </InputWrapper>
 
                         {shouldShowStateProvince && (
