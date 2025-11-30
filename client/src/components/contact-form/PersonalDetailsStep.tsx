@@ -28,6 +28,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
 
     const suggestedCodes = ['DE', 'KR', 'US'];
     const suggestedCountries = countries.filter(c => suggestedCodes.includes(c.code));
+    const selectedCountry = countries.find(c => c.name === country);
 
     const InputWrapper = ({ children, icon: Icon, error, label }: { children: React.ReactNode, icon?: any, error?: any, label?: string }) => (
         <div className="w-full group">
@@ -74,7 +75,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                             rules={{ required: t.errorRequired }}
                             render={({ field }) => (
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                    <SelectTrigger className="w-full bg-transparent border-none shadow-none focus:ring-0 px-0 h-auto text-sm text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-slate-500">
+                                    <SelectTrigger className="w-full !bg-transparent dark:!bg-transparent hover:!bg-transparent dark:hover:!bg-transparent border-none shadow-none focus:ring-0 focus-visible:ring-0 px-0 !py-0 !h-auto !min-h-0 flex-1 text-sm text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-slate-500">
                                         <SelectValue placeholder={t.formSalutationPlaceholder} />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -185,8 +186,15 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                                 rules={{ required: t.errorRequired }}
                                 render={({ field }) => (
                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                        <SelectTrigger className="w-full bg-transparent border-none shadow-none focus:ring-0 px-0 h-auto text-sm text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-slate-500">
-                                            <SelectValue placeholder={t.formCountryPlaceholder} />
+                                        <SelectTrigger className="w-full !bg-transparent dark:!bg-transparent hover:!bg-transparent dark:hover:!bg-transparent border-none shadow-none focus:ring-0 focus-visible:ring-0 px-0 !py-0 !h-auto !min-h-0 flex-1 text-sm text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-slate-500">
+                                            <SelectValue placeholder={t.formCountryPlaceholder}>
+                                                {selectedCountry && (
+                                                    <span className="flex items-center gap-2">
+                                                        <span>{selectedCountry.flag}</span>
+                                                        <span>{selectedCountry.name}</span>
+                                                    </span>
+                                                )}
+                                            </SelectValue>
                                         </SelectTrigger>
                                         <SelectContent>
                                             <SelectGroup>
