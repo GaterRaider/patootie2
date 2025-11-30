@@ -32,14 +32,17 @@ export interface Translations {
   serviceCard2Title: string;
   serviceCard2Desc: string;
   serviceCard2Services: string[];
+  serviceCard2Descriptions: string[];
   serviceCard2CTA: string;
   serviceCard3Title: string;
   serviceCard3Desc: string;
   serviceCard3Services: string[];
+  serviceCard3Descriptions: string[];
   serviceCard3CTA: string;
   serviceCard4Title: string;
   serviceCard4Desc: string;
   serviceCard4Services: string[];
+  serviceCard4Descriptions: string[];
   serviceCard4CTA: string;
 
   // Process Section
@@ -216,6 +219,15 @@ export const translations: Record<Language, Translations> = {
       "Driver's license exchange support & interpretation",
       "Tax class (Steuerklasse) change application"
     ],
+    serviceCard2Descriptions: [
+      "Full support for company transfers and assignments.",
+      "Reunite with your family in Germany.",
+      "Guidance for employment-based residence permits.",
+      "We go with you to the immigration office.",
+      "Save time by letting us pick up your documents.",
+      "Convert your foreign license to a German one.",
+      "Optimize your monthly net income."
+    ],
     serviceCard2CTA: "Select Immigration & Legal Services",
     serviceCard3Title: "Benefits & Financial Services",
     serviceCard3Desc: "Maximize your financial benefits. We help with pension refunds, child benefits, and setting up your banking foundations.",
@@ -224,12 +236,21 @@ export const translations: Record<Language, Translations> = {
       "Child benefit (Kindergeld) application",
       "Bank account opening assistance"
     ],
+    serviceCard3Descriptions: [
+      "Claim back your pension contributions if leaving.",
+      "Monthly financial support for your children.",
+      "Set up a Girokonto for your salary and rent."
+    ],
     serviceCard3CTA: "Select Benefits & Financial Services",
     serviceCard4Title: "Integration & Daily Life",
     serviceCard4Desc: "Essential support for your daily life in Germany. We handle utilities, insurance, and other contracts so you can focus on living.",
     serviceCard4Services: [
       "Internet & electricity contract setup",
       "Insurance enrollment support (liability & legal insurance)"
+    ],
+    serviceCard4Descriptions: [
+      "Get connected with the best providers.",
+      "Protect yourself with essential German insurance."
     ],
     serviceCard4CTA: "Select Integration & Daily Life",
 
@@ -405,6 +426,15 @@ export const translations: Record<Language, Translations> = {
       "운전면허 교환 지원 및 통역",
       "세금 등급(Steuerklasse) 변경 신청"
     ],
+    serviceCard2Descriptions: [
+      "회사 파견 및 주재원을 위한 완벽한 지원.",
+      "독일에서의 가족 재결합을 돕습니다.",
+      "취업 거주 허가에 대한 전문 안내.",
+      "외국인청 인터뷰에 동행하여 통역합니다.",
+      "시간을 절약하세요, 저희가 대신 수령합니다.",
+      "외국 운전면허증을 독일 면허증으로 교환.",
+      "월 실수령액을 최적화하세요."
+    ],
     serviceCard2CTA: "이민 및 법률 서비스 선택",
     serviceCard3Title: "혜택 및 금융 서비스",
     serviceCard3Desc: "재정적 혜택을 극대화하세요. 연금 환급, 아동 수당 신청 및 은행 업무 기초 설정을 도와드립니다.",
@@ -413,12 +443,21 @@ export const translations: Record<Language, Translations> = {
       "아동 수당(Kindergeld) 신청",
       "은행 계좌 개설 지원"
     ],
+    serviceCard3Descriptions: [
+      "귀국 시 연금 납부액을 환급받으세요.",
+      "자녀를 위한 매월 재정 지원금.",
+      "급여와 월세를 위한 입출금 계좌 개설."
+    ],
     serviceCard3CTA: "혜택 및 금융 서비스 선택",
     serviceCard4Title: "정착 및 일상 생활",
     serviceCard4Desc: "독일 생활에 필수적인 지원을 제공합니다. 공과금, 보험 및 기타 계약을 처리하여 편안한 생활에 집중할 수 있도록 돕습니다.",
     serviceCard4Services: [
       "인터넷 및 전기 계약 설치",
       "보험 가입 지원 (책임 및 법률 보험)"
+    ],
+    serviceCard4Descriptions: [
+      "최고의 통신사 및 전력 회사 연결.",
+      "필수 독일 보험으로 자신을 보호하세요."
     ],
     serviceCard4CTA: "정착 및 일상 생활 선택",
 
@@ -594,6 +633,15 @@ export const translations: Record<Language, Translations> = {
       "Unterstützung beim Führerscheinumtausch & Dolmetschen",
       "Antrag auf Steuerklassenwechsel"
     ],
+    serviceCard2Descriptions: [
+      "Volle Unterstützung für Firmenentsendungen.",
+      "Familienzusammenführung in Deutschland.",
+      "Beratung für Aufenthaltstitel zur Erwerbstätigkeit.",
+      "Wir begleiten Sie zur Ausländerbehörde.",
+      "Sparen Sie Zeit, wir holen Ihre Dokumente ab.",
+      "Umschreibung Ihres ausländischen Führerscheins.",
+      "Optimieren Sie Ihr monatliches Nettoeinkommen."
+    ],
     serviceCard2CTA: "Einwanderung & Rechtliches wählen",
     serviceCard3Title: "Leistungen & Finanzen",
     serviceCard3Desc: "Maximieren Sie Ihre finanziellen Vorteile. Wir helfen bei Rentenerstattungen, Kindergeld und der Einrichtung Ihrer Bankgeschäfte.",
@@ -602,12 +650,21 @@ export const translations: Record<Language, Translations> = {
       "Kindergeldantrag",
       "Unterstützung bei der Kontoeröffnung"
     ],
+    serviceCard3Descriptions: [
+      "Rentenbeiträge bei Ausreise zurückfordern.",
+      "Monatliche finanzielle Unterstützung für Ihre Kinder.",
+      "Einrichtung eines Girokontos für Gehalt und Miete."
+    ],
     serviceCard3CTA: "Leistungen & Finanzen wählen",
     serviceCard4Title: "Integration & Alltag",
     serviceCard4Desc: "Wesentliche Unterstützung für Ihren Alltag in Deutschland. Wir kümmern uns um Versorgungsunternehmen, Versicherungen und andere Verträge, damit Sie sich auf das Leben konzentrieren können.",
     serviceCard4Services: [
       "Einrichtung von Internet- & Stromverträgen",
       "Unterstützung bei Versicherungsanmeldungen (Haftpflicht- & Rechtsschutzversicherung)"
+    ],
+    serviceCard4Descriptions: [
+      "Anschluss bei den besten Anbietern.",
+      "Schutz durch wichtige deutsche Versicherungen."
     ],
     serviceCard4CTA: "Integration & Alltag wählen",
 

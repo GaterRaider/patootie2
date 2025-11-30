@@ -50,18 +50,21 @@ export const ServiceSelectionStep = ({
         services = t.serviceCard2Services.map((service, index) => ({
             id: `service-2-${index}`,
             title: service,
+            description: t.serviceCard2Descriptions?.[index] || "",
             icon: FileText
         }));
     } else if (selectedService === t.serviceCard3Title) {
         services = t.serviceCard3Services.map((service, index) => ({
             id: `service-3-${index}`,
             title: service,
+            description: t.serviceCard3Descriptions?.[index] || "",
             icon: FileText
         }));
     } else if (selectedService === t.serviceCard4Title) {
         services = t.serviceCard4Services.map((service, index) => ({
             id: `service-4-${index}`,
             title: service,
+            description: t.serviceCard4Descriptions?.[index] || "",
             icon: FileText
         }));
     }
