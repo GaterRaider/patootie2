@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, ArrowRight, ArrowLeft } from 'lucide-react';
+import { Check, ArrowRight, ArrowLeft, Send } from 'lucide-react';
 import { Translations } from "@/i18n/translations";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { CategoryStep } from "./contact-form/CategoryStep";
@@ -266,22 +266,27 @@ export function ContactForm({
           </AnimatePresence>
 
           {/* Footer Navigation */}
-          <div id="contact-form-footer" className="flex justify-between md:justify-end items-center gap-3 mt-10 pt-6">
+          {/* Footer Navigation */}
+          <div id="contact-form-footer" className={`flex items-center mt-12 pt-8 ${currentStep === steps.length - 1 ? 'justify-between' : 'justify-between md:justify-end gap-3'}`}>
+
+            {/* Back Button */}
             <button
               type="button"
               onClick={handleBack}
               disabled={currentStep === 0}
               className={`
-                px-6 py-2.5 rounded-full text-sm font-medium transition-all
-                ${currentStep === 0
-                  ? 'text-gray-300 cursor-not-allowed'
-                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                transition-all duration-200 flex items-center gap-2
+                ${currentStep === steps.length - 1
+                  ? 'text-gray-400 hover:text-gray-600 text-sm font-medium px-2 py-2 -ml-2' // Minimal style for last step
+                  : `px-6 py-2.5 rounded-full text-sm font-medium ${currentStep === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'}`
                 }
               `}
             >
+              {currentStep === steps.length - 1 && <ArrowLeft className="w-4 h-4" />}
               {t.stepBack || "Back"}
             </button>
 
+            {/* Next / Submit Button */}
             {currentStep < steps.length - 1 ? (
               <button
                 type="button"
@@ -292,14 +297,32 @@ export function ContactForm({
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </button>
             ) : (
-              <button
+              <motion.button
                 type="submit"
                 disabled={isSubmitting}
-                className="group flex items-center gap-2 px-8 py-2.5 rounded-full bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 hover:shadow-lg hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none disabled:hover:shadow-none"
+                whileHover={{ scale: 1.02, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                className={`
+                  group relative flex items-center gap-3 px-10 py-4 rounded-full text-white text-base font-bold tracking-wide
+                  bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 bg-[length:200%_auto]
+                  shadow-[0_10px_25px_-5px_rgba(79,70,229,0.4)]
+                  hover:shadow-[0_20px_35px_-5px_rgba(79,70,229,0.5)]
+                  transition-all duration-500
+                  disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none disabled:hover:shadow-none
+                `}
+                animate={{
+                  backgroundPosition: ["0% 50%", "100% 50%"]
+                }}
+                transition={{
+                  backgroundPosition: { duration: 3, repeat: Infinity, ease: "linear" },
+                  default: { duration: 0.2 }
+                }}
               >
-                {isSubmitting ? (t.formSubmitting || 'Submitting...') : (t.stepSubmit || "Submit")}
-                {!isSubmitting && <Check className="w-4 h-4" />}
-              </button>
+                <span className="relative z-10 flex items-center gap-2">
+                  {isSubmitting ? (t.formSubmitting || 'Sending...') : (t.stepSubmit || "Send Request")}
+                  {!isSubmitting && <Send className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5" />}
+                </span>
+              </motion.button>
             )}
           </div>
         </form>
