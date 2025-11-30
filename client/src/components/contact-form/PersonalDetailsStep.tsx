@@ -28,6 +28,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
 
     const suggestedCodes = ['DE', 'KR', 'US'];
     const suggestedCountries = countries.filter(c => suggestedCodes.includes(c.code));
+    const otherCountries = countries.filter(c => !suggestedCodes.includes(c.code));
     const selectedCountry = countries.find(c => c.name === country);
 
     const InputWrapper = ({ children, icon: Icon, error, label }: { children: React.ReactNode, icon?: any, error?: any, label?: string }) => (
@@ -91,7 +92,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                             name="salutation"
                             rules={{ required: t.errorRequired }}
                             render={({ field }) => (
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <Select onValueChange={field.onChange} defaultValue={field.value} autoComplete="honorific-prefix">
                                     <SelectTrigger className="w-full !bg-transparent dark:!bg-transparent hover:!bg-transparent dark:hover:!bg-transparent border-none shadow-none focus:ring-0 focus-visible:ring-0 px-0 !py-0 !h-auto !min-h-0 flex-1 text-sm text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-slate-500">
                                         <SelectValue placeholder={t.formSalutationPlaceholder} />
                                     </SelectTrigger>
@@ -132,7 +133,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                             type="email"
                             autoComplete="email"
                             placeholder="name@example.com"
-                            className="w-full bg-transparent border-none outline-none text-sm text-gray-900 placeholder-gray-500"
+                            className="w-full bg-transparent border-none outline-none text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-slate-500"
                         />
                     </InputWrapper>
                     <InputWrapper label={t.formPhone} icon={Phone} error={errors.phoneNumber}>
@@ -141,7 +142,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                             type="tel"
                             autoComplete="tel"
                             placeholder="+1 234 567 890"
-                            className="w-full bg-transparent border-none outline-none text-sm text-gray-900 placeholder-gray-500"
+                            className="w-full bg-transparent border-none outline-none text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-slate-500"
                         />
                     </InputWrapper>
                 </div>
@@ -155,7 +156,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                             {...register('street', { required: t.errorRequired })}
                             placeholder={t.formStreet}
                             autoComplete="address-line1"
-                            className="w-full bg-transparent border-none outline-none text-sm text-gray-900 placeholder-gray-500"
+                            className="w-full bg-transparent border-none outline-none text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-slate-500"
                         />
                     </InputWrapper>
 
@@ -164,7 +165,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                             {...register('addressLine2')}
                             placeholder={t.formAddressLine2}
                             autoComplete="address-line2"
-                            className="w-full bg-transparent border-none outline-none text-sm text-gray-900 placeholder-gray-500"
+                            className="w-full bg-transparent border-none outline-none text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-slate-500"
                         />
                     </InputWrapper>
 
@@ -174,7 +175,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                                 {...register('postalCode', { required: t.errorRequired })}
                                 placeholder={t.formPostalCode}
                                 autoComplete="postal-code"
-                                className="w-full bg-transparent border-none outline-none text-sm text-gray-900 placeholder-gray-500"
+                                className="w-full bg-transparent border-none outline-none text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-slate-500"
                             />
                         </InputWrapper>
                         <InputWrapper label={t.formCity} error={errors.city}>
@@ -182,7 +183,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                                 {...register('city', { required: t.errorRequired })}
                                 placeholder={t.formCity}
                                 autoComplete="address-level2"
-                                className="w-full bg-transparent border-none outline-none text-sm text-gray-900 placeholder-gray-500"
+                                className="w-full bg-transparent border-none outline-none text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-slate-500"
                             />
                         </InputWrapper>
                     </div>
@@ -194,7 +195,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                                 name="country"
                                 rules={{ required: t.errorRequired }}
                                 render={({ field }) => (
-                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value} autoComplete="country-name">
                                         <SelectTrigger className="w-full !bg-transparent dark:!bg-transparent hover:!bg-transparent dark:hover:!bg-transparent border-none shadow-none focus:ring-0 focus-visible:ring-0 px-0 !py-0 !h-auto !min-h-0 flex-1 text-sm text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-slate-500">
                                             <SelectValue placeholder={t.formCountryPlaceholder}>
                                                 {selectedCountry && (
@@ -219,7 +220,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                                             </SelectGroup>
                                             <SelectGroup>
                                                 <SelectLabel>{t.formAllCountries}</SelectLabel>
-                                                {countries.map((country) => (
+                                                {otherCountries.map((country) => (
                                                     <SelectItem key={country.code} value={country.name}>
                                                         <span className="flex items-center gap-2">
                                                             <span>{country.flag}</span>
