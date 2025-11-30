@@ -68,6 +68,23 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
             {/* Personal Information */}
             <SectionCard title={t.formSectionPersonal || "Personal Information"} icon={User}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <InputWrapper label={t.formFirstName} icon={User} error={errors.firstName}>
+                        <input
+                            {...register('firstName', { required: t.errorRequired })}
+                            placeholder={t.formFirstName}
+                            autoComplete="given-name"
+                            className="w-full bg-transparent border-none outline-none text-sm text-gray-900 placeholder-gray-500"
+                        />
+                    </InputWrapper>
+                    <InputWrapper label={t.formLastName} icon={User} error={errors.lastName}>
+                        <input
+                            {...register('lastName', { required: t.errorRequired })}
+                            placeholder={t.formLastName}
+                            autoComplete="family-name"
+                            className="w-full bg-transparent border-none outline-none text-sm text-gray-900 placeholder-gray-500"
+                        />
+                    </InputWrapper>
+
                     <InputWrapper label={t.formSalutation} error={errors.salutation}>
                         <Controller
                             control={control}
@@ -93,22 +110,8 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                         <input
                             {...register('dateOfBirth', { required: t.errorRequired })}
                             type="date"
+                            autoComplete="bday"
                             className="w-full bg-transparent border-none outline-none text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-slate-500"
-                        />
-                    </InputWrapper>
-
-                    <InputWrapper label={t.formFirstName} icon={User} error={errors.firstName}>
-                        <input
-                            {...register('firstName', { required: t.errorRequired })}
-                            placeholder={t.formFirstName}
-                            className="w-full bg-transparent border-none outline-none text-sm text-gray-900 placeholder-gray-500"
-                        />
-                    </InputWrapper>
-                    <InputWrapper label={t.formLastName} icon={User} error={errors.lastName}>
-                        <input
-                            {...register('lastName', { required: t.errorRequired })}
-                            placeholder={t.formLastName}
-                            className="w-full bg-transparent border-none outline-none text-sm text-gray-900 placeholder-gray-500"
                         />
                     </InputWrapper>
                 </div>
@@ -127,6 +130,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                                 }
                             })}
                             type="email"
+                            autoComplete="email"
                             placeholder="name@example.com"
                             className="w-full bg-transparent border-none outline-none text-sm text-gray-900 placeholder-gray-500"
                         />
@@ -135,6 +139,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                         <input
                             {...register('phoneNumber', { required: t.errorRequired })}
                             type="tel"
+                            autoComplete="tel"
                             placeholder="+1 234 567 890"
                             className="w-full bg-transparent border-none outline-none text-sm text-gray-900 placeholder-gray-500"
                         />
@@ -149,6 +154,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                         <input
                             {...register('street', { required: t.errorRequired })}
                             placeholder={t.formStreet}
+                            autoComplete="address-line1"
                             className="w-full bg-transparent border-none outline-none text-sm text-gray-900 placeholder-gray-500"
                         />
                     </InputWrapper>
@@ -157,6 +163,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                         <input
                             {...register('addressLine2')}
                             placeholder={t.formAddressLine2}
+                            autoComplete="address-line2"
                             className="w-full bg-transparent border-none outline-none text-sm text-gray-900 placeholder-gray-500"
                         />
                     </InputWrapper>
@@ -166,6 +173,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                             <input
                                 {...register('postalCode', { required: t.errorRequired })}
                                 placeholder={t.formPostalCode}
+                                autoComplete="postal-code"
                                 className="w-full bg-transparent border-none outline-none text-sm text-gray-900 placeholder-gray-500"
                             />
                         </InputWrapper>
@@ -173,6 +181,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                             <input
                                 {...register('city', { required: t.errorRequired })}
                                 placeholder={t.formCity}
+                                autoComplete="address-level2"
                                 className="w-full bg-transparent border-none outline-none text-sm text-gray-900 placeholder-gray-500"
                             />
                         </InputWrapper>
@@ -230,6 +239,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                                 <input
                                     {...register('stateProvince', { required: shouldShowStateProvince ? t.errorRequired : false })}
                                     placeholder={t.formStateProvince}
+                                    autoComplete="address-level1"
                                     className="w-full bg-transparent border-none outline-none text-sm text-gray-900 placeholder-gray-500"
                                 />
                             </InputWrapper>
