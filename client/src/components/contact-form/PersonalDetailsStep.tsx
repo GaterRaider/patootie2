@@ -20,13 +20,13 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language }: Pe
 
     const InputWrapper = ({ children, icon: Icon, error, label }: { children: React.ReactNode, icon?: any, error?: any, label?: string }) => (
         <div className="w-full group">
-            {label && <label className="block text-xs font-medium text-gray-700 mb-1.5 ml-1 transition-colors group-focus-within:text-indigo-600">{label}</label>}
+            {label && <label className="block text-xs font-medium text-gray-700 dark:text-slate-300 mb-1.5 ml-1 transition-colors group-focus-within:text-indigo-600 dark:group-focus-within:text-indigo-400">{label}</label>}
             <div className={`
-        flex items-center gap-3 px-4 py-3 bg-gray-50 rounded-xl border transition-all duration-300 ease-out
-        focus-within:bg-white focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/10 focus-within:shadow-md focus-within:-translate-y-0.5
-        ${error ? 'border-red-500 bg-red-50/50' : 'border-gray-200 hover:border-gray-300'}
+        flex items-center gap-3 px-4 py-3 bg-gray-50 dark:bg-slate-800 rounded-xl border transition-all duration-300 ease-out
+        focus-within:bg-white dark:focus-within:bg-slate-900 focus-within:border-indigo-500 dark:focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/10 focus-within:shadow-md focus-within:-translate-y-0.5
+        ${error ? 'border-red-500 bg-red-50/50 dark:bg-red-900/20' : 'border-gray-200 dark:border-slate-700 hover:border-gray-300 dark:hover:border-slate-600'}
       `}>
-                {Icon && <Icon className="w-4 h-4 text-gray-400 shrink-0 transition-colors group-focus-within:text-indigo-500" />}
+                {Icon && <Icon className="w-4 h-4 text-gray-400 dark:text-slate-500 shrink-0 transition-colors group-focus-within:text-indigo-500 dark:group-focus-within:text-indigo-400" />}
                 {children}
             </div>
             {error && <p className="mt-1 ml-1 text-xs text-red-500 font-medium">{error.message}</p>}
@@ -34,12 +34,12 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language }: Pe
     );
 
     const SectionCard = ({ title, icon: Icon, children }: { title: string, icon: any, children: React.ReactNode }) => (
-        <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
-            <div className="flex items-center gap-2 mb-6 pb-4 border-b border-gray-100">
-                <div className="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600">
+        <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm transition-colors">
+            <div className="flex items-center gap-2 mb-6 pb-4 border-b border-gray-100 dark:border-slate-800">
+                <div className="w-8 h-8 rounded-lg bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
                     <Icon className="w-4 h-4" />
                 </div>
-                <h3 className="text-base font-semibold text-gray-900">{title}</h3>
+                <h3 className="text-base font-semibold text-gray-900 dark:text-white transition-colors">{title}</h3>
             </div>
             {children}
         </div>
@@ -59,7 +59,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language }: Pe
                     <InputWrapper label={t.formSalutation} error={errors.salutation}>
                         <select
                             {...register('salutation', { required: t.errorRequired })}
-                            className="w-full bg-transparent border-none outline-none text-sm text-gray-900 placeholder-gray-500 appearance-none cursor-pointer"
+                            className="w-full bg-transparent border-none outline-none text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-slate-500 appearance-none cursor-pointer"
                         >
                             <option value="">{t.formSalutationPlaceholder}</option>
                             <option value="Mr">{t.formSalutationMr}</option>
@@ -73,7 +73,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language }: Pe
                         <input
                             {...register('dateOfBirth', { required: t.errorRequired })}
                             type="date"
-                            className="w-full bg-transparent border-none outline-none text-sm text-gray-900 placeholder-gray-500"
+                            className="w-full bg-transparent border-none outline-none text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-slate-500"
                         />
                     </InputWrapper>
 
@@ -162,19 +162,19 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language }: Pe
                         <InputWrapper label={t.formCountry} icon={Globe} error={errors.country}>
                             <select
                                 {...register('country', { required: t.errorRequired })}
-                                className="w-full bg-transparent border-none outline-none text-sm text-gray-900 placeholder-gray-500 appearance-none cursor-pointer"
+                                className="w-full bg-transparent border-none outline-none text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-slate-500 appearance-none cursor-pointer"
                             >
-                                <option value="">{t.formCountryPlaceholder}</option>
-                                <optgroup label={t.formSuggestedCountries}>
+                                <option value="" className="dark:bg-slate-800">{t.formCountryPlaceholder}</option>
+                                <optgroup label={t.formSuggestedCountries} className="dark:bg-slate-800">
                                     {suggestedCountries.map((country) => (
-                                        <option key={`suggested-${country.code}`} value={country.name}>
+                                        <option key={`suggested-${country.code}`} value={country.name} className="dark:bg-slate-800">
                                             {country.flag} {country.name}
                                         </option>
                                     ))}
                                 </optgroup>
-                                <optgroup label={t.formAllCountries}>
+                                <optgroup label={t.formAllCountries} className="dark:bg-slate-800">
                                     {countries.map((country) => (
-                                        <option key={country.code} value={country.name}>
+                                        <option key={country.code} value={country.name} className="dark:bg-slate-800">
                                             {country.flag} {country.name}
                                         </option>
                                     ))}
@@ -198,15 +198,15 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language }: Pe
             {/* Message */}
             <SectionCard title={t.formMessage || "Message"} icon={MessageSquare}>
                 <div className={`
-                    w-full px-4 py-3 bg-gray-50 rounded-xl border transition-all duration-300 ease-out
-                    focus-within:bg-white focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/10 focus-within:shadow-md focus-within:-translate-y-0.5
-                    ${errors.message ? 'border-red-500 bg-red-50/50' : 'border-gray-200 hover:border-gray-300'}
+                    w-full px-4 py-3 bg-gray-50 dark:bg-slate-800 rounded-xl border transition-all duration-300 ease-out
+                    focus-within:bg-white dark:focus-within:bg-slate-900 focus-within:border-indigo-500 dark:focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/10 focus-within:shadow-md focus-within:-translate-y-0.5
+                    ${errors.message ? 'border-red-500 bg-red-50/50 dark:bg-red-900/20' : 'border-gray-200 dark:border-slate-700 hover:border-gray-300 dark:hover:border-slate-600'}
                 `}>
                     <textarea
                         {...register('message', { required: t.errorRequired, minLength: { value: 10, message: t.errorRequired } })}
                         rows={4}
                         placeholder={t.formMessagePlaceholder}
-                        className="w-full bg-transparent border-none outline-none text-sm text-gray-900 placeholder-gray-500 resize-none"
+                        className="w-full bg-transparent border-none outline-none text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-slate-500 resize-none"
                     />
                 </div>
                 {errors.message && <p className="mt-1 ml-1 text-xs text-red-500 font-medium">{errors.message.message}</p>}
@@ -215,7 +215,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language }: Pe
             {/* Consent */}
             <SectionCard title="Consent" icon={CheckSquare}>
                 <div className="space-y-2">
-                    <div className="flex items-start gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors">
+                    <div className="flex items-start gap-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors">
                         <input
                             {...register('contactConsent', { required: t.errorConsent })}
                             type="checkbox"
@@ -223,14 +223,14 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language }: Pe
                             className="mt-0.5 w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
                         />
                         <div className="flex-1">
-                            <label htmlFor="contactConsent" className="text-sm text-gray-700 cursor-pointer select-none font-medium block">
+                            <label htmlFor="contactConsent" className="text-sm text-gray-700 dark:text-slate-300 cursor-pointer select-none font-medium block transition-colors">
                                 {t.formContactConsent} <span className="text-red-500">*</span>
                             </label>
                             {errors.contactConsent && <p className="text-xs text-red-500 mt-1">{errors.contactConsent.message}</p>}
                         </div>
                     </div>
 
-                    <div className="flex items-start gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors">
+                    <div className="flex items-start gap-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors">
                         <input
                             {...register('privacyConsent', { required: t.errorConsent })}
                             type="checkbox"
@@ -238,8 +238,8 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language }: Pe
                             className="mt-0.5 w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
                         />
                         <div className="flex-1">
-                            <label htmlFor="privacy_policy_checkbox" className="text-sm text-gray-700 cursor-pointer select-none font-medium block">
-                                {t.formPrivacyConsent} <a href={`/${language}/privacy-policy`} className="text-indigo-600 hover:underline">{t.formPrivacyConsentLink}</a> <span className="text-red-500">*</span>
+                            <label htmlFor="privacy_policy_checkbox" className="text-sm text-gray-700 dark:text-slate-300 cursor-pointer select-none font-medium block transition-colors">
+                                {t.formPrivacyConsent} <a href={`/${language}/privacy-policy`} className="text-indigo-600 dark:text-indigo-400 hover:underline">{t.formPrivacyConsentLink}</a> <span className="text-red-500">*</span>
                             </label>
                             {errors.privacyConsent && <p className="text-xs text-red-500 mt-1">{errors.privacyConsent.message}</p>}
                         </div>
