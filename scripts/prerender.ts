@@ -79,26 +79,73 @@ const __dirname = path.dirname(__filename);
 
 const routes = [
   // Root (redirects)
-  { path: '/', component: Home, outPath: 'index.html', language: 'en' as const },
+  { path: '/', component: Home, outPath: 'index.html', language: 'en' as const, id: 'home', priority: 1.0, changefreq: 'weekly' },
 
   // English
-  { path: '/en', component: Home, outPath: 'en/index.html', language: 'en' as const },
-  { path: '/en/privacy-policy', component: PrivacyPolicy, outPath: 'en/privacy-policy/index.html', language: 'en' as const },
-  { path: '/en/imprint', component: Imprint, outPath: 'en/imprint/index.html', language: 'en' as const },
+  { path: '/en', component: Home, outPath: 'en/index.html', language: 'en' as const, id: 'home', priority: 1.0, changefreq: 'weekly' },
+  { path: '/en/privacy-policy', component: PrivacyPolicy, outPath: 'en/privacy-policy/index.html', language: 'en' as const, id: 'privacy-policy', priority: 0.5, changefreq: 'monthly' },
+  { path: '/en/imprint', component: Imprint, outPath: 'en/imprint/index.html', language: 'en' as const, id: 'imprint', priority: 0.3, changefreq: 'monthly' },
 
   // Korean
-  { path: '/ko', component: Home, outPath: 'ko/index.html', language: 'ko' as const },
-  { path: '/ko/privacy-policy', component: PrivacyPolicy, outPath: 'ko/privacy-policy/index.html', language: 'ko' as const },
-  { path: '/ko/imprint', component: Imprint, outPath: 'ko/imprint/index.html', language: 'ko' as const },
+  { path: '/ko', component: Home, outPath: 'ko/index.html', language: 'ko' as const, id: 'home', priority: 1.0, changefreq: 'weekly' },
+  { path: '/ko/privacy-policy', component: PrivacyPolicy, outPath: 'ko/privacy-policy/index.html', language: 'ko' as const, id: 'privacy-policy', priority: 0.5, changefreq: 'monthly' },
+  { path: '/ko/imprint', component: Imprint, outPath: 'ko/imprint/index.html', language: 'ko' as const, id: 'imprint', priority: 0.3, changefreq: 'monthly' },
 
   // German
-  { path: '/de', component: Home, outPath: 'de/index.html', language: 'de' as const },
-  { path: '/de/privacy-policy', component: PrivacyPolicy, outPath: 'de/privacy-policy/index.html', language: 'de' as const },
-  { path: '/de/imprint', component: Imprint, outPath: 'de/imprint/index.html', language: 'de' as const },
+  { path: '/de', component: Home, outPath: 'de/index.html', language: 'de' as const, id: 'home', priority: 1.0, changefreq: 'weekly' },
+  { path: '/de/privacy-policy', component: PrivacyPolicy, outPath: 'de/privacy-policy/index.html', language: 'de' as const, id: 'privacy-policy', priority: 0.5, changefreq: 'monthly' },
+  { path: '/de/imprint', component: Imprint, outPath: 'de/imprint/index.html', language: 'de' as const, id: 'imprint', priority: 0.3, changefreq: 'monthly' },
 ];
 
 // Static location hook for wouter
 const staticLocation = (path: string) => () => [path, () => { }] as [string, (to: string) => void];
+
+async function generateSitemap(distPublic: string) {
+  console.log('Generating sitemap.xml...');
+  const baseUrl = 'https://handokhelper.de';
+
+  // Group routes by ID to find alternates
+  const routesById = routes.reduce((acc, route) => {
+    if (route.path === '/') return acc;
+    if (!acc[route.id]) acc[route.id] = [];
+    acc[route.id].push(route);
+    return acc;
+  }, {} as Record<string, typeof routes>);
+
+  let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+`;
+
+  const sitemapRoutes = routes.filter(r => r.path !== '/');
+
+  for (const route of sitemapRoutes) {
+    sitemap += `  <url>
+    <loc>${baseUrl}${route.path}</loc>
+`;
+
+    const alternates = routesById[route.id];
+    if (alternates) {
+      for (const alt of alternates) {
+        sitemap += `    <xhtml:link rel="alternate" hreflang="${alt.language}" href="${baseUrl}${alt.path}"/>
+`;
+      }
+      sitemap += `    <xhtml:link rel="alternate" hreflang="x-default" href="${baseUrl}/"/>
+`;
+    }
+
+    sitemap += `    <changefreq>${route.changefreq}</changefreq>
+    <priority>${route.priority}</priority>
+  </url>
+`;
+  }
+
+  sitemap += `</urlset>`;
+
+  const sitemapPath = path.join(distPublic, 'sitemap.xml');
+  fs.writeFileSync(sitemapPath, sitemap);
+  console.log(`✓ Generated sitemap at ${sitemapPath}`);
+}
 
 async function prerender() {
   console.log('Starting manual SSG prerendering...');
@@ -241,6 +288,9 @@ async function prerender() {
       throw error;
     }
   }
+
+  // Generate Sitemap
+  await generateSitemap(distPublic);
 
   console.log('✓ SSG complete!');
 }
