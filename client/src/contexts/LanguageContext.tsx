@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Language, getTranslations, Translations } from '../i18n/translations';
-import { trpc } from '@/lib/trpc';
 import { useLocation, useSearch } from "wouter";
 
 interface LanguageContextType {
@@ -25,13 +24,7 @@ export function LanguageProvider({ children, initialLanguage }: LanguageProvider
   const [location, setLocation] = useLocation();
   const search = useSearch();
 
-  // Get country from IP geolocation (skip in SSR mode)
-  const { data: geoData, isLoading: isGeoLoading } = trpc.geo.getCountry.useQuery(undefined, {
-    enabled: !initialized && !initialLanguage, // Disable in SSR mode
-    retry: false, // Don't retry if it fails, just fallback
-  });
-
-  // Sync state with URL path
+  // Sync state with URL path and detect language
   useEffect(() => {
     // SSR mode: if initialLanguage is provided, skip client-side detection
     if (initialLanguage) {
@@ -52,34 +45,34 @@ export function LanguageProvider({ children, initialLanguage }: LanguageProvider
       return;
     }
 
+    // 1. URL Path Priority
     if (firstPart === 'en' || firstPart === 'ko' || firstPart === 'de') {
       if (language !== firstPart) {
         setLanguageState(firstPart as Language);
       }
       setInitialized(true);
     } else if (!initialized) {
+      // 2. Local Storage Priority
       const storedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY) as Language | null;
       if (storedLanguage && (storedLanguage === 'en' || storedLanguage === 'ko' || storedLanguage === 'de')) {
         setLanguageState(storedLanguage);
         setInitialized(true);
-      } else if (!isGeoLoading) {
-        // Only proceed if geo query is finished (success or error)
-        if (geoData) {
-          if (geoData.countryCode === 'KR') {
-            setLanguageState('ko');
-          } else if (geoData.countryCode === 'DE') {
-            setLanguageState('de');
-          } else {
-            setLanguageState('en');
-          }
-        } else {
-          // If geoData failed or is missing, fallback to 'en'
-          setLanguageState('en');
+      } else {
+        // 3. Browser Language Priority
+        const browserLang = navigator.language.toLowerCase();
+        let detectedLang: Language = 'en'; // 4. Default Fallback
+
+        if (browserLang.startsWith('de')) {
+          detectedLang = 'de';
+        } else if (browserLang.startsWith('ko')) {
+          detectedLang = 'ko';
         }
+
+        setLanguageState(detectedLang);
         setInitialized(true);
       }
     }
-  }, [location, geoData, isGeoLoading, initialized, language, initialLanguage]);
+  }, [location, initialized, language, initialLanguage]);
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);

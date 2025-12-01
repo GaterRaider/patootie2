@@ -23,9 +23,34 @@ export async function setupVite(app: Express, server: Server) {
 
   app.use(vite.middlewares);
 
+  // Helper function to detect language from Accept-Language header
+  const detectLanguageFromHeader = (acceptLanguage: string | undefined): 'de' | 'ko' | 'en' => {
+    if (!acceptLanguage) return 'en';
+
+    const languages = acceptLanguage.toLowerCase().split(',').map(lang => {
+      const parts = lang.split(';');
+      return parts[0].trim();
+    });
+
+    for (const lang of languages) {
+      if (lang.startsWith('de')) return 'de';
+      if (lang.startsWith('ko')) return 'ko';
+    }
+
+    return 'en';
+  };
+
   // Serve index.html for all routes (SPA fallback)
   app.use("*", async (req, res, next) => {
     const url = req.originalUrl;
+    const routePath = url.split('?')[0]; // Remove query params
+
+    // Language detection for root path only
+    if (routePath === '/') {
+      const detectedLang = detectLanguageFromHeader(req.headers['accept-language']);
+      console.log(`[Language Detection] Accept-Language: ${req.headers['accept-language']} -> Redirecting to /${detectedLang}`);
+      return res.redirect(302, `/${detectedLang}`);
+    }
 
     try {
       // Read index.html
@@ -63,13 +88,36 @@ export function serveStatic(app: Express) {
   // Serve static assets (CSS, JS, images, fonts)
   app.use(express.static(distPath));
 
+  // Helper function to detect language from Accept-Language header
+  const detectLanguageFromHeader = (acceptLanguage: string | undefined): 'de' | 'ko' | 'en' => {
+    if (!acceptLanguage) return 'en';
+
+    const languages = acceptLanguage.toLowerCase().split(',').map(lang => {
+      const parts = lang.split(';');
+      return parts[0].trim();
+    });
+
+    for (const lang of languages) {
+      if (lang.startsWith('de')) return 'de';
+      if (lang.startsWith('ko')) return 'ko';
+    }
+
+    return 'en';
+  };
+
   // Serve prerendered HTML - check for route-specific index.html first
   app.use("*", (req, res) => {
-    // Try to serve route-specific HTML file
     const routePath = req.originalUrl.split('?')[0]; // Remove query params
-    const htmlPath = routePath === '/'
-      ? path.join(distPath, "index.html")
-      : path.join(distPath, routePath, "index.html");
+
+    // Language detection for root path only
+    if (routePath === '/') {
+      const detectedLang = detectLanguageFromHeader(req.headers['accept-language']);
+      console.log(`[Language Detection] Accept-Language: ${req.headers['accept-language']} -> Redirecting to /${detectedLang}`);
+      return res.redirect(302, `/${detectedLang}`);
+    }
+
+    // Try to serve route-specific HTML file
+    const htmlPath = path.join(distPath, routePath, "index.html");
 
     if (fs.existsSync(htmlPath)) {
       res.set("Content-Type", "text/html");
