@@ -2,8 +2,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
-import { Search, FileQuestion, ChevronDown, ChevronUp, HelpCircle } from 'lucide-react';
-import { useState, useMemo } from 'react';
+import { Search, FileQuestion, ChevronDown, ChevronUp, HelpCircle, X } from 'lucide-react';
+import { useState, useMemo, useRef } from 'react';
 
 interface FAQItem {
     question: string;
@@ -18,6 +18,7 @@ interface FAQProps {
 export function FAQ({ items, language }: FAQProps) {
     const [searchQuery, setSearchQuery] = useState('');
     const [showAll, setShowAll] = useState(false);
+    const faqContainerRef = useRef<HTMLDivElement>(null);
 
     // Filter FAQ items based on search query
     const filteredItems = useMemo(() => {
@@ -61,6 +62,7 @@ export function FAQ({ items, language }: FAQProps) {
 
     return (
         <motion.div
+            ref={faqContainerRef}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
@@ -71,14 +73,23 @@ export function FAQ({ items, language }: FAQProps) {
                 <div className="relative max-w-2xl mx-auto">
                     <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-blue-500/10 to-primary/10 rounded-2xl blur-xl opacity-50"></div>
                     <div className="relative">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-primary" />
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-primary z-10" />
                         <Input
                             type="text"
                             placeholder={searchPlaceholder}
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="pl-12 pr-4 h-14 text-base shadow-lg border-2 border-primary/20 rounded-xl focus:border-primary/40 focus:ring-2 focus:ring-primary/20 transition-all duration-300 bg-background/95 backdrop-blur-sm"
+                            className="pl-12 pr-12 h-14 text-base shadow-lg border-2 border-primary/20 rounded-xl focus:border-primary/40 focus:ring-2 focus:ring-primary/20 transition-all duration-300 bg-background/95 backdrop-blur-sm"
                         />
+                        {searchQuery && (
+                            <button
+                                onClick={() => setSearchQuery('')}
+                                className="absolute right-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground hover:text-foreground transition-colors z-10 flex items-center justify-center"
+                                aria-label="Clear search"
+                            >
+                                <X className="h-4 w-4" />
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>
@@ -122,7 +133,16 @@ export function FAQ({ items, language }: FAQProps) {
                             <Button
                                 variant="outline"
                                 size="lg"
-                                onClick={() => setShowAll(!showAll)}
+                                onClick={() => {
+                                    if (showAll) {
+                                        // Scroll to FAQ section when collapsing
+                                        faqContainerRef.current?.scrollIntoView({
+                                            behavior: 'smooth',
+                                            block: 'start'
+                                        });
+                                    }
+                                    setShowAll(!showAll);
+                                }}
                                 className="gap-2 px-8 py-6 text-base font-semibold rounded-xl border-2 hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 shadow-md hover:shadow-lg group"
                             >
                                 {showAll ? (
