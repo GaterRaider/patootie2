@@ -127,11 +127,13 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
                     md:grid-flow-row md:grid-cols-2 md:auto-cols-auto md:gap-6 md:overflow-visible md:pb-0 md:mx-auto md:px-0 md:max-w-5xl
                     scrollbar-hide
                 "
+                style={{ scrollSnapStop: 'always' }}
             >
                 {services.map((service, index) => (
                     <div
                         key={service.id}
                         className="w-full h-full snap-center"
+                        style={{ scrollSnapStop: 'always' }}
                     >
                         <ServiceCardContent service={service} />
                     </div>
