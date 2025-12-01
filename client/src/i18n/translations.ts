@@ -523,7 +523,7 @@ export const translations: Record<Language, Translations> = {
     serviceCard1Badge: "",
     serviceCard1Desc: "Finden Sie Ihr perfektes Zuhause und leben Sie sich reibungslos ein. Wir unterstützen bei der Immobiliensuche, Besichtigungen, Verträgen und allen Anmeldeformalitäten.",
     serviceCard1Services: [
-      "Relocation Bundle",
+      "Umzugspaket",
       "Anmeldung (Vorbereitung der Unterlagen, Begleitung & Dolmetschen)",
       "Abmeldung",
       "Kündigungsunterstützung vor Abreise (z.B. Wohnung, Verträge)"
@@ -571,7 +571,7 @@ export const translations: Record<Language, Translations> = {
     processStep2Desc: "HandokHelper prüft Ihre Situation und kontaktiert Sie.",
     processStep3Title: "Zusammenarbeit starten",
     processStep3Desc: "Nach Einigung über die Kosten unterstützt HandokHelper Ihren Fall.",
-    processNote: "Hinweis: Das Absenden des Formulars begründet keinen verbindlichen Vertrag; HandokHelper erstellt zunächst ein Angebot.",
+    processNote: "Hinweis: Das Absenden des Formulars stellt keinen verbindlichen Vertragsabschluss dar. HandokHelper wird Ihnen zunächst ein unverbindliches Angebot unterbreiten.",
 
     // Contact Form
     contactHeading: "Kontakt aufnehmen",
