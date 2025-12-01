@@ -130,8 +130,11 @@ async function generateSitemap(distPublic: string) {
         sitemap += `    <xhtml:link rel="alternate" hreflang="${alt.language}" href="${baseUrl}${alt.path}"/>
 `;
       }
-      sitemap += `    <xhtml:link rel="alternate" hreflang="x-default" href="${baseUrl}/"/>
+      // Only add x-default for home page which has a root redirect
+      if (route.id === 'home') {
+        sitemap += `    <xhtml:link rel="alternate" hreflang="x-default" href="${baseUrl}/"/>
 `;
+      }
     }
 
     sitemap += `    <changefreq>${route.changefreq}</changefreq>
