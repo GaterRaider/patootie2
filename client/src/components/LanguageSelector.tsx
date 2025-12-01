@@ -1,40 +1,85 @@
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useState, useRef, useEffect } from "react";
+import { ChevronDown } from "lucide-react";
+
+interface LanguageOption {
+    code: 'en' | 'ko' | 'de';
+    name: string;
+    flag: string;
+}
+
+const languages: LanguageOption[] = [
+    { code: 'en', name: 'English', flag: '/flags/usa.svg' },
+    { code: 'ko', name: '한국어', flag: '/flags/south-korea.svg' },
+    { code: 'de', name: 'Deutsch', flag: '/flags/germany.svg' },
+];
 
 export function LanguageSelector() {
     const { language, setLanguage } = useLanguage();
+    const [isOpen, setIsOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    const selectedLanguage = languages.find(lang => lang.code === language) || languages[0];
+
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsOpen(false);
+            }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
 
     return (
-        <div className="flex items-center gap-0.5 sm:gap-0.5 md:gap-1 px-1.5 sm:px-2 md:px-2.5 py-1 sm:py-1.5 md:py-2 rounded-full bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm transition-colors duration-200">
+        <div className="relative" ref={dropdownRef}>
             <button
-                onClick={() => setLanguage("en")}
-                className={`transition-all duration-200 flex-shrink-0 px-1.5 sm:px-2 md:px-2.5 py-0.5 sm:py-1 md:py-1.5 rounded-full border-2 flex items-center justify-center ${language === "en"
-                    ? "border-blue-400 bg-blue-50 dark:bg-blue-900/30 dark:border-blue-500 shadow-sm"
-                    : "border-transparent bg-transparent opacity-75 hover:opacity-100 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:border-blue-300 dark:hover:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-1 dark:focus:ring-offset-gray-900"
+                onClick={() => setIsOpen(!isOpen)}
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary/20 ${isOpen
+                        ? 'bg-background border-primary/50 shadow-sm ring-2 ring-primary/10'
+                        : 'bg-secondary/80 hover:bg-secondary hover:border-primary/30 border-transparent hover:shadow-sm'
                     }`}
-                title="English"
-                aria-label="Switch to English"
+                aria-expanded={isOpen}
+                aria-haspopup="true"
             >
                 <img
-                    src="/flags/usa.svg"
-                    alt="USA Flag"
-                    className="h-3 sm:h-3.5 md:h-4 lg:h-5 w-auto"
+                    src={selectedLanguage.flag}
+                    alt={`${selectedLanguage.name} Flag`}
+                    className="h-4 w-auto object-contain shadow-sm rounded-[1px]"
                 />
+                <span className="text-sm font-medium hidden sm:inline-block">
+                    {selectedLanguage.name}
+                </span>
+                <ChevronDown className={`h-4 w-4 text-muted-foreground transition-transform duration-200 ${isOpen ? 'rotate-180 text-primary' : ''}`} />
             </button>
-            <button
-                onClick={() => setLanguage("ko")}
-                className={`transition-all duration-200 flex-shrink-0 px-1.5 sm:px-2 md:px-2.5 py-0.5 sm:py-1 md:py-1.5 rounded-full border-2 flex items-center justify-center ${language === "ko"
-                    ? "border-blue-400 bg-blue-50 dark:bg-blue-900/30 dark:border-blue-500 shadow-sm"
-                    : "border-transparent bg-transparent opacity-75 hover:opacity-100 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:border-blue-300 dark:hover:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-1 dark:focus:ring-offset-gray-900"
-                    }`}
-                title="Korean"
-                aria-label="Switch to Korean"
-            >
-                <img
-                    src="/flags/south-korea.svg"
-                    alt="South Korea Flag"
-                    className="h-3.5 sm:h-4 md:h-5 lg:h-6 w-auto"
-                />
-            </button>
+
+            {isOpen && (
+                <div className="absolute right-0 mt-2 w-40 rounded-xl bg-card border border-border/50 shadow-xl py-0 z-50 animate-in fade-in zoom-in-95 duration-100 ring-1 ring-black/5 overflow-hidden">
+                    {languages.map((lang) => (
+                        <button
+                            key={lang.code}
+                            onClick={() => {
+                                setLanguage(lang.code);
+                                setIsOpen(false);
+                            }}
+                            className={`w-full text-left px-4 py-2.5 text-sm flex items-center gap-3 transition-colors ${language === lang.code
+                                    ? 'bg-primary/10 text-primary font-medium'
+                                    : 'text-foreground hover:bg-muted/80'
+                                }`}
+                        >
+                            <img
+                                src={lang.flag}
+                                alt={`${lang.name} Flag`}
+                                className="h-4 w-auto object-contain shadow-sm rounded-[1px]"
+                            />
+                            {lang.name}
+                        </button>
+                    ))}
+                </div>
+            )}
         </div>
     );
 }
