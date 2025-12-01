@@ -92,7 +92,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                             name="salutation"
                             rules={{ required: t.errorRequired }}
                             render={({ field }) => (
-                                <Select onValueChange={field.onChange} defaultValue={field.value} autoComplete="honorific-prefix">
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <SelectTrigger className="w-full !bg-transparent dark:!bg-transparent hover:!bg-transparent dark:hover:!bg-transparent border-none shadow-none focus:ring-0 focus-visible:ring-0 px-0 !py-0 !h-auto !min-h-0 flex-1 text-sm text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-slate-500">
                                         <SelectValue placeholder={t.formSalutationPlaceholder} />
                                     </SelectTrigger>
@@ -195,7 +195,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                                 name="country"
                                 rules={{ required: t.errorRequired }}
                                 render={({ field }) => (
-                                    <Select onValueChange={field.onChange} defaultValue={field.value} autoComplete="country-name">
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
                                         <SelectTrigger className="w-full !bg-transparent dark:!bg-transparent hover:!bg-transparent dark:hover:!bg-transparent border-none shadow-none focus:ring-0 focus-visible:ring-0 px-0 !py-0 !h-auto !min-h-0 flex-1 text-sm text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-slate-500">
                                             <SelectValue placeholder={t.formCountryPlaceholder}>
                                                 {selectedCountry && (
@@ -267,7 +267,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
             </SectionCard>
 
             {/* Consent */}
-            <SectionCard title="Consent" icon={CheckSquare}>
+            <SectionCard title={t.formSectionConsent || "Consent"} icon={CheckSquare}>
                 <div className="space-y-2">
                     <div className="flex items-start gap-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors">
                         <input
@@ -293,7 +293,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                         />
                         <div className="flex-1">
                             <label htmlFor="privacy_policy_checkbox" className="text-sm text-gray-700 dark:text-slate-300 cursor-pointer select-none font-medium block transition-colors">
-                                {t.formPrivacyConsent} <a href={`/${language}/privacy-policy`} className="text-indigo-600 dark:text-indigo-400 hover:underline">{t.formPrivacyConsentLink}</a> <span className="text-red-500">*</span>
+                                {t.formPrivacyConsent} <a href={`/${language}/privacy-policy`} target="_blank" rel="noopener noreferrer" className="text-indigo-600 dark:text-indigo-400 hover:underline">{t.formPrivacyConsentLink}</a> <span className="text-red-500">*</span>
                             </label>
                             {errors.privacyConsent && <p className="text-xs text-red-500 mt-1">{errors.privacyConsent.message}</p>}
                         </div>

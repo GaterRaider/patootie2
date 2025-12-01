@@ -128,7 +128,7 @@ export const ServiceSelectionStep = ({
 
                                     <div className="flex-1 min-w-0">
                                         <div className="flex justify-between items-start w-full mb-1">
-                                            <h4 className={`text-base font-semibold transition-colors ${isSelected ? 'text-indigo-900 dark:text-indigo-300' : 'text-gray-900 dark:text-white'}`}>
+                                            <h4 className={`text-base font-semibold transition-colors break-words hyphens-auto ${isSelected ? 'text-indigo-900 dark:text-indigo-300' : 'text-gray-900 dark:text-white'}`}>
                                                 {service.title}
                                             </h4>
 
@@ -158,7 +158,7 @@ export const ServiceSelectionStep = ({
                                                 {t.relocationBundleItems.map((item, i) => (
                                                     <li key={i} className="flex items-start gap-2 text-sm text-gray-600 dark:text-slate-400">
                                                         <Check className="w-3.5 h-3.5 text-green-500 mt-0.5 flex-shrink-0" />
-                                                        <span>{item}</span>
+                                                        <span className="flex-1 min-w-0 break-words hyphens-auto">{item}</span>
                                                     </li>
                                                 ))}
                                             </ul>

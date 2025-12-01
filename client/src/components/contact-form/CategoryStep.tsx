@@ -88,7 +88,7 @@ export const CategoryStep = ({ t, selectedService, setSelectedService, setValue,
                             >
                                 <div className="flex items-center gap-3">
                                     <div className={`
-                    w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300
+                    w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 flex-shrink-0
                     ${isSelected ? 'bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-lg scale-110' : 'bg-gray-100 dark:bg-slate-700 text-gray-500 dark:text-slate-400 group-hover:bg-indigo-50 dark:group-hover:bg-indigo-900/30 group-hover:text-indigo-600 dark:group-hover:text-indigo-400'}
                   `}>
                                         <Icon className="w-6 h-6" />
@@ -104,7 +104,7 @@ export const CategoryStep = ({ t, selectedService, setSelectedService, setValue,
                                 </div>
 
                                 {/* Service Count Badge */}
-                                <div className="absolute top-5 right-5">
+                                <div className="absolute bottom-5 right-5">
                                     <span className={`
                     text-xs font-medium px-2.5 py-1 rounded-full transition-colors
                     ${isSelected

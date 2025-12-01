@@ -66,6 +66,7 @@ export interface Translations {
   formSectionPersonal: string;
   formSectionContact: string;
   formSectionAddress: string;
+  formSectionConsent: string;
   formValidationMessage: string;
   formSalutation: string;
   formSalutationPlaceholder: string;
@@ -275,6 +276,7 @@ export const translations: Record<Language, Translations> = {
     formSectionPersonal: "Personal Information",
     formSectionContact: "Contact Information",
     formSectionAddress: "Address",
+    formSectionConsent: "Consent",
     formValidationMessage: "Please complete all required fields to submit",
     formSalutation: "Salutation",
     formSalutationPlaceholder: "Select salutation",
@@ -482,6 +484,7 @@ export const translations: Record<Language, Translations> = {
     formSectionPersonal: "개인 정보",
     formSectionContact: "연락처 정보",
     formSectionAddress: "주소",
+    formSectionConsent: "동의",
     formValidationMessage: "제출하려면 모든 필수 항목을 작성해주세요",
     formSalutation: "호칭",
     formSalutationPlaceholder: "호칭 선택",
@@ -689,6 +692,7 @@ export const translations: Record<Language, Translations> = {
     formSectionPersonal: "Persönliche Informationen",
     formSectionContact: "Kontaktinformationen",
     formSectionAddress: "Adresse",
+    formSectionConsent: "Einwilligung",
     formValidationMessage: "Bitte füllen Sie alle Pflichtfelder aus",
     formSalutation: "Anrede",
     formSalutationPlaceholder: "Anrede wählen",
