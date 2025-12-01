@@ -39,8 +39,8 @@ export function LanguageSelector() {
             <button
                 onClick={() => setIsOpen(!isOpen)}
                 className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary/20 ${isOpen
-                        ? 'bg-background border-primary/50 shadow-sm ring-2 ring-primary/10'
-                        : 'bg-secondary/80 hover:bg-secondary hover:border-primary/30 border-transparent hover:shadow-sm'
+                        ? 'bg-background border-primary/50 shadow-md ring-2 ring-primary/10'
+                        : 'bg-secondary hover:bg-secondary/80 border-input/50 hover:border-input shadow-sm hover:shadow-md'
                     }`}
                 aria-expanded={isOpen}
                 aria-haspopup="true"
