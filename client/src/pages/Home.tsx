@@ -296,13 +296,21 @@ export default function Home() {
           </button>
 
           {/* Logo + Text - Centered on mobile, left-aligned on desktop */}
-          <div className="flex items-center gap-2 md:gap-3 flex-1 md:flex-initial justify-center md:justify-start min-w-0">
-            <img src="/images/HandokHelperLogoOnly.png" alt="HandokHelper Logo" className="h-8 md:h-10 w-auto flex-shrink-0 object-contain" />
-            <div className="text-base md:text-xl font-bold leading-tight whitespace-nowrap">
+          <a
+            href={`/${language}`}
+            onClick={(e) => {
+              e.preventDefault();
+              setLocation(`/${language}`);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            className="flex items-center gap-2 md:gap-3 flex-1 md:flex-initial justify-center md:justify-start min-w-0 cursor-pointer group"
+          >
+            <img src="/images/HandokHelperLogoOnly.png" alt="HandokHelper Logo" className="h-8 md:h-10 w-auto flex-shrink-0 object-contain transition-transform duration-300 group-hover:scale-105" />
+            <div className="text-base md:text-xl font-bold leading-tight whitespace-nowrap transition-colors duration-300 group-hover:text-primary">
               <span className="hidden sm:inline">{t.siteTitle}</span>
               <span className="sm:hidden">HandokHelper</span>
             </div>
-          </div>
+          </a>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-6 flex-1 justify-center">
