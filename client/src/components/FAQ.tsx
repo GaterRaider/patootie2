@@ -2,7 +2,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
-import { Search, FileQuestion, ChevronDown, ChevronUp } from 'lucide-react';
+import { Search, FileQuestion, ChevronDown, ChevronUp, HelpCircle } from 'lucide-react';
 import { useState, useMemo } from 'react';
 
 interface FAQItem {
@@ -36,10 +36,10 @@ export function FAQ({ items, language }: FAQProps) {
 
     // Placeholder text based on language
     const searchPlaceholder = language === 'ko'
-        ? 'FAQ 검색...'
+        ? '답변 찾기...'
         : language === 'de'
-            ? 'FAQ durchsuchen...'
-            : 'Search FAQ...';
+            ? 'Antworten finden...'
+            : 'Find answers...';
 
     const noResultsText = language === 'ko'
         ? '검색 결과가 없습니다. 다른 키워드를 시도해보세요.'
@@ -66,71 +66,95 @@ export function FAQ({ items, language }: FAQProps) {
             transition={{ duration: 0.5 }}
             className="w-full"
         >
-            {/* Search Input */}
-            <div className="mb-8">
-                <div className="relative max-w-md mx-auto">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input
-                        type="text"
-                        placeholder={searchPlaceholder}
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="pl-10 h-12 text-base shadow-sm"
-                    />
+            {/* Enhanced Search Input */}
+            <div className="mb-10">
+                <div className="relative max-w-2xl mx-auto">
+                    <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-blue-500/10 to-primary/10 rounded-2xl blur-xl opacity-50"></div>
+                    <div className="relative">
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-primary" />
+                        <Input
+                            type="text"
+                            placeholder={searchPlaceholder}
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="pl-12 pr-4 h-14 text-base shadow-lg border-2 border-primary/20 rounded-xl focus:border-primary/40 focus:ring-2 focus:ring-primary/20 transition-all duration-300 bg-background/95 backdrop-blur-sm"
+                        />
+                    </div>
                 </div>
             </div>
 
             {/* FAQ Items - Single Column */}
             {filteredItems.length > 0 ? (
                 <>
-                    <Accordion type="multiple" className="w-full space-y-3">
+                    <Accordion type="multiple" className="w-full space-y-4">
                         {displayedItems.map((item, index) => (
                             <AccordionItem
                                 key={index}
                                 value={`item-${index}`}
-                                className="border border-border/50 rounded-xl bg-card/50 backdrop-blur-sm px-6 py-2 shadow-sm hover:shadow-md hover:border-primary/20 transition-all duration-300"
+                                className="group relative border-2 border-border/50 rounded-2xl bg-gradient-to-br from-card/80 via-card/60 to-card/80 backdrop-blur-sm shadow-md hover:shadow-xl hover:border-primary/30 transition-all duration-300 overflow-hidden data-[state=open]:border-primary/40"
                             >
-                                <AccordionTrigger className="text-left hover:no-underline py-4 text-base md:text-lg font-semibold">
-                                    {item.question}
-                                </AccordionTrigger>
-                                <AccordionContent className="text-muted-foreground leading-relaxed pt-2 pb-4 text-sm md:text-base">
-                                    {item.answer}
-                                </AccordionContent>
+                                {/* Subtle gradient overlay on hover */}
+                                <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl pointer-events-none"></div>
+
+                                <div className="relative px-6 py-3">
+                                    <AccordionTrigger className="text-left hover:no-underline py-4 text-base md:text-lg font-semibold group-hover:text-primary transition-colors duration-300">
+                                        <div className="flex items-start gap-3 pr-4">
+                                            <HelpCircle className="h-5 w-5 mt-0.5 text-primary/70 group-hover:text-primary transition-colors flex-shrink-0" />
+                                            <span>{item.question}</span>
+                                        </div>
+                                    </AccordionTrigger>
+                                    <AccordionContent className="text-muted-foreground leading-relaxed pt-2 pb-4 text-sm md:text-base pl-8">
+                                        {item.answer}
+                                    </AccordionContent>
+                                </div>
                             </AccordionItem>
                         ))}
                     </Accordion>
 
-                    {/* Show More/Less Button */}
+                    {/* Enhanced Show More/Less Button */}
                     {hasMoreItems && !searchQuery.trim() && (
-                        <div className="flex justify-center mt-6">
+                        <motion.div
+                            className="flex justify-center mt-8"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.3, delay: 0.2 }}
+                        >
                             <Button
                                 variant="outline"
                                 size="lg"
                                 onClick={() => setShowAll(!showAll)}
-                                className="gap-2"
+                                className="gap-2 px-8 py-6 text-base font-semibold rounded-xl border-2 hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 shadow-md hover:shadow-lg group"
                             >
                                 {showAll ? (
                                     <>
-                                        <ChevronUp className="h-4 w-4" />
+                                        <ChevronUp className="h-5 w-5 group-hover:-translate-y-0.5 transition-transform" />
                                         {showLessText}
                                     </>
                                 ) : (
                                     <>
-                                        <ChevronDown className="h-4 w-4" />
+                                        <ChevronDown className="h-5 w-5 group-hover:translate-y-0.5 transition-transform" />
                                         {showMoreText}
                                     </>
                                 )}
                             </Button>
-                        </div>
+                        </motion.div>
                     )}
                 </>
             ) : (
-                <div className="text-center py-12">
-                    <FileQuestion className="h-16 w-16 mx-auto text-muted-foreground/50 mb-4" />
-                    <p className="text-muted-foreground text-lg">
+                <motion.div
+                    className="text-center py-16"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                >
+                    <div className="relative inline-block">
+                        <div className="absolute inset-0 bg-primary/10 rounded-full blur-2xl"></div>
+                        <FileQuestion className="relative h-20 w-20 mx-auto text-primary/60 mb-6" />
+                    </div>
+                    <p className="text-muted-foreground text-lg font-medium">
                         {noResultsText}
                     </p>
-                </div>
+                </motion.div>
             )}
         </motion.div>
     );
