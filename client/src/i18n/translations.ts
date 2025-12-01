@@ -26,19 +26,23 @@ export interface Translations {
   serviceCard1Badge: string;
   serviceCard1Desc: string;
   serviceCard1Services: string[];
+  serviceCard1Descriptions: string[];
   relocationBundleItems: string[];
   serviceCard1CTA: string;
   serviceCard2Title: string;
   serviceCard2Desc: string;
   serviceCard2Services: string[];
+  serviceCard2Descriptions: string[];
   serviceCard2CTA: string;
   serviceCard3Title: string;
   serviceCard3Desc: string;
   serviceCard3Services: string[];
+  serviceCard3Descriptions: string[];
   serviceCard3CTA: string;
   serviceCard4Title: string;
   serviceCard4Desc: string;
   serviceCard4Services: string[];
+  serviceCard4Descriptions: string[];
   serviceCard4CTA: string;
 
   // Process Section
@@ -116,6 +120,16 @@ export interface Translations {
   serviceLearnMore: string;
   serviceSelectChoice: string;
 
+  // Wizard Steps
+  stepService: string;
+  stepPersonal: string;
+  stepContact: string;
+  stepReview: string;
+  stepNext: string;
+  stepBack: string;
+  stepSubmit: string;
+  stepExitWarning: string;
+
   // About Section
   aboutHeading: string;
   aboutLabel: string;
@@ -182,6 +196,12 @@ export const translations: Record<Language, Translations> = {
       "Deregistration (Abmeldung) assistance",
       "Cancellation support before departure (e.g. housing, contracts)"
     ],
+    serviceCard1Descriptions: [
+      "Comprehensive support including search, viewings, and contract negotiation.",
+      "We prepare your forms, book the appointment, and accompany you to the office.",
+      "Leaving Germany? We handle the official deregistration process for you.",
+      "Assistance with cancelling housing, internet, and other contracts before you leave."
+    ],
     relocationBundleItems: [
       "Apartment/house search assistance",
       "Property viewing accompaniment & interpretation",
@@ -199,6 +219,15 @@ export const translations: Record<Language, Translations> = {
       "Driver's license exchange support & interpretation",
       "Tax class (Steuerklasse) change application"
     ],
+    serviceCard2Descriptions: [
+      "Full support for company transfers and assignments.",
+      "Reunite with your family in Germany.",
+      "Guidance for employment-based residence permits.",
+      "We go with you to the immigration office.",
+      "Save time by letting us pick up your documents.",
+      "Convert your foreign license to a German one.",
+      "Optimize your monthly net income."
+    ],
     serviceCard2CTA: "Select Immigration & Legal Services",
     serviceCard3Title: "Benefits & Financial Services",
     serviceCard3Desc: "Maximize your financial benefits. We help with pension refunds, child benefits, and setting up your banking foundations.",
@@ -207,12 +236,21 @@ export const translations: Record<Language, Translations> = {
       "Child benefit (Kindergeld) application",
       "Bank account opening assistance"
     ],
+    serviceCard3Descriptions: [
+      "Claim back your pension contributions if leaving.",
+      "Monthly financial support for your children.",
+      "Set up a Girokonto for your salary and rent."
+    ],
     serviceCard3CTA: "Select Benefits & Financial Services",
     serviceCard4Title: "Integration & Daily Life",
     serviceCard4Desc: "Essential support for your daily life in Germany. We handle utilities, insurance, and other contracts so you can focus on living.",
     serviceCard4Services: [
       "Internet & electricity contract setup",
       "Insurance enrollment support (liability & legal insurance)"
+    ],
+    serviceCard4Descriptions: [
+      "Get connected with the best providers.",
+      "Protect yourself with essential German insurance."
     ],
     serviceCard4CTA: "Select Integration & Daily Life",
 
@@ -309,7 +347,7 @@ export const translations: Record<Language, Translations> = {
     formSuggestedCountries: "Suggested",
     formAllCountries: "All Countries",
     formErrorGeneral: "Please correct the highlighted errors to proceed.",
-    formSuccessGreeting: "Thanks for reaching out, ",
+    formSuccessGreeting: "Thanks for reaching out!",
     formSuccessBody: "We have received your request. We will review it and get back to you as soon as possible.",
     formSentTo: "Sent to",
     formReferenceId: "Reference ID",
@@ -323,6 +361,16 @@ export const translations: Record<Language, Translations> = {
     serviceSelectOptional: "Select a Service (Optional)",
     serviceLearnMore: "Learn more",
     serviceSelectChoice: "Select choice",
+
+    // Wizard Steps
+    stepService: "Service",
+    stepPersonal: "Personal",
+    stepContact: "Contact",
+    stepReview: "Review",
+    stepNext: "Next",
+    stepBack: "Back",
+    stepSubmit: "Submit Inquiry",
+    stepExitWarning: "You have unsaved changes. Are you sure you want to leave?",
   },
   ko: {
     // Header
@@ -355,6 +403,12 @@ export const translations: Record<Language, Translations> = {
       "압멜둥(거주지 말소) 지원",
       "출국 전 해지 지원 (주택, 각종 계약 등)"
     ],
+    serviceCard1Descriptions: [
+      "주택 검색, 방문, 계약 협상을 포함한 종합적인 지원.",
+      "서류 준비, 예약, 관공서 동행 및 통역을 지원합니다.",
+      "독일을 떠나시나요? 거주지 말소 절차를 대신 처리해 드립니다.",
+      "출국 전 주택, 인터넷 및 기타 계약 해지를 도와드립니다."
+    ],
     relocationBundleItems: [
       "아파트/주택 검색 지원",
       "부동산 방문 동행 및 통역",
@@ -372,6 +426,15 @@ export const translations: Record<Language, Translations> = {
       "운전면허 교환 지원 및 통역",
       "세금 등급(Steuerklasse) 변경 신청"
     ],
+    serviceCard2Descriptions: [
+      "회사 파견 및 주재원을 위한 완벽한 지원.",
+      "독일에서의 가족 재결합을 돕습니다.",
+      "취업 거주 허가에 대한 전문 안내.",
+      "외국인청 인터뷰에 동행하여 통역합니다.",
+      "시간을 절약하세요, 저희가 대신 수령합니다.",
+      "외국 운전면허증을 독일 면허증으로 교환.",
+      "월 실수령액을 최적화하세요."
+    ],
     serviceCard2CTA: "이민 및 법률 서비스 선택",
     serviceCard3Title: "혜택 및 금융 서비스",
     serviceCard3Desc: "재정적 혜택을 극대화하세요. 연금 환급, 아동 수당 신청 및 은행 업무 기초 설정을 도와드립니다.",
@@ -380,12 +443,21 @@ export const translations: Record<Language, Translations> = {
       "아동 수당(Kindergeld) 신청",
       "은행 계좌 개설 지원"
     ],
+    serviceCard3Descriptions: [
+      "귀국 시 연금 납부액을 환급받으세요.",
+      "자녀를 위한 매월 재정 지원금.",
+      "급여와 월세를 위한 입출금 계좌 개설."
+    ],
     serviceCard3CTA: "혜택 및 금융 서비스 선택",
     serviceCard4Title: "정착 및 일상 생활",
     serviceCard4Desc: "독일 생활에 필수적인 지원을 제공합니다. 공과금, 보험 및 기타 계약을 처리하여 편안한 생활에 집중할 수 있도록 돕습니다.",
     serviceCard4Services: [
       "인터넷 및 전기 계약 설치",
       "보험 가입 지원 (책임 및 법률 보험)"
+    ],
+    serviceCard4Descriptions: [
+      "최고의 통신사 및 전력 회사 연결.",
+      "필수 독일 보험으로 자신을 보호하세요."
     ],
     serviceCard4CTA: "정착 및 일상 생활 선택",
 
@@ -482,7 +554,7 @@ export const translations: Record<Language, Translations> = {
     formSuggestedCountries: "추천 국가",
     formAllCountries: "모든 국가",
     formErrorGeneral: "진행하려면 강조 표시된 오류를 수정해주세요.",
-    formSuccessGreeting: "문의해 주셔서 감사합니다, ",
+    formSuccessGreeting: "문의해 주셔서 감사합니다!",
     formSuccessBody: "요청이 접수되었습니다. 검토 후 가능한 한 빨리 연락드리겠습니다.",
     formSentTo: "수신",
     formReferenceId: "참조 ID",
@@ -496,6 +568,16 @@ export const translations: Record<Language, Translations> = {
     serviceSelectOptional: "서비스 선택 (선택사항)",
     serviceLearnMore: "자세히 보기",
     serviceSelectChoice: "선택하기",
+
+    // Wizard Steps
+    stepService: "서비스",
+    stepPersonal: "개인 정보",
+    stepContact: "연락처",
+    stepReview: "검토",
+    stepNext: "다음",
+    stepBack: "이전",
+    stepSubmit: "문의 제출",
+    stepExitWarning: "저장되지 않은 변경 사항이 있습니다. 정말 나가시겠습니까?",
   },
   de: {
     // Header
@@ -528,6 +610,12 @@ export const translations: Record<Language, Translations> = {
       "Abmeldung",
       "Kündigungsunterstützung vor Abreise (z.B. Wohnung, Verträge)"
     ],
+    serviceCard1Descriptions: [
+      "Umfassende Unterstützung bei Suche, Besichtigungen und Vertragsverhandlungen.",
+      "Wir bereiten Ihre Formulare vor, buchen den Termin und begleiten Sie zum Amt.",
+      "Verlassen Sie Deutschland? Wir erledigen die offizielle Abmeldung für Sie.",
+      "Unterstützung bei der Kündigung von Wohnung, Internet und anderen Verträgen."
+    ],
     relocationBundleItems: [
       "Wohnungs-/Haussuche",
       "Begleitung bei Besichtigungen & Dolmetschen",
@@ -545,6 +633,15 @@ export const translations: Record<Language, Translations> = {
       "Unterstützung beim Führerscheinumtausch & Dolmetschen",
       "Antrag auf Steuerklassenwechsel"
     ],
+    serviceCard2Descriptions: [
+      "Volle Unterstützung für Firmenentsendungen.",
+      "Familienzusammenführung in Deutschland.",
+      "Beratung für Aufenthaltstitel zur Erwerbstätigkeit.",
+      "Wir begleiten Sie zur Ausländerbehörde.",
+      "Sparen Sie Zeit, wir holen Ihre Dokumente ab.",
+      "Umschreibung Ihres ausländischen Führerscheins.",
+      "Optimieren Sie Ihr monatliches Nettoeinkommen."
+    ],
     serviceCard2CTA: "Einwanderung & Rechtliches wählen",
     serviceCard3Title: "Leistungen & Finanzen",
     serviceCard3Desc: "Maximieren Sie Ihre finanziellen Vorteile. Wir helfen bei Rentenerstattungen, Kindergeld und der Einrichtung Ihrer Bankgeschäfte.",
@@ -553,12 +650,21 @@ export const translations: Record<Language, Translations> = {
       "Kindergeldantrag",
       "Unterstützung bei der Kontoeröffnung"
     ],
+    serviceCard3Descriptions: [
+      "Rentenbeiträge bei Ausreise zurückfordern.",
+      "Monatliche finanzielle Unterstützung für Ihre Kinder.",
+      "Einrichtung eines Girokontos für Gehalt und Miete."
+    ],
     serviceCard3CTA: "Leistungen & Finanzen wählen",
     serviceCard4Title: "Integration & Alltag",
     serviceCard4Desc: "Wesentliche Unterstützung für Ihren Alltag in Deutschland. Wir kümmern uns um Versorgungsunternehmen, Versicherungen und andere Verträge, damit Sie sich auf das Leben konzentrieren können.",
     serviceCard4Services: [
       "Einrichtung von Internet- & Stromverträgen",
       "Unterstützung bei Versicherungsanmeldungen (Haftpflicht- & Rechtsschutzversicherung)"
+    ],
+    serviceCard4Descriptions: [
+      "Anschluss bei den besten Anbietern.",
+      "Schutz durch wichtige deutsche Versicherungen."
     ],
     serviceCard4CTA: "Integration & Alltag wählen",
 
@@ -655,7 +761,7 @@ export const translations: Record<Language, Translations> = {
     formSuggestedCountries: "Vorgeschlagen",
     formAllCountries: "Alle Länder",
     formErrorGeneral: "Bitte korrigieren Sie die markierten Fehler, um fortzufahren.",
-    formSuccessGreeting: "Danke für Ihre Nachricht, ",
+    formSuccessGreeting: "Danke für Ihre Nachricht!",
     formSuccessBody: "Wir haben Ihre Anfrage erhalten. Wir werden sie prüfen und uns so schnell wie möglich bei Ihnen melden.",
     formSentTo: "Gesendet an",
     formReferenceId: "Referenz-ID",
@@ -669,6 +775,16 @@ export const translations: Record<Language, Translations> = {
     serviceSelectOptional: "Service wählen (Optional)",
     serviceLearnMore: "Mehr erfahren",
     serviceSelectChoice: "Auswählen",
+
+    // Wizard Steps
+    stepService: "Service",
+    stepPersonal: "Persönlich",
+    stepContact: "Kontakt",
+    stepReview: "Überprüfung",
+    stepNext: "Weiter",
+    stepBack: "Zurück",
+    stepSubmit: "Anfrage senden",
+    stepExitWarning: "Sie haben ungespeicherte Änderungen. Sind Sie sicher, dass Sie die Seite verlassen möchten?",
   },
 };
 

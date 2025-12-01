@@ -34,6 +34,7 @@ export default function Home() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [refId, setRefId] = useState<string | undefined>(undefined);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [formKey, setFormKey] = useState(0);
   // Load FAQ data from database via tRPC
   const { data: faqData } = trpc.faq.getByLanguage.useQuery({
     language: language as 'en' | 'ko' | 'de',
@@ -45,7 +46,7 @@ export default function Home() {
     if (params.get("scrollTo") === "contact") {
       // Small timeout to ensure DOM is ready
       setTimeout(() => {
-        document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+        document.getElementById("contact-form-top")?.scrollIntoView({ behavior: "smooth" });
         // Optional: Clean up URL
         window.history.replaceState({}, "", "/");
       }, 100);
@@ -60,6 +61,15 @@ export default function Home() {
     },
     onError: (error) => {
       setIsSubmitting(false);
+      try {
+        const parsed = JSON.parse(error.message);
+        if (Array.isArray(parsed)) {
+          toast.error("Please check your inputs and try again.");
+          return;
+        }
+      } catch (e) {
+        // Not JSON, use original message
+      }
       toast.error(error.message);
     },
   });
@@ -67,7 +77,10 @@ export default function Home() {
   const handleReset = () => {
     setShowSuccess(false);
     setSelectedService("");
+    setSelectedSubService("");
+    setSelectedSubServices([]);
     setRefId(undefined);
+    setFormKey(prev => prev + 1);
   };
 
   const handleServiceCardClick = (service: string, subService?: string, subServices?: string[]) => {
@@ -84,7 +97,7 @@ export default function Home() {
       setSelectedSubServices([]);
     }
     // Scroll to contact form
-    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+    document.getElementById("contact-form-top")?.scrollIntoView({ behavior: "smooth" });
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -109,8 +122,8 @@ export default function Home() {
       stateProvince: formData.get("stateProvince") as string || undefined,
       country: formData.get("country")?.toString().replace("suggested__", "") as string,
       message: formData.get("message") as string,
-      contactConsent: formData.get("contactConsent") === "on",
-      privacyConsent: formData.get("privacyConsent") === "on",
+      contactConsent: formData.get("contactConsent") === "true",
+      privacyConsent: formData.get("privacyConsent") === "true",
       honeypot: formData.get("honeypot") as string || undefined,
     };
 
@@ -121,11 +134,19 @@ export default function Home() {
     const isHome = location === `/${language}` || location === `/${language}/`;
 
     if (isHome) {
-      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      if (id === "contact") {
+        document.getElementById("contact-form-top")?.scrollIntoView({ behavior: "smooth" });
+      } else {
+        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      }
     } else {
       setLocation(`/${language}`);
       setTimeout(() => {
-        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+        if (id === "contact") {
+          document.getElementById("contact-form-top")?.scrollIntoView({ behavior: "smooth" });
+        } else {
+          document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+        }
       }, 100);
     }
   };
@@ -606,34 +627,31 @@ export default function Home() {
 
         {/* Contact Form Section */}
         <section id="contact" className="py-8 md:py-14 scroll-mt-20">
-          <div className="container max-w-4xl">
+          <div className="container max-w-[1100px]">
             <div className="text-center mb-12 md:mb-16">
               <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.contactLabel}</span>
               <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">{t.contactHeading}</h2>
               <div className="h-1 w-20 bg-blue-600 rounded-full mx-auto"></div>
             </div>
 
-            <Card className="shadow-xl border-2">
-              <CardContent className="pt-8 px-6 md:px-10">
-                <ContactForm
-                  t={t}
-                  selectedService={selectedService}
-                  selectedSubService={selectedSubService}
-                  selectedSubServices={selectedSubServices}
-                  setSelectedService={setSelectedService}
-                  setSelectedSubService={setSelectedSubService}
-                  setSelectedSubServices={setSelectedSubServices}
-                  selectedViaCard={selectedViaCard}
-                  setSelectedViaCard={setSelectedViaCard}
-                  onSubmit={handleSubmit}
-                  isSubmitting={isSubmitting}
-                  onLocationChange={setLocation}
-                  isSuccess={showSuccess}
-                  onReset={handleReset}
-                  refId={refId}
-                />
-              </CardContent>
-            </Card>
+            <ContactForm
+              key={formKey}
+              t={t}
+              selectedService={selectedService}
+              selectedSubService={selectedSubService}
+              selectedSubServices={selectedSubServices}
+              setSelectedService={setSelectedService}
+              setSelectedSubService={setSelectedSubService}
+              setSelectedSubServices={setSelectedSubServices}
+              selectedViaCard={selectedViaCard}
+              setSelectedViaCard={setSelectedViaCard}
+              onSubmit={handleSubmit}
+              isSubmitting={isSubmitting}
+              onLocationChange={setLocation}
+              isSuccess={showSuccess}
+              onReset={handleReset}
+              refId={refId}
+            />
           </div>
         </section>
 
