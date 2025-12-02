@@ -1060,18 +1060,22 @@ export const appRouter = router({
         const items = await getFAQItemsByLanguage(input.language);
 
         // Transform to JSON-LD format for SEO
-        const jsonLd = {
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          "mainEntity": items.map((item) => ({
-            "@type": "Question",
-            "name": item.question,
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": item.answer,
-            },
-          })),
-        };
+        let jsonLd = undefined;
+
+        if (items.length > 0) {
+          jsonLd = {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": items.map((item) => ({
+              "@type": "Question",
+              "name": item.question,
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": item.answer,
+              },
+            })),
+          };
+        }
 
         return {
           items: items.map(({ question, answer }) => ({ question, answer })),
