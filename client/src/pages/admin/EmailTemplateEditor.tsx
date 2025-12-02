@@ -99,7 +99,7 @@ export default function EmailTemplateEditor() {
             <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-4">
                     <Link
-                        to="/admin/emails"
+                        to="/emails"
                         className="text-gray-600 hover:text-gray-900 transition-colors"
                     >
                         <ArrowLeft size={24} />

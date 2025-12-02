@@ -1,4 +1,31 @@
-<!doctype html>
+
+import 'dotenv/config';
+import { getDb } from "../server/db.js";
+import { emailTemplates } from "../drizzle/schema.js";
+import { eq, and } from "drizzle-orm";
+
+async function updateTemplates() {
+  const db = await getDb();
+  if (!db) {
+    console.error("Database connection failed");
+    process.exit(1);
+  }
+
+  console.log("Updating sender info for all templates...");
+  await db.update(emailTemplates).set({
+    senderName: "HandokHelper",
+    senderEmail: "info@handokhelper.de",
+    updatedAt: new Date()
+  });
+  console.log("Sender info updated.");
+
+  console.log("Updating form_submission (ko) template...");
+
+  // Fetch English template to use as base structure if needed, or just hardcode the structure based on what we know.
+  // The user said "Use the template of Form Submission 'English' as basis and add the text from Confirmation Email Client KOR.html to it."
+  // I will construct the HTML string here.
+
+  const koreanHtml = `<!doctype html>
 <html>
   <head>
     <meta charset="utf-8">
@@ -207,7 +234,7 @@
             <tr>
               <td style="padding: 24px 24px 12px 24px; font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; color:#4b5563;">
                 <p style="margin: 0 0 12px 0;">
-                  <b>${submission.firstName} ${submission.lastName}님, 안녕하세요.</b>
+                  <b>{{firstName}} {{lastName}}님, 안녕하세요.</b>
                 </p>
 
                 <p style="margin: 0 0 12px 0;">
@@ -236,15 +263,15 @@
                       <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
                         <tr>
                           <td width="120" style="padding: 2px 0; font-weight:600; color:#6b7280;">서비스:</td>
-                          <td style="padding: 2px 0; color:#111827;">${submission.service}</td>
+                          <td style="padding: 2px 0; color:#111827;">{{service}}</td>
                         </tr>
                         <tr>
                           <td width="120" style="padding: 2px 0; font-weight:600; color:#6b7280;">참조 ID:</td>
-                          <td style="padding: 2px 0; color:#111827;">${submission.refid}</td>
+                          <td style="padding: 2px 0; color:#111827;">{{refId}}</td>
                         </tr>
                         <tr>
                           <td width="120" style="padding: 2px 0; font-weight:600; color:#6b7280;">이메일:</td>
-                          <td style="padding: 2px 0; color:#111827;">${submission.email}</td>
+                          <td style="padding: 2px 0; color:#111827;">{{email}}</td>
                         </tr>
                       </table>
                     </td>
@@ -303,4 +330,22 @@
     </table>
 
   </body>
-</html>
+</html>`;
+
+  await db.update(emailTemplates)
+    .set({
+      htmlContent: koreanHtml,
+      updatedAt: new Date()
+    })
+    .where(
+      and(
+        eq(emailTemplates.templateKey, 'form_submission'),
+        eq(emailTemplates.language, 'ko')
+      )
+    );
+
+  console.log("form_submission (ko) template updated.");
+  process.exit(0);
+}
+
+updateTemplates().catch(console.error);

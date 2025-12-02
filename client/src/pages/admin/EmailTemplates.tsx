@@ -1,10 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { Link } from "wouter";
-import { Edit, Mail, Calendar, Globe } from "lucide-react";
+import { Edit, Mail, Calendar, Globe, Plus, X } from "lucide-react";
+import { toast } from "sonner";
 
 export default function EmailTemplates() {
+    const utils = trpc.useContext();
     const { data: templates, isLoading, error } = trpc.admin.emailTemplates.getAll.useQuery();
+    const [showCreateModal, setShowCreateModal] = useState(false);
+    const [formData, setFormData] = useState({
+        templateKey: "",
+        language: "en",
+        subject: "",
+        htmlContent: "",
+        textContent: "",
+        senderName: "HandokHelper",
+        senderEmail: "info@handokhelper.de"
+    });
+
+    const createMutation = trpc.admin.emailTemplates.create.useMutation({
+        onSuccess: () => {
+            toast.success("Template created successfully");
+            utils.admin.emailTemplates.getAll.invalidate();
+            setShowCreateModal(false);
+            setFormData({
+                templateKey: "",
+                language: "en",
+                subject: "",
+                htmlContent: "",
+                textContent: "",
+                senderName: "HandokHelper",
+                senderEmail: "info@handokhelper.de"
+            });
+        },
+        onError: (error) => {
+            toast.error(`Failed to create template: ${error.message}`);
+        }
+    });
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        createMutation.mutate(formData);
+    };
 
     if (isLoading) {
         return (
@@ -44,7 +81,145 @@ export default function EmailTemplates() {
         <div className="space-y-6">
             <div className="flex items-center justify-between">
                 <h1 className="text-2xl font-bold text-gray-900">Email Templates</h1>
+                <button
+                    onClick={() => setShowCreateModal(true)}
+                    className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 flex items-center space-x-2 transition-colors"
+                >
+                    <Plus size={18} />
+                    <span>Add Template</span>
+                </button>
             </div>
+
+            {showCreateModal && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-white rounded-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                        <div className="flex items-center justify-between mb-4">
+                            <h2 className="text-xl font-bold text-gray-900">Create New Template</h2>
+                            <button
+                                onClick={() => setShowCreateModal(false)}
+                                className="text-gray-400 hover:text-gray-600"
+                            >
+                                <X size={24} />
+                            </button>
+                        </div>
+
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Template Key
+                                </label>
+                                <input
+                                    type="text"
+                                    value={formData.templateKey}
+                                    onChange={(e) => setFormData({ ...formData, templateKey: e.target.value })}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                    placeholder="e.g., form_submission, admin_notification"
+                                    required
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Language
+                                </label>
+                                <select
+                                    value={formData.language}
+                                    onChange={(e) => setFormData({ ...formData, language: e.target.value })}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                    required
+                                >
+                                    <option value="en">English</option>
+                                    <option value="ko">Korean</option>
+                                    <option value="de">German</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Subject
+                                </label>
+                                <input
+                                    type="text"
+                                    value={formData.subject}
+                                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                    placeholder="Email subject line"
+                                    required
+                                />
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        Sender Name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={formData.senderName}
+                                        onChange={(e) => setFormData({ ...formData, senderName: e.target.value })}
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                        placeholder="HandokHelper"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        Sender Email
+                                    </label>
+                                    <input
+                                        type="email"
+                                        value={formData.senderEmail}
+                                        onChange={(e) => setFormData({ ...formData, senderEmail: e.target.value })}
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                        placeholder="info@handokhelper.de"
+                                    />
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    HTML Content
+                                </label>
+                                <textarea
+                                    value={formData.htmlContent}
+                                    onChange={(e) => setFormData({ ...formData, htmlContent: e.target.value })}
+                                    className="w-full h-48 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono text-sm"
+                                    placeholder="HTML email content"
+                                    required
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Plain Text Content (Optional)
+                                </label>
+                                <textarea
+                                    value={formData.textContent}
+                                    onChange={(e) => setFormData({ ...formData, textContent: e.target.value })}
+                                    className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono text-sm"
+                                    placeholder="Plain text fallback content"
+                                />
+                            </div>
+
+                            <div className="flex justify-end space-x-3 pt-4">
+                                <button
+                                    type="button"
+                                    onClick={() => setShowCreateModal(false)}
+                                    className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    disabled={createMutation.isPending}
+                                    className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                >
+                                    {createMutation.isPending ? "Creating..." : "Create Template"}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
 
             <div className="bg-white shadow-sm rounded-lg border border-gray-200 overflow-hidden">
                 <table className="min-w-full divide-y divide-gray-200">

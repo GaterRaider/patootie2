@@ -1040,6 +1040,49 @@ export const appRouter = router({
           return updated;
         }),
 
+      create: adminProcedure
+        .input(
+          z.object({
+            templateKey: z.string().min(1, "Template key is required"),
+            language: z.string().min(1, "Language is required"),
+            subject: z.string().min(1, "Subject is required"),
+            htmlContent: z.string().min(1, "HTML content is required"),
+            textContent: z.string().optional(),
+            senderName: z.string().optional(),
+            senderEmail: z.string().optional(),
+          })
+        )
+        .mutation(async ({ input, ctx }) => {
+          const db = await getDb();
+          if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database not available" });
+
+          const { emailTemplates } = await import("../drizzle/schema");
+
+          const newTemplate = await db.insert(emailTemplates).values({
+            templateKey: input.templateKey,
+            language: input.language,
+            subject: input.subject,
+            htmlContent: input.htmlContent,
+            textContent: input.textContent,
+            senderName: input.senderName,
+            senderEmail: input.senderEmail,
+            updatedAt: new Date(),
+            updatedBy: ctx.adminId
+          }).returning();
+
+          await logActivity({
+            adminId: ctx.adminId,
+            action: "CREATE_EMAIL_TEMPLATE",
+            entityType: "EMAIL_TEMPLATE",
+            entityId: newTemplate[0].id,
+            details: { key: input.templateKey, language: input.language },
+            ipAddress: ctx.req.ip || ctx.req.socket.remoteAddress,
+            userAgent: ctx.req.headers["user-agent"],
+          });
+
+          return newTemplate[0];
+        }),
+
       getPlaceholders: adminProcedure
         .input(z.object({ key: z.string() }))
         .query(async ({ input }) => {
