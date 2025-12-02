@@ -72,8 +72,23 @@ export default function EmailTemplates() {
                 return "English";
             case "ko":
                 return "Korean";
+            case "de":
+                return "Deutsch";
             default:
                 return lang.toUpperCase();
+        }
+    };
+
+    const getLanguageFlag = (lang: string) => {
+        switch (lang) {
+            case "en":
+                return "🇬🇧";
+            case "ko":
+                return "🇰🇷";
+            case "de":
+                return "🇩🇪";
+            default:
+                return "🌐";
         }
     };
 
@@ -128,9 +143,9 @@ export default function EmailTemplates() {
                                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                     required
                                 >
-                                    <option value="en">English</option>
-                                    <option value="ko">Korean</option>
-                                    <option value="de">German</option>
+                                    <option value="en">🇬🇧 English</option>
+                                    <option value="ko">🇰🇷 Korean</option>
+                                    <option value="de">🇩🇪 Deutsch</option>
                                 </select>
                             </div>
 
@@ -275,7 +290,7 @@ export default function EmailTemplates() {
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     <div className="flex items-center text-sm text-gray-900">
-                                        <Globe size={16} className="mr-2 text-gray-400" />
+                                        <span className="mr-2 text-xl">{getLanguageFlag(template.language)}</span>
                                         {getLanguageLabel(template.language)}
                                     </div>
                                 </td>
