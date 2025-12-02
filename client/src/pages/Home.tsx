@@ -22,6 +22,25 @@ import { Helmet } from "react-helmet-async";
 import { FAQ } from "@/components/FAQ";
 import { BackToTop } from "@/components/BackToTop";
 
+function FAQSchema({ data }: { data: any }) {
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.text = JSON.stringify(data);
+    script.id = 'faq-json-ld';
+    document.head.appendChild(script);
+
+    return () => {
+      // Check if child exists before removing to prevent errors
+      if (document.head.contains(script)) {
+        document.head.removeChild(script);
+      }
+    };
+  }, [data]);
+
+  return null;
+}
+
 export default function Home() {
   const { language, setLanguage, t } = useLanguage();
   const { theme, toggleTheme } = useTheme();
@@ -35,10 +54,15 @@ export default function Home() {
   const [refId, setRefId] = useState<string | undefined>(undefined);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [formKey, setFormKey] = useState(0);
+
   // Load FAQ data from database via tRPC
-  const { data: faqData } = trpc.faq.getByLanguage.useQuery({
+  const { data: faqData, isLoading, error } = trpc.faq.getByLanguage.useQuery({
     language: language as 'en' | 'ko' | 'de',
   });
+
+  useEffect(() => {
+    // Debug logs removed
+  }, [faqData, isLoading, error, language]);
 
   // Handle scroll to section from URL query params
   useEffect(() => {
@@ -293,14 +317,13 @@ export default function Home() {
             ]
           })}
         </script>
-        {/* FAQ Schema */}
-        {faqData?.jsonLd && (
-          <script type="application/ld+json">
-            {JSON.stringify(faqData.jsonLd)}
-          </script>
-        )}
-
       </Helmet>
+
+      {/* FAQ Schema - Rendered in separate component to ensure Helmet updates */}
+      {faqData?.jsonLd && <FAQSchema data={faqData.jsonLd} />}
+
+
+
       {/* Accent Bar */}
       <div className="h-1 bg-gradient-to-r from-primary via-blue-500 to-primary"></div>
 

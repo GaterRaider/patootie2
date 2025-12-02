@@ -1,0 +1,3 @@
+Language: en, Count: 15
+Language: ko, Count: 15
+Language: de, Count: 15
