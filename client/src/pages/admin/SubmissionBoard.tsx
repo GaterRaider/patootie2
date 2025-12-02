@@ -107,10 +107,12 @@ function SortableItem({ submission }: SortableItemProps) {
                         <p className="text-xs text-muted-foreground truncate">{submission.service}</p>
                     </div>
                     <div className="pt-1 flex justify-end">
-                        <Link href={`/admin/submissions/${submission.id}`}>
-                            <a className="text-xs text-primary hover:underline" onClick={(e) => e.stopPropagation()}>
-                                View Details
-                            </a>
+                        <Link
+                            href={`/submissions/${submission.id}`}
+                            className="text-xs text-primary hover:underline cursor-pointer"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            View Details
                         </Link>
                     </div>
                 </CardContent>

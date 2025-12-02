@@ -50,7 +50,8 @@ function Router() {
       </Route>
 
       {/* All other admin routes - single bundle loaded after login */}
-      <Route path="/admin/:rest*">
+      {/* All other admin routes - single bundle loaded after login */}
+      <Route path="/admin" nest>
         <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
           <AdminApp />
         </Suspense>

@@ -6,7 +6,7 @@ import { Link } from "wouter";
 import { toast } from "sonner";
 
 export default function EmailTemplateEditor() {
-    const [, params] = useRoute("/admin/emails/:key/:language");
+    const [, params] = useRoute("/emails/:key/:language");
     const [, setLocation] = useLocation();
     const templateKey = params?.key || "";
     const language = params?.language || "";

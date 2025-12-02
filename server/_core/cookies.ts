@@ -29,8 +29,8 @@ export function getSessionCookieOptions(
   return {
     httpOnly: true,
     path: "/",
-    // Use 'lax' for localhost (HTTP), 'none' for production (HTTPS)
-    sameSite: isSecure ? "none" : "lax",
+    // Use 'strict' for localhost (HTTP) to allow fetch requests, 'none' for production (HTTPS)
+    sameSite: isSecure ? "none" : "strict",
     secure: isSecure,
   };
 }
