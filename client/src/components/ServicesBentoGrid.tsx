@@ -227,7 +227,7 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
                                                 {/* Show sub-items if this is the Relocation Bundle item */}
                                                 {(item === "Relocation Bundle" || item === "이주 패키지" || item === "Umzugspaket") && t.relocationBundleItems && (
                                                     <div className="ml-4 mt-3 p-4 rounded-lg bg-secondary/30 border border-border/50 space-y-2.5 animate-in fade-in slide-in-from-top-2 duration-300">
-                                                        <div className="text-xs font-semibold text-primary/80 uppercase tracking-wider mb-2">Included in Bundle:</div>
+                                                        <div className="text-xs font-semibold text-primary/80 uppercase tracking-wider mb-2">{t.includedInBundle}</div>
                                                         {t.relocationBundleItems.map((subItem, subIndex) => (
                                                             <div key={subIndex} className="flex items-start gap-2.5 text-sm text-foreground/90">
                                                                 <div className="mt-1 w-4 h-4 rounded-full bg-primary/10 flex items-center justify-center shrink-0">

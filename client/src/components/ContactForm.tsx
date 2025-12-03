@@ -124,24 +124,24 @@ export function ContactForm({
     {
       id: 'category',
       title: t.stepService || 'Category',
-      subtitle: "Answer a few quick questions so we can match you with the right support.",
-      headline: "How can we help you?",
+      subtitle: t.contactFormStep1Subtitle,
+      headline: t.contactFormStep1Headline,
       component: CategoryStep,
       fields: ['service']
     },
     {
       id: 'service',
       title: t.formSubService || 'Service',
-      subtitle: "Select a specific service",
-      headline: selectedService || "Select your services",
+      subtitle: t.contactFormStep2Subtitle,
+      headline: selectedService || t.contactFormStep2Headline,
       component: ServiceSelectionStep,
       fields: ['subService']
     },
     {
       id: 'personal',
       title: t.stepPersonal || 'Details',
-      subtitle: "We need a few details to get in touch and start your journey.",
-      headline: "Tell us about yourself",
+      subtitle: t.contactFormStep3Subtitle,
+      headline: t.contactFormStep3Headline,
       component: PersonalDetailsStep,
       fields: ['salutation', 'firstName', 'lastName', 'dateOfBirth', 'email', 'phoneNumber', 'street', 'postalCode', 'city', 'country', 'message', 'contactConsent', 'privacyConsent']
     }
@@ -209,7 +209,7 @@ export function ContactForm({
       {/* Header */}
       <div className="mb-8">
         <div className="inline-flex items-center px-3 py-1 rounded-full border border-indigo-100 dark:border-indigo-900/50 bg-indigo-50 dark:bg-indigo-900/20 text-xs font-bold tracking-wider text-indigo-600 dark:text-indigo-400 uppercase mb-6">
-          Contact form
+          {t.contactFormTitle}
         </div>
 
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
@@ -224,7 +224,7 @@ export function ContactForm({
 
           <div className="flex flex-col items-end min-w-[200px]">
             <div className="text-xs font-bold text-gray-400 dark:text-slate-500 uppercase tracking-wider mb-2 transition-colors">
-              Step {currentStep + 1} of {steps.length}
+              {t.stepIndicator} {currentStep + 1} {t.stepOf} {steps.length}
             </div>
             <div className="w-full h-2 bg-gray-100 dark:bg-slate-800 rounded-full overflow-hidden shadow-inner transition-colors">
               <motion.div

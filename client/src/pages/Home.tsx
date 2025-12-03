@@ -187,7 +187,7 @@ export default function Home() {
         {/* Primary Meta Tags */}
         <title>
           {language === "ko"
-            ? "독일 관료 업무 지원 | 주택, 비자 & 이민 서비스 - HandokHelper"
+            ? "독일 관료 업무 지원 | 주택, 비자 & 이민 서비스 - 한독헬퍼"
             : "German Bureaucracy Help for Expats | Housing, Visa & Immigration Support"}
         </title>
         <meta

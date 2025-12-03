@@ -23,13 +23,13 @@ export default function Imprint() {
 
                 <title>
                     {language === "ko"
-                        ? "법적 고지 (Impressum) - HandokHelper"
+                        ? "법적 고지 (Impressum) - 한독헬퍼"
                         : "Imprint (Impressum) - HandokHelper"}
                 </title>
                 <meta
                     name="description"
                     content={language === "ko"
-                        ? "HandokHelper의 법적 고지 및 연락처 정보."
+                        ? "한독헬퍼의 법적 고지 및 연락처 정보."
                         : "Legal notice and contact information for HandokHelper."}
                 />
 

@@ -637,7 +637,7 @@ https://www.dataprivacyframework.gov/participant/5780`
 
         <title>
           {language === "ko"
-            ? "개인정보 처리방침 - HandokHelper"
+            ? "개인정보 처리방침 - 한독헬퍼"
             : language === "de"
               ? "Datenschutzerklärung - HandokHelper"
               : "Privacy Policy - HandokHelper"}
@@ -645,7 +645,7 @@ https://www.dataprivacyframework.gov/participant/5780`
         <meta
           name="description"
           content={language === "ko"
-            ? "HandokHelper의 개인정보 처리방침. 귀하의 개인정보가 어떻게 수집, 사용 및 보호되는지 알아보세요."
+            ? "한독헬퍼의 개인정보 처리방침. 귀하의 개인정보가 어떻게 수집, 사용 및 보호되는지 알아보세요."
             : language === "de"
               ? "Datenschutzerklärung von HandokHelper. Erfahren Sie, wie Ihre personenbezogenen Daten erhoben, verwendet und geschützt werden."
               : "HandokHelper's Privacy Policy. Learn how your personal data is collected, used, and protected."}

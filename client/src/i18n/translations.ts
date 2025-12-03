@@ -163,6 +163,24 @@ export interface Translations {
   errorEmail: string;
   errorMinLength: string;
   errorConsent: string;
+
+  // Contact Form Steps
+  contactFormTitle: string;
+  contactFormStep1Subtitle: string;
+  contactFormStep1Headline: string;
+  contactFormStep2Subtitle: string;
+  contactFormStep2Headline: string;
+  contactFormStep3Subtitle: string;
+  contactFormStep3Headline: string;
+  stepIndicator: string;
+  stepOf: string;
+  includedInBundle: string;
+
+  // Category Step Captions
+  categoryCard2Caption: string;
+  categoryCard3Caption: string;
+  categoryCard4Caption: string;
+  categoryServicesCount: string;
 }
 
 export const translations: Record<Language, Translations> = {
@@ -373,6 +391,24 @@ export const translations: Record<Language, Translations> = {
     stepBack: "Back",
     stepSubmit: "Submit Inquiry",
     stepExitWarning: "You have unsaved changes. Are you sure you want to leave?",
+
+    // Contact Form Steps
+    contactFormTitle: "Contact form",
+    contactFormStep1Subtitle: "Answer a few quick questions so we can match you with the right support.",
+    contactFormStep1Headline: "How can we help you?",
+    contactFormStep2Subtitle: "Select a specific service",
+    contactFormStep2Headline: "Select your services",
+    contactFormStep3Subtitle: "We need a few details to get in touch and start your journey.",
+    contactFormStep3Headline: "Tell us about yourself",
+    stepIndicator: "Step",
+    stepOf: "of",
+    includedInBundle: "Included in Bundle:",
+
+    // Category Step Captions
+    categoryCard2Caption: "Visa & Legal Support",
+    categoryCard3Caption: "Benefits & Banking",
+    categoryCard4Caption: "Utilities & Insurance",
+    categoryServicesCount: "services",
   },
   ko: {
     // Header
@@ -385,7 +421,7 @@ export const translations: Record<Language, Translations> = {
 
     // Hero Section
     heroTitle: "독일 주거 및 관공서 업무를 위한 든든한 지원군",
-    heroDescription: "독일로 이주하거나 독일 관공서를 상대하는 일은 특히 해외에 있을 때 막막할 수 있습니다. HandokHelper는 주거 찾기, 이민 문제, 거주 등록, 연금 신청 등 독일 현지에서 누군가가 대신 처리해야 하는 모든 업무를 도와드립니다.",
+    heroDescription: "독일로 이주하거나 독일 관공서를 상대하는 일은 특히 해외에 있을 때 막막할 수 있습니다. 한독헬퍼는 주거 찾기, 이민 문제, 거주 등록, 연금 신청 등 독일 현지에서 누군가가 대신 처리해야 하는 모든 업무를 도와드립니다.",
     heroBullet1: "독일 내외 고객 모두 지원",
     heroBullet2: "주거 탐색, 방문 및 정착 지원",
     heroBullet3: "관공서, 서류 및 공식 절차 지원",
@@ -469,10 +505,10 @@ export const translations: Record<Language, Translations> = {
     processStep1Title: "문의 제출",
     processStep1Desc: "서비스를 선택하고 세부 정보를 보내주세요.",
     processStep2Title: "상담",
-    processStep2Desc: "HandokHelper가 상황을 검토하고 연락드립니다.",
+    processStep2Desc: "한독헬퍼가 상황을 검토하고 연락드립니다.",
     processStep3Title: "협력 시작",
-    processStep3Desc: "비용 합의 후 HandokHelper가 귀하의 사례를 지원합니다.",
-    processNote: "참고: 양식 제출이 구속력 있는 계약을 생성하지 않습니다. HandokHelper가 먼저 견적을 제공합니다.",
+    processStep3Desc: "비용 합의 후 한독헬퍼가 귀하의 사례를 지원합니다.",
+    processNote: "참고: 양식 제출이 구속력 있는 계약을 생성하지 않습니다. 한독헬퍼가 먼저 견적을 제공합니다.",
 
     // Contact Form
     contactHeading: "문의하기",
@@ -518,11 +554,11 @@ export const translations: Record<Language, Translations> = {
     formSuccessMessage: "문의가 성공적으로 제출되었습니다. 곧 연락드리겠습니다!",
 
     // About Section
-    aboutHeading: "HandokHelper 소개",
+    aboutHeading: "한독헬퍼 소개",
     aboutLabel: "소개",
-    aboutParagraph1: "HandokHelper는 독일 관공서 업무에 대한 경험이 풍부하며 독일 관료제의 복잡성을 이해하고 있습니다. 수년간의 시스템 탐색 경험을 바탕으로 귀하의 여정을 더 원활하게 만들어드립니다.",
+    aboutParagraph1: "한독헬퍼는 독일 관공서 업무에 대한 경험이 풍부하며 독일 관료제의 복잡성을 이해하고 있습니다. 수년간의 시스템 탐색 경험을 바탕으로 귀하의 여정을 더 원활하게 만들어드립니다.",
     aboutParagraph2: "이민자, 독일 거주 외국인 또는 독일 관공서와 소통해야 하는 해외 거주자 모두를 도와드립니다. 비자 신청부터 연금 청구까지 모든 사례에 전담 지원과 전문적인 안내를 제공합니다.",
-    aboutParagraph3: "HandokHelper는 해외 거주자가 독일 연금 및 기타 사회 복지를 받을 수 있도록 전문적으로 지원하며, 거리가 귀하의 권리를 받는 데 장애가 되지 않도록 합니다.",
+    aboutParagraph3: "한독헬퍼는 해외 거주자가 독일 연금 및 기타 사회 복지를 받을 수 있도록 전문적으로 지원하며, 거리가 귀하의 권리를 받는 데 장애가 되지 않도록 합니다.",
     aboutLanguages: "지원 언어",
 
     // FAQ Section
@@ -540,7 +576,7 @@ export const translations: Record<Language, Translations> = {
 
     // Legal Pages
     impressumTitle: "법적 고지 (Impressum)",
-    impressumContent: "HandokHelper\n\n연락처:\n이메일: info@patootie-germany.com\n\n이것은 임시 법적 고지입니다. 독일 법률(§5 TMG)에 따라 실제 법적 정보로 업데이트하십시오.",
+    impressumContent: "한독헬퍼\n\n연락처:\n이메일: info@patootie-germany.com\n\n이것은 임시 법적 고지입니다. 독일 법률(§5 TMG)에 따라 실제 법적 정보로 업데이트하십시오.",
     privacyTitle: "개인정보 처리방침",
     privacyContent: "본 개인정보 처리방침은 귀하의 개인정보를 수집, 사용 및 보호하는 방법을 설명합니다.\n\n1. 데이터 수집\n문의 양식을 통해 제공하신 이름, 이메일, 전화번호, 주소 및 메시지 내용을 포함한 개인정보를 수집합니다.\n\n2. 데이터 처리 목적\n귀하의 데이터는 문의 처리 및 서비스 제공 목적으로만 사용됩니다. 귀하가 동의한 대로 이메일 또는 전화로 연락드립니다.\n\n3. 데이터 저장\n귀하의 데이터는 데이터베이스에 안전하게 저장되며 권한이 있는 직원만 액세스할 수 있습니다.\n\n4. 귀하의 권리\n언제든지 개인 데이터에 액세스하거나 수정 또는 삭제할 권리가 있습니다. info@patootie-germany.com으로 문의하십시오.\n\n5. 동의\n문의 양식을 제출함으로써 본 방침에 설명된 대로 개인 데이터 처리에 동의합니다.\n\n이것은 임시 개인정보 처리방침입니다. GDPR 및 독일 데이터 보호법에 따라 완전한 법적 정보로 업데이트하십시오.",
 
@@ -581,6 +617,24 @@ export const translations: Record<Language, Translations> = {
     stepBack: "이전",
     stepSubmit: "문의 제출",
     stepExitWarning: "저장되지 않은 변경 사항이 있습니다. 정말 나가시겠습니까?",
+
+    // Contact Form Steps
+    contactFormTitle: "문의 양식",
+    contactFormStep1Subtitle: "적절한 지원을 제공해 드릴 수 있도록 몇 가지 질문에 답해 주세요.",
+    contactFormStep1Headline: "무엇을 도와드릴까요?",
+    contactFormStep2Subtitle: "구체적인 서비스를 선택하세요",
+    contactFormStep2Headline: "서비스 선택",
+    contactFormStep3Subtitle: "연락을 취하고 절차를 시작하기 위해 몇 가지 정보가 필요합니다.",
+    contactFormStep3Headline: "본인 소개",
+    stepIndicator: "단계",
+    stepOf: "/",
+    includedInBundle: "패키지 포함 내역:",
+
+    // Category Step Captions
+    categoryCard2Caption: "비자 및 법률 지원",
+    categoryCard3Caption: "혜택 및 금융",
+    categoryCard4Caption: "공과금 및 보험",
+    categoryServicesCount: "서비스",
   },
   de: {
     // Header
@@ -604,7 +658,7 @@ export const translations: Record<Language, Translations> = {
     servicesHeading: "Unsere Leistungen",
     servicesLabel: "WAS WIR BIETEN",
     serviceCard1Title: "Wohnen & Umzug",
-    serviceCard1Tagline: "Complete housing search to move-in support",
+    serviceCard1Tagline: "Komplette Wohnungssuche bis zum Einzug",
     serviceCard1Badge: "",
     serviceCard1Desc: "Finden Sie Ihr perfektes Zuhause und leben Sie sich reibungslos ein. Wir unterstützen bei der Immobiliensuche, Besichtigungen, Verträgen und allen Anmeldeformalitäten.",
     serviceCard1Services: [
@@ -789,6 +843,24 @@ export const translations: Record<Language, Translations> = {
     stepBack: "Zurück",
     stepSubmit: "Anfrage senden",
     stepExitWarning: "Sie haben ungespeicherte Änderungen. Sind Sie sicher, dass Sie die Seite verlassen möchten?",
+
+    // Contact Form Steps
+    contactFormTitle: "Kontaktformular",
+    contactFormStep1Subtitle: "Beantworten Sie ein paar kurze Fragen, damit wir Ihnen die richtige Unterstützung bieten können.",
+    contactFormStep1Headline: "Wie können wir Ihnen helfen?",
+    contactFormStep2Subtitle: "Wählen Sie einen spezifischen Service",
+    contactFormStep2Headline: "Wählen Sie Ihre Services",
+    contactFormStep3Subtitle: "Wir benötigen ein paar Details, um Sie zu kontaktieren und zu starten.",
+    contactFormStep3Headline: "Erzählen Sie uns von sich",
+    stepIndicator: "Schritt",
+    stepOf: "von",
+    includedInBundle: "Im Paket enthalten:",
+
+    // Category Step Captions
+    categoryCard2Caption: "Visa & Rechtsberatung",
+    categoryCard3Caption: "Leistungen & Finanzen",
+    categoryCard4Caption: "Versorgung & Versicherung",
+    categoryServicesCount: "Leistungen",
   },
 };
 

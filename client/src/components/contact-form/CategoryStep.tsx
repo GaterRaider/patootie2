@@ -25,7 +25,7 @@ export const CategoryStep = ({ t, selectedService, setSelectedService, setValue,
             id: 'legal',
             title: t.serviceCard2Title,
             icon: Scale,
-            caption: "Visa & Legal Support",
+            caption: t.categoryCard2Caption,
             value: t.serviceCard2Title,
             count: 7
         },
@@ -33,7 +33,7 @@ export const CategoryStep = ({ t, selectedService, setSelectedService, setValue,
             id: 'finance',
             title: t.serviceCard3Title,
             icon: Wallet,
-            caption: "Benefits & Banking",
+            caption: t.categoryCard3Caption,
             value: t.serviceCard3Title,
             count: 3
         },
@@ -41,7 +41,7 @@ export const CategoryStep = ({ t, selectedService, setSelectedService, setValue,
             id: 'daily',
             title: t.serviceCard4Title,
             icon: Zap,
-            caption: "Utilities & Insurance",
+            caption: t.categoryCard4Caption,
             value: t.serviceCard4Title,
             count: 2
         }
@@ -112,7 +112,7 @@ export const CategoryStep = ({ t, selectedService, setSelectedService, setValue,
                                             : 'bg-gray-100 dark:bg-slate-700 text-gray-500 dark:text-slate-400'
                                         }
                   `}>
-                                        {category.count} services
+                                        {category.count} {t.categoryServicesCount}
                                     </span>
                                 </div>
                             </button>
