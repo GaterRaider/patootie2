@@ -172,6 +172,7 @@ export const appRouter = router({
           privacyConsent: input.privacyConsent,
           submitterIp: ipAddress,
           userAgent: userAgent,
+          tags: [],
         };
 
         try {
@@ -494,6 +495,72 @@ export const appRouter = router({
             ipAddress: ctx.req.ip || ctx.req.socket.remoteAddress,
             userAgent: ctx.req.headers["user-agent"],
           });
+
+          return { success: true };
+        }),
+
+      addTag: adminProcedure
+        .input(
+          z.object({
+            id: z.number(),
+            tag: z.string(),
+          })
+        )
+        .mutation(async ({ input, ctx }) => {
+          const { updateSubmissionTags, getContactSubmissionById } = await import("./db");
+          const submission = await getContactSubmissionById(input.id);
+          if (!submission) {
+            throw new TRPCError({ code: "NOT_FOUND", message: "Submission not found" });
+          }
+
+          const currentTags = (submission.tags as string[]) || [];
+          if (!currentTags.includes(input.tag)) {
+            const newTags = [...currentTags, input.tag];
+            await updateSubmissionTags(input.id, newTags);
+
+            await logActivity({
+              adminId: ctx.adminId,
+              action: "ADD_TAG",
+              entityType: "SUBMISSION",
+              entityId: input.id,
+              details: { tag: input.tag },
+              ipAddress: ctx.req.ip || ctx.req.socket.remoteAddress,
+              userAgent: ctx.req.headers["user-agent"],
+            });
+          }
+
+          return { success: true };
+        }),
+
+      removeTag: adminProcedure
+        .input(
+          z.object({
+            id: z.number(),
+            tag: z.string(),
+          })
+        )
+        .mutation(async ({ input, ctx }) => {
+          const { updateSubmissionTags, getContactSubmissionById } = await import("./db");
+          const submission = await getContactSubmissionById(input.id);
+          if (!submission) {
+            throw new TRPCError({ code: "NOT_FOUND", message: "Submission not found" });
+          }
+
+          const currentTags = (submission.tags as string[]) || [];
+          if (currentTags.includes(input.tag)) {
+            const newTags = currentTags.filter((t) => t !== input.tag);
+            await updateSubmissionTags(input.id, newTags);
+
+            await logActivity({
+              adminId: ctx.adminId,
+              action: "REMOVE_TAG",
+              entityType: "SUBMISSION",
+              entityId: input.id,
+              details: { tag: input.tag },
+              ipAddress: ctx.req.ip || ctx.req.socket.remoteAddress,
+              userAgent: ctx.req.headers["user-agent"],
+            });
+          }
 
           return { success: true };
         }),

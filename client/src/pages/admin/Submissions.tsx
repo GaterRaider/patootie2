@@ -3,8 +3,8 @@ import SubmissionsTable from "@/components/SubmissionsTable";
 import { trpc } from "@/lib/trpc";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Loader2, Search, ChevronLeft, ChevronRight, Filter } from "lucide-react";
-import { SortingState } from "@tanstack/react-table";
+import { Loader2, Search, ChevronLeft, ChevronRight, Filter, Settings2 } from "lucide-react";
+import { SortingState, VisibilityState } from "@tanstack/react-table";
 import {
     Select,
     SelectContent,
@@ -12,6 +12,12 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import {
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
+    DropdownMenuContent,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function AdminSubmissions() {
     const [rowSelection, setRowSelection] = useState({});
@@ -21,6 +27,7 @@ export default function AdminSubmissions() {
     const [search, setSearch] = useState("");
     const [debouncedSearch, setDebouncedSearch] = useState("");
     const [sorting, setSorting] = useState<SortingState>([]);
+    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
     const [serviceFilter, setServiceFilter] = useState<string>("all");
     const [bulkStatus, setBulkStatus] = useState<string>("");
 
@@ -46,7 +53,7 @@ export default function AdminSubmissions() {
             if (!data || data.length === 0) return;
 
             // Convert to CSV
-            const headers = ["ID", "Ref ID", "First Name", "Last Name", "Email", "Service", "Status", "Created At"];
+            const headers = ["ID", "Ref ID", "First Name", "Last Name", "Email", "Service", "Status", "Created At", "Tags"];
             const csvContent = [
                 headers.join(","),
                 ...data.map(row => [
@@ -57,7 +64,8 @@ export default function AdminSubmissions() {
                     row.email,
                     row.service,
                     row.status.charAt(0).toUpperCase() + row.status.slice(1),
-                    row.createdAt
+                    row.createdAt,
+                    `"${(row.tags || []).join(", ")}"`
                 ].join(","))
             ].join("\n");
 
@@ -105,6 +113,17 @@ export default function AdminSubmissions() {
 
     const selectedCount = Object.keys(rowSelection).length;
 
+    const toggleableColumns = [
+        { id: "refId", label: "Ref ID" },
+        { id: "firstName", label: "Name" },
+        { id: "email", label: "Email" },
+        { id: "service", label: "Service" },
+        { id: "status", label: "Status" },
+        { id: "country", label: "Country" },
+        { id: "tags", label: "Tags" },
+        { id: "createdAt", label: "Date" },
+    ];
+
     return (
         <>
             <div className="flex justify-between items-center mb-6">
@@ -147,6 +166,31 @@ export default function AdminSubmissions() {
                                 <SelectItem value="100">Show 100</SelectItem>
                             </SelectContent>
                         </Select>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="outline" className="ml-2">
+                                    <Settings2 className="mr-2 h-4 w-4" />
+                                    Columns
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                                {toggleableColumns.map((column) => (
+                                    <DropdownMenuCheckboxItem
+                                        key={column.id}
+                                        className="capitalize"
+                                        checked={columnVisibility[column.id] !== false}
+                                        onCheckedChange={(value) =>
+                                            setColumnVisibility((prev) => ({
+                                                ...prev,
+                                                [column.id]: value,
+                                            }))
+                                        }
+                                    >
+                                        {column.label}
+                                    </DropdownMenuCheckboxItem>
+                                ))}
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                     </div>
 
                     <div className="flex items-center gap-2">
@@ -214,6 +258,8 @@ export default function AdminSubmissions() {
                         onSortingChange={setSorting}
                         rowSelection={rowSelection}
                         onRowSelectionChange={setRowSelection}
+                        columnVisibility={columnVisibility}
+                        onColumnVisibilityChange={setColumnVisibility}
                     />
                 )}
             </div>

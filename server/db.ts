@@ -1,5 +1,5 @@
 import { drizzle } from "drizzle-orm/node-postgres";
-import { eq, and, gt, desc, ilike, or, inArray, count } from "drizzle-orm";
+import { eq, and, gt, desc, asc, ilike, or, inArray, count, SQL, AnyColumn } from "drizzle-orm";
 import { Pool } from "pg";
 import {
   InsertUser,
@@ -330,11 +330,30 @@ export async function getAllContactSubmissions(options?: {
     conditions.push(eq(contactSubmissions.status, options.status));
   }
 
-  let orderBy = desc(contactSubmissions.createdAt);
+  let orderBy: SQL<unknown> = desc(contactSubmissions.createdAt);
   if (options?.sortBy && options?.sortOrder) {
-    const col = contactSubmissions[options.sortBy as keyof typeof contactSubmissions];
-    if (col) {
-      orderBy = options.sortOrder === "asc" ? col : desc(col);
+    switch (options.sortBy) {
+      case "firstName":
+        orderBy = options.sortOrder === "asc" ? asc(contactSubmissions.firstName) : desc(contactSubmissions.firstName);
+        break;
+      case "lastName":
+        orderBy = options.sortOrder === "asc" ? asc(contactSubmissions.lastName) : desc(contactSubmissions.lastName);
+        break;
+      case "email":
+        orderBy = options.sortOrder === "asc" ? asc(contactSubmissions.email) : desc(contactSubmissions.email);
+        break;
+      case "createdAt":
+        orderBy = options.sortOrder === "asc" ? asc(contactSubmissions.createdAt) : desc(contactSubmissions.createdAt);
+        break;
+      case "status":
+        orderBy = options.sortOrder === "asc" ? asc(contactSubmissions.status) : desc(contactSubmissions.status);
+        break;
+      case "service":
+        orderBy = options.sortOrder === "asc" ? asc(contactSubmissions.service) : desc(contactSubmissions.service);
+        break;
+      case "refId":
+        orderBy = options.sortOrder === "asc" ? asc(contactSubmissions.refId) : desc(contactSubmissions.refId);
+        break;
     }
   }
 
@@ -512,6 +531,21 @@ export async function updateContactSubmissionStatus(id: number, status: string) 
   return await db
     .update(contactSubmissions)
     .set({ status })
+    .where(eq(contactSubmissions.id, id));
+}
+
+/**
+ * Update contact submission tags
+ */
+export async function updateSubmissionTags(id: number, tags: string[]) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  return await db
+    .update(contactSubmissions)
+    .set({ tags })
     .where(eq(contactSubmissions.id, id));
 }
 

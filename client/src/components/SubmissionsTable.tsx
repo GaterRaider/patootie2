@@ -3,6 +3,7 @@ import {
     getCoreRowModel,
     flexRender,
     createColumnHelper,
+    VisibilityState,
     SortingState,
     OnChangeFn,
 } from "@tanstack/react-table";
@@ -16,10 +17,18 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { format } from "date-fns";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal, Mail, Tag, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
-interface Submission {
+export interface Submission {
     id: number;
     refId: string;
     firstName: string;
@@ -29,6 +38,7 @@ interface Submission {
     status: string;
     createdAt: string | Date;
     country: string;
+    tags: string[] | null;
 }
 
 const columnHelper = createColumnHelper<Submission>();
@@ -36,9 +46,7 @@ const columnHelper = createColumnHelper<Submission>();
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 
-// ...
-
-const columns = [
+export const columns = [
     columnHelper.display({
         id: "select",
         header: ({ table }) => (
@@ -121,6 +129,22 @@ const columns = [
     columnHelper.accessor("country", {
         header: "Country",
     }),
+    columnHelper.accessor("tags", {
+        header: "Tags",
+        cell: (info) => {
+            const tags = info.getValue() as string[] | null;
+            if (!tags || tags.length === 0) return null;
+            return (
+                <div className="flex flex-wrap gap-1 max-w-[200px]">
+                    {tags.map((tag) => (
+                        <Badge key={tag} variant="secondary" className="text-[10px] px-1 py-0 h-5">
+                            {tag}
+                        </Badge>
+                    ))}
+                </div>
+            );
+        },
+    }),
     columnHelper.accessor("createdAt", {
         header: ({ column }) => {
             return (
@@ -135,6 +159,36 @@ const columns = [
         },
         cell: (info) => format(new Date(info.getValue()), "MMM d, yyyy"),
     }),
+    columnHelper.display({
+        id: "actions",
+        cell: ({ row }) => {
+            const [, setLocation] = useLocation();
+            return (
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="h-8 w-8 p-0">
+                            <span className="sr-only">Open menu</span>
+                            <MoreHorizontal className="h-4 w-4" />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                        <DropdownMenuItem onClick={() => navigator.clipboard.writeText(row.original.email)}>
+                            Copy Email
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem onClick={() => setLocation(`/admin/submissions/${row.original.id}`)}>
+                            View Details
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                            <Mail className="mr-2 h-4 w-4" />
+                            Send Email
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            );
+        },
+    }),
 ];
 
 interface SubmissionsTableProps {
@@ -143,6 +197,8 @@ interface SubmissionsTableProps {
     onSortingChange: OnChangeFn<SortingState>;
     rowSelection: Record<string, boolean>;
     onRowSelectionChange: OnChangeFn<Record<string, boolean>>;
+    columnVisibility?: VisibilityState;
+    onColumnVisibilityChange?: OnChangeFn<VisibilityState>;
 }
 
 export default function SubmissionsTable({
@@ -151,6 +207,8 @@ export default function SubmissionsTable({
     onSortingChange,
     rowSelection,
     onRowSelectionChange,
+    columnVisibility,
+    onColumnVisibilityChange,
 }: SubmissionsTableProps) {
     const [, setLocation] = useLocation();
 
@@ -161,10 +219,12 @@ export default function SubmissionsTable({
         getRowId: (row) => row.id.toString(),
         onSortingChange,
         onRowSelectionChange,
+        onColumnVisibilityChange,
         enableRowSelection: true,
         state: {
             sorting,
             rowSelection,
+            columnVisibility,
         },
         manualSorting: true, // Server-side sorting
     });
@@ -196,9 +256,9 @@ export default function SubmissionsTable({
                                 data-state={row.getIsSelected() && "selected"}
                                 className="cursor-pointer hover:bg-muted/50"
                                 onClick={(e) => {
-                                    // Don't navigate if clicking on checkbox
+                                    // Don't navigate if clicking on checkbox or actions
                                     const target = e.target as HTMLElement;
-                                    if (target.closest('button') || target.closest('[role="checkbox"]')) {
+                                    if (target.closest('button') || target.closest('[role="checkbox"]') || target.closest('[role="menuitem"]')) {
                                         return;
                                     }
                                     setLocation(`/admin/submissions/${row.original.id}`);

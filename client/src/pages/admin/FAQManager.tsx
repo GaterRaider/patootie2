@@ -1,17 +1,38 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, Edit, Trash2, Eye, EyeOff, GripVertical } from "lucide-react";
+import { Plus, Edit, Trash2, Eye, EyeOff, GripVertical, Download, Upload } from "lucide-react";
 import { toast } from "sonner";
 import { FAQItemForm } from "@/components/admin/FAQItemForm";
-import type { FAQItem } from "../../../drizzle/schema";
+import { SortableFAQItem } from "@/components/admin/SortableFAQItem";
+import type { FAQItem } from "../../../../drizzle/schema";
+import {
+    DndContext,
+    closestCenter,
+    KeyboardSensor,
+    PointerSensor,
+    useSensor,
+    useSensors,
+    DragEndEvent,
+} from '@dnd-kit/core';
+import {
+    arrayMove,
+    SortableContext,
+    sortableKeyboardCoordinates,
+    verticalListSortingStrategy,
+    useSortable,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 export default function FAQManager() {
     const [selectedLanguage, setSelectedLanguage] = useState<'en' | 'ko' | 'de'>('en');
     const [editingItem, setEditingItem] = useState<FAQItem | null>(null);
     const [isFormOpen, setIsFormOpen] = useState(false);
+    const [selectedItems, setSelectedItems] = useState<number[]>([]);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     const utils = trpc.useUtils();
     const { data: allFAQ, isLoading } = trpc.faq.admin.getAll.useQuery();
@@ -116,6 +137,140 @@ export default function FAQManager() {
         });
     };
 
+    const handleSelect = (id: number, checked: boolean) => {
+        if (checked) {
+            setSelectedItems([...selectedItems, id]);
+        } else {
+            setSelectedItems(selectedItems.filter((itemId) => itemId !== id));
+        }
+    };
+
+    const handleSelectAll = (checked: boolean) => {
+        if (checked) {
+            setSelectedItems(filteredFAQ.map((item) => item.id));
+        } else {
+            setSelectedItems([]);
+        }
+    };
+
+    const handleBulkPublish = async (publish: boolean) => {
+        if (!confirm(`Are you sure you want to ${publish ? 'publish' : 'unpublish'} ${selectedItems.length} items?`)) return;
+
+        // Execute sequentially to avoid race conditions or server overload
+        for (const id of selectedItems) {
+            const item = filteredFAQ.find(i => i.id === id);
+            if (item && item.isPublished !== publish) {
+                await togglePublishMutation.mutateAsync({ id });
+            }
+        }
+        setSelectedItems([]);
+        toast.success(`Bulk ${publish ? 'published' : 'unpublished'} successfully`);
+    };
+
+    const handleBulkDelete = async () => {
+        if (!confirm(`Are you sure you want to delete ${selectedItems.length} items? This cannot be undone.`)) return;
+
+        for (const id of selectedItems) {
+            await deleteMutation.mutateAsync({ id });
+        }
+        setSelectedItems([]);
+        toast.success("Bulk deleted successfully");
+    };
+
+    const handleExport = () => {
+        if (filteredFAQ.length === 0) {
+            toast.error("No items to export");
+            return;
+        }
+
+        const headers = ["Question", "Answer", "Published"];
+        const csvContent = [
+            headers.join(","),
+            ...filteredFAQ.map(item => {
+                const question = `"${item.question.replace(/"/g, '""')}"`;
+                const answer = `"${item.answer.replace(/"/g, '""')}"`;
+                return `${question},${answer},${item.isPublished}`;
+            })
+        ].join("\n");
+
+        const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", `faq_${selectedLanguage}_${new Date().toISOString().split('T')[0]}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+    const handleImport = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+            const text = e.target?.result as string;
+            if (!text) return;
+
+            const lines = text.split("\n");
+            // Skip header
+            const dataLines = lines.slice(1).filter(line => line.trim());
+
+            let successCount = 0;
+            let failCount = 0;
+
+            for (const line of dataLines) {
+                try {
+                    // Simple CSV parsing (handles quoted strings)
+                    const matches = line.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
+                    if (!matches || matches.length < 2) continue;
+
+                    const question = matches[0].replace(/^"|"$/g, '').replace(/""/g, '"');
+                    const answer = matches[1].replace(/^"|"$/g, '').replace(/""/g, '"');
+                    const isPublished = matches[2] === 'true';
+
+                    await createMutation.mutateAsync({
+                        language: selectedLanguage,
+                        question,
+                        answer,
+                        isPublished
+                    });
+                    successCount++;
+                } catch (error) {
+                    failCount++;
+                }
+            }
+
+            toast.success(`Imported ${successCount} items` + (failCount > 0 ? `, ${failCount} failed` : ""));
+            // Reset file input
+            event.target.value = '';
+        };
+        reader.readAsText(file);
+    };
+
+    // Drag and drop sensors
+    const sensors = useSensors(
+        useSensor(PointerSensor),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates,
+        })
+    );
+
+    const handleDragEnd = (event: DragEndEvent) => {
+        const { active, over } = event;
+
+        if (over && active.id !== over.id) {
+            const oldIndex = filteredFAQ.findIndex((item) => item.id === active.id);
+            const newIndex = filteredFAQ.findIndex((item) => item.id === over.id);
+
+            const newOrder = arrayMove(filteredFAQ, oldIndex, newIndex);
+            reorderMutation.mutate({
+                language: selectedLanguage,
+                itemIds: newOrder.map((item) => item.id),
+            });
+        }
+    };
+
     return (
         <div className="container mx-auto py-8 px-4">
             <div className="flex justify-between items-center mb-8">
@@ -125,15 +280,32 @@ export default function FAQManager() {
                         Manage frequently asked questions for your website
                     </p>
                 </div>
-                <Button
-                    onClick={() => {
-                        setEditingItem(null);
-                        setIsFormOpen(true);
-                    }}
-                >
-                    <Plus className="h-4 w-4 mr-2" />
-                    Add FAQ
-                </Button>
+                <div className="flex gap-2">
+                    <input
+                        type="file"
+                        accept=".csv"
+                        className="hidden"
+                        ref={fileInputRef}
+                        onChange={handleImport}
+                    />
+                    <Button variant="outline" onClick={() => fileInputRef.current?.click()}>
+                        <Upload className="h-4 w-4 mr-2" />
+                        Import CSV
+                    </Button>
+                    <Button variant="outline" onClick={handleExport}>
+                        <Download className="h-4 w-4 mr-2" />
+                        Export CSV
+                    </Button>
+                    <Button
+                        onClick={() => {
+                            setEditingItem(null);
+                            setIsFormOpen(true);
+                        }}
+                    >
+                        <Plus className="h-4 w-4 mr-2" />
+                        Add FAQ
+                    </Button>
+                </div>
             </div>
 
             <Tabs value={selectedLanguage} onValueChange={(value) => setSelectedLanguage(value as 'en' | 'ko' | 'de')}>
@@ -161,82 +333,66 @@ export default function FAQManager() {
                             </CardContent>
                         </Card>
                     ) : (
-                        <div className="space-y-4">
-                            {filteredFAQ.map((item, index) => (
-                                <Card key={item.id} className={!item.isPublished ? "opacity-60" : ""}>
-                                    <CardHeader>
-                                        <div className="flex items-start justify-between gap-4">
-                                            <div className="flex-1">
-                                                <div className="flex items-center gap-2 mb-2">
-                                                    {!item.isPublished && (
-                                                        <span className="text-xs bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 px-2 py-1 rounded">
-                                                            Draft
-                                                        </span>
-                                                    )}
-                                                    <span className="text-xs text-muted-foreground">
-                                                        Order: {index + 1}
-                                                    </span>
-                                                </div>
-                                                <CardTitle className="text-lg">{item.question}</CardTitle>
-                                            </div>
-                                            <div className="flex items-center gap-2">
-                                                <div className="flex flex-col gap-1">
-                                                    <Button
-                                                        variant="ghost"
-                                                        size="sm"
-                                                        onClick={() => handleMoveUp(index)}
-                                                        disabled={index === 0}
-                                                    >
-                                                        ↑
-                                                    </Button>
-                                                    <Button
-                                                        variant="ghost"
-                                                        size="sm"
-                                                        onClick={() => handleMoveDown(index)}
-                                                        disabled={index === filteredFAQ.length - 1}
-                                                    >
-                                                        ↓
-                                                    </Button>
-                                                </div>
-                                                <Button
-                                                    variant="ghost"
-                                                    size="icon"
-                                                    onClick={() => handleTogglePublish(item.id)}
-                                                >
-                                                    {item.isPublished ? (
-                                                        <Eye className="h-4 w-4" />
-                                                    ) : (
-                                                        <EyeOff className="h-4 w-4" />
-                                                    )}
-                                                </Button>
-                                                <Button
-                                                    variant="ghost"
-                                                    size="icon"
-                                                    onClick={() => {
-                                                        setEditingItem(item);
-                                                        setIsFormOpen(true);
-                                                    }}
-                                                >
-                                                    <Edit className="h-4 w-4" />
-                                                </Button>
-                                                <Button
-                                                    variant="ghost"
-                                                    size="icon"
-                                                    onClick={() => handleDelete(item.id)}
-                                                >
-                                                    <Trash2 className="h-4 w-4 text-destructive" />
-                                                </Button>
-                                            </div>
-                                        </div>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <p className="text-sm text-muted-foreground whitespace-pre-wrap">
-                                            {item.answer}
-                                        </p>
-                                    </CardContent>
-                                </Card>
-                            ))}
-                        </div>
+                        <DndContext
+                            sensors={sensors}
+                            collisionDetection={closestCenter}
+                            onDragEnd={handleDragEnd}
+                        >
+                            <div className="flex items-center justify-between mb-4 p-4 bg-muted/30 rounded-lg border">
+                                <div className="flex items-center gap-2">
+                                    <Checkbox
+                                        checked={filteredFAQ.length > 0 && selectedItems.length === filteredFAQ.length}
+                                        onCheckedChange={(checked) => handleSelectAll(checked as boolean)}
+                                        id="select-all"
+                                    />
+                                    <label htmlFor="select-all" className="text-sm font-medium cursor-pointer">
+                                        Select All ({selectedItems.length} selected)
+                                    </label>
+                                </div>
+                                {selectedItems.length > 0 && (
+                                    <div className="flex items-center gap-2">
+                                        <Button size="sm" variant="outline" onClick={() => handleBulkPublish(true)}>
+                                            <Eye className="h-4 w-4 mr-2" />
+                                            Publish
+                                        </Button>
+                                        <Button size="sm" variant="outline" onClick={() => handleBulkPublish(false)}>
+                                            <EyeOff className="h-4 w-4 mr-2" />
+                                            Unpublish
+                                        </Button>
+                                        <Button size="sm" variant="destructive" onClick={handleBulkDelete}>
+                                            <Trash2 className="h-4 w-4 mr-2" />
+                                            Delete
+                                        </Button>
+                                    </div>
+                                )}
+                            </div>
+
+                            <SortableContext
+                                items={filteredFAQ.map(item => item.id)}
+                                strategy={verticalListSortingStrategy}
+                            >
+                                <div className="space-y-4">
+                                    {filteredFAQ.map((item, index) => (
+                                        <SortableFAQItem
+                                            key={item.id}
+                                            item={item}
+                                            index={index}
+                                            totalItems={filteredFAQ.length}
+                                            isSelected={selectedItems.includes(item.id)}
+                                            onSelect={(checked) => handleSelect(item.id, checked)}
+                                            onMoveUp={() => handleMoveUp(index)}
+                                            onMoveDown={() => handleMoveDown(index)}
+                                            onTogglePublish={() => handleTogglePublish(item.id)}
+                                            onEdit={() => {
+                                                setEditingItem(item);
+                                                setIsFormOpen(true);
+                                            }}
+                                            onDelete={() => handleDelete(item.id)}
+                                        />
+                                    ))}
+                                </div>
+                            </SortableContext>
+                        </DndContext>
                     )}
                 </TabsContent>
             </Tabs>

@@ -72,6 +72,7 @@ export const contactSubmissions = pgTable("contactSubmissions", {
   status: varchar("status", { length: 20 }).default("new").notNull(),
   submitterIp: varchar("submitterIp", { length: 50 }),
   userAgent: text("userAgent"),
+  tags: jsonb("tags").$type<string[]>(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
