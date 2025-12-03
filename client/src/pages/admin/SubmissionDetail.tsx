@@ -137,7 +137,7 @@ export default function SubmissionDetail() {
                     <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => setLocation("/admin/dashboard")}
+                        onClick={() => setLocation("/submissions")}
                         className="gap-2 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 shadow-sm rounded-full hover:shadow-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-all"
                     >
                         <ArrowLeft className="h-4 w-4" />
