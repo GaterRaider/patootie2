@@ -430,6 +430,17 @@ export const appRouter = router({
           return { submissions, total };
         }),
 
+      getOne: adminProcedure
+        .input(z.object({ id: z.number() }))
+        .query(async ({ input }) => {
+          const { getContactSubmissionById } = await import("./db");
+          const submission = await getContactSubmissionById(input.id);
+          if (!submission) {
+            throw new TRPCError({ code: "NOT_FOUND", message: "Submission not found" });
+          }
+          return submission;
+        }),
+
       bulkUpdate: adminProcedure
         .input(
           z.object({
@@ -463,16 +474,6 @@ export const appRouter = router({
         .mutation(async ({ input }) => {
           const submissions = await getContactSubmissionsByIds(input.ids);
           return submissions;
-        }),
-
-      getOne: adminProcedure
-        .input(z.object({ id: z.number() }))
-        .query(async ({ input }) => {
-          const submission = await getContactSubmissionById(input.id);
-          if (!submission) {
-            throw new TRPCError({ code: "NOT_FOUND", message: "Submission not found" });
-          }
-          return submission;
         }),
 
       updateStatus: adminProcedure

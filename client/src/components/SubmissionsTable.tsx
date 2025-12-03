@@ -177,7 +177,7 @@ export const columns = [
                             Copy Email
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={() => setLocation(`/admin/submissions/${row.original.id}`)}>
+                        <DropdownMenuItem onClick={() => setLocation(`/submissions/${row.original.id}`)}>
                             View Details
                         </DropdownMenuItem>
                         <DropdownMenuItem>
@@ -261,7 +261,7 @@ export default function SubmissionsTable({
                                     if (target.closest('button') || target.closest('[role="checkbox"]') || target.closest('[role="menuitem"]')) {
                                         return;
                                     }
-                                    setLocation(`/admin/submissions/${row.original.id}`);
+                                    setLocation(`/submissions/${row.original.id}`);
                                 }}
                             >
                                 {row.getVisibleCells().map((cell) => (
