@@ -40,6 +40,9 @@ export default function AdminSubmissions() {
     const [sorting, setSorting] = useState<SortingState>([]);
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
     const [serviceFilter, setServiceFilter] = useState<string>("all");
+    const [dateFrom, setDateFrom] = useState<string>("");
+    const [dateTo, setDateTo] = useState<string>("");
+    const [selectedTags, setSelectedTags] = useState<string[]>([]);
     const [bulkStatus, setBulkStatus] = useState<string>("");
     const [saveFilterDialogOpen, setSaveFilterDialogOpen] = useState(false);
     const [filterName, setFilterName] = useState("");
@@ -123,6 +126,9 @@ export default function AdminSubmissions() {
         sortBy: sorting.length > 0 ? sorting[0].id : undefined,
         sortOrder: sorting.length > 0 ? (sorting[0].desc ? "desc" : "asc") : undefined,
         service: serviceFilter !== "all" ? serviceFilter : undefined,
+        dateFrom: dateFrom || undefined,
+        dateTo: dateTo || undefined,
+        tags: selectedTags.length > 0 ? selectedTags : undefined,
     });
 
     // Saved filters
@@ -226,6 +232,32 @@ export default function AdminSubmissions() {
                                 <SelectItem value="Others requests">Other Requests</SelectItem>
                             </SelectContent>
                         </Select>
+                        <Input
+                            type="date"
+                            value={dateFrom}
+                            onChange={(e) => setDateFrom(e.target.value)}
+                            className="w-[160px]"
+                            placeholder="From date"
+                        />
+                        <Input
+                            type="date"
+                            value={dateTo}
+                            onChange={(e) => setDateTo(e.target.value)}
+                            className="w-[160px]"
+                            placeholder="To date"
+                        />
+                        {(dateFrom || dateTo) && (
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => {
+                                    setDateFrom("");
+                                    setDateTo("");
+                                }}
+                            >
+                                Clear Dates
+                            </Button>
+                        )}
                         <Select value={pageSize.toString()} onValueChange={(val) => { setPageSize(parseInt(val)); setPage(1); }}>
                             <SelectTrigger className="w-[140px]">
                                 <SelectValue />

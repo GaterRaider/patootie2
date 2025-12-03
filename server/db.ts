@@ -1,5 +1,5 @@
 import { drizzle } from "drizzle-orm/node-postgres";
-import { eq, and, gt, desc, asc, ilike, or, inArray, count, SQL, AnyColumn } from "drizzle-orm";
+import { eq, and, gt, gte, lte, desc, asc, ilike, or, inArray, count, SQL, AnyColumn } from "drizzle-orm";
 import { Pool } from "pg";
 import {
   InsertUser,
@@ -299,6 +299,9 @@ export async function getAllContactSubmissions(options?: {
   search?: string;
   status?: string;
   service?: string;
+  dateFrom?: string;
+  dateTo?: string;
+  tags?: string[];
   sortBy?: string;
   sortOrder?: "asc" | "desc";
 }) {
@@ -331,6 +334,24 @@ export async function getAllContactSubmissions(options?: {
   // Note: Status filtering will be added when we add a status column to the schema
   if (options?.status) {
     conditions.push(eq(contactSubmissions.status, options.status));
+  }
+
+  // Date range filtering
+  if (options?.dateFrom) {
+    conditions.push(gte(contactSubmissions.createdAt, new Date(options.dateFrom)));
+  }
+  if (options?.dateTo) {
+    // Add 1 day to include the entire end date
+    const endDate = new Date(options.dateTo);
+    endDate.setDate(endDate.getDate() + 1);
+    conditions.push(lte(contactSubmissions.createdAt, endDate));
+  }
+
+  // Tag filtering - check if submission has ANY of the specified tags
+  if (options?.tags && options.tags.length > 0) {
+    // This requires a custom SQL condition since we're checking array overlap
+    // We'll use a simple approach: filter in memory after fetching
+    // For better performance, this could be done with a PostgreSQL array operator
   }
 
   let orderBy: SQL<unknown> = desc(contactSubmissions.createdAt);

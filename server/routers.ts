@@ -420,6 +420,9 @@ export const appRouter = router({
             search: z.string().optional(),
             status: z.string().optional(),
             service: z.string().optional(),
+            dateFrom: z.string().optional(),
+            dateTo: z.string().optional(),
+            tags: z.array(z.string()).optional(),
             sortBy: z.string().optional(),
             sortOrder: z.enum(["asc", "desc"]).optional(),
           })
