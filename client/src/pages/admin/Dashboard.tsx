@@ -412,7 +412,7 @@ export default function AdminDashboard() {
                             items={chartOrder}
                             strategy={rectSortingStrategy}
                         >
-                            <div className="grid gap-4 md:grid-cols-2 md:auto-rows-fr">
+                            <div className="grid gap-4 md:grid-cols-2">
                                 {chartOrder.map((chartId) => {
                                     if (!visibleCharts[chartId]) return null;
 

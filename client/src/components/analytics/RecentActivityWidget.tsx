@@ -18,20 +18,20 @@ export function RecentActivityWidget() {
     };
 
     return (
-        <Card>
+        <Card className="h-full flex flex-col min-h-[350px]">
             <CardHeader className="pb-3">
                 <CardTitle className="text-base font-medium flex items-center gap-2">
                     <Activity className="h-4 w-4" />
                     Recent Activity
                 </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex-1 min-h-0">
                 {isLoading ? (
                     <div className="flex justify-center py-8">
                         <Loader2 className="h-6 w-6 animate-spin" />
                     </div>
                 ) : (
-                    <ScrollArea className="h-[300px] pr-4">
+                    <ScrollArea className="h-full pr-4 max-h-[400px]">
                         <div className="space-y-3">
                             {activities?.logs.map((log) => (
                                 <div key={log.id} className="flex flex-col space-y-1 pb-3 border-b last:border-0">
