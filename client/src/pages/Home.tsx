@@ -187,16 +187,18 @@ export default function Home() {
         {/* Primary Meta Tags */}
         <title>
           {language === "ko"
-            ? "독일 관료 업무 지원 | 주택, 비자 & 이민 서비스 - 한독헬퍼"
+            ? "한독헬퍼 - 독일 이민 준비 & 정착 서비스 | 독일 집 구하기 & 비자"
             : "German Bureaucracy Help for Expats | Housing, Visa & Immigration Support"}
         </title>
         <meta
           name="description"
           content={language === "ko"
-            ? "독일 관료, 주택, 비자 및 Anmeldung 전문 지원. 독일 거주 외국인을 위한 전문 서비스. 영어, 한국어, 독일어 지원."
+            ? "독일 이민 준비부터 정착까지. 한독헬퍼는 독일 집 구하기, 비자 신청, 거주 등록, 연금 환급 등 독일 거주 외국인을 위한 전문 정착 서비스를 제공합니다."
             : "Expert help with German bureaucracy, housing, visas & Anmeldung. Professional support for expats in Germany. English, Korean & German service."}
         />
-        <meta name="keywords" content="German bureaucracy, expat services Germany, housing Germany, visa assistance, Anmeldung, immigration help, German authorities, 독일 관료, 독일 비자, 독일 주택" />
+        <meta name="keywords" content={language === "ko"
+          ? "한독헬퍼, 독일 집 구하기, 독일 정착 서비스, 독일 비자, 독일 이민 준비, 독일 관료, 독일 주택"
+          : "German bureaucracy, expat services Germany, housing Germany, visa assistance, Anmeldung, immigration help, German authorities, 독일 관료, 독일 비자, 독일 주택"} />
         <meta name="author" content="HandokHelper" />
 
         {/* Canonical URL */}

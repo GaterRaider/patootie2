@@ -116,6 +116,13 @@ export function serveStatic(app: Express) {
       return res.redirect(302, `/${detectedLang}`);
     }
 
+    // Special handling for admin routes - always serve root index.html (SPA)
+    // This allows the client-side router to handle /admin/* routes
+    if (routePath.startsWith('/admin')) {
+      res.set("Content-Type", "text/html");
+      return res.sendFile(path.resolve(distPath, "index.html"));
+    }
+
     // Try to serve route-specific HTML file
     const htmlPath = path.join(distPath, routePath, "index.html");
 
