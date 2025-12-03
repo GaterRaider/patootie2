@@ -1316,4 +1316,4 @@ export const appRouter = router({
   }),
 });
 
-e AppRouter = typeof appRouter;
+export type AppRouter = typeof appRouter;
