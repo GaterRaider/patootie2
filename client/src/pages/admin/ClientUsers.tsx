@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,7 +10,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { Loader2, Search, Users as UsersIcon, Mail, Calendar, FileText } from "lucide-react";
+import { Loader2, Search, Users as UsersIcon, Mail, Calendar, FileText, X } from "lucide-react";
 import { format } from "date-fns";
 import { useLocation } from "wouter";
 
@@ -18,13 +18,23 @@ export default function ClientUsers() {
     const [, setLocation] = useLocation();
     const [page, setPage] = useState(1);
     const [search, setSearch] = useState("");
+    const [debouncedSearch, setDebouncedSearch] = useState("");
     const [sortBy, setSortBy] = useState("lastSubmission");
     const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+
+    // Debounce search input
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedSearch(search);
+        }, 300);
+
+        return () => clearTimeout(timer);
+    }, [search]);
 
     const { data, isLoading } = trpc.clientUsers.getAll.useQuery({
         page,
         limit: 20,
-        search: search || undefined,
+        search: debouncedSearch || undefined,
         sortBy,
         sortOrder,
     });
@@ -66,7 +76,7 @@ export default function ClientUsers() {
             {/* Search */}
             <div className="flex items-center gap-4">
                 <div className="relative flex-1 max-w-sm">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
                     <Input
                         placeholder="Search by email or name..."
                         value={search}
@@ -74,8 +84,20 @@ export default function ClientUsers() {
                             setSearch(e.target.value);
                             setPage(1);
                         }}
-                        className="pl-9"
+                        className="pl-9 pr-9"
                     />
+                    {search && (
+                        <button
+                            onClick={() => {
+                                setSearch("");
+                                setPage(1);
+                            }}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                            aria-label="Clear search"
+                        >
+                            <X className="h-4 w-4" />
+                        </button>
+                    )}
                 </div>
             </div>
 
@@ -156,12 +178,12 @@ export default function ClientUsers() {
                                     <TableCell>
                                         <span
                                             className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${user.latestStatus === "new"
-                                                    ? "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400"
-                                                    : user.latestStatus === "in-progress"
-                                                        ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400"
-                                                        : user.latestStatus === "completed"
-                                                            ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
-                                                            : "bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400"
+                                                ? "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400"
+                                                : user.latestStatus === "in-progress"
+                                                    ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400"
+                                                    : user.latestStatus === "completed"
+                                                        ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+                                                        : "bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400"
                                                 }`}
                                         >
                                             {user.latestStatus}
