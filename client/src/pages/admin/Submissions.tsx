@@ -29,6 +29,7 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
+import { MultiSelect } from "@/components/ui/multi-select";
 
 export default function AdminSubmissions() {
     const [rowSelection, setRowSelection] = useState({});
@@ -134,6 +135,9 @@ export default function AdminSubmissions() {
     // Saved filters
     const { data: savedFilters = [] } = trpc.admin.savedFilters.getAll.useQuery();
 
+    // Available tags
+    const { data: availableTags = [] } = trpc.admin.submissions.getTags.useQuery();
+
     const createFilterMutation = trpc.admin.savedFilters.create.useMutation({
         onSuccess: () => {
             utils.admin.savedFilters.getAll.invalidate();
@@ -157,6 +161,9 @@ export default function AdminSubmissions() {
             filters: {
                 search: debouncedSearch || undefined,
                 service: serviceFilter !== "all" ? serviceFilter : undefined,
+                tags: selectedTags.length > 0 ? selectedTags : undefined,
+                dateFrom: dateFrom || undefined,
+                dateTo: dateTo || undefined,
             },
             isDefault: setAsDefault,
         });
@@ -179,6 +186,24 @@ export default function AdminSubmissions() {
             setServiceFilter(filter.filters.service);
         } else {
             setServiceFilter("all");
+        }
+
+        if (filter.filters.tags) {
+            setSelectedTags(filter.filters.tags);
+        } else {
+            setSelectedTags([]);
+        }
+
+        if (filter.filters.dateFrom) {
+            setDateFrom(filter.filters.dateFrom);
+        } else {
+            setDateFrom("");
+        }
+
+        if (filter.filters.dateTo) {
+            setDateTo(filter.filters.dateTo);
+        } else {
+            setDateTo("");
         }
 
         setPage(1);
@@ -246,16 +271,24 @@ export default function AdminSubmissions() {
                             className="w-[160px]"
                             placeholder="To date"
                         />
-                        {(dateFrom || dateTo) && (
+                        <MultiSelect
+                            options={availableTags.map(tag => ({ label: tag, value: tag }))}
+                            selected={selectedTags}
+                            onChange={setSelectedTags}
+                            placeholder="Filter by Tags"
+                            className="w-[200px]"
+                        />
+                        {(dateFrom || dateTo || selectedTags.length > 0) && (
                             <Button
                                 variant="ghost"
                                 size="sm"
                                 onClick={() => {
                                     setDateFrom("");
                                     setDateTo("");
+                                    setSelectedTags([]);
                                 }}
                             >
-                                Clear Dates
+                                Clear Filters
                             </Button>
                         )}
                         <Select value={pageSize.toString()} onValueChange={(val) => { setPageSize(parseInt(val)); setPage(1); }}>

@@ -1,5 +1,5 @@
 import { drizzle } from "drizzle-orm/node-postgres";
-import { eq, and, gt, gte, lte, desc, asc, ilike, or, inArray, count, SQL, AnyColumn } from "drizzle-orm";
+import { eq, and, gt, gte, lte, desc, asc, ilike, or, inArray, count, SQL, AnyColumn, sql } from "drizzle-orm";
 import { Pool } from "pg";
 import {
   InsertUser,
@@ -423,6 +423,22 @@ export async function getContactSubmissionsCount(options?: {
     .where(and(...conditions));
 
   return result[0]?.count || 0;
+}
+
+/**
+ * Get all unique tags from submissions
+ */
+export async function getUniqueTags() {
+  const db = await getDb();
+  if (!db) return [];
+
+  // This is a bit complex in Drizzle with JSONB arrays, so we'll use raw SQL for simplicity
+  // We want: SELECT DISTINCT unnest(tags) as tag FROM "contactSubmissions" WHERE tags IS NOT NULL
+  const result = await db.execute(
+    sql`SELECT DISTINCT jsonb_array_elements_text(tags) as tag FROM "contactSubmissions" WHERE tags IS NOT NULL`
+  );
+
+  return result.rows.map((row: any) => row.tag).filter(Boolean).sort();
 }
 
 /**

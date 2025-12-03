@@ -433,6 +433,11 @@ export const appRouter = router({
           return { submissions, total };
         }),
 
+      getTags: adminProcedure.query(async () => {
+        const { getUniqueTags } = await import("./db");
+        return await getUniqueTags();
+      }),
+
       getOne: adminProcedure
         .input(z.object({ id: z.number() }))
         .query(async ({ input }) => {
