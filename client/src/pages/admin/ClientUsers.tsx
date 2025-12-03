@@ -10,6 +10,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Loader2, Search, Users as UsersIcon, Mail, Calendar, FileText, X } from "lucide-react";
 import { format } from "date-fns";
 import { useLocation } from "wouter";
@@ -17,6 +18,7 @@ import { useLocation } from "wouter";
 export default function ClientUsers() {
     const [, setLocation] = useLocation();
     const [page, setPage] = useState(1);
+    const [limit, setLimit] = useState(25);
     const [search, setSearch] = useState("");
     const [debouncedSearch, setDebouncedSearch] = useState("");
     const [sortBy, setSortBy] = useState("lastSubmission");
@@ -33,7 +35,7 @@ export default function ClientUsers() {
 
     const { data, isLoading } = trpc.clientUsers.getAll.useQuery({
         page,
-        limit: 20,
+        limit,
         search: debouncedSearch || undefined,
         sortBy,
         sortOrder,
@@ -56,7 +58,7 @@ export default function ClientUsers() {
         );
     }
 
-    const totalPages = data ? Math.ceil(data.total / 20) : 0;
+    const totalPages = data ? Math.ceil(data.total / limit) : 0;
 
     return (
         <div className="space-y-8">
@@ -213,31 +215,41 @@ export default function ClientUsers() {
             </div>
 
             {/* Pagination */}
-            {totalPages > 1 && (
-                <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
                     <p className="text-sm text-muted-foreground">
-                        Page {page} of {totalPages}
+                        Showing {data?.users.length || 0} of {data?.total || 0} entries
                     </p>
-                    <div className="flex gap-2">
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => setPage(page - 1)}
-                            disabled={page === 1}
-                        >
-                            Previous
-                        </Button>
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => setPage(page + 1)}
-                            disabled={page === totalPages}
-                        >
-                            Next
-                        </Button>
-                    </div>
+                    <Select value={limit.toString()} onValueChange={(val) => { setLimit(parseInt(val)); setPage(1); }}>
+                        <SelectTrigger className="w-[70px] h-8">
+                            <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="25">25</SelectItem>
+                            <SelectItem value="50">50</SelectItem>
+                            <SelectItem value="100">100</SelectItem>
+                        </SelectContent>
+                    </Select>
                 </div>
-            )}
+                <div className="flex gap-2">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setPage(page - 1)}
+                        disabled={page === 1}
+                    >
+                        Previous
+                    </Button>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setPage(page + 1)}
+                        disabled={page === totalPages || totalPages === 0}
+                    >
+                        Next
+                    </Button>
+                </div>
+            </div>
         </div>
     );
 }
