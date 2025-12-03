@@ -651,9 +651,13 @@ https://www.dataprivacyframework.gov/participant/5780`
               : "HandokHelper's Privacy Policy. Learn how your personal data is collected, used, and protected."}
         />
 
+        {/* Canonical URL */}
+        <link rel="canonical" href={`https://www.handokhelper.de/${language}/privacy-policy/`} />
+
         {/* Hreflang tags */}
         <link rel="alternate" hrefLang="en" href="https://www.handokhelper.de/en/privacy-policy/" />
         <link rel="alternate" hrefLang="ko" href="https://www.handokhelper.de/ko/privacy-policy/" />
+        <link rel="alternate" hrefLang="de" href="https://www.handokhelper.de/de/privacy-policy/" />
         <link rel="alternate" hrefLang="x-default" href="https://www.handokhelper.de/en/privacy-policy/" />
       </Helmet>
 

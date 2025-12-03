@@ -33,9 +33,13 @@ export default function Imprint() {
                         : "Legal notice and contact information for HandokHelper."}
                 />
 
+                {/* Canonical URL */}
+                <link rel="canonical" href={`https://www.handokhelper.de/${language}/imprint/`} />
+
                 {/* Hreflang tags */}
                 <link rel="alternate" hrefLang="en" href="https://www.handokhelper.de/en/imprint/" />
                 <link rel="alternate" hrefLang="ko" href="https://www.handokhelper.de/ko/imprint/" />
+                <link rel="alternate" hrefLang="de" href="https://www.handokhelper.de/de/imprint/" />
                 <link rel="alternate" hrefLang="x-default" href="https://www.handokhelper.de/en/imprint/" />
             </Helmet>
 

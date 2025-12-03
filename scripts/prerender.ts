@@ -102,7 +102,7 @@ const staticLocation = (path: string) => () => [path, () => { }] as [string, (to
 
 async function generateSitemap(distPublic: string) {
   console.log('Generating sitemap.xml...');
-  const baseUrl = 'https://handokhelper.de';
+  const baseUrl = 'https://www.handokhelper.de';
 
   // Group routes by ID to find alternates
   const routesById = routes.reduce((acc, route) => {
@@ -120,14 +120,17 @@ async function generateSitemap(distPublic: string) {
   const sitemapRoutes = routes.filter(r => r.path !== '/');
 
   for (const route of sitemapRoutes) {
+    // Ensure trailing slash for consistency
+    const loc = `${baseUrl}${route.path}/`;
+
     sitemap += `  <url>
-    <loc>${baseUrl}${route.path}</loc>
+    <loc>${loc}</loc>
 `;
 
     const alternates = routesById[route.id];
     if (alternates) {
       for (const alt of alternates) {
-        sitemap += `    <xhtml:link rel="alternate" hreflang="${alt.language}" href="${baseUrl}${alt.path}"/>
+        sitemap += `    <xhtml:link rel="alternate" hreflang="${alt.language}" href="${baseUrl}${alt.path}/"/>
 `;
       }
       // Only add x-default for home page which has a root redirect
