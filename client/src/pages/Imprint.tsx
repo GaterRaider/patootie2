@@ -91,7 +91,7 @@ export default function Imprint() {
 
                         <div>
                             <h2 className="text-xl md:text-2xl font-semibold mb-3 text-foreground">Kontakt</h2>
-                            <p>E-Mail: info (at) handokhelper.de</p>
+                            <p>E-Mail: info (at) handokhelper (dot) de</p>
                         </div>
                     </div>
                 </div>

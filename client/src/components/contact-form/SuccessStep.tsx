@@ -18,8 +18,7 @@ export const SuccessStep = ({ t, refId, onReset }: any) => (
             </motion.div>
 
             <h2 className="text-3xl font-bold mb-3 text-gray-900 dark:text-white transition-colors">{t.formSuccessGreeting}</h2>
-            <p className="text-lg text-muted-foreground dark:text-slate-400 mb-2 transition-colors">{t.formSuccessBody}</p>
-            <p className="text-sm text-muted-foreground dark:text-slate-500 mb-8 transition-colors">We'll get back to you soon</p>
+            <p className="text-lg text-muted-foreground dark:text-slate-400 mb-8 transition-colors">{t.formSuccessBody}</p>
 
             <div className="inline-flex items-center gap-2 px-6 py-3 bg-muted dark:bg-slate-800 rounded-full text-sm mb-6 transition-colors">
                 <Sparkles className="w-4 h-4 text-yellow-500" />

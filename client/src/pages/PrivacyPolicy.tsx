@@ -99,8 +99,7 @@ Soyoung Kwon
 Michaelstraße 26
 65936, Frankfurt am Main
 독일
-전화: [책임자의 전화번호]
-이메일: info (at) handokhelper.de
+이메일: info (at) handokhelper (dot) de
 
 책임자란 단독 또는 타인과 공동으로 개인정보(예: 이름, 이메일 주소 등)의 처리 목적과 수단을 결정하는 자연인 또는 법인을 말합니다.`
           },
@@ -303,8 +302,7 @@ Soyoung Kwon
 Michaelstraße 26
 65936, Frankfurt am Main
 Deutschland
-Telefon: [Telefonnummer der verantwortlichen Stelle]
-E-Mail: info (at) handokhelper.de
+E-Mail: info (at) handokhelper (dot) de
 
 Verantwortliche Stelle ist die natürliche oder juristische Person, die allein oder gemeinsam mit anderen über die Zwecke und Mittel der Verarbeitung von personenbezogenen Daten (z. B. Namen, E-Mail-Adressen o. Ä.) entscheidet.`
           },
@@ -507,8 +505,7 @@ Soyoung Kwon
 Michaelstraße 26
 65936, Frankfurt am Main
 Germany
-Phone: [Telephone number of the responsible party]
-E‑mail: info (at) handokhelper.de
+E‑mail: info (at) handokhelper (dot) de
 
 The responsible party is the natural or legal person who, alone or jointly with others, decides on the purposes and means of processing personal data (e.g. names, e‑mail addresses, etc.).`
           },
