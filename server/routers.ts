@@ -37,6 +37,7 @@ import {
   createSiteSetting,
   getClientUsersList,
   getClientUserByEmail,
+  getClientUserById,
 } from "./db";
 import {
   getCompanySettings,
@@ -1315,4 +1316,4 @@ export const appRouter = router({
   }),
 });
 
-export type AppRouter = typeof appRouter;
+e AppRouter = typeof appRouter;
