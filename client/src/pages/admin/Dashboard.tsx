@@ -41,7 +41,7 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
-type ChartId = 'submissionsOverTime' | 'submissionsByService' | 'revenueTrends' | 'invoiceStatus' | 'responseTime' | 'topServices';
+type ChartId = 'submissionsOverTime' | 'submissionsByService' | 'revenueTrends' | 'invoiceStatus' | 'responseTime' | 'topServices' | 'recentActivity' | 'quickActions';
 
 interface SortableChartProps {
     id: ChartId;
@@ -89,39 +89,74 @@ export default function AdminDashboard() {
 
     // Chart visibility state
     const [visibleCharts, setVisibleCharts] = useState<Record<ChartId, boolean>>(() => {
-        if (typeof window !== 'undefined') {
-            const saved = localStorage.getItem("dashboard-visible-charts");
-            if (saved) {
-                try {
-                    return JSON.parse(saved);
-                } catch (e) {
-                    console.error("Failed to parse visible charts settings", e);
-                }
-            }
-        }
-        return {
+        const defaultVisibility: Record<ChartId, boolean> = {
             submissionsOverTime: true,
             submissionsByService: true,
             revenueTrends: true,
             invoiceStatus: true,
             responseTime: true,
             topServices: true,
+            recentActivity: true,
+            quickActions: true,
         };
+
+        if (typeof window !== 'undefined') {
+            const saved = localStorage.getItem("dashboard-visible-charts");
+            if (saved) {
+                try {
+                    const parsedVisibility = JSON.parse(saved) as any;
+
+                    // Migration: Add new widgets if they don't exist in saved visibility
+                    if (!('recentActivity' in parsedVisibility)) {
+                        parsedVisibility.recentActivity = true;
+                    }
+                    if (!('quickActions' in parsedVisibility)) {
+                        parsedVisibility.quickActions = true;
+                    }
+
+                    return parsedVisibility as Record<ChartId, boolean>;
+                } catch (e) {
+                    console.error("Failed to parse visible charts settings", e);
+                }
+            }
+        }
+        return defaultVisibility;
     });
 
     // Chart order state
     const [chartOrder, setChartOrder] = useState<ChartId[]>(() => {
+        const defaultOrder: ChartId[] = ['recentActivity', 'quickActions', 'submissionsOverTime', 'submissionsByService', 'revenueTrends', 'invoiceStatus', 'responseTime', 'topServices'];
+
         if (typeof window !== 'undefined') {
             const saved = localStorage.getItem("dashboard-chart-order");
             if (saved) {
                 try {
-                    return JSON.parse(saved);
+                    const parsedOrder = JSON.parse(saved) as ChartId[];
+
+                    // Migration: Add new widgets if they don't exist in saved order
+                    const hasRecentActivity = parsedOrder.includes('recentActivity');
+                    const hasQuickActions = parsedOrder.includes('quickActions');
+
+                    if (!hasRecentActivity || !hasQuickActions) {
+                        const migratedOrder = [...parsedOrder];
+                        if (!hasRecentActivity) {
+                            migratedOrder.unshift('recentActivity');
+                        }
+                        if (!hasQuickActions) {
+                            // Insert after recentActivity if it exists, otherwise at the beginning
+                            const insertIndex = migratedOrder.indexOf('recentActivity') + 1;
+                            migratedOrder.splice(insertIndex, 0, 'quickActions');
+                        }
+                        return migratedOrder;
+                    }
+
+                    return parsedOrder;
                 } catch (e) {
                     console.error("Failed to parse chart order", e);
                 }
             }
         }
-        return ['submissionsOverTime', 'submissionsByService', 'revenueTrends', 'invoiceStatus', 'responseTime', 'topServices'];
+        return defaultOrder;
     });
 
     useEffect(() => {
@@ -277,6 +312,22 @@ export default function AdminDashboard() {
                             <DropdownMenuLabel>Toggle Charts</DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             <DropdownMenuCheckboxItem
+                                checked={visibleCharts.recentActivity}
+                                onCheckedChange={(checked) =>
+                                    setVisibleCharts((prev) => ({ ...prev, recentActivity: checked }))
+                                }
+                            >
+                                Recent Activity
+                            </DropdownMenuCheckboxItem>
+                            <DropdownMenuCheckboxItem
+                                checked={visibleCharts.quickActions}
+                                onCheckedChange={(checked) =>
+                                    setVisibleCharts((prev) => ({ ...prev, quickActions: checked }))
+                                }
+                            >
+                                Quick Actions
+                            </DropdownMenuCheckboxItem>
+                            <DropdownMenuCheckboxItem
                                 checked={visibleCharts.submissionsOverTime}
                                 onCheckedChange={(checked) =>
                                     setVisibleCharts((prev) => ({ ...prev, submissionsOverTime: checked }))
@@ -351,12 +402,6 @@ export default function AdminDashboard() {
                     {/* Summary Cards */}
                     <SummaryCards data={summaryMetrics} />
 
-                    {/* Recent Activity and Quick Actions */}
-                    <div className="grid gap-4 md:grid-cols-2">
-                        <RecentActivityWidget />
-                        <QuickActionsPanel />
-                    </div>
-
                     {/* Charts Grid with Drag and Drop */}
                     <DndContext
                         sensors={sensors}
@@ -393,6 +438,12 @@ export default function AdminDashboard() {
                                             )}
                                             {chartId === 'topServices' && (
                                                 <TopServicesChart data={topServices || []} />
+                                            )}
+                                            {chartId === 'recentActivity' && (
+                                                <RecentActivityWidget />
+                                            )}
+                                            {chartId === 'quickActions' && (
+                                                <QuickActionsPanel />
                                             )}
                                         </SortableChart>
                                     );
