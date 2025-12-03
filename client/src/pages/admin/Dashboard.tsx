@@ -20,6 +20,8 @@ import { ResponseTimeChart } from "@/components/analytics/ResponseTimeChart";
 import { TopServicesChart } from "@/components/analytics/TopServicesChart";
 import { DateRangePicker } from "@/components/analytics/DateRangePicker";
 import { ExportButton, downloadCSV } from "@/components/analytics/ExportButton";
+import { RecentActivityWidget } from "@/components/analytics/RecentActivityWidget";
+import { QuickActionsPanel } from "@/components/analytics/QuickActionsPanel";
 import { toast } from "sonner";
 import {
     DndContext,
@@ -348,6 +350,12 @@ export default function AdminDashboard() {
                 <div className="space-y-6 mb-8">
                     {/* Summary Cards */}
                     <SummaryCards data={summaryMetrics} />
+
+                    {/* Recent Activity and Quick Actions */}
+                    <div className="grid gap-4 md:grid-cols-2">
+                        <RecentActivityWidget />
+                        <QuickActionsPanel />
+                    </div>
 
                     {/* Charts Grid with Drag and Drop */}
                     <DndContext
