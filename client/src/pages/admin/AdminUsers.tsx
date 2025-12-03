@@ -111,9 +111,9 @@ export default function AdminUsers() {
         <div className="space-y-8">
             <div className="flex justify-between items-center">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight">Admin Users</h1>
+                    <h1 className="text-3xl font-bold tracking-tight">Team Members</h1>
                     <p className="text-muted-foreground">
-                        Manage administrators who can access this dashboard
+                        Manage team members who can access this dashboard
                     </p>
                 </div>
                 <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>

@@ -135,7 +135,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                     location === "/users" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
                 )}>
                     <Users className="h-4 w-4" />
-                    Users
+                    Team Members
                 </Link>
             </nav>
             <div className="fixed bottom-0 left-0 w-64 p-4 border-t space-y-2 bg-white dark:bg-gray-800 hidden md:block">
@@ -251,7 +251,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                             location === "/users" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
                         )}>
                             <Users className="h-4 w-4" />
-                            Users
+                            Team Members
                         </Link>
                     </nav>
                     <div className="absolute bottom-0 left-0 right-0 p-4 border-t space-y-2 bg-white dark:bg-gray-800">

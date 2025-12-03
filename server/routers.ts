@@ -35,6 +35,8 @@ import {
   getSiteSetting,
   updateSiteSetting,
   createSiteSetting,
+  getClientUsersList,
+  getClientUserByEmail,
 } from "./db";
 import {
   getCompanySettings,
@@ -1241,6 +1243,33 @@ export const appRouter = router({
           return item;
         }),
     }),
+  }),
+
+  // Client Users (CRM)
+  clientUsers: router({
+    getAll: adminProcedure
+      .input(
+        z.object({
+          page: z.number().optional(),
+          limit: z.number().optional(),
+          search: z.string().optional(),
+          sortBy: z.string().optional(),
+          sortOrder: z.enum(["asc", "desc"]).optional(),
+        })
+      )
+      .query(async ({ input }) => {
+        return await getClientUsersList(input);
+      }),
+
+    getByEmail: adminProcedure
+      .input(z.object({ email: z.string().email() }))
+      .query(async ({ input }) => {
+        const user = await getClientUserByEmail(input.email);
+        if (!user) {
+          throw new TRPCError({ code: "NOT_FOUND", message: "Client not found" });
+        }
+        return user;
+      }),
   }),
 
   // Site Settings Router

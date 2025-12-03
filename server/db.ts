@@ -940,3 +940,138 @@ export async function createSiteSetting(
 
   return results[0];
 }
+
+// ============================================================================
+// Client User Management Functions (CRM)
+// ============================================================================
+
+/**
+ * Get aggregated list of client users based on unique email addresses
+ */
+export async function getClientUsersList(options?: {
+  page?: number;
+  limit?: number;
+  search?: string;
+  sortBy?: string;
+  sortOrder?: "asc" | "desc";
+}) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  const page = options?.page || 1;
+  const limit = options?.limit || 20;
+  const offset = (page - 1) * limit;
+
+  const { sql } = await import("drizzle-orm");
+
+  // Build search clause
+  const searchClause = options?.search
+    ? sql`WHERE email ILIKE ${'%' + options.search + '%'} OR "firstName" ILIKE ${'%' + options.search + '%'} OR "lastName" ILIKE ${'%' + options.search + '%'}`
+    : sql``;
+
+  const sortCol = options?.sortBy === 'submissionCount' ? 'submission_count'
+    : options?.sortBy === 'lastSubmission' ? 'last_submission'
+      : 'last_submission';
+
+  const sortDir = options?.sortOrder === 'asc' ? sql`ASC` : sql`DESC`;
+
+  const query = sql`
+    WITH UserStats AS (
+      SELECT 
+        email,
+        MAX("firstName") as first_name,
+        MAX("lastName") as last_name,
+        COUNT(*) as submission_count,
+        MIN("createdAt") as first_submission,
+        MAX("createdAt") as last_submission,
+        (SELECT status FROM "contactSubmissions" cs2 WHERE cs2.email = "contactSubmissions".email ORDER BY "createdAt" DESC LIMIT 1) as latest_status
+      FROM "contactSubmissions"
+      ${searchClause}
+      GROUP BY email
+    )
+    SELECT *, count(*) OVER() as total_count
+    FROM UserStats
+    ORDER BY ${sql.identifier(sortCol)} ${sortDir}
+    LIMIT ${limit} OFFSET ${offset}
+  `;
+
+  const result = await db.execute(query);
+
+  const users = result.rows.map(row => ({
+    email: row.email as string,
+    firstName: row.first_name as string,
+    lastName: row.last_name as string,
+    submissionCount: Number(row.submission_count),
+    firstSubmission: new Date(row.first_submission as string),
+    lastSubmission: new Date(row.last_submission as string),
+    latestStatus: row.latest_status as string,
+  }));
+
+  const total = result.rows.length > 0 ? Number(result.rows[0].total_count) : 0;
+
+  return { users, total };
+}
+
+/**
+ * Get full client profile by email
+ */
+export async function getClientUserByEmail(email: string) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  // 1. Get all submissions
+  const submissions = await db
+    .select()
+    .from(contactSubmissions)
+    .where(eq(contactSubmissions.email, email))
+    .orderBy(desc(contactSubmissions.createdAt));
+
+  if (submissions.length === 0) {
+    return null;
+  }
+
+  // 2. Get all invoices
+  const { invoices } = await import("../drizzle/schema");
+  const clientInvoices = await db
+    .select()
+    .from(invoices)
+    .where(eq(invoices.clientEmail, email))
+    .orderBy(desc(invoices.createdAt));
+
+  // 3. Get aggregated stats
+  const totalInvoiced = clientInvoices.reduce((sum, inv) => sum + Number(inv.total), 0);
+  const outstandingBalance = clientInvoices
+    .filter(inv => inv.status === 'sent' || inv.status === 'overdue')
+    .reduce((sum, inv) => sum + (Number(inv.total) - Number(inv.paidAmount)), 0);
+
+  // 4. Get latest contact info
+  const latestSubmission = submissions[0];
+  const contactInfo = {
+    firstName: latestSubmission.firstName,
+    lastName: latestSubmission.lastName,
+    phoneNumber: latestSubmission.phoneNumber,
+    street: latestSubmission.street,
+    postalCode: latestSubmission.postalCode,
+    city: latestSubmission.city,
+    country: latestSubmission.country,
+  };
+
+  return {
+    email,
+    contactInfo,
+    stats: {
+      submissionCount: submissions.length,
+      invoiceCount: clientInvoices.length,
+      totalInvoiced,
+      outstandingBalance,
+      firstSeen: submissions[submissions.length - 1].createdAt,
+      lastSeen: submissions[0].createdAt,
+    },
+    submissions,
+    invoices: clientInvoices,
+  };
+}
