@@ -13,6 +13,8 @@ import EmailTemplates from "./pages/admin/EmailTemplates";
 import EmailTemplateEditor from "./pages/admin/EmailTemplateEditor";
 import AdminUsers from "./pages/admin/AdminUsers";
 import FAQManager from "./pages/admin/FAQManager";
+import ClientUsers from "./pages/admin/ClientUsers";
+import ClientUserDetail from "./pages/admin/ClientUserDetail";
 
 /**
  * Admin application router
@@ -33,6 +35,8 @@ export default function AdminApp() {
                 <Route path="/settings" component={SiteSettings} />
                 <Route path="/company-settings" component={CompanySettings} />
                 <Route path="/users" component={AdminUsers} />
+                <Route path="/clients/:email" component={ClientUserDetail} />
+                <Route path="/clients" component={ClientUsers} />
                 <Route path="/faq" component={FAQManager} />
                 <Route path="/emails/:key/:language" component={EmailTemplateEditor} />
                 <Route path="/emails" component={EmailTemplates} />

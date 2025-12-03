@@ -137,6 +137,13 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                     <Users className="h-4 w-4" />
                     Team Members
                 </Link>
+                <Link href="/clients" className={cn(
+                    "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
+                    location.startsWith("/clients") ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
+                )}>
+                    <Users className="h-4 w-4" />
+                    Users
+                </Link>
             </nav>
             <div className="fixed bottom-0 left-0 w-64 p-4 border-t space-y-2 bg-white dark:bg-gray-800 hidden md:block">
                 {toggleTheme && (
@@ -252,6 +259,13 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                         )}>
                             <Users className="h-4 w-4" />
                             Team Members
+                        </Link>
+                        <Link href="/clients" className={cn(
+                            "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
+                            location.startsWith("/clients") ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
+                        )}>
+                            <Users className="h-4 w-4" />
+                            Users
                         </Link>
                     </nav>
                     <div className="absolute bottom-0 left-0 right-0 p-4 border-t space-y-2 bg-white dark:bg-gray-800">
