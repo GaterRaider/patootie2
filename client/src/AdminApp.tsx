@@ -35,7 +35,7 @@ export default function AdminApp() {
                 <Route path="/settings" component={SiteSettings} />
                 <Route path="/company-settings" component={CompanySettings} />
                 <Route path="/users" component={AdminUsers} />
-                <Route path="/clients/:email" component={ClientUserDetail} />
+                <Route path="/clients/:id" component={ClientUserDetail} />
                 <Route path="/clients" component={ClientUsers} />
                 <Route path="/faq" component={FAQManager} />
                 <Route path="/emails/:key/:language" component={EmailTemplateEditor} />

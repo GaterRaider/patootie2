@@ -968,7 +968,7 @@ export async function getClientUsersList(options?: {
 
   // Build search clause
   const searchClause = options?.search
-    ? sql`WHERE email ILIKE ${'%' + options.search + '%'} OR "firstName" ILIKE ${'%' + options.search + '%'} OR "lastName" ILIKE ${'%' + options.search + '%'}`
+    ? sql`WHERE c.email ILIKE ${'%' + options.search + '%'} OR c."firstName" ILIKE ${'%' + options.search + '%'} OR c."lastName" ILIKE ${'%' + options.search + '%'}`
     : sql``;
 
   const sortCol = options?.sortBy === 'submissionCount' ? 'submission_count'
@@ -980,16 +980,18 @@ export async function getClientUsersList(options?: {
   const query = sql`
     WITH UserStats AS (
       SELECT 
-        email,
-        MAX("firstName") as first_name,
-        MAX("lastName") as last_name,
-        COUNT(*) as submission_count,
-        MIN("createdAt") as first_submission,
-        MAX("createdAt") as last_submission,
-        (SELECT status FROM "contactSubmissions" cs2 WHERE cs2.email = "contactSubmissions".email ORDER BY "createdAt" DESC LIMIT 1) as latest_status
-      FROM "contactSubmissions"
+        c.id as client_id,
+        c.email,
+        c."firstName" as first_name,
+        c."lastName" as last_name,
+        COUNT(cs.id) as submission_count,
+        MIN(cs."createdAt") as first_submission,
+        MAX(cs."createdAt") as last_submission,
+        (SELECT status FROM "contactSubmissions" cs2 WHERE cs2.email = c.email ORDER BY "createdAt" DESC LIMIT 1) as latest_status
+      FROM clients c
+      LEFT JOIN "contactSubmissions" cs ON cs.email = c.email
       ${searchClause}
-      GROUP BY email
+      GROUP BY c.id, c.email, c."firstName", c."lastName"
     )
     SELECT *, count(*) OVER() as total_count
     FROM UserStats
@@ -1000,6 +1002,7 @@ export async function getClientUsersList(options?: {
   const result = await db.execute(query);
 
   const users = result.rows.map(row => ({
+    id: Number(row.client_id),
     email: row.email as string,
     firstName: row.first_name as string,
     lastName: row.last_name as string,
@@ -1070,6 +1073,80 @@ export async function getClientUserByEmail(email: string) {
       outstandingBalance,
       firstSeen: submissions[submissions.length - 1].createdAt,
       lastSeen: submissions[0].createdAt,
+    },
+    submissions,
+    invoices: clientInvoices,
+  };
+}
+
+/**
+ * Get full client profile by ID
+ */
+export async function getClientUserById(id: number) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  const { clients } = await import("../drizzle/schema");
+
+  // 1. Get client record
+  const clientResults = await db
+    .select()
+    .from(clients)
+    .where(eq(clients.id, id))
+    .limit(1);
+
+  if (clientResults.length === 0) {
+    return null;
+  }
+
+  const client = clientResults[0];
+
+  // 2. Get all submissions
+  const submissions = await db
+    .select()
+    .from(contactSubmissions)
+    .where(eq(contactSubmissions.email, client.email))
+    .orderBy(desc(contactSubmissions.createdAt));
+
+  // 3. Get all invoices
+  const { invoices } = await import("../drizzle/schema");
+  const clientInvoices = await db
+    .select()
+    .from(invoices)
+    .where(eq(invoices.clientEmail, client.email))
+    .orderBy(desc(invoices.createdAt));
+
+  // 4. Get aggregated stats
+  const totalInvoiced = clientInvoices.reduce((sum, inv) => sum + Number(inv.total), 0);
+  const outstandingBalance = clientInvoices
+    .filter(inv => inv.status === 'sent' || inv.status === 'overdue')
+    .reduce((sum, inv) => sum + (Number(inv.total) - Number(inv.paidAmount)), 0);
+
+  // 5. Get latest contact info from most recent submission or client record
+  const latestSubmission = submissions.length > 0 ? submissions[0] : null;
+  const contactInfo = {
+    firstName: client.firstName || latestSubmission?.firstName || "",
+    lastName: client.lastName || latestSubmission?.lastName || "",
+    phoneNumber: client.phoneNumber || latestSubmission?.phoneNumber || "",
+    street: latestSubmission?.street || "",
+    postalCode: latestSubmission?.postalCode || "",
+    city: latestSubmission?.city || "",
+    country: latestSubmission?.country || "",
+  };
+
+  return {
+    id: client.id,
+    email: client.email,
+    contactInfo,
+    stats: {
+      submissionCount: submissions.length,
+      invoiceCount: clientInvoices.length,
+      totalInvoiced,
+      outstandingBalance,
+      firstSeen: submissions.length > 0 ? submissions[submissions.length - 1].createdAt : client.createdAt,
+      lastSeen: submissions.length > 0 ? submissions[0].createdAt : client.createdAt,
     },
     submissions,
     invoices: clientInvoices,

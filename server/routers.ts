@@ -1270,6 +1270,16 @@ export const appRouter = router({
         }
         return user;
       }),
+
+    getById: adminProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        const user = await getClientUserById(input.id);
+        if (!user) {
+          throw new TRPCError({ code: "NOT_FOUND", message: "Client not found" });
+        }
+        return user;
+      }),
   }),
 
   // Site Settings Router

@@ -156,6 +156,23 @@ export type SubmissionNote = typeof submissionNotes.$inferSelect;
 export type InsertSubmissionNote = typeof submissionNotes.$inferInsert;
 
 /**
+ * Clients table for CRM
+ * Central registry of all clients with unique IDs
+ */
+export const clients = pgTable("clients", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  email: varchar("email", { length: 320 }).notNull().unique(),
+  firstName: varchar("firstName", { length: 100 }),
+  lastName: varchar("lastName", { length: 100 }),
+  phoneNumber: varchar("phoneNumber", { length: 50 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+});
+
+export type Client = typeof clients.$inferSelect;
+export type InsertClient = typeof clients.$inferInsert;
+
+/**
  * Company settings for invoices (singleton table)
  */
 export const companySettings = pgTable("companySettings", {

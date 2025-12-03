@@ -153,7 +153,11 @@ export default function ClientUsers() {
                             </TableRow>
                         ) : (
                             data?.users.map((user) => (
-                                <TableRow key={user.email} className="cursor-pointer hover:bg-muted/50">
+                                <TableRow
+                                    key={user.email}
+                                    className="cursor-pointer hover:bg-muted/50"
+                                    onClick={() => setLocation(`/clients/${user.id}`)}
+                                >
                                     <TableCell className="font-medium">
                                         <div className="flex items-center gap-2">
                                             <Mail className="h-4 w-4 text-muted-foreground" />
@@ -193,7 +197,10 @@ export default function ClientUsers() {
                                         <Button
                                             variant="ghost"
                                             size="sm"
-                                            onClick={() => setLocation(`/clients/${encodeURIComponent(user.email)}`)}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setLocation(`/clients/${user.id}`);
+                                            }}
                                         >
                                             View Profile
                                         </Button>

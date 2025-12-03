@@ -18,13 +18,13 @@ import {
 import { format } from "date-fns";
 
 export default function ClientUserDetail() {
-    const [, params] = useRoute("/clients/:email");
+    const [, params] = useRoute("/clients/:id");
     const [, setLocation] = useLocation();
-    const email = params?.email ? decodeURIComponent(params.email) : "";
+    const id = params?.id ? Number(params.id) : 0;
 
-    const { data: user, isLoading } = trpc.clientUsers.getByEmail.useQuery(
-        { email },
-        { enabled: !!email }
+    const { data: user, isLoading } = trpc.clientUsers.getById.useQuery(
+        { id },
+        { enabled: !!id && id > 0 }
     );
 
     if (isLoading) {
@@ -40,7 +40,7 @@ export default function ClientUserDetail() {
             <div className="text-center py-12">
                 <h2 className="text-2xl font-bold mb-2">Client Not Found</h2>
                 <p className="text-muted-foreground mb-4">
-                    The client with email {email} could not be found.
+                    The client could not be found.
                 </p>
                 <Button onClick={() => setLocation("/clients")}>Back to Clients</Button>
             </div>
@@ -172,10 +172,10 @@ export default function ClientUserDetail() {
                                             </div>
                                             <span
                                                 className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${submission.status === "new"
-                                                        ? "bg-blue-100 text-blue-800"
-                                                        : submission.status === "in-progress"
-                                                            ? "bg-yellow-100 text-yellow-800"
-                                                            : "bg-green-100 text-green-800"
+                                                    ? "bg-blue-100 text-blue-800"
+                                                    : submission.status === "in-progress"
+                                                        ? "bg-yellow-100 text-yellow-800"
+                                                        : "bg-green-100 text-green-800"
                                                     }`}
                                             >
                                                 {submission.status}
@@ -228,12 +228,12 @@ export default function ClientUserDetail() {
                                                     </div>
                                                     <span
                                                         className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-medium ${invoice.status === "paid"
-                                                                ? "bg-green-100 text-green-800"
-                                                                : invoice.status === "sent"
-                                                                    ? "bg-blue-100 text-blue-800"
-                                                                    : invoice.status === "overdue"
-                                                                        ? "bg-red-100 text-red-800"
-                                                                        : "bg-gray-100 text-gray-800"
+                                                            ? "bg-green-100 text-green-800"
+                                                            : invoice.status === "sent"
+                                                                ? "bg-blue-100 text-blue-800"
+                                                                : invoice.status === "overdue"
+                                                                    ? "bg-red-100 text-red-800"
+                                                                    : "bg-gray-100 text-gray-800"
                                                             }`}
                                                     >
                                                         {invoice.status}
