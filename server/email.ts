@@ -196,6 +196,67 @@ export async function sendAdminNotificationEmail(submission: ContactSubmission):
   }
 }
 
+/**
+ * Send a generic email
+ */
+export async function sendEmail(
+  to: string,
+  subject: string,
+  html: string,
+  text: string,
+  senderName: string = 'HandokHelper',
+  senderEmail: string = process.env.EMAIL_FROM || 'noreply@handokhelper.de'
+): Promise<boolean> {
+  const mailjet = createMailjetClient();
+
+  if (!mailjet) {
+    console.log('[Email] MailJet not configured, generic email (would be sent):');
+    console.log('To:', to);
+    console.log('From:', `${senderName} <${senderEmail}>`);
+    console.log('Subject:', subject);
+    console.log(text);
+    return true;
+  }
+
+  try {
+    const request = mailjet.post('send', { version: 'v3.1' }).request({
+      Messages: [
+        {
+          From: {
+            Email: senderEmail,
+            Name: senderName,
+          },
+          To: [
+            {
+              Email: to,
+            },
+          ],
+          Subject: subject,
+          TextPart: text,
+          HTMLPart: html,
+        },
+      ],
+    });
+
+    const response = await request;
+    const responseBody = response.body as any;
+
+    if (responseBody && responseBody.Messages && Array.isArray(responseBody.Messages)) {
+      const message = responseBody.Messages[0];
+      if (message && message.Status === 'success') {
+        console.log('[Email] Email sent successfully to:', to);
+        return true;
+      }
+    }
+
+    console.error('[Email] Unexpected response from MailJet:', responseBody);
+    return false;
+  } catch (error) {
+    console.error('[Email] Failed to send email:', error);
+    return false;
+  }
+}
+
 // ==========================================
 // Template Helper Functions
 // ==========================================

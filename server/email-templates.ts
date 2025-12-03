@@ -160,6 +160,18 @@ export async function getEmailTemplate(key: string, language: string): Promise<E
 }
 
 /**
+ * Get a specific email template by ID
+ */
+export async function getEmailTemplateById(id: number): Promise<EmailTemplate | null> {
+    const db = await getDb();
+    if (!db) return null;
+
+    const templates = await db.select().from(emailTemplates).where(eq(emailTemplates.id, id)).limit(1);
+
+    return templates.length > 0 ? templates[0] : null;
+}
+
+/**
  * Get all email templates
  */
 export async function getAllEmailTemplates() {

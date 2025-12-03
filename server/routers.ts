@@ -601,6 +601,77 @@ export const appRouter = router({
             return newNote;
           }),
       }),
+
+      previewTemplate: adminProcedure
+        .input(z.object({ submissionId: z.number(), templateId: z.number() }))
+        .query(async ({ input }) => {
+          const { getContactSubmissionById } = await import("./db");
+          const { getEmailTemplateById, replacePlaceholders } = await import("./email-templates");
+
+          const submission = await getContactSubmissionById(input.submissionId);
+          if (!submission) {
+            throw new TRPCError({ code: "NOT_FOUND", message: "Submission not found" });
+          }
+
+          const template = await getEmailTemplateById(input.templateId);
+          if (!template) {
+            throw new TRPCError({ code: "NOT_FOUND", message: "Template not found" });
+          }
+
+          // Prepare data for placeholder replacement
+          const data = {
+            ...submission,
+            // Add any derived fields if necessary
+          };
+
+          return {
+            subject: replacePlaceholders(template.subject, data),
+            html: replacePlaceholders(template.htmlContent, data),
+            text: replacePlaceholders(template.textContent || "", data),
+          };
+        }),
+
+      sendEmail: adminProcedure
+        .input(
+          z.object({
+            submissionId: z.number(),
+            subject: z.string(),
+            html: z.string(),
+            text: z.string(),
+          })
+        )
+        .mutation(async ({ input, ctx }) => {
+          const { getContactSubmissionById } = await import("./db");
+          const { sendEmail } = await import("./email");
+
+          const submission = await getContactSubmissionById(input.submissionId);
+          if (!submission) {
+            throw new TRPCError({ code: "NOT_FOUND", message: "Submission not found" });
+          }
+
+          const success = await sendEmail(
+            submission.email,
+            input.subject,
+            input.html,
+            input.text
+          );
+
+          if (!success) {
+            throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Failed to send email" });
+          }
+
+          await logActivity({
+            adminId: ctx.adminId,
+            action: "SEND_EMAIL",
+            entityType: "SUBMISSION",
+            entityId: input.submissionId,
+            details: { subject: input.subject },
+            ipAddress: ctx.req.ip || ctx.req.socket.remoteAddress,
+            userAgent: ctx.req.headers["user-agent"],
+          });
+
+          return { success: true };
+        }),
     }),
 
     savedFilters: router({
