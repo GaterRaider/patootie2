@@ -336,3 +336,27 @@ export const siteSettings = pgTable("siteSettings", {
 
 export type SiteSetting = typeof siteSettings.$inferSelect;
 export type InsertSiteSetting = typeof siteSettings.$inferInsert;
+
+/**
+ * Saved filters for submissions page
+ * Allows admins to save frequently used filter combinations
+ */
+export const savedFilters = pgTable("savedFilters", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  adminId: integer("adminId").notNull().references(() => adminUsers.id, { onDelete: "cascade" }),
+  name: varchar("name", { length: 100 }).notNull(),
+  filters: jsonb("filters").$type<{
+    search?: string;
+    status?: string;
+    service?: string;
+    tags?: string[];
+    dateFrom?: string;
+    dateTo?: string;
+  }>().notNull(),
+  isDefault: boolean("isDefault").notNull().default(false),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+});
+
+export type SavedFilter = typeof savedFilters.$inferSelect;
+export type InsertSavedFilter = typeof savedFilters.$inferInsert;

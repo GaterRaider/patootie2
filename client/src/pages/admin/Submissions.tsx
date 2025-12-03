@@ -3,7 +3,7 @@ import SubmissionsTable from "@/components/SubmissionsTable";
 import { trpc } from "@/lib/trpc";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Loader2, Search, ChevronLeft, ChevronRight, Filter, Settings2 } from "lucide-react";
+import { Loader2, Search, ChevronLeft, ChevronRight, Filter, Settings2, Bookmark, Star } from "lucide-react";
 import { SortingState, VisibilityState } from "@tanstack/react-table";
 import {
     Select,
@@ -17,7 +17,18 @@ import {
     DropdownMenuCheckboxItem,
     DropdownMenuContent,
     DropdownMenuTrigger,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
 
 export default function AdminSubmissions() {
     const [rowSelection, setRowSelection] = useState({});
@@ -30,6 +41,9 @@ export default function AdminSubmissions() {
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
     const [serviceFilter, setServiceFilter] = useState<string>("all");
     const [bulkStatus, setBulkStatus] = useState<string>("");
+    const [saveFilterDialogOpen, setSaveFilterDialogOpen] = useState(false);
+    const [filterName, setFilterName] = useState("");
+    const [setAsDefault, setSetAsDefault] = useState(false);
 
     // Debounce search
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -111,6 +125,63 @@ export default function AdminSubmissions() {
         service: serviceFilter !== "all" ? serviceFilter : undefined,
     });
 
+    // Saved filters
+    const { data: savedFilters = [] } = trpc.admin.savedFilters.getAll.useQuery();
+
+    const createFilterMutation = trpc.admin.savedFilters.create.useMutation({
+        onSuccess: () => {
+            utils.admin.savedFilters.getAll.invalidate();
+            setSaveFilterDialogOpen(false);
+            setFilterName("");
+            setSetAsDefault(false);
+        },
+    });
+
+    const deleteFilterMutation = trpc.admin.savedFilters.delete.useMutation({
+        onSuccess: () => {
+            utils.admin.savedFilters.getAll.invalidate();
+        },
+    });
+
+    const handleSaveFilter = () => {
+        if (!filterName.trim()) return;
+
+        createFilterMutation.mutate({
+            name: filterName,
+            filters: {
+                search: debouncedSearch || undefined,
+                service: serviceFilter !== "all" ? serviceFilter : undefined,
+            },
+            isDefault: setAsDefault,
+        });
+    };
+
+    const handleApplyFilter = (filterId: number) => {
+        const filter = savedFilters.find(f => f.id === filterId);
+        if (!filter) return;
+
+        // Apply the saved filter values
+        if (filter.filters.search) {
+            setSearch(filter.filters.search);
+            setDebouncedSearch(filter.filters.search);
+        } else {
+            setSearch("");
+            setDebouncedSearch("");
+        }
+
+        if (filter.filters.service) {
+            setServiceFilter(filter.filters.service);
+        } else {
+            setServiceFilter("all");
+        }
+
+        setPage(1);
+    };
+
+    const handleDeleteFilter = (filterId: number) => {
+        deleteFilterMutation.mutate({ id: filterId });
+    };
+
     const selectedCount = Object.keys(rowSelection).length;
 
     const toggleableColumns = [
@@ -191,6 +262,53 @@ export default function AdminSubmissions() {
                                 ))}
                             </DropdownMenuContent>
                         </DropdownMenu>
+
+                        {/* Saved Filters Dropdown */}
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="outline" className="ml-2">
+                                    <Bookmark className="mr-2 h-4 w-4" />
+                                    Filters
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end" className="w-56">
+                                <DropdownMenuLabel>Saved Filters</DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                {savedFilters.length === 0 ? (
+                                    <div className="px-2 py-6 text-center text-sm text-muted-foreground">
+                                        No saved filters yet
+                                    </div>
+                                ) : (
+                                    savedFilters.map((filter) => (
+                                        <div key={filter.id} className="flex items-center justify-between px-2 py-1.5 hover:bg-accent rounded-sm">
+                                            <button
+                                                onClick={() => handleApplyFilter(filter.id)}
+                                                className="flex-1 text-left text-sm flex items-center gap-2"
+                                            >
+                                                {filter.isDefault && <Star className="h-3 w-3 fill-current text-yellow-500" />}
+                                                {filter.name}
+                                            </button>
+                                            <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                className="h-6 w-6 p-0"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleDeleteFilter(filter.id);
+                                                }}
+                                            >
+                                                ×
+                                            </Button>
+                                        </div>
+                                    ))
+                                )}
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem onClick={() => setSaveFilterDialogOpen(true)}>
+                                    <Bookmark className="mr-2 h-4 w-4" />
+                                    Save Current Filter
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                     </div>
 
                     <div className="flex items-center gap-2">
@@ -263,6 +381,53 @@ export default function AdminSubmissions() {
                     />
                 )}
             </div>
+
+            {/* Save Filter Dialog */}
+            <Dialog open={saveFilterDialogOpen} onOpenChange={setSaveFilterDialogOpen}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Save Current Filter</DialogTitle>
+                        <DialogDescription>
+                            Save your current filter settings for quick access later.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-4 py-4">
+                        <div>
+                            <label className="text-sm font-medium">Filter Name</label>
+                            <Input
+                                placeholder="e.g., Urgent New Submissions"
+                                value={filterName}
+                                onChange={(e) => setFilterName(e.target.value)}
+                                className="mt-1"
+                            />
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <input
+                                type="checkbox"
+                                id="setAsDefault"
+                                checked={setAsDefault}
+                                onChange={(e) => setSetAsDefault(e.target.checked)}
+                                className="rounded"
+                            />
+                            <label htmlFor="setAsDefault" className="text-sm">
+                                Set as default filter
+                            </label>
+                        </div>
+                    </div>
+                    <DialogFooter>
+                        <Button variant="outline" onClick={() => setSaveFilterDialogOpen(false)}>
+                            Cancel
+                        </Button>
+                        <Button
+                            onClick={handleSaveFilter}
+                            disabled={!filterName.trim() || createFilterMutation.status === "pending"}
+                        >
+                            {createFilterMutation.status === "pending" && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                            Save Filter
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </>
     );
 }

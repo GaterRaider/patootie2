@@ -17,6 +17,9 @@ import {
   siteSettings,
   InsertSiteSetting,
   SiteSetting,
+  savedFilters,
+  InsertSavedFilter,
+  SavedFilter,
 } from "../drizzle/schema";
 import { ENV } from "./_core/env";
 
@@ -1185,4 +1188,90 @@ export async function getClientUserById(id: number) {
     submissions,
     invoices: clientInvoices,
   };
+}
+
+/**
+ * Saved Filters Functions
+ */
+
+export async function createSavedFilter(filter: InsertSavedFilter) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  // If this is set as default, unset all other defaults for this admin
+  if (filter.isDefault) {
+    await db
+      .update(savedFilters)
+      .set({ isDefault: false })
+      .where(eq(savedFilters.adminId, filter.adminId));
+  }
+
+  const result = await db
+    .insert(savedFilters)
+    .values(filter)
+    .returning();
+
+  return result[0];
+}
+
+export async function getAllSavedFilters(adminId: number) {
+  const db = await getDb();
+  if (!db) return [];
+
+  return await db
+    .select()
+    .from(savedFilters)
+    .where(eq(savedFilters.adminId, adminId))
+    .orderBy(desc(savedFilters.isDefault), asc(savedFilters.name));
+}
+
+export async function getSavedFilterById(id: number, adminId: number) {
+  const db = await getDb();
+  if (!db) return null;
+
+  const result = await db
+    .select()
+    .from(savedFilters)
+    .where(and(eq(savedFilters.id, id), eq(savedFilters.adminId, adminId)))
+    .limit(1);
+
+  return result[0] || null;
+}
+
+export async function updateSavedFilter(id: number, adminId: number, updates: Partial<InsertSavedFilter>) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  // If setting as default, unset all other defaults for this admin
+  if (updates.isDefault) {
+    await db
+      .update(savedFilters)
+      .set({ isDefault: false })
+      .where(eq(savedFilters.adminId, adminId));
+  }
+
+  const result = await db
+    .update(savedFilters)
+    .set({ ...updates, updatedAt: new Date() })
+    .where(and(eq(savedFilters.id, id), eq(savedFilters.adminId, adminId)))
+    .returning();
+
+  return result[0] || null;
+}
+
+export async function deleteSavedFilter(id: number, adminId: number) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  await db
+    .delete(savedFilters)
+    .where(and(eq(savedFilters.id, id), eq(savedFilters.adminId, adminId)));
+
+  return { success: true };
 }

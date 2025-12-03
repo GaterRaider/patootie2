@@ -603,6 +603,106 @@ export const appRouter = router({
       }),
     }),
 
+    savedFilters: router({
+      getAll: adminProcedure.query(async ({ ctx }) => {
+        const { getAllSavedFilters } = await import("./db");
+        return await getAllSavedFilters(ctx.adminId);
+      }),
+
+      create: adminProcedure
+        .input(
+          z.object({
+            name: z.string().min(1, "Name is required"),
+            filters: z.object({
+              search: z.string().optional(),
+              status: z.string().optional(),
+              service: z.string().optional(),
+              tags: z.array(z.string()).optional(),
+              dateFrom: z.string().optional(),
+              dateTo: z.string().optional(),
+            }),
+            isDefault: z.boolean().optional(),
+          })
+        )
+        .mutation(async ({ input, ctx }) => {
+          const { createSavedFilter } = await import("./db");
+          const filter = await createSavedFilter({
+            adminId: ctx.adminId,
+            name: input.name,
+            filters: input.filters,
+            isDefault: input.isDefault || false,
+          });
+
+          await logActivity({
+            adminId: ctx.adminId,
+            action: "CREATE_SAVED_FILTER",
+            entityType: "SAVED_FILTER",
+            entityId: filter.id,
+            details: { name: input.name },
+            ipAddress: ctx.req.ip || ctx.req.socket.remoteAddress,
+            userAgent: ctx.req.headers["user-agent"],
+          });
+
+          return filter;
+        }),
+
+      update: adminProcedure
+        .input(
+          z.object({
+            id: z.number(),
+            name: z.string().min(1).optional(),
+            filters: z.object({
+              search: z.string().optional(),
+              status: z.string().optional(),
+              service: z.string().optional(),
+              tags: z.array(z.string()).optional(),
+              dateFrom: z.string().optional(),
+              dateTo: z.string().optional(),
+            }).optional(),
+            isDefault: z.boolean().optional(),
+          })
+        )
+        .mutation(async ({ input, ctx }) => {
+          const { updateSavedFilter } = await import("./db");
+          const { id, ...updates } = input;
+          const filter = await updateSavedFilter(id, ctx.adminId, updates);
+
+          if (!filter) {
+            throw new TRPCError({ code: "NOT_FOUND", message: "Filter not found" });
+          }
+
+          await logActivity({
+            adminId: ctx.adminId,
+            action: "UPDATE_SAVED_FILTER",
+            entityType: "SAVED_FILTER",
+            entityId: id,
+            details: updates,
+            ipAddress: ctx.req.ip || ctx.req.socket.remoteAddress,
+            userAgent: ctx.req.headers["user-agent"],
+          });
+
+          return filter;
+        }),
+
+      delete: adminProcedure
+        .input(z.object({ id: z.number() }))
+        .mutation(async ({ input, ctx }) => {
+          const { deleteSavedFilter } = await import("./db");
+          await deleteSavedFilter(input.id, ctx.adminId);
+
+          await logActivity({
+            adminId: ctx.adminId,
+            action: "DELETE_SAVED_FILTER",
+            entityType: "SAVED_FILTER",
+            entityId: input.id,
+            ipAddress: ctx.req.ip || ctx.req.socket.remoteAddress,
+            userAgent: ctx.req.headers["user-agent"],
+          });
+
+          return { success: true };
+        }),
+    }),
+
     activity: router({
       getAll: adminProcedure
         .input(
