@@ -204,7 +204,7 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
                                                         "hover:shadow-md active:scale-[0.99]",
                                                         selectedSubServices.includes(item)
                                                             ? "border-primary bg-primary/10 shadow-sm"
-                                                            : "border-muted/60 bg-[#f7f8fa] dark:bg-card hover:border-primary/50 hover:bg-accent/50"
+                                                            : "border-muted/60 bg-[#f7f8fa] dark:bg-card hover:border-primary/50 hover:bg-primary/5"
                                                     )}
                                                 >
                                                     <Checkbox
@@ -254,7 +254,7 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
                                                     "hover:shadow-md active:scale-[0.99]",
                                                     selectedSubService === item
                                                         ? "border-primary bg-primary/10 shadow-sm"
-                                                        : "border-muted/60 bg-[#f7f8fa] dark:bg-card hover:border-primary/50 hover:bg-accent/50"
+                                                        : "border-muted/60 bg-[#f7f8fa] dark:bg-card hover:border-primary/50 hover:bg-primary/5"
                                                 )}
                                             >
                                                 <RadioGroupItem value={item} id={`service-${index}`} className="mt-1 shrink-0" />

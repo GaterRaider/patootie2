@@ -252,24 +252,24 @@ export const translations: Record<Language, Translations> = {
     serviceCard3Desc: "Maximize your financial benefits. We help with pension refunds, child benefits, and setting up your banking foundations.",
     serviceCard3Services: [
       "Pension refund application service",
-      "Child benefit (Kindergeld) application",
-      "Bank account opening assistance"
+      "Child benefit (Kindergeld) application"
     ],
     serviceCard3Descriptions: [
       "Claim back your pension contributions if leaving.",
-      "Monthly financial support for your children.",
-      "Set up a Girokonto for your salary and rent."
+      "Monthly financial support for your children."
     ],
     serviceCard3CTA: "Select Benefits & Financial Services",
     serviceCard4Title: "Integration & Daily Life",
     serviceCard4Desc: "Essential support for your daily life in Germany. We handle utilities, insurance, and other contracts so you can focus on living.",
     serviceCard4Services: [
       "Internet & electricity contract setup",
-      "Insurance enrollment support (liability & legal insurance)"
+      "Insurance enrollment support (liability & legal insurance)",
+      "Bank account opening assistance"
     ],
     serviceCard4Descriptions: [
       "Get connected with the best providers.",
-      "Protect yourself with essential German insurance."
+      "Protect yourself with essential German insurance.",
+      "Set up a Girokonto for your salary and rent."
     ],
     serviceCard4CTA: "Select Integration & Daily Life",
 
@@ -421,10 +421,10 @@ export const translations: Record<Language, Translations> = {
 
     // Hero Section
     heroTitle: "독일 주거 및 관공서 업무를 위한 든든한 지원군",
-    heroDescription: "독일로 이주하거나 독일 관공서를 상대하는 일은 특히 해외에 있을 때 막막할 수 있습니다. 한독헬퍼는 주거 찾기, 이민 문제, 거주 등록, 연금 신청 등 독일 현지에서 누군가가 대신 처리해야 하는 모든 업무를 도와드립니다.",
+    heroDescription: "독일로 이주하거나 독일 관공서를 상대하는 일은 특히 해외에 있을 때 막막할 수 있습니다. 한독헬퍼는 독일 집 찾기, 이민 문제, 거주 등록, 연금 환급 신청 등 독일 현지에서 누군가가 대신 처리해야 하는 모든 업무를 도와드립니다.",
     heroBullet1: "독일 내외 고객 모두 지원",
-    heroBullet2: "주거 탐색, 방문 및 정착 지원",
-    heroBullet3: "관공서, 서류 및 공식 절차 지원",
+    heroBullet2: "독일 집 구하기, 방문 및 정착 지원",
+    heroBullet3: "암트, 외국인청, 서류 및 공식 절차 지원",
     heroBullet4: "서비스에 따라 고정 가격, 시간당 요금 또는 비율 적용",
     heroBullet5: "전화 또는 이메일을 통한 빠르고 개인적인 소통",
 
@@ -443,7 +443,7 @@ export const translations: Record<Language, Translations> = {
     ],
     serviceCard1Descriptions: [
       "주택 검색, 방문, 계약 협상을 포함한 종합적인 지원.",
-      "서류 준비, 예약, 관공서 동행 및 통역을 지원합니다.",
+      "서류 준비, 예약, 암트, 외국인청 동행 및 통역을 지원합니다.",
       "독일을 떠나시나요? 거주지 말소 절차를 대신 처리해 드립니다.",
       "출국 전 주택, 인터넷 및 기타 계약 해지를 도와드립니다."
     ],
@@ -474,28 +474,28 @@ export const translations: Record<Language, Translations> = {
       "월 실수령액을 최적화하세요."
     ],
     serviceCard2CTA: "이민 및 법률 서비스 선택",
-    serviceCard3Title: "혜택 및 금융 서비스",
+    serviceCard3Title: "킨더겔드 및 연금 환급 서비스",
     serviceCard3Desc: "재정적 혜택을 극대화하세요. 연금 환급, 아동 수당 신청 및 은행 업무 기초 설정을 도와드립니다.",
     serviceCard3Services: [
       "연금 환급 신청 서비스",
-      "아동 수당(Kindergeld) 신청",
-      "은행 계좌 개설 지원"
+      "아동 수당(Kindergeld) 신청"
     ],
     serviceCard3Descriptions: [
       "귀국 시 연금 납부액을 환급받으세요.",
-      "자녀를 위한 매월 재정 지원금.",
-      "급여와 월세를 위한 입출금 계좌 개설."
+      "자녀를 위한 매월 재정 지원금."
     ],
     serviceCard3CTA: "혜택 및 금융 서비스 선택",
     serviceCard4Title: "정착 및 일상 생활",
     serviceCard4Desc: "독일 생활에 필수적인 지원을 제공합니다. 공과금, 보험 및 기타 계약을 처리하여 편안한 생활에 집중할 수 있도록 돕습니다.",
     serviceCard4Services: [
       "인터넷 및 전기 계약 설치",
-      "보험 가입 지원 (책임 및 법률 보험)"
+      "보험 가입 지원 (책임 및 법률 보험)",
+      "은행 계좌 개설 지원"
     ],
     serviceCard4Descriptions: [
       "최고의 통신사 및 전력 회사 연결.",
-      "필수 독일 보험으로 자신을 보호하세요."
+      "필수 독일 보험으로 자신을 보호하세요.",
+      "급여와 월세를 위한 입출금 계좌 개설."
     ],
     serviceCard4CTA: "정착 및 일상 생활 선택",
 
@@ -704,24 +704,24 @@ export const translations: Record<Language, Translations> = {
     serviceCard3Desc: "Maximieren Sie Ihre finanziellen Vorteile. Wir helfen bei Rentenerstattungen, Kindergeld und der Einrichtung Ihrer Bankgeschäfte.",
     serviceCard3Services: [
       "Antragsservice für Rentenerstattung",
-      "Kindergeldantrag",
-      "Unterstützung bei der Kontoeröffnung"
+      "Kindergeldantrag"
     ],
     serviceCard3Descriptions: [
       "Rentenbeiträge bei Ausreise zurückfordern.",
-      "Monatliche finanzielle Unterstützung für Ihre Kinder.",
-      "Einrichtung eines Girokontos für Gehalt und Miete."
+      "Monatliche finanzielle Unterstützung für Ihre Kinder."
     ],
     serviceCard3CTA: "Leistungen & Finanzen wählen",
     serviceCard4Title: "Integration & Alltag",
     serviceCard4Desc: "Wesentliche Unterstützung für Ihren Alltag in Deutschland. Wir kümmern uns um Versorgungsunternehmen, Versicherungen und andere Verträge, damit Sie sich auf das Leben konzentrieren können.",
     serviceCard4Services: [
       "Einrichtung von Internet- & Stromverträgen",
-      "Unterstützung bei Versicherungsanmeldungen (Haftpflicht- & Rechtsschutzversicherung)"
+      "Unterstützung bei Versicherungsanmeldungen (Haftpflicht- & Rechtsschutzversicherung)",
+      "Unterstützung bei der Kontoeröffnung"
     ],
     serviceCard4Descriptions: [
       "Anschluss bei den besten Anbietern.",
-      "Schutz durch wichtige deutsche Versicherungen."
+      "Schutz durch wichtige deutsche Versicherungen.",
+      "Einrichtung eines Girokontos für Gehalt und Miete."
     ],
     serviceCard4CTA: "Integration & Alltag wählen",
 
