@@ -23,7 +23,7 @@ import {
     useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { Loader2, Calendar, User, Mail, Phone, MapPin, MessageSquare, Layers, LayoutGrid } from "lucide-react";
+import { Loader2, Calendar, User, Mail, Phone, MapPin, MessageSquare, Layers, LayoutGrid, GripVertical } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -89,10 +89,17 @@ function SortableItem({ submission }: SortableItemProps) {
     };
 
     return (
-        <div ref={setNodeRef} style={style} {...attributes} {...listeners} className="mb-3 touch-none">
-            <Card className="cursor-grab active:cursor-grabbing hover:shadow-md transition-shadow">
+        <div ref={setNodeRef} style={style} className="mb-3">
+            <Card className="hover:shadow-md transition-shadow relative group">
+                <div
+                    {...attributes}
+                    {...listeners}
+                    className="absolute top-2 right-2 z-10 cursor-grab active:cursor-grabbing p-1 rounded-md hover:bg-muted text-muted-foreground sm:opacity-0 sm:group-hover:opacity-100 transition-opacity touch-none"
+                >
+                    <GripVertical className="h-4 w-4" />
+                </div>
                 <CardContent className="p-3 space-y-2">
-                    <div className="flex justify-between items-start">
+                    <div className="flex justify-between items-start pr-6">
                         <Badge variant="outline" className="text-[10px] px-1 py-0 h-5">
                             {submission.refId}
                         </Badge>

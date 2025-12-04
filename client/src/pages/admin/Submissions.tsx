@@ -234,7 +234,7 @@ export default function AdminSubmissions() {
 
             <div className="space-y-4">
                 <div className="flex flex-col sm:flex-row gap-4 justify-between items-end sm:items-center">
-                    <div className="flex gap-2 items-center w-full sm:w-auto">
+                    <div className="flex flex-wrap gap-2 items-center w-full">
                         <div className="relative w-full sm:w-72">
                             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                             <Input
@@ -245,7 +245,7 @@ export default function AdminSubmissions() {
                             />
                         </div>
                         <Select value={serviceFilter} onValueChange={setServiceFilter}>
-                            <SelectTrigger className="w-[220px]">
+                            <SelectTrigger className="w-full sm:w-[220px]">
                                 <Filter className="mr-2 h-4 w-4" />
                                 <SelectValue placeholder="Filter by Service" />
                             </SelectTrigger>
@@ -261,14 +261,14 @@ export default function AdminSubmissions() {
                             type="date"
                             value={dateFrom}
                             onChange={(e) => setDateFrom(e.target.value)}
-                            className="w-[160px]"
+                            className="w-[calc(50%-4px)] sm:w-[160px]"
                             placeholder="From date"
                         />
                         <Input
                             type="date"
                             value={dateTo}
                             onChange={(e) => setDateTo(e.target.value)}
-                            className="w-[160px]"
+                            className="w-[calc(50%-4px)] sm:w-[160px]"
                             placeholder="To date"
                         />
                         <MultiSelect
@@ -276,7 +276,7 @@ export default function AdminSubmissions() {
                             selected={selectedTags}
                             onChange={setSelectedTags}
                             placeholder="Filter by Tags"
-                            className="w-[200px]"
+                            className="w-full sm:w-[200px]"
                         />
                         {(dateFrom || dateTo || selectedTags.length > 0) && (
                             <Button
@@ -376,16 +376,16 @@ export default function AdminSubmissions() {
                         </DropdownMenu>
                     </div>
 
-                    <div className="flex items-center gap-2">
-                        <div className="flex items-center gap-2 mr-4 bg-muted px-3 py-1 rounded-md">
-                            <span className="text-sm font-medium">{selectedCount} selected</span>
+                    <div className="flex flex-col sm:flex-row items-center gap-4 w-full">
+                        <div className="flex items-center gap-2 w-full sm:w-auto bg-muted px-3 py-1 rounded-md overflow-x-auto">
+                            <span className="text-sm font-medium whitespace-nowrap">{selectedCount} selected</span>
                             <div className="h-4 w-[1px] bg-border mx-2" />
                             <Select
                                 value={bulkStatus}
                                 onValueChange={handleBulkStatusUpdate}
                                 disabled={selectedCount === 0}
                             >
-                                <SelectTrigger className="h-8 w-[160px]">
+                                <SelectTrigger className="h-8 w-[140px] sm:w-[160px]">
                                     <SelectValue placeholder="Update Status" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -410,23 +410,25 @@ export default function AdminSubmissions() {
                             </Button>
                         </div>
 
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => setPage((p) => Math.max(1, p - 1))}
-                            disabled={page === 1 || isLoading}
-                        >
-                            <ChevronLeft className="h-4 w-4" />
-                        </Button>
-                        <span className="text-sm">Page {page}</span>
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => setPage((p) => p + 1)}
-                            disabled={!data || data.submissions.length < pageSize || isLoading}
-                        >
-                            <ChevronRight className="h-4 w-4" />
-                        </Button>
+                        <div className="flex items-center gap-2 ml-auto">
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => setPage((p) => Math.max(1, p - 1))}
+                                disabled={page === 1 || isLoading}
+                            >
+                                <ChevronLeft className="h-4 w-4" />
+                            </Button>
+                            <span className="text-sm whitespace-nowrap">Page {page}</span>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => setPage((p) => p + 1)}
+                                disabled={!data || data.submissions.length < pageSize || isLoading}
+                            >
+                                <ChevronRight className="h-4 w-4" />
+                            </Button>
+                        </div>
                     </div>
                 </div>
 

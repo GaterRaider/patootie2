@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts";
 
 interface SubmissionsByServiceChartProps {
@@ -67,21 +69,38 @@ export function SubmissionsByServiceChart({ data }: SubmissionsByServiceChartPro
         );
     };
 
+    const [showAllLegend, setShowAllLegend] = useState(false);
+
     const renderLegend = (props: any) => {
         const { payload } = props;
+        const visiblePayload = showAllLegend ? payload : payload.slice(0, 3);
+        const hasMore = payload.length > 3;
+
         return (
-            <div className="flex flex-wrap justify-center gap-4 mt-4">
-                {payload.map((entry: any, index: number) => (
-                    <div key={`legend-${index}`} className="flex items-center gap-2">
-                        <div
-                            className="w-3 h-3 rounded-sm"
-                            style={{ backgroundColor: entry.color }}
-                        />
-                        <span className="text-sm text-muted-foreground">
-                            {entry.value}: <span className="font-semibold text-foreground">{entry.payload.count}</span>
-                        </span>
-                    </div>
-                ))}
+            <div className="flex flex-col items-center mt-4">
+                <div className="flex flex-wrap justify-center gap-4">
+                    {visiblePayload.map((entry: any, index: number) => (
+                        <div key={`legend-${index}`} className="flex items-center gap-2">
+                            <div
+                                className="w-3 h-3 rounded-sm"
+                                style={{ backgroundColor: entry.color }}
+                            />
+                            <span className="text-sm text-muted-foreground">
+                                {entry.value}: <span className="font-semibold text-foreground">{entry.payload.count}</span>
+                            </span>
+                        </div>
+                    ))}
+                </div>
+                {hasMore && (
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setShowAllLegend(!showAllLegend)}
+                        className="mt-2 h-6 text-xs"
+                    >
+                        {showAllLegend ? "Show Less" : `Show ${payload.length - 3} More`}
+                    </Button>
+                )}
             </div>
         );
     };
@@ -109,8 +128,8 @@ export function SubmissionsByServiceChart({ data }: SubmissionsByServiceChartPro
             <CardHeader>
                 <CardTitle>Submissions by Service</CardTitle>
             </CardHeader>
-            <CardContent>
-                <ResponsiveContainer width="100%" height={500}>
+            <CardContent className="h-[350px] sm:h-[500px]">
+                <ResponsiveContainer width="100%" height="100%">
                     <PieChart margin={{ top: 20, right: 0, bottom: 0, left: 0 }}>
                         <Pie
                             data={data}
@@ -118,8 +137,8 @@ export function SubmissionsByServiceChart({ data }: SubmissionsByServiceChartPro
                             cy="50%"
                             labelLine={false}
                             label={renderCustomLabel}
-                            outerRadius={130}
-                            innerRadius={80}
+                            outerRadius="70%"
+                            innerRadius="40%"
                             fill="#8884d8"
                             dataKey="count"
                             nameKey="service"

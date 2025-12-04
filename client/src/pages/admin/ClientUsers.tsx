@@ -10,8 +10,16 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import {
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
+    DropdownMenuContent,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Loader2, Search, Users as UsersIcon, Mail, Calendar, FileText, X } from "lucide-react";
+import { Loader2, Search, Users as UsersIcon, Mail, Calendar, FileText, X, Settings2 } from "lucide-react";
 import { format } from "date-fns";
 import { useLocation } from "wouter";
 
@@ -23,6 +31,13 @@ export default function ClientUsers() {
     const [debouncedSearch, setDebouncedSearch] = useState("");
     const [sortBy, setSortBy] = useState("lastSubmission");
     const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+    const [visibleColumns, setVisibleColumns] = useState<Record<string, boolean>>({
+        lastContact: false, // Hidden by default on mobile
+    });
+
+    const toggleColumn = (column: string) => {
+        setVisibleColumns(prev => ({ ...prev, [column]: !prev[column] }));
+    };
 
     // Debounce search input
     useEffect(() => {
@@ -75,7 +90,7 @@ export default function ClientUsers() {
                 </div>
             </div>
 
-            {/* Search */}
+            {/* Search and Columns */}
             <div className="flex items-center gap-4">
                 <div className="relative flex-1 max-w-sm">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
@@ -101,10 +116,28 @@ export default function ClientUsers() {
                         </button>
                     )}
                 </div>
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="outline" size="sm" className="ml-auto">
+                            <Settings2 className="h-4 w-4 sm:mr-2" />
+                            <span className="hidden sm:inline">Columns</span>
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                        <DropdownMenuLabel>Toggle Columns</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuCheckboxItem
+                            checked={visibleColumns.lastContact}
+                            onCheckedChange={() => toggleColumn('lastContact')}
+                        >
+                            Last Contact
+                        </DropdownMenuCheckboxItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </div>
 
             {/* Table */}
-            <div className="rounded-md border bg-card">
+            <div className="rounded-md border bg-card overflow-x-auto">
                 <Table>
                     <TableHeader>
                         <TableRow>
@@ -131,7 +164,7 @@ export default function ClientUsers() {
                                     )}
                                 </button>
                             </TableHead>
-                            <TableHead>
+                            <TableHead className={visibleColumns.lastContact ? "" : "hidden md:table-cell"}>
                                 <button
                                     onClick={() => handleSort("lastSubmission")}
                                     className="flex items-center gap-1 hover:text-foreground"
@@ -175,7 +208,7 @@ export default function ClientUsers() {
                                             <span className="font-medium">{user.submissionCount}</span>
                                         </div>
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell className={visibleColumns.lastContact ? "" : "hidden md:table-cell"}>
                                         <div className="flex items-center gap-2 text-sm">
                                             <Calendar className="h-4 w-4 text-muted-foreground" />
                                             {format(new Date(user.lastSubmission), "MMM d, yyyy")}

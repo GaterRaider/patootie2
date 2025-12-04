@@ -132,26 +132,26 @@ export default function SubmissionDetail() {
 
     return (
         <div className="space-y-6">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="flex items-center gap-4">
                     <Button
                         variant="outline"
                         size="sm"
                         onClick={() => setLocation("/submissions")}
-                        className="gap-2 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 shadow-sm rounded-full hover:shadow-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-all"
+                        className="gap-2 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 shadow-sm rounded-full hover:shadow-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-all shrink-0"
                     >
                         <ArrowLeft className="h-4 w-4" />
                         Back
                     </Button>
-                    <div>
-                        <h1 className="text-3xl font-bold">Submission Details</h1>
-                        <p className="text-sm text-muted-foreground">Ref ID: {submission.refId}</p>
+                    <div className="min-w-0">
+                        <h1 className="text-2xl sm:text-3xl font-bold truncate">Submission Details</h1>
+                        <p className="text-sm text-muted-foreground truncate">Ref ID: {submission.refId}</p>
                     </div>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                     {getStatusBadge(submission.status)}
                     <Select value={selectedStatus} onValueChange={handleStatusUpdate}>
-                        <SelectTrigger className="w-[160px]">
+                        <SelectTrigger className="w-[140px] sm:w-[160px]">
                             <SelectValue placeholder="Change Status" />
                         </SelectTrigger>
                         <SelectContent>
@@ -170,7 +170,8 @@ export default function SubmissionDetail() {
                         className="gap-2"
                     >
                         <FileText className="h-4 w-4" />
-                        Create Invoice
+                        <span className="hidden sm:inline">Create Invoice</span>
+                        <span className="sm:hidden">Invoice</span>
                     </Button>
                 </div>
             </div>

@@ -14,7 +14,15 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { Loader2, Plus, Search, FileText, Trash2, Edit, Download, Mail, Eye } from "lucide-react";
+import {
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
+    DropdownMenuContent,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Loader2, Plus, Search, FileText, Trash2, Edit, Download, Mail, Eye, Settings2 } from "lucide-react";
 import { format } from "date-fns";
 import { toast } from "sonner";
 
@@ -24,6 +32,14 @@ export default function Invoices() {
     const [page, setPage] = useState(1);
     const [search, setSearch] = useState("");
     const [statusFilter, setStatusFilter] = useState<string>("all");
+    const [visibleColumns, setVisibleColumns] = useState<Record<string, boolean>>({
+        issueDate: false, // Hidden by default on mobile
+        dueDate: false,   // Hidden by default on mobile
+    });
+
+    const toggleColumn = (column: string) => {
+        setVisibleColumns(prev => ({ ...prev, [column]: !prev[column] }));
+    };
 
     const { data, isLoading } = trpc.admin.invoices.getAll.useQuery({
         page,
@@ -163,7 +179,6 @@ export default function Invoices() {
 
     return (
         <div className="space-y-6">
-            {/* ... (keep existing header and search/filter section) ... */}
             <div className="flex items-center justify-between">
                 <div>
                     <h1 className="text-3xl font-bold">Invoices</h1>
@@ -202,6 +217,30 @@ export default function Invoices() {
                                 <SelectItem value="cancelled">Cancelled</SelectItem>
                             </SelectContent>
                         </Select>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="outline" size="sm" className="ml-auto">
+                                    <Settings2 className="h-4 w-4 sm:mr-2" />
+                                    <span className="hidden sm:inline">Columns</span>
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                                <DropdownMenuLabel>Toggle Columns</DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuCheckboxItem
+                                    checked={visibleColumns.issueDate}
+                                    onCheckedChange={() => toggleColumn('issueDate')}
+                                >
+                                    Issue Date
+                                </DropdownMenuCheckboxItem>
+                                <DropdownMenuCheckboxItem
+                                    checked={visibleColumns.dueDate}
+                                    onCheckedChange={() => toggleColumn('dueDate')}
+                                >
+                                    Due Date
+                                </DropdownMenuCheckboxItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                     </div>
                 </CardHeader>
                 <CardContent>
@@ -211,131 +250,133 @@ export default function Invoices() {
                         </div>
                     ) : (
                         <>
-                            <Table>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead>Invoice #</TableHead>
-                                        <TableHead>Client</TableHead>
-                                        <TableHead>Issue Date</TableHead>
-                                        <TableHead>Due Date</TableHead>
-                                        <TableHead>Amount</TableHead>
-                                        <TableHead>Status</TableHead>
-                                        <TableHead className="text-right">Actions</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {data?.invoices.length === 0 ? (
+                            <div className="overflow-x-auto">
+                                <Table>
+                                    <TableHeader>
                                         <TableRow>
-                                            <TableCell colSpan={7} className="text-center h-32">
-                                                <div className="flex flex-col items-center gap-2">
-                                                    <FileText className="h-8 w-8 text-muted-foreground" />
-                                                    <p className="text-sm text-muted-foreground">
-                                                        No invoices found
-                                                    </p>
-                                                </div>
-                                            </TableCell>
+                                            <TableHead>Invoice #</TableHead>
+                                            <TableHead>Client</TableHead>
+                                            <TableHead className={visibleColumns.issueDate ? "" : "hidden md:table-cell"}>Issue Date</TableHead>
+                                            <TableHead className={visibleColumns.dueDate ? "" : "hidden md:table-cell"}>Due Date</TableHead>
+                                            <TableHead>Amount</TableHead>
+                                            <TableHead>Status</TableHead>
+                                            <TableHead className="text-right">Actions</TableHead>
                                         </TableRow>
-                                    ) : (
-                                        data?.invoices.map((invoice) => (
-                                            <TableRow
-                                                key={invoice.id}
-                                                className="cursor-pointer hover:bg-muted/50"
-                                                onClick={() => setLocation(`/admin/invoices/${invoice.id}/edit`)}
-                                            >
-                                                <TableCell className="font-medium">
-                                                    {invoice.invoiceNumber}
-                                                </TableCell>
-                                                <TableCell>{invoice.clientName}</TableCell>
-                                                <TableCell>
-                                                    {format(new Date(invoice.issueDate), "PP")}
-                                                </TableCell>
-                                                <TableCell>
-                                                    {format(new Date(invoice.dueDate), "PP")}
-                                                </TableCell>
-                                                <TableCell>
-                                                    €{parseFloat(invoice.total).toFixed(2)}
-                                                </TableCell>
-                                                <TableCell onClick={(e) => e.stopPropagation()}>
-                                                    <Select
-                                                        value={invoice.status}
-                                                        onValueChange={(value) => handleStatusUpdate(invoice.id, value)}
-                                                    >
-                                                        <SelectTrigger className={`w-[110px] h-8 ${getStatusColor(invoice.status)}`}>
-                                                            <SelectValue />
-                                                        </SelectTrigger>
-                                                        <SelectContent>
-                                                            <SelectItem value="draft">Draft</SelectItem>
-                                                            <SelectItem value="sent">Sent</SelectItem>
-                                                            <SelectItem value="paid">Paid</SelectItem>
-                                                            <SelectItem value="overdue">Overdue</SelectItem>
-                                                            <SelectItem value="cancelled">Cancelled</SelectItem>
-                                                        </SelectContent>
-                                                    </Select>
-                                                </TableCell>
-                                                <TableCell className="text-right">
-                                                    <div className="flex items-center justify-end gap-2">
-                                                        <Button
-                                                            variant="ghost"
-                                                            size="sm"
-                                                            onClick={(e) => handlePreviewEmail(e, invoice.id)}
-                                                            title="Preview Email"
-                                                        >
-                                                            <Eye className="h-4 w-4" />
-                                                        </Button>
-                                                        <Button
-                                                            variant="ghost"
-                                                            size="sm"
-                                                            onClick={(e) => handleSendInvoice(e, invoice.id)}
-                                                            disabled={sendMutation.status === "pending"}
-                                                            title="Send Email"
-                                                        >
-                                                            {sendMutation.status === "pending" && sendMutation.variables?.id === invoice.id ? (
-                                                                <Loader2 className="h-4 w-4 animate-spin" />
-                                                            ) : (
-                                                                <Mail className="h-4 w-4" />
-                                                            )}
-                                                        </Button>
-                                                        <Button
-                                                            variant="ghost"
-                                                            size="sm"
-                                                            onClick={(e) => handleDownloadPdf(e, invoice.id, invoice.invoiceNumber)}
-                                                            disabled={pdfMutation.status === "pending" && pdfMutation.variables?.id === invoice.id}
-                                                            title="Download PDF"
-                                                        >
-                                                            {pdfMutation.status === "pending" && pdfMutation.variables?.id === invoice.id ? (
-                                                                <Loader2 className="h-4 w-4 animate-spin" />
-                                                            ) : (
-                                                                <Download className="h-4 w-4" />
-                                                            )}
-                                                        </Button>
-                                                        <Button
-                                                            variant="ghost"
-                                                            size="sm"
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                setLocation(`/admin/invoices/${invoice.id}/edit`);
-                                                            }}
-                                                        >
-                                                            <Edit className="h-4 w-4" />
-                                                        </Button>
-                                                        <Button
-                                                            variant="ghost"
-                                                            size="sm"
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                handleDelete(invoice.id, invoice.invoiceNumber);
-                                                            }}
-                                                            disabled={deleteMutation.status === "pending"}
-                                                        >
-                                                            <Trash2 className="h-4 w-4" />
-                                                        </Button>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {data?.invoices.length === 0 ? (
+                                            <TableRow>
+                                                <TableCell colSpan={7} className="text-center h-32">
+                                                    <div className="flex flex-col items-center gap-2">
+                                                        <FileText className="h-8 w-8 text-muted-foreground" />
+                                                        <p className="text-sm text-muted-foreground">
+                                                            No invoices found
+                                                        </p>
                                                     </div>
                                                 </TableCell>
                                             </TableRow>
-                                        ))
-                                    )}
-                                </TableBody>
-                            </Table>
+                                        ) : (
+                                            data?.invoices.map((invoice) => (
+                                                <TableRow
+                                                    key={invoice.id}
+                                                    className="cursor-pointer hover:bg-muted/50"
+                                                    onClick={() => setLocation(`/admin/invoices/${invoice.id}/edit`)}
+                                                >
+                                                    <TableCell className="font-medium">
+                                                        {invoice.invoiceNumber}
+                                                    </TableCell>
+                                                    <TableCell>{invoice.clientName}</TableCell>
+                                                    <TableCell className={visibleColumns.issueDate ? "" : "hidden md:table-cell"}>
+                                                        {format(new Date(invoice.issueDate), "PP")}
+                                                    </TableCell>
+                                                    <TableCell className={visibleColumns.dueDate ? "" : "hidden md:table-cell"}>
+                                                        {format(new Date(invoice.dueDate), "PP")}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        €{parseFloat(invoice.total).toFixed(2)}
+                                                    </TableCell>
+                                                    <TableCell onClick={(e) => e.stopPropagation()}>
+                                                        <Select
+                                                            value={invoice.status}
+                                                            onValueChange={(value) => handleStatusUpdate(invoice.id, value)}
+                                                        >
+                                                            <SelectTrigger className={`w-[110px] h-8 ${getStatusColor(invoice.status)}`}>
+                                                                <SelectValue />
+                                                            </SelectTrigger>
+                                                            <SelectContent>
+                                                                <SelectItem value="draft">Draft</SelectItem>
+                                                                <SelectItem value="sent">Sent</SelectItem>
+                                                                <SelectItem value="paid">Paid</SelectItem>
+                                                                <SelectItem value="overdue">Overdue</SelectItem>
+                                                                <SelectItem value="cancelled">Cancelled</SelectItem>
+                                                            </SelectContent>
+                                                        </Select>
+                                                    </TableCell>
+                                                    <TableCell className="text-right">
+                                                        <div className="flex items-center justify-end gap-2">
+                                                            <Button
+                                                                variant="ghost"
+                                                                size="sm"
+                                                                onClick={(e) => handlePreviewEmail(e, invoice.id)}
+                                                                title="Preview Email"
+                                                            >
+                                                                <Eye className="h-4 w-4" />
+                                                            </Button>
+                                                            <Button
+                                                                variant="ghost"
+                                                                size="sm"
+                                                                onClick={(e) => handleSendInvoice(e, invoice.id)}
+                                                                disabled={sendMutation.status === "pending"}
+                                                                title="Send Email"
+                                                            >
+                                                                {sendMutation.status === "pending" && sendMutation.variables?.id === invoice.id ? (
+                                                                    <Loader2 className="h-4 w-4 animate-spin" />
+                                                                ) : (
+                                                                    <Mail className="h-4 w-4" />
+                                                                )}
+                                                            </Button>
+                                                            <Button
+                                                                variant="ghost"
+                                                                size="sm"
+                                                                onClick={(e) => handleDownloadPdf(e, invoice.id, invoice.invoiceNumber)}
+                                                                disabled={pdfMutation.status === "pending" && pdfMutation.variables?.id === invoice.id}
+                                                                title="Download PDF"
+                                                            >
+                                                                {pdfMutation.status === "pending" && pdfMutation.variables?.id === invoice.id ? (
+                                                                    <Loader2 className="h-4 w-4 animate-spin" />
+                                                                ) : (
+                                                                    <Download className="h-4 w-4" />
+                                                                )}
+                                                            </Button>
+                                                            <Button
+                                                                variant="ghost"
+                                                                size="sm"
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    setLocation(`/admin/invoices/${invoice.id}/edit`);
+                                                                }}
+                                                            >
+                                                                <Edit className="h-4 w-4" />
+                                                            </Button>
+                                                            <Button
+                                                                variant="ghost"
+                                                                size="sm"
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    handleDelete(invoice.id, invoice.invoiceNumber);
+                                                                }}
+                                                                disabled={deleteMutation.status === "pending"}
+                                                            >
+                                                                <Trash2 className="h-4 w-4" />
+                                                            </Button>
+                                                        </div>
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))
+                                        )}
+                                    </TableBody>
+                                </Table>
+                            </div>
 
                             {totalPages > 1 && (
                                 <div className="flex items-center justify-between mt-4">
