@@ -327,7 +327,7 @@ export default function Home() {
 
 
       {/* Accent Bar */}
-      <div className="h-1 bg-gradient-to-r from-primary via-blue-500 to-primary"></div>
+      <div className="h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500"></div>
 
       {/* Header */}
       <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60 shadow-sm">
@@ -352,7 +352,7 @@ export default function Home() {
             className="flex items-center gap-2 md:gap-3 flex-1 md:flex-initial justify-center md:justify-start min-w-0 cursor-pointer group"
           >
             <img src="/images/HandokHelperLogoOnly.png" alt="HandokHelper Logo" className="h-8 md:h-10 w-auto flex-shrink-0 object-contain transition-transform duration-300 group-hover:scale-105" />
-            <div className="text-base md:text-xl font-bold leading-tight whitespace-nowrap transition-colors duration-300 group-hover:text-primary">
+            <div className="text-base md:text-xl font-bold leading-tight whitespace-nowrap transition-colors duration-300 group-hover:text-indigo-600">
               <span className="hidden sm:inline">{t.siteTitle}</span>
               <span className="sm:hidden">HandokHelper</span>
             </div>
@@ -366,10 +366,10 @@ export default function Home() {
                 e.preventDefault();
                 scrollToSection("services");
               }}
-              className="text-sm font-medium hover:text-primary transition-all duration-300 relative group hover:-translate-y-0.5"
+              className="text-sm font-medium hover:text-indigo-600 transition-all duration-300 relative group hover:-translate-y-0.5"
             >
               {t.navServices}
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 ease-out group-hover:w-full"></span>
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 ease-out group-hover:w-full"></span>
             </a>
             <a
               href={`/${language}#process`}
@@ -377,10 +377,10 @@ export default function Home() {
                 e.preventDefault();
                 scrollToSection("process");
               }}
-              className="text-sm font-medium hover:text-primary transition-all duration-300 relative group hover:-translate-y-0.5"
+              className="text-sm font-medium hover:text-indigo-600 transition-all duration-300 relative group hover:-translate-y-0.5"
             >
               {t.navProcess}
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 ease-out group-hover:w-full"></span>
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 ease-out group-hover:w-full"></span>
             </a>
             <a
               href={`/${language}#about`}
@@ -388,15 +388,15 @@ export default function Home() {
                 e.preventDefault();
                 scrollToSection("about");
               }}
-              className="text-sm font-medium hover:text-primary transition-all duration-300 relative group hover:-translate-y-0.5"
+              className="text-sm font-medium hover:text-indigo-600 transition-all duration-300 relative group hover:-translate-y-0.5"
             >
               {t.navAbout}
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 ease-out group-hover:w-full"></span>
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 ease-out group-hover:w-full"></span>
             </a>
             <Button
               onClick={() => scrollToSection("contact")}
               size="sm"
-              className="shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:scale-105"
+              className="shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 border-0"
             >
               {t.navContact}
             </Button>
@@ -493,7 +493,7 @@ export default function Home() {
       <main>
         {/* Hero Section */}
         {/* Hero Section */}
-        <section className="py-8 md:py-14 bg-gradient-to-b from-primary/5 to-background dark:from-primary/10 dark:to-background">
+        <section className="py-8 md:py-14 bg-gradient-to-b from-indigo-500/5 to-background dark:from-indigo-500/10 dark:to-background">
           <div className="container">
             <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
               <div>
@@ -502,23 +502,23 @@ export default function Home() {
 
                 <div className="space-y-2 md:space-y-3 mb-6 md:mb-8">
                   <div className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                    <CheckCircle className="h-5 w-5 text-indigo-600 mt-0.5 flex-shrink-0" />
                     <p className="text-sm md:text-base text-foreground">{t.heroBullet1}</p>
                   </div>
                   <div className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                    <CheckCircle className="h-5 w-5 text-indigo-600 mt-0.5 flex-shrink-0" />
                     <p className="text-sm md:text-base text-foreground">{t.heroBullet2}</p>
                   </div>
                   <div className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                    <CheckCircle className="h-5 w-5 text-indigo-600 mt-0.5 flex-shrink-0" />
                     <p className="text-sm md:text-base text-foreground">{t.heroBullet3}</p>
                   </div>
                   <div className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                    <CheckCircle className="h-5 w-5 text-indigo-600 mt-0.5 flex-shrink-0" />
                     <p className="text-sm md:text-base text-foreground">{t.heroBullet4}</p>
                   </div>
                   <div className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                    <CheckCircle className="h-5 w-5 text-indigo-600 mt-0.5 flex-shrink-0" />
                     <p className="text-sm md:text-base text-foreground">{t.heroBullet5}</p>
                   </div>
                 </div>
@@ -526,7 +526,7 @@ export default function Home() {
                 <Button
                   size="lg"
                   onClick={() => scrollToSection("contact")}
-                  className="shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:-translate-y-1 group relative overflow-hidden"
+                  className="shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:-translate-y-1 group relative overflow-hidden bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 border-0"
                 >
                   <span className="relative z-10 flex items-center gap-2">
                     {t.navContact}
@@ -552,9 +552,9 @@ export default function Home() {
         <section id="services" className="py-8 md:py-14 scroll-mt-20">
           <div className="container">
             <div className="text-center mb-12 md:mb-16">
-              <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.servicesLabel}</span>
+              <span className="text-indigo-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.servicesLabel}</span>
               <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">{t.servicesHeading}</h2>
-              <div className="h-1 w-20 bg-blue-600 rounded-full mx-auto mb-6"></div>
+              <div className="h-1 w-20 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full mx-auto mb-6"></div>
               <p className="text-muted-foreground max-w-2xl mx-auto">
                 {language === "ko"
                   ? "독일 관료 업무를 전문적으로 지원합니다. 서비스를 선택하여 자세히 알아보세요."
@@ -613,14 +613,14 @@ export default function Home() {
         <section id="process" className="py-8 md:py-14 bg-slate-50 dark:bg-secondary/10 scroll-mt-20">
           <div className="container">
             <div className="text-center mb-12 md:mb-16">
-              <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.processLabel}</span>
+              <span className="text-indigo-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.processLabel}</span>
               <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">{t.processHeading}</h2>
-              <div className="h-1 w-20 bg-blue-600 rounded-full mx-auto"></div>
+              <div className="h-1 w-20 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full mx-auto"></div>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
               <div className="text-center">
-                <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-lg">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-white flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-lg">
                   1
                 </div>
                 <h3 className="text-lg md:text-xl font-semibold mb-2 md:mb-3">{t.processStep1Title}</h3>
@@ -628,7 +628,7 @@ export default function Home() {
               </div>
 
               <div className="text-center">
-                <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-lg">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-white flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-lg">
                   2
                 </div>
                 <h3 className="text-lg md:text-xl font-semibold mb-2 md:mb-3">{t.processStep2Title}</h3>
@@ -636,7 +636,7 @@ export default function Home() {
               </div>
 
               <div className="text-center">
-                <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-lg">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-white flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-lg">
                   3
                 </div>
                 <h3 className="text-lg md:text-xl font-semibold mb-2 md:mb-3">{t.processStep3Title}</h3>
@@ -654,9 +654,9 @@ export default function Home() {
         <section id="contact" className="py-8 md:py-14 scroll-mt-20">
           <div className="container max-w-[1100px]">
             <div className="text-center mb-12 md:mb-16">
-              <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.contactLabel}</span>
+              <span className="text-indigo-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.contactLabel}</span>
               <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">{t.contactHeading}</h2>
-              <div className="h-1 w-20 bg-blue-600 rounded-full mx-auto"></div>
+              <div className="h-1 w-20 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full mx-auto"></div>
             </div>
 
             <ContactForm
@@ -684,9 +684,9 @@ export default function Home() {
         <section id="about" className="py-8 md:py-14 bg-slate-50 dark:bg-secondary/10 scroll-mt-20">
           <div className="container max-w-4xl">
             <div className="text-center mb-12 md:mb-16">
-              <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.aboutLabel}</span>
+              <span className="text-indigo-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.aboutLabel}</span>
               <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">{t.aboutHeading}</h2>
-              <div className="h-1 w-20 bg-blue-600 rounded-full mx-auto"></div>
+              <div className="h-1 w-20 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full mx-auto"></div>
             </div>
 
             <div className="space-y-4 md:space-y-6 text-base md:text-lg leading-relaxed">
@@ -719,13 +719,13 @@ export default function Home() {
         <section id="faq" className="py-8 md:py-14 scroll-mt-20">
           <div className="container max-w-4xl">
             <div className="text-center mb-12 md:mb-16">
-              <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">
+              <span className="text-indigo-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">
                 FAQ
               </span>
               <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">
                 {t.faqHeading}
               </h2>
-              <div className="h-1 w-20 bg-blue-600 rounded-full mx-auto mb-6"></div>
+              <div className="h-1 w-20 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full mx-auto mb-6"></div>
               <p className="text-muted-foreground max-w-2xl mx-auto">
                 {t.faqSubheading}
               </p>

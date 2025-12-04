@@ -84,24 +84,24 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
 
     const ServiceCardContent = ({ service }: { service: ServiceItem }) => (
         <Card
-            className="h-full cursor-pointer group hover:shadow-2xl transition-all duration-300 border-2 hover:border-primary/20 relative overflow-hidden bg-card/50 backdrop-blur-sm flex flex-col hover:-translate-y-2 hover:scale-[1.02]"
+            className="h-full cursor-pointer group hover:shadow-2xl transition-all duration-300 border-2 hover:border-indigo-500/50 relative overflow-hidden bg-card/50 backdrop-blur-sm flex flex-col hover:-translate-y-2 hover:scale-[1.02]"
             onClick={() => handleCardClick(service)}
         >
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             <CardHeader>
-                <div className="mb-4 w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <service.icon className="h-6 w-6 text-primary" />
+                <div className="mb-4 w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-900/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <service.icon className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
                 </div>
                 {service.badge && (
-                    <Badge variant="secondary" className="mb-2 w-fit bg-primary/10 text-primary hover:bg-primary/20 border-primary/20">
+                    <Badge variant="secondary" className="mb-2 w-fit bg-indigo-50 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300 hover:bg-indigo-100 border-indigo-200 dark:border-indigo-800">
                         {service.badge}
                     </Badge>
                 )}
-                <CardTitle className="text-xl mb-2 group-hover:text-primary transition-colors">
+                <CardTitle className="text-xl mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                     {service.title}
                 </CardTitle>
                 {service.tagline && (
-                    <p className="text-sm font-medium text-primary/80 mb-2">
+                    <p className="text-sm font-medium text-indigo-600/80 dark:text-indigo-400/80 mb-2">
                         {service.tagline}
                     </p>
                 )}
@@ -110,7 +110,7 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
                 </CardDescription>
             </CardHeader>
             <CardContent className="flex-1 flex flex-col justify-end">
-                <div className="flex items-center text-sm text-primary font-medium mt-auto group-hover:translate-x-1 transition-transform">
+                <div className="flex items-center text-sm text-indigo-600 dark:text-indigo-400 font-medium mt-auto group-hover:translate-x-1 transition-transform">
                     {t.serviceLearnMore} <ArrowRight className="ml-1 h-4 w-4" />
                 </div>
             </CardContent>
@@ -153,8 +153,8 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
                             }
                         }}
                         className={`h-2 rounded-full transition-all duration-300 ${index === activeIndex
-                            ? 'w-8 bg-primary'
-                            : 'w-2 bg-primary/30 hover:bg-primary/50'
+                            ? 'w-8 bg-indigo-600'
+                            : 'w-2 bg-indigo-600/30 hover:bg-indigo-600/50'
                             }`}
                         aria-label={`Go to service ${index + 1}`}
                     />
@@ -179,8 +179,8 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
                         <>
                             <DialogHeader>
                                 <div className="flex items-center gap-4 mb-4">
-                                    <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center">
-                                        <selectedService.icon className="h-7 w-7 text-primary" />
+                                    <div className="w-14 h-14 rounded-2xl bg-indigo-50 dark:bg-indigo-900/20 flex items-center justify-center">
+                                        <selectedService.icon className="h-7 w-7 text-indigo-600 dark:text-indigo-400" />
                                     </div>
                                     <DialogTitle className="text-2xl">{selectedService.title}</DialogTitle>
                                 </div>
@@ -203,8 +203,8 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
                                                         "flex items-start gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 relative overflow-hidden",
                                                         "hover:shadow-md active:scale-[0.99]",
                                                         selectedSubServices.includes(item)
-                                                            ? "border-primary bg-primary/10 shadow-sm"
-                                                            : "border-muted/60 bg-[#f7f8fa] dark:bg-card hover:border-primary/50 hover:bg-primary/5"
+                                                            ? "border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20 shadow-sm"
+                                                            : "border-muted/60 bg-[#f7f8fa] dark:bg-card hover:border-indigo-500/50 hover:bg-indigo-50/50"
                                                     )}
                                                 >
                                                     <Checkbox
@@ -221,7 +221,7 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
                                                     />
                                                     <span className="text-base font-medium leading-relaxed">{item}</span>
                                                     {selectedSubServices.includes(item) && (
-                                                        <div className="absolute inset-0 bg-primary/5 pointer-events-none animate-in fade-in duration-200" />
+                                                        <div className="absolute inset-0 bg-indigo-500/5 pointer-events-none animate-in fade-in duration-200" />
                                                     )}
                                                 </Label>
                                                 {/* Show sub-items if this is the Relocation Bundle item */}
@@ -230,9 +230,9 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
                                                         <div className="text-xs font-semibold text-primary/80 uppercase tracking-wider mb-2">{t.includedInBundle}</div>
                                                         {t.relocationBundleItems.map((subItem, subIndex) => (
                                                             <div key={subIndex} className="flex items-start gap-2.5 text-sm text-foreground/90">
-                                                                <div className="mt-1 w-4 h-4 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                                                                <div className="mt-1 w-4 h-4 rounded-full bg-indigo-50 dark:bg-indigo-900/20 flex items-center justify-center shrink-0">
                                                                     {selectedSubServices.includes(item) && (
-                                                                        <div className="w-1.5 h-1.5 rounded-full bg-primary animate-in zoom-in duration-200" />
+                                                                        <div className="w-1.5 h-1.5 rounded-full bg-indigo-600 animate-in zoom-in duration-200" />
                                                                     )}
                                                                 </div>
                                                                 <span className={cn("leading-relaxed transition-colors duration-200", selectedSubServices.includes(item) ? "text-foreground" : "text-muted-foreground")}>{subItem}</span>
@@ -253,14 +253,14 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
                                                     "flex items-start gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 relative overflow-hidden",
                                                     "hover:shadow-md active:scale-[0.99]",
                                                     selectedSubService === item
-                                                        ? "border-primary bg-primary/10 shadow-sm"
-                                                        : "border-muted/60 bg-[#f7f8fa] dark:bg-card hover:border-primary/50 hover:bg-primary/5"
+                                                        ? "border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20 shadow-sm"
+                                                        : "border-muted/60 bg-[#f7f8fa] dark:bg-card hover:border-indigo-500/50 hover:bg-indigo-50/50"
                                                 )}
                                             >
                                                 <RadioGroupItem value={item} id={`service-${index}`} className="mt-1 shrink-0" />
                                                 <span className="text-base font-medium leading-relaxed">{item}</span>
                                                 {selectedSubService === item && (
-                                                    <div className="absolute inset-0 bg-primary/5 pointer-events-none animate-in fade-in duration-200" />
+                                                    <div className="absolute inset-0 bg-indigo-500/5 pointer-events-none animate-in fade-in duration-200" />
                                                 )}
                                             </Label>
                                         ))}
