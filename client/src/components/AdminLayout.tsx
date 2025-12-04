@@ -173,7 +173,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     );
 
     return (
-        <div className="min-h-screen flex bg-gray-100 dark:bg-gray-900">
+        <div className="h-screen overflow-hidden flex bg-gray-100 dark:bg-gray-900">
             <CommandPalette />
             {/* Mobile Overlay - Only visible when menu is open on mobile */}
             {mobileMenuOpen && (
@@ -304,17 +304,44 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             <main className="flex-1 flex flex-col overflow-y-auto md:ml-64">
                 {/* Mobile Header with Hamburger - Only visible on mobile */}
                 <div className="md:hidden sticky top-0 z-30 bg-white dark:bg-gray-800 border-b shadow-sm">
-                    <div className="flex items-center gap-3 p-4">
-                        <button
-                            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                            className="p-2 -ml-2 rounded-md hover:bg-secondary/80 transition-colors"
-                            aria-label="Toggle navigation menu"
-                            aria-expanded={mobileMenuOpen}
-                            aria-controls="mobile-admin-nav"
-                        >
-                            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-                        </button>
-                        <h2 className="text-lg font-semibold">Admin Panel</h2>
+                    <div className="flex items-center justify-between p-4">
+                        <div className="flex items-center gap-3">
+                            <button
+                                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                                className="p-2 -ml-2 rounded-md hover:bg-secondary/80 transition-colors"
+                                aria-label="Toggle navigation menu"
+                                aria-expanded={mobileMenuOpen}
+                                aria-controls="mobile-admin-nav"
+                            >
+                                {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                            </button>
+                            <h2 className="text-lg font-semibold">Admin Panel</h2>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            {toggleTheme && (
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    onClick={toggleTheme}
+                                    title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+                                >
+                                    {theme === "dark" ? (
+                                        <Sun className="h-5 w-5" />
+                                    ) : (
+                                        <Moon className="h-5 w-5" />
+                                    )}
+                                </Button>
+                            )}
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => logoutMutation.mutate()}
+                                title="Logout"
+                                className="text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950"
+                            >
+                                <LogOut className="h-5 w-5" />
+                            </Button>
+                        </div>
                     </div>
                 </div>
 
