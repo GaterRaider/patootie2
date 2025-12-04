@@ -170,7 +170,7 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
                 >
                     <button
                         onClick={handleClose}
-                        className="absolute right-4 top-4 rounded-full bg-[#f7f8fa] dark:bg-secondary/50 hover:bg-[#eff1f5] dark:hover:bg-secondary p-2 transition-colors z-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                        className="absolute right-4 top-4 rounded-full bg-secondary dark:bg-secondary/50 hover:bg-secondary/80 dark:hover:bg-secondary p-2 transition-colors z-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                         aria-label="Close"
                     >
                         <X className="h-5 w-5 text-foreground/70" />
@@ -204,7 +204,7 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
                                                         "hover:shadow-md active:scale-[0.99]",
                                                         selectedSubServices.includes(item)
                                                             ? "border-primary bg-primary/10 shadow-sm"
-                                                            : "border-muted/60 bg-[#f7f8fa] dark:bg-card hover:border-primary/50 hover:bg-accent/50"
+                                                            : "border-muted/60 bg-secondary dark:bg-card hover:border-primary/50 hover:bg-accent/50"
                                                     )}
                                                 >
                                                     <Checkbox
@@ -254,7 +254,7 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
                                                     "hover:shadow-md active:scale-[0.99]",
                                                     selectedSubService === item
                                                         ? "border-primary bg-primary/10 shadow-sm"
-                                                        : "border-muted/60 bg-[#f7f8fa] dark:bg-card hover:border-primary/50 hover:bg-accent/50"
+                                                        : "border-muted/60 bg-secondary dark:bg-card hover:border-primary/50 hover:bg-accent/50"
                                                 )}
                                             >
                                                 <RadioGroupItem value={item} id={`service-${index}`} className="mt-1 shrink-0" />

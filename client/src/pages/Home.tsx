@@ -327,7 +327,7 @@ export default function Home() {
 
 
       {/* Accent Bar */}
-      <div className="h-1 bg-gradient-to-r from-primary via-blue-500 to-primary"></div>
+      <div className="h-1 bg-gradient-to-r from-primary via-accent to-primary"></div>
 
       {/* Header */}
       <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60 shadow-sm">
@@ -552,9 +552,9 @@ export default function Home() {
         <section id="services" className="py-8 md:py-14 scroll-mt-20">
           <div className="container">
             <div className="text-center mb-12 md:mb-16">
-              <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.servicesLabel}</span>
+              <span className="text-primary font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.servicesLabel}</span>
               <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">{t.servicesHeading}</h2>
-              <div className="h-1 w-20 bg-blue-600 rounded-full mx-auto mb-6"></div>
+              <div className="h-1 w-20 bg-primary rounded-full mx-auto mb-6"></div>
               <p className="text-muted-foreground max-w-2xl mx-auto">
                 {language === "ko"
                   ? "독일 관료 업무를 전문적으로 지원합니다. 서비스를 선택하여 자세히 알아보세요."
@@ -610,12 +610,12 @@ export default function Home() {
         </section>
 
         {/* Process Section */}
-        <section id="process" className="py-8 md:py-14 bg-slate-50 dark:bg-secondary/10 scroll-mt-20">
+        <section id="process" className="py-8 md:py-14 bg-secondary dark:bg-secondary/10 scroll-mt-20">
           <div className="container">
             <div className="text-center mb-12 md:mb-16">
-              <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.processLabel}</span>
+              <span className="text-primary font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.processLabel}</span>
               <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">{t.processHeading}</h2>
-              <div className="h-1 w-20 bg-blue-600 rounded-full mx-auto"></div>
+              <div className="h-1 w-20 bg-primary rounded-full mx-auto"></div>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
@@ -654,9 +654,9 @@ export default function Home() {
         <section id="contact" className="py-8 md:py-14 scroll-mt-20">
           <div className="container max-w-[1100px]">
             <div className="text-center mb-12 md:mb-16">
-              <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.contactLabel}</span>
+              <span className="text-primary font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.contactLabel}</span>
               <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">{t.contactHeading}</h2>
-              <div className="h-1 w-20 bg-blue-600 rounded-full mx-auto"></div>
+              <div className="h-1 w-20 bg-primary rounded-full mx-auto"></div>
             </div>
 
             <ContactForm
@@ -681,12 +681,12 @@ export default function Home() {
         </section>
 
         {/* About Section */}
-        <section id="about" className="py-8 md:py-14 bg-slate-50 dark:bg-secondary/10 scroll-mt-20">
+        <section id="about" className="py-8 md:py-14 bg-secondary dark:bg-secondary/10 scroll-mt-20">
           <div className="container max-w-4xl">
             <div className="text-center mb-12 md:mb-16">
-              <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.aboutLabel}</span>
+              <span className="text-primary font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.aboutLabel}</span>
               <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">{t.aboutHeading}</h2>
-              <div className="h-1 w-20 bg-blue-600 rounded-full mx-auto"></div>
+              <div className="h-1 w-20 bg-primary rounded-full mx-auto"></div>
             </div>
 
             <div className="space-y-4 md:space-y-6 text-base md:text-lg leading-relaxed">
@@ -719,13 +719,13 @@ export default function Home() {
         <section id="faq" className="py-8 md:py-14 scroll-mt-20">
           <div className="container max-w-4xl">
             <div className="text-center mb-12 md:mb-16">
-              <span className="text-blue-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">
+              <span className="text-primary font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">
                 FAQ
               </span>
               <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">
                 {t.faqHeading}
               </h2>
-              <div className="h-1 w-20 bg-blue-600 rounded-full mx-auto mb-6"></div>
+              <div className="h-1 w-20 bg-primary rounded-full mx-auto mb-6"></div>
               <p className="text-muted-foreground max-w-2xl mx-auto">
                 {t.faqSubheading}
               </p>

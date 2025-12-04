@@ -33,26 +33,26 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
 
     const InputWrapper = ({ children, icon: Icon, error, label }: { children: React.ReactNode, icon?: any, error?: any, label?: string }) => (
         <div className="w-full group">
-            {label && <label className="block text-xs font-medium text-gray-700 dark:text-slate-300 mb-1.5 ml-1 transition-colors group-focus-within:text-indigo-600 dark:group-focus-within:text-indigo-400">{label}</label>}
+            {label && <label className="block text-xs font-medium text-foreground dark:text-muted-foreground mb-1.5 ml-1 transition-colors group-focus-within:text-primary dark:group-focus-within:text-primary">{label}</label>}
             <div className={`
-        flex items-center gap-3 px-4 py-3 bg-gray-50 dark:bg-slate-800 rounded-xl border transition-all duration-300 ease-out
-        focus-within:bg-white dark:focus-within:bg-slate-900 focus-within:border-indigo-500 dark:focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/10 focus-within:shadow-md focus-within:-translate-y-0.5
-        ${error ? 'border-red-500 bg-red-50/50 dark:bg-red-900/20' : 'border-gray-200 dark:border-slate-700 hover:border-gray-300 dark:hover:border-slate-600'}
+        flex items-center gap-3 px-4 py-3 bg-secondary dark:bg-secondary rounded-xl border transition-all duration-300 ease-out
+        focus-within:bg-card dark:focus-within:bg-card focus-within:border-primary dark:focus-within:border-primary focus-within:ring-4 focus-within:ring-primary/10 focus-within:shadow-md focus-within:-translate-y-0.5
+        ${error ? 'border-destructive bg-destructive/10 dark:bg-destructive/20' : 'border-border dark:border-border hover:border-input dark:hover:border-input'}
       `}>
-                {Icon && <Icon className="w-4 h-4 text-gray-400 dark:text-slate-500 shrink-0 transition-colors group-focus-within:text-indigo-500 dark:group-focus-within:text-indigo-400" />}
+                {Icon && <Icon className="w-4 h-4 text-muted-foreground dark:text-muted-foreground shrink-0 transition-colors group-focus-within:text-primary dark:group-focus-within:text-primary" />}
                 {children}
             </div>
-            {error && <p className="mt-1 ml-1 text-xs text-red-500 font-medium">{error.message}</p>}
+            {error && <p className="mt-1 ml-1 text-xs text-destructive font-medium">{error.message}</p>}
         </div>
     );
 
     const SectionCard = ({ title, icon: Icon, children }: { title: string, icon: any, children: React.ReactNode }) => (
-        <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm transition-colors">
-            <div className="flex items-center gap-2 mb-6 pb-4 border-b border-gray-100 dark:border-slate-800">
-                <div className="w-8 h-8 rounded-lg bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+        <div className="bg-card dark:bg-card border border-border dark:border-border rounded-2xl p-6 shadow-sm transition-colors">
+            <div className="flex items-center gap-2 mb-6 pb-4 border-b border-border dark:border-border">
+                <div className="w-8 h-8 rounded-lg bg-primary/10 dark:bg-primary/20 flex items-center justify-center text-primary dark:text-primary">
                     <Icon className="w-4 h-4" />
                 </div>
-                <h3 className="text-base font-semibold text-gray-900 dark:text-white transition-colors">{title}</h3>
+                <h3 className="text-base font-semibold text-foreground dark:text-foreground transition-colors">{title}</h3>
             </div>
             {children}
         </div>
@@ -74,7 +74,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                             {...register('firstName', { required: t.errorRequired })}
                             placeholder={t.formFirstName}
                             autoComplete="given-name"
-                            className="w-full bg-transparent border-none outline-none text-sm text-gray-900 placeholder-gray-500"
+                            className="w-full bg-transparent border-none outline-none text-sm text-foreground placeholder:text-muted-foreground"
                         />
                     </InputWrapper>
                     <InputWrapper label={t.formLastName} icon={User} error={errors.lastName}>
@@ -82,7 +82,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                             {...register('lastName', { required: t.errorRequired })}
                             placeholder={t.formLastName}
                             autoComplete="family-name"
-                            className="w-full bg-transparent border-none outline-none text-sm text-gray-900 placeholder-gray-500"
+                            className="w-full bg-transparent border-none outline-none text-sm text-foreground placeholder:text-muted-foreground"
                         />
                     </InputWrapper>
 
@@ -93,7 +93,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                             rules={{ required: t.errorRequired }}
                             render={({ field }) => (
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                    <SelectTrigger className="w-full !bg-transparent dark:!bg-transparent hover:!bg-transparent dark:hover:!bg-transparent border-none shadow-none focus:ring-0 focus-visible:ring-0 px-0 !py-0 !h-auto !min-h-0 flex-1 text-sm text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-slate-500">
+                                    <SelectTrigger className="w-full !bg-transparent dark:!bg-transparent hover:!bg-transparent dark:hover:!bg-transparent border-none shadow-none focus:ring-0 focus-visible:ring-0 px-0 !py-0 !h-auto !min-h-0 flex-1 text-sm text-foreground dark:text-foreground placeholder:text-muted-foreground dark:placeholder:text-muted-foreground">
                                         <SelectValue placeholder={t.formSalutationPlaceholder} />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -112,7 +112,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                             {...register('dateOfBirth', { required: t.errorRequired })}
                             type="date"
                             autoComplete="bday"
-                            className="w-full bg-transparent border-none outline-none text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-slate-500"
+                            className="w-full bg-transparent border-none outline-none text-sm text-foreground dark:text-foreground placeholder:text-muted-foreground dark:placeholder:text-muted-foreground"
                         />
                     </InputWrapper>
                 </div>
@@ -133,7 +133,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                             type="email"
                             autoComplete="email"
                             placeholder="name@example.com"
-                            className="w-full bg-transparent border-none outline-none text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-slate-500"
+                            className="w-full bg-transparent border-none outline-none text-sm text-foreground dark:text-foreground placeholder:text-muted-foreground dark:placeholder:text-muted-foreground"
                         />
                     </InputWrapper>
                     <InputWrapper label={t.formPhone} icon={Phone} error={errors.phoneNumber}>
@@ -142,7 +142,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                             type="tel"
                             autoComplete="tel"
                             placeholder="+1 234 567 890"
-                            className="w-full bg-transparent border-none outline-none text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-slate-500"
+                            className="w-full bg-transparent border-none outline-none text-sm text-foreground dark:text-foreground placeholder:text-muted-foreground dark:placeholder:text-muted-foreground"
                         />
                     </InputWrapper>
                 </div>
@@ -156,7 +156,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                             {...register('street', { required: t.errorRequired })}
                             placeholder={t.formStreet}
                             autoComplete="address-line1"
-                            className="w-full bg-transparent border-none outline-none text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-slate-500"
+                            className="w-full bg-transparent border-none outline-none text-sm text-foreground dark:text-foreground placeholder:text-muted-foreground dark:placeholder:text-muted-foreground"
                         />
                     </InputWrapper>
 
@@ -165,7 +165,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                             {...register('addressLine2')}
                             placeholder={t.formAddressLine2}
                             autoComplete="address-line2"
-                            className="w-full bg-transparent border-none outline-none text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-slate-500"
+                            className="w-full bg-transparent border-none outline-none text-sm text-foreground dark:text-foreground placeholder:text-muted-foreground dark:placeholder:text-muted-foreground"
                         />
                     </InputWrapper>
 
@@ -175,7 +175,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                                 {...register('postalCode', { required: t.errorRequired })}
                                 placeholder={t.formPostalCode}
                                 autoComplete="postal-code"
-                                className="w-full bg-transparent border-none outline-none text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-slate-500"
+                                className="w-full bg-transparent border-none outline-none text-sm text-foreground dark:text-foreground placeholder:text-muted-foreground dark:placeholder:text-muted-foreground"
                             />
                         </InputWrapper>
                         <InputWrapper label={t.formCity} error={errors.city}>
@@ -183,7 +183,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                                 {...register('city', { required: t.errorRequired })}
                                 placeholder={t.formCity}
                                 autoComplete="address-level2"
-                                className="w-full bg-transparent border-none outline-none text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-slate-500"
+                                className="w-full bg-transparent border-none outline-none text-sm text-foreground dark:text-foreground placeholder:text-muted-foreground dark:placeholder:text-muted-foreground"
                             />
                         </InputWrapper>
                     </div>
@@ -196,7 +196,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                                 rules={{ required: t.errorRequired }}
                                 render={({ field }) => (
                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                        <SelectTrigger className="w-full !bg-transparent dark:!bg-transparent hover:!bg-transparent dark:hover:!bg-transparent border-none shadow-none focus:ring-0 focus-visible:ring-0 px-0 !py-0 !h-auto !min-h-0 flex-1 text-sm text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-slate-500">
+                                        <SelectTrigger className="w-full !bg-transparent dark:!bg-transparent hover:!bg-transparent dark:hover:!bg-transparent border-none shadow-none focus:ring-0 focus-visible:ring-0 px-0 !py-0 !h-auto !min-h-0 flex-1 text-sm text-foreground dark:text-foreground placeholder:text-muted-foreground dark:placeholder:text-muted-foreground">
                                             <SelectValue placeholder={t.formCountryPlaceholder}>
                                                 {selectedCountry && (
                                                     <span className="flex items-center gap-2">
@@ -241,7 +241,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                                     {...register('stateProvince', { required: shouldShowStateProvince ? t.errorRequired : false })}
                                     placeholder={t.formStateProvince}
                                     autoComplete="address-level1"
-                                    className="w-full bg-transparent border-none outline-none text-sm text-gray-900 placeholder-gray-500"
+                                    className="w-full bg-transparent border-none outline-none text-sm text-foreground placeholder:text-muted-foreground"
                                 />
                             </InputWrapper>
                         )}
@@ -252,50 +252,50 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
             {/* Message */}
             <SectionCard title={t.formMessage || "Message"} icon={MessageSquare}>
                 <div className={`
-                    w-full px-4 py-3 bg-gray-50 dark:bg-slate-800 rounded-xl border transition-all duration-300 ease-out
-                    focus-within:bg-white dark:focus-within:bg-slate-900 focus-within:border-indigo-500 dark:focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/10 focus-within:shadow-md focus-within:-translate-y-0.5
-                    ${errors.message ? 'border-red-500 bg-red-50/50 dark:bg-red-900/20' : 'border-gray-200 dark:border-slate-700 hover:border-gray-300 dark:hover:border-slate-600'}
+                    w-full px-4 py-3 bg-secondary dark:bg-secondary rounded-xl border transition-all duration-300 ease-out
+                    focus-within:bg-card dark:focus-within:bg-card focus-within:border-primary dark:focus-within:border-primary focus-within:ring-4 focus-within:ring-primary/10 focus-within:shadow-md focus-within:-translate-y-0.5
+                    ${errors.message ? 'border-destructive bg-destructive/10 dark:bg-destructive/20' : 'border-border dark:border-border hover:border-input dark:hover:border-input'}
                 `}>
                     <textarea
                         {...register('message', { required: t.errorRequired, minLength: { value: 10, message: t.errorRequired } })}
                         rows={4}
                         placeholder={t.formMessagePlaceholder}
-                        className="w-full bg-transparent border-none outline-none text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-slate-500 resize-none"
+                        className="w-full bg-transparent border-none outline-none text-sm text-foreground dark:text-foreground placeholder:text-muted-foreground dark:placeholder:text-muted-foreground resize-none"
                     />
                 </div>
-                {errors.message && <p className="mt-1 ml-1 text-xs text-red-500 font-medium">{errors.message.message}</p>}
+                {errors.message && <p className="mt-1 ml-1 text-xs text-destructive font-medium">{errors.message.message}</p>}
             </SectionCard>
 
             {/* Consent */}
             <SectionCard title={t.formSectionConsent || "Consent"} icon={CheckSquare}>
                 <div className="space-y-2">
-                    <div className="flex items-start gap-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors">
+                    <div className="flex items-start gap-3 p-2 rounded-lg hover:bg-secondary dark:hover:bg-secondary transition-colors">
                         <input
                             {...register('contactConsent', { required: t.errorConsent })}
                             type="checkbox"
                             id="contactConsent"
-                            className="mt-0.5 w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                            className="mt-0.5 w-4 h-4 text-primary border-input rounded focus:ring-primary"
                         />
                         <div className="flex-1">
                             <label htmlFor="contactConsent" className="text-sm text-gray-700 dark:text-slate-300 cursor-pointer select-none font-medium block transition-colors">
-                                {t.formContactConsent} <span className="text-red-500">*</span>
+                                {t.formContactConsent} <span className="text-destructive">*</span>
                             </label>
-                            {errors.contactConsent && <p className="text-xs text-red-500 mt-1">{errors.contactConsent.message}</p>}
+                            {errors.contactConsent && <p className="text-xs text-destructive mt-1">{errors.contactConsent.message}</p>}
                         </div>
                     </div>
 
-                    <div className="flex items-start gap-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors">
+                    <div className="flex items-start gap-3 p-2 rounded-lg hover:bg-secondary dark:hover:bg-secondary transition-colors">
                         <input
                             {...register('privacyConsent', { required: t.errorConsent })}
                             type="checkbox"
                             id="privacy_policy_checkbox"
-                            className="mt-0.5 w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                            className="mt-0.5 w-4 h-4 text-primary border-input rounded focus:ring-primary"
                         />
                         <div className="flex-1">
                             <label htmlFor="privacy_policy_checkbox" className="text-sm text-gray-700 dark:text-slate-300 cursor-pointer select-none font-medium block transition-colors">
-                                {t.formPrivacyConsent} <a href={`/${language}/privacy-policy`} target="_blank" rel="noopener noreferrer" className="text-indigo-600 dark:text-indigo-400 hover:underline">{t.formPrivacyConsentLink}</a> <span className="text-red-500">*</span>
+                                {t.formPrivacyConsent} <a href={`/${language}/privacy-policy`} target="_blank" rel="noopener noreferrer" className="text-primary dark:text-primary hover:underline">{t.formPrivacyConsentLink}</a> <span className="text-destructive">*</span>
                             </label>
-                            {errors.privacyConsent && <p className="text-xs text-red-500 mt-1">{errors.privacyConsent.message}</p>}
+                            {errors.privacyConsent && <p className="text-xs text-destructive mt-1">{errors.privacyConsent.message}</p>}
                         </div>
                     </div>
                 </div>
