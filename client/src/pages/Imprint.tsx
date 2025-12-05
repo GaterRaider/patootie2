@@ -56,7 +56,7 @@ export default function Imprint() {
                         className="gap-2 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 shadow-sm rounded-full hover:shadow-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-all"
                     >
                         <ArrowLeft className="h-4 w-4" />
-                        {language === "ko" ? "홈으로 돌아가기" : "Back to Home"}
+                        {t.backToHome}
                     </Button>
 
                     <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
@@ -80,7 +80,7 @@ export default function Imprint() {
             {/* Content */}
             <main className="flex-1 py-12 md:py-16">
                 <div className="container max-w-4xl">
-                    <h1 className="text-3xl md:text-4xl font-bold mb-8">Impressum</h1>
+                    <h1 className="text-3xl md:text-4xl font-bold mb-8">{t.impressumTitle}</h1>
 
                     <div className="space-y-8 text-muted-foreground leading-relaxed">
                         <div>
@@ -90,7 +90,7 @@ export default function Imprint() {
                         </div>
 
                         <div>
-                            <h2 className="text-xl md:text-2xl font-semibold mb-3 text-foreground">Kontakt</h2>
+                            <h2 className="text-xl md:text-2xl font-semibold mb-3 text-foreground">{t.imprintContactHeading}</h2>
                             <p>E-Mail: info (at) handokhelper (dot) de</p>
                         </div>
                     </div>

@@ -156,8 +156,10 @@ export interface Translations {
   // Legal Pages
   impressumTitle: string;
   impressumContent: string;
+  imprintContactHeading: string;
   privacyTitle: string;
   privacyContent: string;
+  backToHome: string;
 
   // Errors
   errorRequired: string;
@@ -351,8 +353,9 @@ export const translations: Record<Language, Translations> = {
     footerCopyright: "Support for German Authorities Worldwide",
 
     // Legal Pages
-    impressumTitle: "Impressum",
+    impressumTitle: "Imprint",
     impressumContent: "HandokHelper\n\nContact:\nEmail: info ( at ) handokhelper.de\n\nThis is a placeholder impressum. Please update with actual legal information as required by German law (§5 TMG).",
+    imprintContactHeading: "Contact",
     privacyTitle: "Privacy Policy",
     privacyContent: "This Privacy Policy describes how we collect, use, and protect your personal information.\n\n1. Data Collection\nWe collect personal information that you provide through our contact form, including your name, email, phone number, address, and message content.\n\n2. Purpose of Data Processing\nYour data is used solely for the purpose of handling your inquiry and providing our services. We will contact you via email or phone as you have consented.\n\n3. Data Storage\nYour data is stored securely in our database and is only accessible to authorized personnel.\n\n4. Your Rights\nYou have the right to access, correct, or delete your personal data at any time. Please contact us at info@patootie-germany.com.\n\n5. Consent\nBy submitting the contact form, you consent to the processing of your personal data as described in this policy.\n\nThis is a placeholder privacy policy. Please update with complete legal information as required by GDPR and German data protection laws.",
 
@@ -361,6 +364,7 @@ export const translations: Record<Language, Translations> = {
     errorEmail: "Please enter a valid email address",
     errorMinLength: "Please provide more details",
     errorConsent: "You must agree to continue",
+    backToHome: "Back to Home",
 
     // New additions
     formMessagePlaceholder: "Please describe your specific situation, what services you need, and any relevant details about your case.",
@@ -578,8 +582,9 @@ export const translations: Record<Language, Translations> = {
     footerCopyright: "전 세계 독일 관공서 지원",
 
     // Legal Pages
-    impressumTitle: "법적 고지 (Impressum)",
+    impressumTitle: "법적 고지",
     impressumContent: "한독헬퍼\n\n연락처:\n이메일: info@patootie-germany.com\n\n이것은 임시 법적 고지입니다. 독일 법률(§5 TMG)에 따라 실제 법적 정보로 업데이트하십시오.",
+    imprintContactHeading: "연락처",
     privacyTitle: "개인정보 처리방침",
     privacyContent: "본 개인정보 처리방침은 귀하의 개인정보를 수집, 사용 및 보호하는 방법을 설명합니다.\n\n1. 데이터 수집\n문의 양식을 통해 제공하신 이름, 이메일, 전화번호, 주소 및 메시지 내용을 포함한 개인정보를 수집합니다.\n\n2. 데이터 처리 목적\n귀하의 데이터는 문의 처리 및 서비스 제공 목적으로만 사용됩니다. 귀하가 동의한 대로 이메일 또는 전화로 연락드립니다.\n\n3. 데이터 저장\n귀하의 데이터는 데이터베이스에 안전하게 저장되며 권한이 있는 직원만 액세스할 수 있습니다.\n\n4. 귀하의 권리\n언제든지 개인 데이터에 액세스하거나 수정 또는 삭제할 권리가 있습니다. info@patootie-germany.com으로 문의하십시오.\n\n5. 동의\n문의 양식을 제출함으로써 본 방침에 설명된 대로 개인 데이터 처리에 동의합니다.\n\n이것은 임시 개인정보 처리방침입니다. GDPR 및 독일 데이터 보호법에 따라 완전한 법적 정보로 업데이트하십시오.",
 
@@ -588,6 +593,7 @@ export const translations: Record<Language, Translations> = {
     errorEmail: "유효한 이메일 주소를 입력하세요",
     errorMinLength: "더 자세한 정보를 제공해주세요",
     errorConsent: "계속하려면 동의해야 합니다",
+    backToHome: "홈으로 돌아가기",
 
     // New additions
     formMessagePlaceholder: "구체적인 상황, 필요한 서비스 및 관련 세부 정보를 설명해주세요.",
@@ -807,6 +813,7 @@ export const translations: Record<Language, Translations> = {
     // Legal Pages
     impressumTitle: "Impressum",
     impressumContent: "HandokHelper\n\nKontakt:\nE-Mail: info ( at ) handokhelper.de\n\nDies ist ein Platzhalter-Impressum. Bitte aktualisieren Sie es mit den tatsächlichen rechtlichen Informationen gemäß §5 TMG.",
+    imprintContactHeading: "Kontakt",
     privacyTitle: "Datenschutzerklärung",
     privacyContent: "Diese Datenschutzerklärung beschreibt, wie wir Ihre personenbezogenen Daten erfassen, verwenden und schützen.\n\n1. Datenerfassung\nWir erfassen personenbezogene Daten, die Sie über unser Kontaktformular bereitstellen, einschließlich Name, E-Mail, Telefonnummer, Adresse und Nachrichteninhalt.\n\n2. Zweck der Datenverarbeitung\nIhre Daten werden ausschließlich zur Bearbeitung Ihrer Anfrage und zur Erbringung unserer Dienstleistungen verwendet. Wir kontaktieren Sie per E-Mail oder Telefon, wie von Ihnen zugestimmt.\n\n3. Datenspeicherung\nIhre Daten werden sicher in unserer Datenbank gespeichert und sind nur autorisiertem Personal zugänglich.\n\n4. Ihre Rechte\nSie haben das Recht, jederzeit auf Ihre personenbezogenen Daten zuzugreifen, diese zu korrigieren oder zu löschen. Bitte kontaktieren Sie uns unter info@patootie-germany.com.\n\n5. Einwilligung\nDurch das Absenden des Kontaktformulars stimmen Sie der Verarbeitung Ihrer personenbezogenen Daten wie in dieser Richtlinie beschrieben zu.\n\nDies ist eine Platzhalter-Datenschutzerklärung. Bitte aktualisieren Sie sie mit vollständigen rechtlichen Informationen gemäß DSGVO und deutschen Datenschutzgesetzen.",
 
@@ -815,6 +822,7 @@ export const translations: Record<Language, Translations> = {
     errorEmail: "Bitte geben Sie eine gültige E-Mail-Adresse ein",
     errorMinLength: "Bitte geben Sie mehr Details an",
     errorConsent: "Sie müssen zustimmen, um fortzufahren",
+    backToHome: "Zurück zur Startseite",
 
     // New additions
     formMessagePlaceholder: "Bitte beschreiben Sie Ihre spezifische Situation, welche Dienstleistungen Sie benötigen und alle relevanten Details zu Ihrem Fall.",
