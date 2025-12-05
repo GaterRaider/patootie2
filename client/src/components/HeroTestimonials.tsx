@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
+import Autoplay from 'embla-carousel-autoplay';
 import { Star } from 'lucide-react';
 import { trpc } from '@/lib/trpc';
 import { cn } from '@/lib/utils';
@@ -17,13 +18,29 @@ interface TestimonialItem {
 
 interface HeroTestimonialsConfig {
     enabled: boolean;
+    autoPlay?: boolean;
+    autoPlayInterval?: number;
     items: TestimonialItem[];
 }
 
 export function HeroTestimonials() {
     const { data: settings } = trpc.siteSettings.getAll.useQuery();
     const [config, setConfig] = useState<HeroTestimonialsConfig | null>(null);
-    const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'start' });
+
+    // Configure Autoplay plugin
+    const plugins = useMemo(() => {
+        if (config?.autoPlay) {
+            return [
+                Autoplay({
+                    delay: (config.autoPlayInterval || 5) * 1000,
+                    stopOnInteraction: true
+                })
+            ];
+        }
+        return [];
+    }, [config?.autoPlay, config?.autoPlayInterval]);
+
+    const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'start' }, plugins);
     const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {

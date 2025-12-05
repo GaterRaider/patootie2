@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Loader2, Save, Settings2, Clock, Plus, Trash2, Edit2, GripVertical, Star } from "lucide-react";
+import { Loader2, Save, Settings2, Clock, Plus, Trash2, Edit2, GripVertical, Star, Play } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
@@ -23,6 +23,8 @@ interface TestimonialItem {
 
 interface HeroTestimonialsConfig {
     enabled: boolean;
+    autoPlay?: boolean;
+    autoPlayInterval?: number;
     items: TestimonialItem[];
 }
 
@@ -34,6 +36,8 @@ export default function SiteSettings() {
 
     // Testimonials State
     const [testimonialsEnabled, setTestimonialsEnabled] = useState(false);
+    const [autoPlay, setAutoPlay] = useState(false);
+    const [autoPlayInterval, setAutoPlayInterval] = useState(5);
     const [testimonialItems, setTestimonialItems] = useState<TestimonialItem[]>([]);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [editingItem, setEditingItem] = useState<TestimonialItem | null>(null);
@@ -66,6 +70,8 @@ export default function SiteSettings() {
                 try {
                     const parsed: HeroTestimonialsConfig = JSON.parse(settings.heroTestimonials);
                     setTestimonialsEnabled(parsed.enabled);
+                    setAutoPlay(parsed.autoPlay ?? false);
+                    setAutoPlayInterval(parsed.autoPlayInterval ?? 5);
                     setTestimonialItems(parsed.items || []);
                 } catch (e) {
                     console.error("Failed to parse hero testimonials", e);
@@ -85,9 +91,11 @@ export default function SiteSettings() {
         });
     };
 
-    const saveTestimonialsConfig = (enabled: boolean, items: TestimonialItem[]) => {
+    const saveTestimonialsConfig = (enabled: boolean, autoPlayVal: boolean, intervalVal: number, items: TestimonialItem[]) => {
         const config: HeroTestimonialsConfig = {
             enabled,
+            autoPlay: autoPlayVal,
+            autoPlayInterval: intervalVal,
             items
         };
         updateMutation.mutate({
@@ -98,7 +106,17 @@ export default function SiteSettings() {
 
     const handleToggleTestimonials = (checked: boolean) => {
         setTestimonialsEnabled(checked);
-        saveTestimonialsConfig(checked, testimonialItems);
+        saveTestimonialsConfig(checked, autoPlay, autoPlayInterval, testimonialItems);
+    };
+
+    const handleToggleAutoPlay = (checked: boolean) => {
+        setAutoPlay(checked);
+        saveTestimonialsConfig(testimonialsEnabled, checked, autoPlayInterval, testimonialItems);
+    };
+
+    const handleIntervalChange = (value: number) => {
+        setAutoPlayInterval(value);
+        saveTestimonialsConfig(testimonialsEnabled, autoPlay, value, testimonialItems);
     };
 
     const handleOpenDialog = (item?: TestimonialItem) => {
@@ -147,14 +165,14 @@ export default function SiteSettings() {
         }
 
         setTestimonialItems(newItems);
-        saveTestimonialsConfig(testimonialsEnabled, newItems);
+        saveTestimonialsConfig(testimonialsEnabled, autoPlay, autoPlayInterval, newItems);
         setIsDialogOpen(false);
     };
 
     const handleDeleteItem = (id: string) => {
         const newItems = testimonialItems.filter(item => item.id !== id);
         setTestimonialItems(newItems);
-        saveTestimonialsConfig(testimonialsEnabled, newItems);
+        saveTestimonialsConfig(testimonialsEnabled, autoPlay, autoPlayInterval, newItems);
     };
 
     const handleToggleItemActive = (id: string, active: boolean) => {
@@ -162,7 +180,7 @@ export default function SiteSettings() {
             item.id === id ? { ...item, active } : item
         );
         setTestimonialItems(newItems);
-        saveTestimonialsConfig(testimonialsEnabled, newItems);
+        saveTestimonialsConfig(testimonialsEnabled, autoPlay, autoPlayInterval, newItems);
     };
 
     if (isLoading) {
@@ -195,6 +213,7 @@ export default function SiteSettings() {
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-6">
+                        {/* Main Enable Toggle */}
                         <div className="flex items-center justify-between">
                             <div className="space-y-0.5">
                                 <Label htmlFor="show-testimonials" className="text-sm font-medium">
@@ -212,8 +231,49 @@ export default function SiteSettings() {
                             />
                         </div>
 
+                        {/* Settings Section */}
                         <div className="space-y-4 pt-4 border-t animate-in fade-in slide-in-from-top-2 duration-300">
-                            <div className="flex justify-between items-center">
+
+                            {/* Auto-Play Settings Row */}
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-4 border-b">
+                                <div className="flex items-center justify-between sm:justify-start sm:gap-4">
+                                    <div className="space-y-0.5">
+                                        <Label htmlFor="auto-play" className="text-sm font-medium flex items-center gap-2">
+                                            <Play className="w-3.5 h-3.5" /> Auto-Play
+                                        </Label>
+                                        <p className="text-xs text-muted-foreground">
+                                            Automatically rotate slides
+                                        </p>
+                                    </div>
+                                    <Switch
+                                        id="auto-play"
+                                        checked={autoPlay}
+                                        onCheckedChange={handleToggleAutoPlay}
+                                    />
+                                </div>
+
+                                {autoPlay && (
+                                    <div className="space-y-1">
+                                        <Label htmlFor="interval" className="text-sm font-medium">
+                                            Interval (seconds)
+                                        </Label>
+                                        <div className="flex items-center gap-2">
+                                            <Input
+                                                id="interval"
+                                                type="number"
+                                                min="1"
+                                                max="60"
+                                                value={autoPlayInterval}
+                                                onChange={(e) => handleIntervalChange(Number(e.target.value))}
+                                                className="h-8 max-w-[100px]"
+                                            />
+                                            <span className="text-xs text-muted-foreground">sec</span>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="flex justify-between items-center pt-2">
                                 <h3 className="text-sm font-medium">Testimonials List</h3>
                                 <Button size="sm" onClick={() => handleOpenDialog()} variant="outline" className="gap-2">
                                     <Plus className="h-3.5 w-3.5" /> Add New
