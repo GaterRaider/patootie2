@@ -283,7 +283,6 @@ export function ContactForm({
                 }
               `}
             >
-              {currentStep === steps.length - 1 && <ArrowLeft className="w-4 h-4" />}
               {t.stepBack || "Back"}
             </button>
 
@@ -304,7 +303,7 @@ export function ContactForm({
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
                 className={`
-                  group relative flex items-center gap-3 px-10 py-4 rounded-full text-white text-base font-bold tracking-wide
+                  group relative flex items-center gap-3 px-10 py-4 rounded-full text-white text-base font-bold tracking-wide whitespace-nowrap
                   bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 bg-[length:200%_auto]
                   shadow-[0_10px_25px_-5px_rgba(79,70,229,0.4)]
                   hover:shadow-[0_20px_35px_-5px_rgba(79,70,229,0.5)]

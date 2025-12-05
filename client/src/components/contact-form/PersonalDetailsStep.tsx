@@ -293,7 +293,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                         />
                         <div className="flex-1">
                             <label htmlFor="privacy_policy_checkbox" className="text-sm text-gray-700 dark:text-slate-300 cursor-pointer select-none font-medium block transition-colors">
-                                {t.formPrivacyConsent} <a href={`/${language}/privacy-policy`} target="_blank" rel="noopener noreferrer" className="text-indigo-600 dark:text-indigo-400 hover:underline">{t.formPrivacyConsentLink}</a> <span className="text-red-500">*</span>
+                                {t.formPrivacyConsent}<a href={`/${language}/privacy-policy`} target="_blank" rel="noopener noreferrer" className="text-indigo-600 dark:text-indigo-400 hover:underline">{t.formPrivacyConsentLink}</a>{t.formPrivacyConsentSuffix} <span className="text-red-500">*</span>
                             </label>
                             {errors.privacyConsent && <p className="text-xs text-red-500 mt-1">{errors.privacyConsent.message}</p>}
                         </div>

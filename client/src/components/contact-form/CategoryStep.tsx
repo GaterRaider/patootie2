@@ -78,7 +78,7 @@ export const CategoryStep = ({ t, selectedService, setSelectedService, setValue,
                                 type="button"
                                 onClick={() => handleSelect(category.value)}
                                 className={`
-                  relative flex flex-col gap-3 p-5 rounded-2xl border text-left transition-all duration-200 min-h-[120px] group
+                  relative flex flex-col justify-between gap-3 p-5 rounded-2xl border text-left transition-all duration-200 min-h-[120px] group
                   hover:scale-[1.02] hover:shadow-xl
                   ${isSelected
                                         ? 'border-indigo-500 bg-white dark:bg-slate-800 shadow-[0_0_20px_rgba(99,102,241,0.15)] ring-1 ring-indigo-500'
@@ -93,7 +93,7 @@ export const CategoryStep = ({ t, selectedService, setSelectedService, setValue,
                   `}>
                                         <Icon className="w-6 h-6" />
                                     </div>
-                                    <div className="flex-1 pr-20">
+                                    <div className="flex-1">
                                         <h3 className="font-semibold text-gray-900 dark:text-white text-base md:text-lg mb-1 transition-colors">
                                             {category.title}
                                         </h3>
@@ -103,13 +103,13 @@ export const CategoryStep = ({ t, selectedService, setSelectedService, setValue,
                                     </div>
                                 </div>
 
-                                {/* Service Count Badge */}
-                                <div className="absolute bottom-5 right-5">
+                                {/* Service Count Badge - Now in flow with auto margin top */}
+                                <div className="ml-auto mt-4">
                                     <span className={`
-                    text-xs font-medium px-2.5 py-1 rounded-full transition-colors
+                    text-xs font-semibold px-3 py-1.5 rounded-full transition-all duration-200 border shadow-sm backdrop-blur-sm
                     ${isSelected
-                                            ? 'bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-300'
-                                            : 'bg-gray-100 dark:bg-slate-700 text-gray-500 dark:text-slate-400'
+                                            ? 'bg-indigo-50/90 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800'
+                                            : 'bg-white/90 dark:bg-slate-800/90 text-gray-600 dark:text-slate-400 border-gray-200 dark:border-slate-700'
                                         }
                   `}>
                                         {category.count} {t.categoryServicesCount}

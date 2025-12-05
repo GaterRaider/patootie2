@@ -128,7 +128,7 @@ export const ServiceSelectionStep = ({
 
                                     <div className="flex-1 min-w-0">
                                         <div className="flex justify-between items-start w-full mb-1">
-                                            <h4 className={`text-base font-semibold transition-colors break-words hyphens-auto ${isSelected ? 'text-indigo-900 dark:text-indigo-300' : 'text-gray-900 dark:text-white'}`}>
+                                            <h4 className={`text-base font-semibold transition-colors break-words hyphens-auto flex-1 min-w-0 ${isSelected ? 'text-indigo-900 dark:text-indigo-300' : 'text-gray-900 dark:text-white'}`}>
                                                 {service.title}
                                             </h4>
 

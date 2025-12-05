@@ -94,6 +94,7 @@ export interface Translations {
   formContactConsent: string;
   formPrivacyConsent: string;
   formPrivacyConsentLink: string;
+  formPrivacyConsentSuffix?: string;
   formSubmit: string;
   formSubmitting: string;
   formSuccessTitle: string;
@@ -320,8 +321,9 @@ export const translations: Record<Language, Translations> = {
     formPreferredLanguagePlaceholder: "Select language",
     formMessage: "Describe your situation",
     formContactConsent: "I agree to be contacted by email and/or phone",
-    formPrivacyConsent: "I have read and agree to the",
+    formPrivacyConsent: "I have read and agree to the ",
     formPrivacyConsentLink: "Privacy Policy",
+    formPrivacyConsentSuffix: "",
     formSubmit: "Submit Inquiry",
     formSubmitting: "Submitting...",
     formSuccessTitle: "Thank You!",
@@ -546,8 +548,9 @@ export const translations: Record<Language, Translations> = {
     formPreferredLanguagePlaceholder: "언어 선택",
     formMessage: "상황을 설명해주세요",
     formContactConsent: "이메일 및/또는 전화로 연락받는 것에 동의합니다",
-    formPrivacyConsent: "개인정보 처리방침을 읽고 동의합니다",
+    formPrivacyConsent: "",
     formPrivacyConsentLink: "개인정보 처리방침",
+    formPrivacyConsentSuffix: "을 읽고 동의합니다",
     formSubmit: "문의 제출",
     formSubmitting: "제출 중...",
     formSuccessTitle: "감사합니다!",
@@ -772,8 +775,9 @@ export const translations: Record<Language, Translations> = {
     formPreferredLanguagePlaceholder: "Sprache wählen",
     formMessage: "Beschreiben Sie Ihre Situation",
     formContactConsent: "Ich stimme der Kontaktaufnahme per E-Mail und/oder Telefon zu",
-    formPrivacyConsent: "Ich habe die Datenschutzerklärung gelesen und stimme zu",
+    formPrivacyConsent: "Ich habe die ",
     formPrivacyConsentLink: "Datenschutzerklärung",
+    formPrivacyConsentSuffix: " gelesen und stimme zu",
     formSubmit: "Anfrage senden",
     formSubmitting: "Wird gesendet...",
     formSuccessTitle: "Vielen Dank!",
