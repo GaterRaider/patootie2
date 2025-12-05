@@ -120,6 +120,13 @@ export function ContactForm({
     }
   }, [selectedService, currentStep]);
 
+  const serviceTitles: Record<string, string> = {
+    'housing': t.serviceCard1Title,
+    'legal': t.serviceCard2Title,
+    'finance': t.serviceCard3Title,
+    'daily': t.serviceCard4Title,
+  };
+
   const steps = [
     {
       id: 'category',
@@ -133,7 +140,7 @@ export function ContactForm({
       id: 'service',
       title: t.formSubService || 'Service',
       subtitle: t.contactFormStep2Subtitle,
-      headline: selectedService || t.contactFormStep2Headline,
+      headline: serviceTitles[selectedService] || t.contactFormStep2Headline,
       component: ServiceSelectionStep,
       fields: ['subService']
     },

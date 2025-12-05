@@ -28,7 +28,7 @@ export const ServiceSelectionStep = ({
     let services: { id: string; title: string; description?: string; icon?: any; isBundle?: boolean }[] = [];
     let isMultiSelect = false;
 
-    if (selectedService === t.serviceCard1Title) {
+    if (selectedService === 'housing') {
         // Housing & Relocation
         isMultiSelect = true;
         services = t.serviceCard1Services.map((service, index) => {
@@ -46,21 +46,21 @@ export const ServiceSelectionStep = ({
                 isBundle: index === 0
             };
         });
-    } else if (selectedService === t.serviceCard2Title) {
+    } else if (selectedService === 'legal') {
         services = t.serviceCard2Services.map((service, index) => ({
             id: `service-2-${index}`,
             title: service,
             description: t.serviceCard2Descriptions?.[index] || "",
             icon: FileText
         }));
-    } else if (selectedService === t.serviceCard3Title) {
+    } else if (selectedService === 'finance') {
         services = t.serviceCard3Services.map((service, index) => ({
             id: `service-3-${index}`,
             title: service,
             description: t.serviceCard3Descriptions?.[index] || "",
             icon: FileText
         }));
-    } else if (selectedService === t.serviceCard4Title) {
+    } else if (selectedService === 'daily') {
         services = t.serviceCard4Services.map((service, index) => ({
             id: `service-4-${index}`,
             title: service,

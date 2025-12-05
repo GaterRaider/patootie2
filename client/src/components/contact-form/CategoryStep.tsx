@@ -18,7 +18,7 @@ export const CategoryStep = ({ t, selectedService, setSelectedService, setValue,
             title: t.serviceCard1Title,
             icon: Home,
             caption: t.serviceCard1Tagline,
-            value: t.serviceCard1Title,
+            value: 'housing',
             count: 4
         },
         {
@@ -26,7 +26,7 @@ export const CategoryStep = ({ t, selectedService, setSelectedService, setValue,
             title: t.serviceCard2Title,
             icon: Scale,
             caption: t.categoryCard2Caption,
-            value: t.serviceCard2Title,
+            value: 'legal',
             count: 7
         },
         {
@@ -34,7 +34,7 @@ export const CategoryStep = ({ t, selectedService, setSelectedService, setValue,
             title: t.serviceCard3Title,
             icon: Wallet,
             caption: t.categoryCard3Caption,
-            value: t.serviceCard3Title,
+            value: 'finance',
             count: 3
         },
         {
@@ -42,7 +42,7 @@ export const CategoryStep = ({ t, selectedService, setSelectedService, setValue,
             title: t.serviceCard4Title,
             icon: Zap,
             caption: t.categoryCard4Caption,
-            value: t.serviceCard4Title,
+            value: 'daily',
             count: 2
         }
     ];
