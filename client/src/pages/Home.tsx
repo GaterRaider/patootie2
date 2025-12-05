@@ -22,6 +22,7 @@ import { Helmet } from "react-helmet-async";
 import { FAQ } from "@/components/FAQ";
 import { BackToTop } from "@/components/BackToTop";
 import { HeroTestimonials } from "@/components/HeroTestimonials";
+import { FAQSkeleton } from "@/components/skeletons/FAQSkeleton";
 
 function FAQSchema({ data }: { data: any }) {
   useEffect(() => {
@@ -734,9 +735,11 @@ export default function Home() {
               </p>
             </div>
 
-            {faqData?.items && (
+            {isLoading ? (
+              <FAQSkeleton />
+            ) : faqData?.items ? (
               <FAQ items={faqData.items} language={language as 'en' | 'ko' | 'de'} />
-            )}
+            ) : null}
           </div>
         </section>
       </main>

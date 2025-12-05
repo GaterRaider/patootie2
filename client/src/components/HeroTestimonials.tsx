@@ -6,6 +6,7 @@ import { trpc } from '@/lib/trpc';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { motion, AnimatePresence } from 'framer-motion';
+import { TestimonialSkeleton } from '@/components/skeletons/TestimonialSkeleton';
 
 interface TestimonialItem {
     id: string;
@@ -24,7 +25,7 @@ interface HeroTestimonialsConfig {
 }
 
 export function HeroTestimonials() {
-    const { data: settings } = trpc.siteSettings.getAll.useQuery();
+    const { data: settings, isLoading } = trpc.siteSettings.getAll.useQuery();
     const [config, setConfig] = useState<HeroTestimonialsConfig | null>(null);
 
     // Configure Autoplay plugin
@@ -61,6 +62,14 @@ export function HeroTestimonials() {
             });
         }
     }, [emblaApi]);
+
+    if (isLoading) {
+        return (
+            <div className="mt-6 md:mt-8 flex justify-center md:justify-start w-full px-4 md:px-0">
+                <TestimonialSkeleton />
+            </div>
+        );
+    }
 
     if (!config?.enabled || !config.items.length) {
         return null;
