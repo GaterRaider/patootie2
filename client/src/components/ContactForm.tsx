@@ -46,6 +46,7 @@ export function ContactForm({
 }: ContactFormProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const prevStepRef = useRef<number | null>(null);
+  const isNavigatingBackRef = useRef(false);
   const { language } = useLanguage();
   const methods = useForm({
     mode: 'onChange',
@@ -116,9 +117,9 @@ export function ContactForm({
     }
   }, [selectedViaCard, selectedService, selectedSubService, selectedSubServices, setValue, setSelectedViaCard]);
 
-  // Auto-scroll to footer on Category selection (Step 1)
+  // Auto-scroll to footer on Category selection (Step 1) - only when navigating forward
   useEffect(() => {
-    if (currentStep === 0 && selectedService) {
+    if (currentStep === 0 && selectedService && !isNavigatingBackRef.current) {
       const footer = document.getElementById('contact-form-footer');
       if (footer) {
         // Small timeout to allow state update and render
@@ -126,6 +127,10 @@ export function ContactForm({
           footer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }, 100);
       }
+    }
+    // Reset the flag after the effect runs
+    if (isNavigatingBackRef.current) {
+      isNavigatingBackRef.current = false;
     }
   }, [selectedService, currentStep]);
 
@@ -182,6 +187,7 @@ export function ContactForm({
 
   const handleBack = () => {
     if (currentStep > 0) {
+      isNavigatingBackRef.current = true;
       setCurrentStep(currentStep - 1);
     }
   };
