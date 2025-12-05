@@ -80,15 +80,15 @@ export function HeroTestimonials() {
         >
             {activeItems.length === 1 ? (
                 // Single Testimonial View
-                <div className="flex items-center gap-3 max-w-full md:max-w-fit mx-auto md:mx-0">
-                    <Avatar className="h-9 w-9 md:h-10 md:w-10 border border-white dark:border-slate-800 shadow-sm shrink-0">
-                        <AvatarImage src={activeItems[0].profilePicture} alt={activeItems[0].name} className="object-cover" />
-                        <AvatarFallback className="bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 font-medium text-xs">
-                            {activeItems[0].name.slice(0, 2).toUpperCase()}
-                        </AvatarFallback>
-                    </Avatar>
-                    <div className="min-w-0 flex flex-col justify-center">
-                        <div className="flex items-center gap-2 text-sm mb-0.5">
+                <div className="flex flex-col gap-2 max-w-full md:max-w-md mx-auto md:mx-0">
+                    <div className="flex items-center gap-3">
+                        <Avatar className="h-9 w-9 md:h-10 md:w-10 border border-white dark:border-slate-800 shadow-sm shrink-0">
+                            <AvatarImage src={activeItems[0].profilePicture} alt={activeItems[0].name} className="object-cover" />
+                            <AvatarFallback className="bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 font-medium text-xs">
+                                {activeItems[0].name.slice(0, 2).toUpperCase()}
+                            </AvatarFallback>
+                        </Avatar>
+                        <div className="flex items-center gap-2 text-sm">
                             <span className="font-semibold text-foreground truncate">{activeItems[0].name}</span>
                             <span className="text-slate-900 dark:text-slate-200 mx-0.5">|</span>
                             <div className="flex items-center gap-1.5 shrink-0">
@@ -96,31 +96,27 @@ export function HeroTestimonials() {
                                 <span className="font-bold text-foreground/70">{activeItems[0].rating.toFixed(1)}</span>
                             </div>
                         </div>
-                        {activeItems[0].text ? (
-                            <p className="text-sm text-muted-foreground/80 line-clamp-1 md:line-clamp-2 leading-tight max-w-[200px] md:max-w-none">{activeItems[0].text}</p>
-                        ) : (
-                            <p className="text-sm text-muted-foreground/80 font-medium leading-tight">
-                                Excellent Rating
-                            </p>
-                        )}
                     </div>
+                    {activeItems[0].text && (
+                        <p className="text-sm text-muted-foreground/80 line-clamp-2 leading-tight">{activeItems[0].text}</p>
+                    )}
                 </div>
             ) : (
                 // Carousel View
-                <div className="relative max-w-[280px] sm:max-w-sm w-full group mx-auto md:mx-0">
+                <div className="relative max-w-[280px] sm:max-w-md w-full group mx-auto md:mx-0">
                     <div className="overflow-hidden" ref={emblaRef}>
                         <div className="flex">
                             {activeItems.map((item) => (
-                                <div className="flex-[0_0_100%] min-w-0 py-1 pr-4 md:pr-6" key={item.id}>
-                                    <div className="flex items-center gap-3">
-                                        <Avatar className="h-9 w-9 md:h-10 md:w-10 border border-white dark:border-slate-800 shadow-sm shrink-0">
-                                            <AvatarImage src={item.profilePicture} alt={item.name} className="object-cover" />
-                                            <AvatarFallback className="bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 font-medium text-xs">
-                                                {item.name.slice(0, 2).toUpperCase()}
-                                            </AvatarFallback>
-                                        </Avatar>
-                                        <div className="min-w-0 flex flex-col justify-center">
-                                            <div className="flex items-center gap-2 text-sm mb-0.5">
+                                <div className="flex-[0_0_100%] min-w-0 pr-4 md:pr-6" key={item.id}>
+                                    <div className="flex flex-col gap-2">
+                                        <div className="flex items-center gap-3">
+                                            <Avatar className="h-9 w-9 md:h-10 md:w-10 border border-white dark:border-slate-800 shadow-sm shrink-0">
+                                                <AvatarImage src={item.profilePicture} alt={item.name} className="object-cover" />
+                                                <AvatarFallback className="bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 font-medium text-xs">
+                                                    {item.name.slice(0, 2).toUpperCase()}
+                                                </AvatarFallback>
+                                            </Avatar>
+                                            <div className="flex items-center gap-2 text-sm">
                                                 <span className="font-semibold text-foreground truncate">{item.name}</span>
                                                 <span className="text-slate-900 dark:text-slate-200 mx-0.5">|</span>
                                                 <div className="flex items-center gap-1.5 shrink-0">
@@ -128,14 +124,10 @@ export function HeroTestimonials() {
                                                     <span className="font-bold text-foreground/70">{item.rating.toFixed(1)}</span>
                                                 </div>
                                             </div>
-                                            {item.text ? (
-                                                <p className="text-sm text-muted-foreground/80 line-clamp-1 md:line-clamp-2 leading-tight">{item.text}</p>
-                                            ) : (
-                                                <p className="text-sm text-muted-foreground/80 font-medium leading-tight">
-                                                    Excellent Rating
-                                                </p>
-                                            )}
                                         </div>
+                                        {item.text && (
+                                            <p className="text-sm text-muted-foreground/80 line-clamp-2 leading-tight">{item.text}</p>
+                                        )}
                                     </div>
                                 </div>
                             ))}
