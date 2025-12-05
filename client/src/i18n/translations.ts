@@ -228,7 +228,7 @@ export const translations: Record<Language, Translations> = {
       "Rental contract review & negotiation support"
     ],
     serviceCard1CTA: "Select Housing & Relocation",
-    serviceCard2Title: "Immigration & Legal Services",
+    serviceCard2Title: "Immigration & Administrative Support",
     serviceCard2Desc: "Expert support for all your visa and legal needs. From work permits to driver's license exchange, we guide you through the German legal system.",
     serviceCard2Services: [
       "Expat assignment visa application & extension",
@@ -455,7 +455,7 @@ export const translations: Record<Language, Translations> = {
       "임대 계약서 검토 및 협상 지원"
     ],
     serviceCard1CTA: "주거 및 정착 선택",
-    serviceCard2Title: "이민 및 법률 서비스",
+    serviceCard2Title: "이민 & 행정지원 서비스",
     serviceCard2Desc: "비자 및 법률 문제에 대한 전문적인 지원을 받으세요. 취업 비자부터 운전면허 교환까지 독일 법률 시스템을 안내해 드립니다.",
     serviceCard2Services: [
       "주재원 비자 신청 및 연장",
@@ -682,7 +682,7 @@ export const translations: Record<Language, Translations> = {
       "Prüfung von Mietverträgen & Verhandlungsunterstützung"
     ],
     serviceCard1CTA: "Wohnen & Umzug wählen",
-    serviceCard2Title: "Einwanderung & Rechtliches",
+    serviceCard2Title: "Einwanderung & Behördenservice",
     serviceCard2Desc: "Expertenunterstützung für alle Ihre Visa- und Rechtsfragen. Von Arbeitserlaubnissen bis zum Führerscheinumtausch führen wir Sie durch das deutsche Rechtssystem.",
     serviceCard2Services: [
       "Visumantrag & Verlängerung für Expat-Entsendungen",
