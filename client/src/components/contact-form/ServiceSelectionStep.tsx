@@ -1,5 +1,6 @@
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Check, Star, Package, FileText, LogOut, XCircle } from 'lucide-react';
+import { Check, Star, Package, FileText, LogOut, XCircle, AlertCircle } from 'lucide-react';
 import { Translations } from "@/i18n/translations";
 
 interface ServiceSelectionStepProps {
@@ -11,6 +12,7 @@ interface ServiceSelectionStepProps {
     setSelectedSubServices: (value: string[]) => void;
     setValue: any;
     register: any;
+    errors?: any;
 }
 
 export const ServiceSelectionStep = ({
@@ -21,8 +23,16 @@ export const ServiceSelectionStep = ({
     selectedSubServices,
     setSelectedSubServices,
     setValue,
-    register
+    register,
+    errors
 }: ServiceSelectionStepProps) => {
+
+    // Scroll to error if validation fails
+    useEffect(() => {
+        if (errors?.subService) {
+            document.getElementById('service-step-container')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }, [errors?.subService]);
 
     // Determine which services to show based on selected category
     let services: { id: string; title: string; description?: string; icon?: any; isBundle?: boolean }[] = [];
@@ -75,10 +85,14 @@ export const ServiceSelectionStep = ({
                 ? selectedSubServices.filter(s => s !== serviceTitle)
                 : [...selectedSubServices, serviceTitle];
             setSelectedSubServices(newSelection);
+
+            // value is required for validation, even if we track it in array state
+            // Join them so the field has a value if array is not empty
+            setValue('subService', newSelection.length > 0 ? newSelection.join(',') : '', { shouldValidate: true });
         } else {
             const newValue = serviceTitle === selectedSubService ? '' : serviceTitle;
             setSelectedSubService(newValue);
-            setValue('subService', newValue);
+            setValue('subService', newValue, { shouldValidate: true });
         }
     };
 
@@ -94,7 +108,11 @@ export const ServiceSelectionStep = ({
 
 
 
-            <div className="border border-gray-200 dark:border-slate-800 rounded-2xl p-4 md:p-6 bg-gray-50/50 dark:bg-slate-900/50 transition-colors">
+            {/* Validation Wrapper */}
+            <div
+                id="service-step-container"
+                className={`rounded-2xl transition-all duration-300 ${errors?.subService ? 'ring-2 ring-red-500 p-1' : ''}`}
+            >
                 <div className="grid grid-cols-1 gap-3">
                     {services.map((service, index) => {
                         const isSelected = isMultiSelect
@@ -113,7 +131,7 @@ export const ServiceSelectionStep = ({
                   hover:scale-[1.02] hover:shadow-xl w-full
                   ${isSelected
                                         ? 'border-indigo-500 bg-white dark:bg-slate-800 shadow-[0_0_20px_rgba(99,102,241,0.15)] ring-1 ring-indigo-500'
-                                        : 'border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:border-indigo-200 dark:hover:border-indigo-700'
+                                        : 'border-gray-200 dark:border-slate-800 bg-gray-50/50 dark:bg-slate-900/50 hover:bg-white dark:hover:bg-slate-800 hover:border-indigo-200 dark:hover:border-indigo-700'
                                     }
                 `}
                             >
@@ -121,7 +139,7 @@ export const ServiceSelectionStep = ({
                                     {/* Icon */}
                                     <div className={`
                     w-10 h-10 rounded-lg flex-shrink-0 flex items-center justify-center transition-all duration-300 mt-0.5
-                    ${isSelected ? 'bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-md scale-110' : 'bg-gray-100 dark:bg-slate-700 text-gray-500 dark:text-slate-400 group-hover:bg-indigo-50 dark:group-hover:bg-indigo-900/30 group-hover:text-indigo-600 dark:group-hover:text-indigo-400'}
+                    ${isSelected ? 'bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-md scale-110' : 'bg-gray-100 dark:bg-slate-800 text-gray-500 dark:text-slate-400 group-hover:bg-indigo-50 dark:group-hover:bg-indigo-900/30 group-hover:text-indigo-600 dark:group-hover:text-indigo-400'}
                   `}>
                                         <Icon className="w-5 h-5" />
                                     </div>
@@ -146,7 +164,7 @@ export const ServiceSelectionStep = ({
 
                                         {/* Description */}
                                         {service.description && (
-                                            <p className="text-sm text-gray-500 dark:text-slate-400 leading-relaxed mb-2 transition-colors">
+                                            <p className={`text-sm leading-relaxed mb-2 transition-colors ${isSelected ? 'text-indigo-700/80 dark:text-indigo-300/70' : 'text-gray-500 dark:text-slate-400'}`}>
                                                 {service.description}
                                             </p>
                                         )}
@@ -170,6 +188,20 @@ export const ServiceSelectionStep = ({
                     })}
                 </div>
             </div>
-        </motion.div>
+
+            {errors?.subService && (
+                <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex items-center gap-2 mt-3 text-red-600 text-sm"
+                    onViewportEnter={() => {
+                        document.getElementById('service-step-container')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }}
+                >
+                    <AlertCircle className="w-4 h-4" />
+                    <span>{errors.subService.message || t.errorRequired}</span>
+                </motion.div>
+            )}
+        </motion.div >
     );
 };
