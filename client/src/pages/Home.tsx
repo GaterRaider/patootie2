@@ -21,6 +21,7 @@ import { Footer } from "@/components/Footer";
 import { Helmet } from "react-helmet-async";
 import { FAQ } from "@/components/FAQ";
 import { BackToTop } from "@/components/BackToTop";
+import { HeroTestimonials } from "@/components/HeroTestimonials";
 
 function FAQSchema({ data }: { data: any }) {
   useEffect(() => {
@@ -533,6 +534,8 @@ export default function Home() {
                     <Send className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </Button>
+
+                <HeroTestimonials />
               </div>
 
               <div className="relative">

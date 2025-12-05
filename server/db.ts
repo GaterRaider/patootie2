@@ -982,20 +982,26 @@ export async function updateSiteSetting(
     throw new Error("Database not available");
   }
 
+  // Use upsert pattern (INSERT ... ON CONFLICT DO UPDATE)
   const results = await db
-    .update(siteSettings)
-    .set({
+    .insert(siteSettings)
+    .values({
+      key,
       value,
       updatedAt: new Date(),
       updatedBy,
     })
-    .where(eq(siteSettings.key, key))
+    .onConflictDoUpdate({
+      target: siteSettings.key,
+      set: {
+        value,
+        updatedAt: new Date(),
+        updatedBy,
+      },
+    })
     .returning();
 
-  if (!results[0]) {
-    throw new Error(`Site setting with key ${key} not found`);
-  }
-
+  // No error throwing needed as upsert handles both cases
   return results[0];
 }
 
