@@ -33,7 +33,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
 
     const InputWrapper = ({ children, icon: Icon, error, label }: { children: React.ReactNode, icon?: any, error?: any, label?: string }) => (
         <div className="w-full group">
-            {label && <label className="block text-xs font-medium text-gray-700 dark:text-slate-300 mb-1.5 ml-1 transition-colors group-focus-within:text-indigo-600 dark:group-focus-within:text-indigo-400">{label}</label>}
+            {label && <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1.5 ml-1 transition-colors group-focus-within:text-indigo-600 dark:group-focus-within:text-indigo-400">{label}</label>}
             <div className={`
         flex items-center gap-3 px-4 py-3 bg-gray-50 dark:bg-slate-800 rounded-xl border transition-all duration-300 ease-out
         focus-within:bg-white dark:focus-within:bg-slate-900 focus-within:border-indigo-500 dark:focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/10 focus-within:shadow-md focus-within:-translate-y-0.5
@@ -74,7 +74,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                             {...register('firstName', { required: t.errorRequired })}
                             placeholder={t.formFirstName}
                             autoComplete="given-name"
-                            className="w-full bg-transparent border-none outline-none text-sm text-gray-900 placeholder-gray-500"
+                            className="w-full bg-transparent border-none outline-none text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-slate-500"
                         />
                     </InputWrapper>
                     <InputWrapper label={t.formLastName} icon={User} error={errors.lastName}>
@@ -82,7 +82,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                             {...register('lastName', { required: t.errorRequired })}
                             placeholder={t.formLastName}
                             autoComplete="family-name"
-                            className="w-full bg-transparent border-none outline-none text-sm text-gray-900 placeholder-gray-500"
+                            className="w-full bg-transparent border-none outline-none text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-slate-500"
                         />
                     </InputWrapper>
 
@@ -241,7 +241,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                                     {...register('stateProvince', { required: shouldShowStateProvince ? t.errorRequired : false })}
                                     placeholder={t.formStateProvince}
                                     autoComplete="address-level1"
-                                    className="w-full bg-transparent border-none outline-none text-sm text-gray-900 placeholder-gray-500"
+                                    className="w-full bg-transparent border-none outline-none text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-slate-500"
                                 />
                             </InputWrapper>
                         )}
