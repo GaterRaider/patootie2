@@ -75,7 +75,7 @@ export function HeroTestimonials() {
         <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.5 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
             className="mt-6 md:mt-8 flex justify-center md:justify-start w-full px-4 md:px-0"
         >
             {activeItems.length === 1 ? (
