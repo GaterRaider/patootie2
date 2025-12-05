@@ -1,10 +1,9 @@
 import { useEffect, useRef } from "react";
-
 import { useLocation } from "wouter";
 
 export default function ScrollToTop() {
     const [pathname] = useLocation();
-    const prevPathnameRef = useRef(pathname);
+    const prevPathnameRef = useRef<string | null>(null);
 
     useEffect(() => {
         const prevPathname = prevPathnameRef.current;
@@ -16,22 +15,19 @@ export default function ScrollToTop() {
             return path.replace(/^\/(en|ko|de)(\/|$)/, '/');
         };
 
+        // If this is the first mount (prevPathname is null), scroll to top
+        if (prevPathname === null) {
+            window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+            return;
+        }
+
         // If the path content is the same (ignoring language), do not scroll to top.
-        // This handles:
-        // 1. Language switching (preserves scroll position)
-        // 2. Page refresh (allows browser native scroll restoration)
+        // This handles language switching (preserves scroll position)
         if (normalizePath(prevPathname) === normalizePath(pathname)) {
             return;
         }
 
         window.scrollTo({ top: 0, left: 0, behavior: "instant" });
-
-        // Backup scroll to ensure it catches after render
-        const timeout = setTimeout(() => {
-            window.scrollTo({ top: 0, left: 0, behavior: "instant" });
-        }, 10);
-
-        return () => clearTimeout(timeout);
     }, [pathname]);
 
     return null;

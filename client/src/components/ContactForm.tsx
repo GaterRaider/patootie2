@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check, ArrowRight, ArrowLeft, Send } from 'lucide-react';
@@ -45,6 +45,7 @@ export function ContactForm({
   setSelectedViaCard
 }: ContactFormProps) {
   const [currentStep, setCurrentStep] = useState(0);
+  const prevStepRef = useRef<number | null>(null);
   const { language } = useLanguage();
   const methods = useForm({
     mode: 'onChange',
@@ -80,11 +81,19 @@ export function ContactForm({
     }
   }, [isSuccess]);
 
-  // Scroll to top of form when step changes
+  // Scroll to top of form when step actually changes (not on initial mount or re-renders)
   useEffect(() => {
-    const contactFormTop = document.getElementById('contact-form-top');
-    if (contactFormTop) {
-      contactFormTop.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const prevStep = prevStepRef.current;
+
+    // Update the ref for next time
+    prevStepRef.current = currentStep;
+
+    // Only scroll if step actually changed (not null -> 0, but 0 -> 1, 1 -> 2, etc.)
+    if (prevStep !== null && prevStep !== currentStep) {
+      const contactFormTop = document.getElementById('contact-form-top');
+      if (contactFormTop) {
+        contactFormTop.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
   }, [currentStep]);
 
