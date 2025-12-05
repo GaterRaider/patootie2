@@ -610,7 +610,7 @@ export default function Home() {
         </section>
 
         {/* Process Section */}
-        <section id="process" className="py-8 md:py-14 bg-slate-50 dark:bg-secondary/10 scroll-mt-20 bg-dot-pattern">
+        <section id="process" className="py-8 md:py-14 bg-indigo-50/30 dark:bg-indigo-950/20 scroll-mt-20 bg-dot-pattern">
           <div className="container">
             <div className="text-center mb-12 md:mb-16">
               <span className="text-indigo-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.processLabel}</span>
@@ -681,7 +681,7 @@ export default function Home() {
         </section>
 
         {/* About Section */}
-        <section id="about" className="py-8 md:py-14 bg-slate-50 dark:bg-secondary/10 scroll-mt-20 bg-grid-pattern">
+        <section id="about" className="py-8 md:py-14 bg-indigo-50/30 dark:bg-indigo-950/20 scroll-mt-20 bg-dot-pattern">
           <div className="container max-w-4xl">
             <div className="text-center mb-12 md:mb-16">
               <span className="text-indigo-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">{t.aboutLabel}</span>
