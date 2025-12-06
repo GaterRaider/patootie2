@@ -36,11 +36,11 @@ export const ServiceSelectionStep = ({
 
     // Determine which services to show based on selected category
     let services: { id: string; title: string; description?: string; icon?: any; isBundle?: boolean }[] = [];
-    let isMultiSelect = false;
+    let isMultiSelect = true;
 
     if (selectedService === 'housing') {
         // Housing & Relocation
-        isMultiSelect = true;
+        // isMultiSelect = true; // Already true
         services = t.serviceCard1Services.map((service, index) => {
             let icon = Star;
             if (index === 0) icon = Package; // Relocation Bundle
