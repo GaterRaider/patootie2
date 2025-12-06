@@ -43,7 +43,11 @@ if (root) {
             <QueryClientProvider client={queryClient}>
                 <HydrationBoundary state={dehydratedState}>
                     <HelmetProvider>
-                        <App />
+                        <App initialLanguage={
+                            window.location.pathname.startsWith('/ko') ? 'ko' :
+                                window.location.pathname.startsWith('/de') ? 'de' :
+                                    'en'
+                        } />
                     </HelmetProvider>
                 </HydrationBoundary>
             </QueryClientProvider>
