@@ -35,20 +35,24 @@ const trpcClient = trpc.createClient({
 const root = document.getElementById("root");
 if (root) {
     const app = (
-        <React.StrictMode>
-            <trpc.Provider client={trpcClient} queryClient={queryClient}>
-                <QueryClientProvider client={queryClient}>
-                    <HelmetProvider>
-                        <App />
-                    </HelmetProvider>
-                </QueryClientProvider>
-            </trpc.Provider>
-        </React.StrictMode>
+        <trpc.Provider client={trpcClient} queryClient={queryClient}>
+            <QueryClientProvider client={queryClient}>
+                <HelmetProvider>
+                    <App />
+                </HelmetProvider>
+            </QueryClientProvider>
+        </trpc.Provider>
     );
 
     if (root.hasChildNodes()) {
+        // Hydrate pre-rendered content without StrictMode to avoid mismatch
         ReactDOM.hydrateRoot(root, app);
     } else {
-        ReactDOM.createRoot(root).render(app);
+        // For client-only renders (dev mode), we can use StrictMode
+        ReactDOM.createRoot(root).render(
+            <React.StrictMode>
+                {app}
+            </React.StrictMode>
+        );
     }
 }
