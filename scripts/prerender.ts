@@ -41,6 +41,13 @@ if (typeof window === 'undefined') {
     documentElement: {
       classList: { add: () => { }, remove: () => { } },
     },
+    body: {
+      classList: { add: () => { }, remove: () => { } },
+      appendChild: () => { },
+    },
+    head: {
+      appendChild: () => { },
+    },
     getElementById: () => null,
     querySelector: () => null,
     querySelectorAll: () => [],
@@ -48,7 +55,8 @@ if (typeof window === 'undefined') {
     removeEventListener: () => { },
     createElement: () => ({
       setAttribute: () => { },
-      style: {}
+      style: {},
+      appendChild: () => { },
     })
   };
 
@@ -67,12 +75,10 @@ if (typeof window === 'undefined') {
 
 // Import providers and pages
 import { trpc } from '../client/src/lib/trpc';
-import { LanguageProvider } from '../client/src/contexts/LanguageContext';
-import { ThemeProvider } from '../client/src/contexts/ThemeContext';
-import { TooltipProvider } from '../client/src/components/ui/tooltip';
 import Home from '../client/src/pages/Home';
 import PrivacyPolicy from '../client/src/pages/PrivacyPolicy';
 import Imprint from '../client/src/pages/Imprint';
+import App from '../client/src/App';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -224,20 +230,8 @@ async function prerender() {
               { context: helmetContext },
               React.createElement(
                 Router,
-                { hook: staticLocation(route.path) },
-                React.createElement(
-                  ThemeProvider,
-                  {},
-                  React.createElement(
-                    LanguageProvider,
-                    { initialLanguage: route.language }, // Pass language for SSR
-                    React.createElement(
-                      TooltipProvider,
-                      {},
-                      React.createElement(route.component)
-                    )
-                  )
-                )
+                { hook: staticLocation(route.path === '/' ? `/${route.language}` : route.path) },
+                React.createElement(App, { initialLanguage: route.language })
               )
             )
           )

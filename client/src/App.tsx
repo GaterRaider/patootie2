@@ -84,14 +84,14 @@ function Router() {
   );
 }
 
-function App() {
+function App({ initialLanguage }: { initialLanguage?: import("./i18n/translations").Language }) {
   return (
     <ErrorBoundary>
       <ThemeProvider switchable>
-        <LanguageProvider>
+        <LanguageProvider initialLanguage={initialLanguage}>
           <TooltipProvider>
-            <Toaster />
-            <ScrollToTop />
+            {!initialLanguage && <Toaster />}
+            {!initialLanguage && <ScrollToTop />}
             <Router />
           </TooltipProvider>
         </LanguageProvider>

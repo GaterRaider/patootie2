@@ -19,7 +19,19 @@ interface LanguageProviderProps {
 }
 
 export function LanguageProvider({ children, initialLanguage }: LanguageProviderProps) {
-  const [language, setLanguageState] = useState<Language>(initialLanguage || 'en');
+  const [language, setLanguageState] = useState<Language>(() => {
+    if (initialLanguage) return initialLanguage;
+    // Client-side hydration optimization:
+    // Try to detect language from URL immediately to match server-rendered HTML
+    if (typeof window !== 'undefined') {
+      const path = window.location.pathname;
+      const firstPart = path.split('/')[1];
+      if (firstPart === 'en' || firstPart === 'ko' || firstPart === 'de') {
+        return firstPart as Language;
+      }
+    }
+    return 'en';
+  });
   const [initialized, setInitialized] = useState(false);
   const [location, setLocation] = useLocation();
   const search = useSearch();
