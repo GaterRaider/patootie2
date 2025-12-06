@@ -21,21 +21,30 @@ export function ThemeProvider({
   defaultTheme = "light",
   switchable = false,
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(() => {
+  const [theme, setTheme] = useState<Theme>(defaultTheme);
+  const [mounted, setMounted] = useState(false);
+
+  // Detect and apply theme after mount to avoid hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+
     if (switchable) {
       const stored = localStorage.getItem("theme") as Theme;
-      if (stored) return stored;
-      // Detect device preference on first load
-      return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      if (stored) {
+        setTheme(stored);
+      } else {
+        // Detect device preference on first load
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        setTheme(prefersDark ? "dark" : "light");
+      }
     }
-    return defaultTheme;
-  });
-
-
+  }, [switchable]);
 
   useEffect(() => {
+    if (!mounted) return;
+
     const root = document.documentElement;
-    
+
     if (theme === "dark") {
       root.classList.add("dark");
     } else {
@@ -45,12 +54,12 @@ export function ThemeProvider({
     if (switchable) {
       localStorage.setItem("theme", theme);
     }
-  }, [theme, switchable]);
+  }, [theme, switchable, mounted]);
 
   const toggleTheme = switchable
     ? () => {
-        setTheme(prev => prev === "light" ? "dark" : "light");
-      }
+      setTheme(prev => prev === "light" ? "dark" : "light");
+    }
     : undefined;
 
   return (
