@@ -10,18 +10,20 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { trpc } from "@/lib/trpc";
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { toast } from "sonner";
 import { FileText, Users, Plane, HelpCircle, CheckCircle, Send, Mail, Moon, Sun, MapPin, Phone, Menu, X } from "lucide-react";
 import { ServicesBentoGrid } from "@/components/ServicesBentoGrid";
-import { ContactForm } from "@/components/ContactForm";
 import { countries } from "@/lib/countries";
 import { useLocation } from "wouter";
 import { Footer } from "@/components/Footer";
 import { Helmet } from "react-helmet-async";
-import { FAQ } from "@/components/FAQ";
 import { BackToTop } from "@/components/BackToTop";
 import { HeroTestimonials } from "@/components/HeroTestimonials";
+
+// Lazy load heavy below-the-fold components
+const ContactForm = lazy(() => import("@/components/ContactForm").then(m => ({ default: m.ContactForm })));
+const FAQ = lazy(() => import("@/components/FAQ").then(m => ({ default: m.FAQ })));
 
 function FAQSchema({ data }: { data: any }) {
   useEffect(() => {
@@ -666,24 +668,26 @@ export default function Home() {
               <div className="h-1 w-20 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full mx-auto"></div>
             </div>
 
-            <ContactForm
-              key={formKey}
-              t={t}
-              selectedService={selectedService}
-              selectedSubService={selectedSubService}
-              selectedSubServices={selectedSubServices}
-              setSelectedService={setSelectedService}
-              setSelectedSubService={setSelectedSubService}
-              setSelectedSubServices={setSelectedSubServices}
-              selectedViaCard={selectedViaCard}
-              setSelectedViaCard={setSelectedViaCard}
-              onSubmit={handleSubmit}
-              isSubmitting={isSubmitting}
-              onLocationChange={setLocation}
-              isSuccess={showSuccess}
-              onReset={handleReset}
-              refId={refId}
-            />
+            <Suspense fallback={<div className="w-full max-w-[1100px] mx-auto h-[600px] bg-white dark:bg-slate-900 rounded-3xl shadow-[0_18px_45px_rgba(15,23,42,0.12)] border border-gray-200 dark:border-slate-800 animate-pulse" />}>
+              <ContactForm
+                key={formKey}
+                t={t}
+                selectedService={selectedService}
+                selectedSubService={selectedSubService}
+                selectedSubServices={selectedSubServices}
+                setSelectedService={setSelectedService}
+                setSelectedSubService={setSelectedSubService}
+                setSelectedSubServices={setSelectedSubServices}
+                selectedViaCard={selectedViaCard}
+                setSelectedViaCard={setSelectedViaCard}
+                onSubmit={handleSubmit}
+                isSubmitting={isSubmitting}
+                onLocationChange={setLocation}
+                isSuccess={showSuccess}
+                onReset={handleReset}
+                refId={refId}
+              />
+            </Suspense>
           </div>
         </section>
 
@@ -739,7 +743,9 @@ export default function Home() {
             </div>
 
             {faqData?.items && (
-              <FAQ items={faqData.items} language={language as 'en' | 'ko' | 'de'} />
+              <Suspense fallback={<div className="w-full h-[400px] animate-pulse bg-muted/30 rounded-2xl" />}>
+                <FAQ items={faqData.items} language={language as 'en' | 'ko' | 'de'} />
+              </Suspense>
             )}
           </div>
         </section>
