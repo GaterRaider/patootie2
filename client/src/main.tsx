@@ -34,7 +34,7 @@ const trpcClient = trpc.createClient({
 
 const root = document.getElementById("root");
 if (root) {
-    ReactDOM.createRoot(root).render(
+    const app = (
         <React.StrictMode>
             <trpc.Provider client={trpcClient} queryClient={queryClient}>
                 <QueryClientProvider client={queryClient}>
@@ -45,4 +45,10 @@ if (root) {
             </trpc.Provider>
         </React.StrictMode>
     );
+
+    if (root.hasChildNodes()) {
+        ReactDOM.hydrateRoot(root, app);
+    } else {
+        ReactDOM.createRoot(root).render(app);
+    }
 }

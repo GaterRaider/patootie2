@@ -185,6 +185,9 @@ export default function Home() {
       <Helmet>
         <html lang={language} />
 
+        {/* Preload LCP Image */}
+        <link rel="preload" as="image" href="/images/patootie-portrait.jpg" />
+
         {/* Primary Meta Tags */}
         <title>
           {language === "ko"
