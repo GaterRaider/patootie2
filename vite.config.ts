@@ -41,38 +41,10 @@ export default defineConfig({
               return undefined;
             }
 
-            // 2. UI Libraries & Icons
-            if (
-              id.includes('@radix-ui') ||
-              id.includes('lucide-react') ||
-              id.includes('framer-motion') ||
-              id.includes('sonner') ||
-              id.includes('vaul') ||
-              id.includes('class-variance-authority') ||
-              id.includes('clsx') ||
-              id.includes('tailwind-merge') ||
-              id.includes('embla-carousel') ||
-              id.includes('react-day-picker')
-            ) {
-              return 'vendor-ui';
-            }
-
-            // 3. Core React ecosystem
-            if (
-              id.includes('/react/') || // matches node_modules/react/
-              id.includes('/react-dom/') ||
-              id.includes('wouter') ||
-              id.includes('react-helmet-async') ||
-              id.includes('@tanstack/react-query') ||
-              id.includes('@trpc') ||
-              id.includes('react-hook-form') ||
-              id.includes('zod')
-            ) {
-              return 'vendor-react';
-            }
-
-            // 4. Everything else (utils, small libs)
-            return 'vendor-utils';
+            // 2. Core dependencies - Bundle everything else into a single vendor chunk
+            // to avoid circular dependency issues and initialization errors.
+            // This still keeps the main bundle 300KB+ lighter by excluding the heavy libs above.
+            return 'vendor';
           }
         },
       },
