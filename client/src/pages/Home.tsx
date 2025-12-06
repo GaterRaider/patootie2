@@ -546,6 +546,7 @@ export default function Home() {
                   <img
                     src="/images/patootie-portrait.webp"
                     alt="Kwon EasyBureau"
+                    fetchPriority="high"
                     className="w-full h-full object-cover"
                   />
                 </div>

@@ -143,20 +143,13 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
             {/* Pagination Dots - Mobile Only */}
             <div className="flex justify-center gap-2 mt-4 md:hidden">
                 {services.map((_, index) => (
-                    <button
+                    <div
                         key={index}
-                        onClick={() => {
-                            const container = scrollContainerRef.current;
-                            if (container) {
-                                const cardWidth = container.scrollWidth / services.length;
-                                container.scrollTo({ left: cardWidth * index, behavior: 'smooth' });
-                            }
-                        }}
                         className={`h-2 rounded-full transition-all duration-300 ${index === activeIndex
                             ? 'w-8 bg-indigo-600'
-                            : 'w-2 bg-indigo-600/30 hover:bg-indigo-600/50'
+                            : 'w-2 bg-indigo-600/30'
                             }`}
-                        aria-label={`Go to service ${index + 1}`}
+                        aria-hidden="true"
                     />
                 ))}
             </div>
