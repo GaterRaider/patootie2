@@ -186,7 +186,7 @@ export default function Home() {
         <html lang={language} />
 
         {/* Preload LCP Image */}
-        <link rel="preload" as="image" href="/images/patootie-portrait.jpg" />
+        <link rel="preload" as="image" href="/images/patootie-portrait.webp" />
 
         {/* Primary Meta Tags */}
         <title>
@@ -544,7 +544,7 @@ export default function Home() {
               <div className="relative">
                 <div className="aspect-square rounded-2xl overflow-hidden shadow-2xl">
                   <img
-                    src="/images/patootie-portrait.jpg"
+                    src="/images/patootie-portrait.webp"
                     alt="Kwon EasyBureau"
                     className="w-full h-full object-cover"
                   />
