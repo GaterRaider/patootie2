@@ -25,24 +25,7 @@ import { HeroTestimonials } from "@/components/HeroTestimonials";
 const ContactForm = lazy(() => import("@/components/ContactForm").then(m => ({ default: m.ContactForm })));
 const FAQ = lazy(() => import("@/components/FAQ").then(m => ({ default: m.FAQ })));
 
-function FAQSchema({ data }: { data: any }) {
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.type = 'application/ld+json';
-    script.text = JSON.stringify(data);
-    script.id = 'faq-json-ld';
-    document.head.appendChild(script);
 
-    return () => {
-      // Check if child exists before removing to prevent errors
-      if (document.head.contains(script)) {
-        document.head.removeChild(script);
-      }
-    };
-  }, [data]);
-
-  return null;
-}
 
 export default function Home() {
   const { language, setLanguage, t } = useLanguage();
@@ -325,10 +308,16 @@ export default function Home() {
             ]
           })}
         </script>
+
+        {/* FAQ Schema */}
+        {faqData?.jsonLd && (
+          <script type="application/ld+json">
+            {JSON.stringify(faqData.jsonLd)}
+          </script>
+        )}
       </Helmet>
 
-      {/* FAQ Schema - Rendered in separate component to ensure Helmet updates */}
-      {faqData?.jsonLd && <FAQSchema data={faqData.jsonLd} />}
+
 
 
 
