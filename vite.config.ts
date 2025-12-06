@@ -8,7 +8,7 @@ import { defineConfig } from "vite";
 
 const plugins = [react(), tailwindcss(), jsxLocPlugin()];
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins,
   resolve: {
     alias: {
@@ -17,6 +17,9 @@ export default defineConfig({
       "@assets": path.resolve(import.meta.dirname, "attached_assets"),
     },
   },
+  define: mode === 'development' ? {
+    'process.env.NODE_ENV': '"development"'
+  } : undefined,
   envDir: path.resolve(import.meta.dirname),
   root: path.resolve(import.meta.dirname, "client"),
   publicDir: path.resolve(import.meta.dirname, "client", "public"),
@@ -24,6 +27,7 @@ export default defineConfig({
     manifest: true,
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    minify: mode === 'development' ? false : 'esbuild',
     rollupOptions: {
       output: {
         manualChunks: (id) => {
@@ -66,4 +70,4 @@ export default defineConfig({
       deny: ["**/.*"],
     },
   },
-});
+}));

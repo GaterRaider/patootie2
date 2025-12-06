@@ -1,7 +1,7 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
-import { Route, Switch } from "wouter";
+import { Route, Switch, Router as WouterRouter } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { LanguageProvider } from "./contexts/LanguageContext";
@@ -12,6 +12,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import { useLanguage } from "./contexts/LanguageContext";
 import { useLocation } from "wouter";
 import { useEffect, lazy, Suspense } from "react";
+import ClientOnly from "./components/ClientOnly";
 
 // Lazy load admin bundles to reduce initial bundle size
 // Login page is separate, admin app loads all pages at once after login
@@ -37,66 +38,68 @@ function RootRedirect() {
   return null;
 }
 
-function Router() {
+function AppRoutes() {
   return (
     <Switch>
-      {/* Admin Routes - MUST come before language routes to avoid /:lang matching /admin */}
-
-      {/* Login page - separate bundle */}
+      {/* ... routes ... */}
       <Route path="/admin/login">
         <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
           <AdminLogin />
         </Suspense>
       </Route>
 
-      {/* All other admin routes - single bundle loaded after login */}
-      {/* All other admin routes - single bundle loaded after login */}
       <Route path="/admin" nest>
         <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
           <AdminApp />
         </Suspense>
       </Route>
 
-      {/* Match /admin and /admin/ - redirect to login */}
       <Route path="/admin">
         <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
           <AdminLogin />
         </Suspense>
       </Route>
 
-      {/* Root redirect */}
       <Route path="/" component={RootRedirect} />
 
-      {/* Language-specific routes - STRICT MATCHING to avoid capturing admin routes */}
-      {/* Matches /en, /ko, /de */}
-      <Route path={/^\/(en|ko|de)\/?$/} component={Home} />
+      <Route path="/en" component={Home} />
+      <Route path="/ko" component={Home} />
+      <Route path="/de" component={Home} />
+      <Route path="/en/" component={Home} />
+      <Route path="/ko/" component={Home} />
+      <Route path="/de/" component={Home} />
 
-      {/* Matches /en/privacy-policy, etc */}
       <Route path={/^\/(en|ko|de)\/privacy-policy\/?$/} component={PrivacyPolicy} />
-
-      {/* Matches /en/imprint, etc */}
       <Route path={/^\/(en|ko|de)\/imprint\/?$/} component={Imprint} />
 
       <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
       <Route component={NotFound} />
     </Switch>
   );
 }
 
-function App({ initialLanguage }: { initialLanguage?: import("./i18n/translations").Language }) {
+interface AppProps {
+  initialLanguage?: import("./i18n/translations").Language;
+  locationHook?: any;
+}
+
+function App({ initialLanguage, locationHook }: AppProps) {
   return (
-    <ErrorBoundary>
-      <ThemeProvider switchable>
-        <LanguageProvider initialLanguage={initialLanguage}>
-          <TooltipProvider>
-            {!initialLanguage && <Toaster />}
-            {!initialLanguage && <ScrollToTop />}
-            <Router />
-          </TooltipProvider>
-        </LanguageProvider>
-      </ThemeProvider>
-    </ErrorBoundary>
+    <WouterRouter hook={locationHook}>
+      <ErrorBoundary>
+        <ThemeProvider switchable>
+          <LanguageProvider initialLanguage={initialLanguage}>
+            <TooltipProvider>
+              <ClientOnly>
+                <Toaster />
+                <ScrollToTop />
+              </ClientOnly>
+              <AppRoutes />
+            </TooltipProvider>
+          </LanguageProvider>
+        </ThemeProvider>
+      </ErrorBoundary>
+    </WouterRouter>
   );
 }
 

@@ -1,10 +1,11 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { Writable } from 'node:stream';
 import React from 'react';
-import { renderToString } from 'react-dom/server';
+import { renderToPipeableStream } from 'react-dom/server';
 import { HelmetProvider } from 'react-helmet-async';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider, dehydrate } from '@tanstack/react-query';
 import { httpBatchLink } from '@trpc/client';
 import { getQueryKey } from '@trpc/react-query';
 import superjson from 'superjson';
@@ -218,7 +219,36 @@ async function prerender() {
     const helmetContext: any = {};
 
     try {
-      const appHtml = renderToString(
+      // Helper function to render React to HTML string using streaming (supports Suspense)
+      const renderToHtml = (element: React.ReactElement): Promise<string> => {
+        return new Promise((resolve, reject) => {
+          let html = '';
+          const writable = new Writable({
+            write(chunk, _encoding, callback) {
+              html += chunk.toString();
+              callback();
+            }
+          });
+
+          const { pipe } = renderToPipeableStream(element, {
+            onAllReady() {
+              // All content including Suspense boundaries is ready
+              pipe(writable);
+            },
+            onShellError(err) {
+              reject(err);
+            },
+            onError(err) {
+              console.error('Stream rendering error:', err);
+            }
+          });
+
+          writable.on('finish', () => resolve(html));
+          writable.on('error', reject);
+        });
+      };
+
+      const appHtml = await renderToHtml(
         React.createElement(
           trpc.Provider as any,
           { client: trpcClient, queryClient },
@@ -228,11 +258,10 @@ async function prerender() {
             React.createElement(
               HelmetProvider,
               { context: helmetContext },
-              React.createElement(
-                Router as any,
-                { hook: staticLocation(route.path === '/' ? `/${route.language}` : route.path) },
-                React.createElement(App as any, { initialLanguage: route.language })
-              )
+              React.createElement(App as any, {
+                initialLanguage: route.language,
+                locationHook: staticLocation(route.path === '/' ? `/${route.language}` : route.path)
+              })
             )
           )
         )
@@ -241,11 +270,13 @@ async function prerender() {
       console.log(`Rendered ${route.path}, HTML length: ${appHtml.length} characters`);
 
       const { helmet } = helmetContext;
+      const dehydratedState = dehydrate(queryClient);
+      const serializedState = superjson.stringify(dehydratedState);
 
       // Inject into template
       let html = template.replace(
         '<div id="root"></div>',
-        `<div id="root">${appHtml}</div>`
+        `<div id="root">${appHtml}</div><script>window.__REACT_QUERY_STATE__ = ${JSON.stringify(serializedState)};</script>`
       );
 
       // Inject Helmet data
@@ -269,19 +300,11 @@ async function prerender() {
         html = html.replace('</head>', `${helmetHead}</head>`);
       }
 
-      // Format HTML with prettier
-      const formattedHtml = await prettier.format(html, {
-        parser: 'html',
-        printWidth: 100,
-        tabWidth: 2,
-        useTabs: false,
-      });
-
       // Write file
       const outFilePath = path.join(distPublic, route.outPath);
       const outDir = path.dirname(outFilePath);
       fs.mkdirSync(outDir, { recursive: true });
-      fs.writeFileSync(outFilePath, formattedHtml);
+      fs.writeFileSync(outFilePath, html);
       console.log(`✓ Written ${outFilePath}`);
     } catch (error) {
       console.error(`Error rendering ${route.path}:`, error);

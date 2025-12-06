@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider, HydrationBoundary, type DehydratedState } from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
 import { HelmetProvider } from "react-helmet-async";
 import superjson from "superjson";
@@ -34,19 +34,30 @@ const trpcClient = trpc.createClient({
 
 const root = document.getElementById("root");
 if (root) {
+    const dehydratedState = (window as any).__REACT_QUERY_STATE__
+        ? superjson.parse<DehydratedState>((window as any).__REACT_QUERY_STATE__)
+        : undefined;
+
     const app = (
         <trpc.Provider client={trpcClient} queryClient={queryClient}>
             <QueryClientProvider client={queryClient}>
-                <HelmetProvider>
-                    <App />
-                </HelmetProvider>
+                <HydrationBoundary state={dehydratedState}>
+                    <HelmetProvider>
+                        <App />
+                    </HelmetProvider>
+                </HydrationBoundary>
             </QueryClientProvider>
         </trpc.Provider>
     );
 
     if (root.hasChildNodes()) {
         // Hydrate pre-rendered content without StrictMode to avoid mismatch
-        ReactDOM.hydrateRoot(root, app);
+        ReactDOM.hydrateRoot(root, app, {
+            onRecoverableError: (error, errorInfo) => {
+                console.error("Hydration Error:", error);
+                console.error("Hydration Error Info:", errorInfo);
+            }
+        });
     } else {
         // For client-only renders (dev mode), we can use StrictMode
         ReactDOM.createRoot(root).render(
