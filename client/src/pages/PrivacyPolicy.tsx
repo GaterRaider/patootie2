@@ -630,7 +630,7 @@ https://www.dataprivacyframework.gov/participant/5780`
   return (
     <div className="min-h-screen flex flex-col">
       <Helmet>
-        <html lang={language} />
+        <html lang={language} suppressHydrationWarning />
 
         <title>
           {language === "ko"

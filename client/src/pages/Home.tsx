@@ -168,7 +168,7 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col">
       <Helmet>
-        <html lang={language} />
+        <html lang={language} suppressHydrationWarning />
 
         {/* Preload LCP Image */}
         <link rel="preload" as="image" href="/images/patootie-portrait.webp" />

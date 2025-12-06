@@ -19,7 +19,7 @@ export default function Imprint() {
     return (
         <div className="min-h-screen flex flex-col">
             <Helmet>
-                <html lang={language} />
+                <html lang={language} suppressHydrationWarning />
 
                 <title>
                     {language === "ko"
