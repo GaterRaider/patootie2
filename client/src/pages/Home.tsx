@@ -171,7 +171,7 @@ export default function Home() {
         <html lang={language} suppressHydrationWarning />
 
         {/* Preload LCP Image */}
-        <link rel="preload" as="image" href="/images/patootie-portrait.webp" />
+        <link rel="preload" as="image" href="/images/patootie-portrait.webp" fetchPriority="high" />
 
         {/* Primary Meta Tags */}
         <title>
@@ -538,6 +538,7 @@ export default function Home() {
                     src="/images/patootie-portrait.webp"
                     alt="Kwon EasyBureau"
                     fetchPriority="high"
+                    loading="eager"
                     className="w-full h-full object-cover"
                   />
                 </div>
