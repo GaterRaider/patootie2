@@ -688,100 +688,13 @@ export default function Home() {
             </div>
 
             {/* Personal Introduction */}
-            <div className="max-w-3xl mx-auto mb-16 text-center">
-              <p className="text-lg leading-relaxed mb-6 text-foreground/90">{t.aboutIntro1}</p>
+            <div className="max-w-3xl mx-auto mb-8 text-center space-y-6">
+              <p className="text-lg leading-relaxed text-foreground/90">{t.aboutIntro1}</p>
               <p className="text-lg leading-relaxed text-foreground/90">{t.aboutIntro2}</p>
+              <p className="text-lg leading-relaxed text-foreground/90">{t.aboutIntro3}</p>
             </div>
 
-            {/* Expertise Section */}
-            <div className="mb-16">
-              <div className="text-center mb-10">
-                <span className="text-indigo-600 font-bold tracking-wide uppercase text-xs md:text-sm mb-2 block">EXPERTISE</span>
-                <h3 className="text-2xl md:text-3xl font-bold">{t.aboutExpertiseHeading}</h3>
-              </div>
-
-              <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6 max-w-4xl mx-auto">
-                {/* Card 1 */}
-                <div className="group relative overflow-hidden rounded-2xl border bg-card/50 p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-primary/50">
-                  <div className="absolute top-0 right-0 -mt-4 -mr-4 h-24 w-24 rounded-full bg-primary/10 blur-2xl group-hover:bg-primary/20 transition-all"></div>
-                  <div className="relative flex flex-col items-center text-center">
-                    <div className="mb-4 rounded-full bg-primary/10 p-3 text-primary group-hover:scale-110 transition-transform duration-300">
-                      <FileCheck className="h-6 w-6" />
-                    </div>
-                    <h4 className="mb-2 text-xl font-bold">{t.aboutExpertise1Title}</h4>
-                    <p className="text-muted-foreground">{t.aboutExpertise1Desc}</p>
-                  </div>
-                </div>
-
-                {/* Card 2 */}
-                <div className="group relative overflow-hidden rounded-2xl border bg-card/50 p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-primary/50">
-                  <div className="absolute top-0 right-0 -mt-4 -mr-4 h-24 w-24 rounded-full bg-primary/10 blur-2xl group-hover:bg-primary/20 transition-all"></div>
-                  <div className="relative flex flex-col items-center text-center">
-                    <div className="mb-4 rounded-full bg-primary/10 p-3 text-primary group-hover:scale-110 transition-transform duration-300">
-                      <Briefcase className="h-6 w-6" />
-                    </div>
-                    <h4 className="mb-2 text-xl font-bold">{t.aboutExpertise2Title}</h4>
-                    <p className="text-muted-foreground">{t.aboutExpertise2Desc}</p>
-                  </div>
-                </div>
-
-                {/* Card 3 */}
-                <div className="group relative overflow-hidden rounded-2xl border bg-card/50 p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-primary/50">
-                  <div className="absolute top-0 right-0 -mt-4 -mr-4 h-24 w-24 rounded-full bg-primary/10 blur-2xl group-hover:bg-primary/20 transition-all"></div>
-                  <div className="relative flex flex-col items-center text-center">
-                    <div className="mb-4 rounded-full bg-primary/10 p-3 text-primary group-hover:scale-110 transition-transform duration-300">
-                      <Users className="h-6 w-6" />
-                    </div>
-                    <h4 className="mb-2 text-xl font-bold">{t.aboutExpertise3Title}</h4>
-                    <p className="text-muted-foreground">{t.aboutExpertise3Desc}</p>
-                  </div>
-                </div>
-
-                {/* Card 4 */}
-                <div className="group relative overflow-hidden rounded-2xl border bg-card/50 p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-primary/50">
-                  <div className="absolute top-0 right-0 -mt-4 -mr-4 h-24 w-24 rounded-full bg-primary/10 blur-2xl group-hover:bg-primary/20 transition-all"></div>
-                  <div className="relative flex flex-col items-center text-center">
-                    <div className="mb-4 rounded-full bg-primary/10 p-3 text-primary group-hover:scale-110 transition-transform duration-300">
-                      <RefreshCw className="h-6 w-6" />
-                    </div>
-                    <h4 className="mb-2 text-xl font-bold">{t.aboutExpertise4Title}</h4>
-                    <p className="text-muted-foreground">{t.aboutExpertise4Desc}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Regional Coverage */}
-            <div className="mb-16 text-center">
-              <h3 className="text-2xl md:text-3xl font-bold mb-4">{t.aboutRegionsHeading}</h3>
-              <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">{t.aboutRegionsIntro}</p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:flex md:flex-wrap md:justify-center gap-4">
-                {["Frankfurt am Main", "Main-Taunus-Kreis", "Hochtaunuskreis", "Bad Homburg"].map((region) => (
-                  <div key={region} className="flex items-center justify-center gap-2 rounded-full border bg-background/50 px-5 py-2.5 text-sm md:text-base font-medium shadow-sm backdrop-blur-sm transition-all hover:border-primary/50 hover:bg-primary/5 cursor-default group w-full md:w-auto">
-                    <MapPin className="h-4 w-4 text-primary group-hover:scale-110 transition-transform flex-shrink-0" />
-                    <span>{region}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Value Proposition */}
-            <div className="mb-16 max-w-4xl mx-auto">
-              <div className="relative overflow-hidden rounded-2xl border-2 border-primary/20 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-950/30 dark:to-purple-950/30 p-8 shadow-lg">
-                <div className="absolute top-0 right-0 -mt-8 -mr-8 h-40 w-40 rounded-full bg-primary/10 blur-3xl"></div>
-                <div className="relative flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
-                  <div className="shrink-0 rounded-full bg-primary/20 p-4 text-primary">
-                    <Lightbulb className="h-8 w-8" />
-                  </div>
-                  <p className="text-lg md:text-xl font-medium leading-relaxed">
-                    {t.aboutValueProp.replace("💡 ", "")}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex flex-col items-center gap-4 pt-8 border-t border-border/40">
+            <div className="flex flex-col items-center gap-4 pt-4">
               <h3 className="font-semibold text-muted-foreground uppercase tracking-wider text-sm">{t.aboutLanguages}</h3>
               <div className="flex flex-wrap justify-center gap-3">
                 <Badge variant="outline" className="px-4 py-2 text-base font-medium bg-background/50 dark:bg-secondary backdrop-blur-sm border-primary/20 text-foreground hover:bg-primary/5 dark:hover:bg-primary/20 hover:border-primary/40 dark:hover:border-primary/60 transition-all duration-300 cursor-default shadow-sm gap-2">

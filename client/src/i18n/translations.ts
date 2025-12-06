@@ -140,18 +140,7 @@ export interface Translations {
   aboutParagraph3: string;
   aboutIntro1: string;
   aboutIntro2: string;
-  aboutExpertiseHeading: string;
-  aboutExpertise1Title: string;
-  aboutExpertise1Desc: string;
-  aboutExpertise2Title: string;
-  aboutExpertise2Desc: string;
-  aboutExpertise3Title: string;
-  aboutExpertise3Desc: string;
-  aboutExpertise4Title: string;
-  aboutExpertise4Desc: string;
-  aboutRegionsHeading: string;
-  aboutRegionsIntro: string;
-  aboutValueProp: string;
+  aboutIntro3: string;
   aboutLanguages: string;
 
   // FAQ Section
@@ -352,20 +341,9 @@ export const translations: Record<Language, Translations> = {
     aboutParagraph2: "Während ihrer Tätigkeit betreute sie koreanische Expatriates sowie lokal angestellte Mitarbeitende und bearbeitete Aufenthaltstitel, Arbeitsvisa, Familienzusammenführungen sowie Statusänderungen in enger Zusammenarbeit mit den Ausländerbehörden.",
     aboutParagraph3: "This paragraph is deprecated but kept for compatibility.",
     aboutIntro1: "HandokHelper is a personal administrative service founded by a former employee of a major international corporation with extensive practical experience in visa assistance and expat support.",
-    aboutIntro2: "During her tenure, she supported Korean expatriates and locally hired employees, handling residence permits, work visas, family reunifications, and status changes in close cooperation with immigration authorities.",
-    aboutExpertiseHeading: "Our Expertise",
-    aboutExpertise1Title: "Residence Permits",
-    aboutExpertise1Desc: "Professional processing and application for residence permits",
-    aboutExpertise2Title: "Work Visas",
-    aboutExpertise2Desc: "Support for all work visa matters",
-    aboutExpertise3Title: "Family Reunification",
-    aboutExpertise3Desc: "Guidance throughout the entire family reunification process",
-    aboutExpertise4Title: "Status Changes",
-    aboutExpertise4Desc: "Smooth handling of status changes",
-    aboutRegionsHeading: "Our Regions",
-    aboutRegionsIntro: "We work closely with the immigration authorities in the following regions:",
-    aboutValueProp: "💡 HandokHelper offers no standardized processing, but individual solutions based on real practical experience from numerous successfully completed cases.",
-    aboutLanguages: "Languages",
+    aboutIntro2: "During her tenure, she supported Korean expatriates and locally hired employees, directly handling residence permits, work visas, family reunifications, and status changes in close cooperation with immigration authorities in Frankfurt am Main, Main-Taunus-Kreis (MTK), Hochtaunuskreis, and Bad Homburg.",
+    aboutIntro3: "HandokHelper does not offer standardized processing, but provides individual solutions based on real practical experience from numerous successfully completed cases.",
+    aboutLanguages: "Spoken Languages",
 
     // FAQ Section
     faqHeading: "Frequently Asked Questions",
@@ -595,19 +573,8 @@ export const translations: Record<Language, Translations> = {
     aboutParagraph2: "Während ihrer Tätigkeit betreute sie koreanische Expatriates sowie lokal angestellte Mitarbeitende und bearbeitete Aufenthaltstitel, Arbeitsvisa, Familienzusammenführungen sowie Statusänderungen in enger Zusammenarbeit mit den Ausländerbehörden.",
     aboutParagraph3: "This paragraph is deprecated but kept for compatibility.",
     aboutIntro1: "HandokHelper는 전 대기업 출신 비자·주재원 실무 전문가의 실제 현장 경험을 바탕으로 운영되는 독일 관청 업무 전문 서비스입니다.",
-    aboutIntro2: "대기업에서 근무하며 한국인 주재원 및 현지 채용 인력을 대상으로체류 허가, 취업 비자, 가족 동반 비자, 각종 체류 연장 및 변경 업무를 직접 담당해 왔으며",
-    aboutExpertiseHeading: "전문 분야",
-    aboutExpertise1Title: "거주 허가 (Aufenthaltstitel)",
-    aboutExpertise1Desc: "거주 허가 신청 및 발급을 위한 전문적인 처리",
-    aboutExpertise2Title: "취업 비자 (Arbeitsvisa)",
-    aboutExpertise2Desc: "모든 취업 비자 관련 업무 지원",
-    aboutExpertise3Title: "가족 동반 (Familienzusammenführung)",
-    aboutExpertise3Desc: "가족 초청 및 동반 비자 프로세스 전체 동행",
-    aboutExpertise4Title: "체류 자격 변경 (Statusänderungen)",
-    aboutExpertise4Desc: "체류 자격 변경의 원활한 처리",
-    aboutRegionsHeading: "지원 지역",
-    aboutRegionsIntro: "다음 지역의 외국인청과 긴밀히 협력하고 있습니다:",
-    aboutValueProp: "💡 규정만 전달하는 단순 정보 제공이나 서류 대행이 아닌,수백 건의 실무 케이스를 직접 처리하며 쌓은 현장 노하우를 바탕으로각 고객의 상황에 맞는 가장 빠르고 정확한 해결 방안을 설계합니다.",
+    aboutIntro2: "대기업에서 근무하며 한국인 주재원 및 현지 채용 인력을 대상으로 체류 허가, 취업 비자, 가족 동반 비자, 각종 체류 연장 및 변경 업무를 직접 담당해 왔으며, Hessen 지역의 Frankfurt, Main-Taunus-Kreis(MTK), Hochtaunuskreis, Bad Homburg 외국인청 등 여러 기관과 실무적으로 협업했습니다.",
+    aboutIntro3: "규정만 전달하는 단순 정보 제공이나 서류 대행이 아닌, 수백 건의 실무 케이스를 직접 처리하며 쌓은 현장 노하우를 바탕으로 각 고객의 상황에 맞는 가장 빠르고 정확한 해결 방안을 설계합니다.",
     aboutLanguages: "지원 언어",
 
     // FAQ Section
@@ -838,19 +805,8 @@ export const translations: Record<Language, Translations> = {
     aboutParagraph2: "Während ihrer Tätigkeit betreute sie koreanische Expatriates sowie lokal angestellte Mitarbeitende und bearbeitete Aufenthaltstitel, Arbeitsvisa, Familienzusammenführungen sowie Statusänderungen in enger Zusammenarbeit mit den Ausländerbehörden.",
     aboutParagraph3: "This paragraph is deprecated but kept for compatibility.",
     aboutIntro1: "HandokHelper ist ein persönlicher Behördendienst, gegründet von einer ehemaligen Mitarbeiterin eines internationalen Großunternehmens mit langjähriger praktischer Erfahrung im Bereich Visabetreuung und Expat-Support.",
-    aboutIntro2: "Während ihrer Tätigkeit betreute sie koreanische Expatriates sowie lokal angestellte Mitarbeitende und bearbeitete Aufenthaltstitel, Arbeitsvisa, Familienzusammenführungen sowie Statusänderungen in enger Zusammenarbeit mit den Ausländerbehörden.",
-    aboutExpertiseHeading: "Unsere Expertise",
-    aboutExpertise1Title: "Aufenthaltstitel",
-    aboutExpertise1Desc: "Professionelle Bearbeitung und Beantragung von Aufenthaltstiteln",
-    aboutExpertise2Title: "Arbeitsvisa",
-    aboutExpertise2Desc: "Unterstützung bei allen Arbeitsvisa-Angelegenheiten",
-    aboutExpertise3Title: "Familienzusammenführung",
-    aboutExpertise3Desc: "Begleitung durch den gesamten Prozess der Familienzusammenführung",
-    aboutExpertise4Title: "Statusänderungen",
-    aboutExpertise4Desc: "Reibungslose Abwicklung von Statusänderungen",
-    aboutRegionsHeading: "Unsere Regionen",
-    aboutRegionsIntro: "Wir arbeiten eng mit den Ausländerbehörden in folgenden Regionen zusammen:",
-    aboutValueProp: "💡 HandokHelper bietet keine standardisierte Abwicklung, sondern individuelle Lösungen auf Grundlage echter Praxiserfahrung aus zahlreichen erfolgreich abgeschlossenen Fällen.",
+    aboutIntro2: "Während ihrer Tätigkeit betreute sie koreanische Expatriates sowie lokal angestellte Mitarbeitende und bearbeitete Aufenthaltstitel, Arbeitsvisa, Familienzusammenführungen sowie Statusänderungen in enger Zusammenarbeit mit den Ausländerbehörden in Frankfurt am Main, im Main-Taunus-Kreis (MTK), im Hochtaunuskreis und in Bad Homburg.",
+    aboutIntro3: "HandokHelper bietet keine standardisierte Abwicklung, sondern individuelle Lösungen auf Grundlage echter Praxiserfahrung aus zahlreichen erfolgreich abgeschlossenen Fällen.",
     aboutLanguages: "Gesprochene Sprachen",
 
     // FAQ Section

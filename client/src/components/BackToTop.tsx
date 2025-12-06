@@ -7,33 +7,37 @@ export function BackToTop() {
     const [isClicked, setIsClicked] = useState(false);
 
     useEffect(() => {
-        const handleScroll = () => {
-            // Get the contact form section
+        let observer: IntersectionObserver;
+
+        const initObserver = () => {
             const contactSection = document.getElementById('contact');
-
             if (contactSection) {
-                // Find the submit button within the contact form
                 const submitButton = contactSection.querySelector('button[type="submit"]');
+                const target = submitButton || contactSection;
 
-                if (submitButton) {
-                    const buttonRect = submitButton.getBoundingClientRect();
-                    // Show button only when user has scrolled past the submit button
-                    setIsVisible(buttonRect.bottom < 0);
-                } else {
-                    // Fallback: show after scrolling past contact section
-                    const contactRect = contactSection.getBoundingClientRect();
-                    setIsVisible(contactRect.bottom < window.innerHeight / 2);
-                }
+                observer = new IntersectionObserver(
+                    ([entry]) => {
+                        // Show button if target is NOT intersecting and is above the viewport (scrolled past)
+                        // boundingClientRect.top < 0 means it's above the viewport
+                        setIsVisible(!entry.isIntersecting && entry.boundingClientRect.top < 0);
+                    },
+                    {
+                        root: null, // viewport
+                        threshold: 0, // trigger as soon as even 1px is out
+                    }
+                );
+
+                observer.observe(target);
             }
         };
 
-        // Add scroll listener
-        window.addEventListener('scroll', handleScroll, { passive: true });
+        // Small timeout to ensure DOM is ready (especially with hydration/rendering timing)
+        const timeoutId = setTimeout(initObserver, 1000);
 
-        // Check initial state
-        handleScroll();
-
-        return () => window.removeEventListener('scroll', handleScroll);
+        return () => {
+            clearTimeout(timeoutId);
+            if (observer) observer.disconnect();
+        };
     }, []);
 
     const scrollToContact = () => {
