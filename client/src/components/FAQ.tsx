@@ -79,6 +79,7 @@ export function FAQ({ items, language }: FAQProps) {
                             placeholder={searchPlaceholder}
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
+                            aria-label={searchPlaceholder}
                             className="pl-12 pr-12 h-14 text-base shadow-lg border-2 border-primary/20 rounded-xl focus:border-primary/40 focus:ring-2 focus:ring-primary/20 transition-all duration-300 bg-background/95 backdrop-blur-sm"
                         />
                         {searchQuery && (
