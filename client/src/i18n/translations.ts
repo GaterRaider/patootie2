@@ -138,6 +138,20 @@ export interface Translations {
   aboutParagraph1: string;
   aboutParagraph2: string;
   aboutParagraph3: string;
+  aboutIntro1: string;
+  aboutIntro2: string;
+  aboutExpertiseHeading: string;
+  aboutExpertise1Title: string;
+  aboutExpertise1Desc: string;
+  aboutExpertise2Title: string;
+  aboutExpertise2Desc: string;
+  aboutExpertise3Title: string;
+  aboutExpertise3Desc: string;
+  aboutExpertise4Title: string;
+  aboutExpertise4Desc: string;
+  aboutRegionsHeading: string;
+  aboutRegionsIntro: string;
+  aboutValueProp: string;
   aboutLanguages: string;
 
   // FAQ Section
@@ -334,10 +348,24 @@ export const translations: Record<Language, Translations> = {
     // About Section
     aboutHeading: "About HandokHelper",
     aboutLabel: "WHO WE ARE",
-    aboutParagraph1: "HandokHelper is experienced in dealing with German authorities and understands the complexities of German bureaucracy. With years of experience navigating the system, HandokHelper provides personalized assistance to make your journey smoother.",
-    aboutParagraph2: "Whether you are an immigrant, a foreign resident in Germany, or someone living abroad who needs to interact with German authorities, we can help. From visa applications to pension claims, every case receives dedicated attention and professional guidance.",
-    aboutParagraph3: "We specialize in helping individuals abroad obtain German pension payments and other social benefits, ensuring that distance is never a barrier to accessing what you're entitled to.",
-    aboutLanguages: "Languages Spoken",
+    aboutParagraph1: "HandokHelper ist ein persönlicher Behördendienst, gegründet von einer ehemaligen Mitarbeiterin eines internationalen Großunternehmens mit langjähriger praktischer Erfahrung im Bereich Visabetreuung und Expat-Support.",
+    aboutParagraph2: "Während ihrer Tätigkeit betreute sie koreanische Expatriates sowie lokal angestellte Mitarbeitende und bearbeitete Aufenthaltstitel, Arbeitsvisa, Familienzusammenführungen sowie Statusänderungen in enger Zusammenarbeit mit den Ausländerbehörden.",
+    aboutParagraph3: "This paragraph is deprecated but kept for compatibility.",
+    aboutIntro1: "HandokHelper is a personal administrative service founded by a former employee of a major international corporation with extensive practical experience in visa assistance and expat support.",
+    aboutIntro2: "During her tenure, she supported Korean expatriates and locally hired employees, handling residence permits, work visas, family reunifications, and status changes in close cooperation with immigration authorities.",
+    aboutExpertiseHeading: "Our Expertise",
+    aboutExpertise1Title: "Residence Permits",
+    aboutExpertise1Desc: "Professional processing and application for residence permits",
+    aboutExpertise2Title: "Work Visas",
+    aboutExpertise2Desc: "Support for all work visa matters",
+    aboutExpertise3Title: "Family Reunification",
+    aboutExpertise3Desc: "Guidance throughout the entire family reunification process",
+    aboutExpertise4Title: "Status Changes",
+    aboutExpertise4Desc: "Smooth handling of status changes",
+    aboutRegionsHeading: "Our Regions",
+    aboutRegionsIntro: "We work closely with the immigration authorities in the following regions:",
+    aboutValueProp: "💡 HandokHelper offers no standardized processing, but individual solutions based on real practical experience from numerous successfully completed cases.",
+    aboutLanguages: "Languages",
 
     // FAQ Section
     faqHeading: "Frequently Asked Questions",
@@ -563,9 +591,23 @@ export const translations: Record<Language, Translations> = {
     // About Section
     aboutHeading: "한독헬퍼 소개",
     aboutLabel: "소개",
-    aboutParagraph1: "한독헬퍼는 독일 관공서 업무에 대한 경험이 풍부하며 독일 관료제의 복잡성을 이해하고 있습니다. 수년간의 시스템 탐색 경험을 바탕으로 귀하의 여정을 더 원활하게 만들어드립니다.",
-    aboutParagraph2: "이민자, 독일 거주 외국인 또는 독일 관공서와 소통해야 하는 해외 거주자 모두를 도와드립니다. 비자 신청부터 연금 청구까지 모든 사례에 전담 지원과 전문적인 안내를 제공합니다.",
-    aboutParagraph3: "한독헬퍼는 해외 거주자가 독일 연금 및 기타 사회 복지를 받을 수 있도록 전문적으로 지원하며, 거리가 귀하의 권리를 받는 데 장애가 되지 않도록 합니다.",
+    aboutParagraph1: "HandokHelper ist ein persönlicher Behördendienst, gegründet von einer ehemaligen Mitarbeiterin eines internationalen Großunternehmens mit langjähriger praktischer Erfahrung im Bereich Visabetreuung und Expat-Support.",
+    aboutParagraph2: "Während ihrer Tätigkeit betreute sie koreanische Expatriates sowie lokal angestellte Mitarbeitende und bearbeitete Aufenthaltstitel, Arbeitsvisa, Familienzusammenführungen sowie Statusänderungen in enger Zusammenarbeit mit den Ausländerbehörden.",
+    aboutParagraph3: "This paragraph is deprecated but kept for compatibility.",
+    aboutIntro1: "HandokHelper는 전 대기업 출신 비자·주재원 실무 전문가의 실제 현장 경험을 바탕으로 운영되는 독일 관청 업무 전문 서비스입니다.",
+    aboutIntro2: "대기업에서 근무하며 한국인 주재원 및 현지 채용 인력을 대상으로체류 허가, 취업 비자, 가족 동반 비자, 각종 체류 연장 및 변경 업무를 직접 담당해 왔으며",
+    aboutExpertiseHeading: "전문 분야",
+    aboutExpertise1Title: "거주 허가 (Aufenthaltstitel)",
+    aboutExpertise1Desc: "거주 허가 신청 및 발급을 위한 전문적인 처리",
+    aboutExpertise2Title: "취업 비자 (Arbeitsvisa)",
+    aboutExpertise2Desc: "모든 취업 비자 관련 업무 지원",
+    aboutExpertise3Title: "가족 동반 (Familienzusammenführung)",
+    aboutExpertise3Desc: "가족 초청 및 동반 비자 프로세스 전체 동행",
+    aboutExpertise4Title: "체류 자격 변경 (Statusänderungen)",
+    aboutExpertise4Desc: "체류 자격 변경의 원활한 처리",
+    aboutRegionsHeading: "지원 지역",
+    aboutRegionsIntro: "다음 지역의 외국인청과 긴밀히 협력하고 있습니다:",
+    aboutValueProp: "💡 규정만 전달하는 단순 정보 제공이나 서류 대행이 아닌,수백 건의 실무 케이스를 직접 처리하며 쌓은 현장 노하우를 바탕으로각 고객의 상황에 맞는 가장 빠르고 정확한 해결 방안을 설계합니다.",
     aboutLanguages: "지원 언어",
 
     // FAQ Section
@@ -792,9 +834,23 @@ export const translations: Record<Language, Translations> = {
     // About Section
     aboutHeading: "Über HandokHelper",
     aboutLabel: "WER WIR SIND",
-    aboutParagraph1: "HandokHelper ist erfahren im Umgang mit deutschen Behörden und versteht die Komplexität der deutschen Bürokratie. Mit jahrelanger Erfahrung im System bietet HandokHelper persönliche Unterstützung, um Ihren Weg reibungsloser zu gestalten.",
-    aboutParagraph2: "Ob Sie Einwanderer, ausländischer Einwohner in Deutschland oder im Ausland lebend sind und mit deutschen Behörden interagieren müssen, wir können helfen. Von Visumanträgen bis zu Rentenansprüchen erhält jeder Fall engagierte Aufmerksamkeit und professionelle Beratung.",
-    aboutParagraph3: "Wir sind darauf spezialisiert, Einzelpersonen im Ausland bei der Erlangung deutscher Rentenzahlungen und anderer Sozialleistungen zu helfen und sicherzustellen, dass Entfernung kein Hindernis für den Zugang zu Ihren Ansprüchen darstellt.",
+    aboutParagraph1: "HandokHelper ist ein persönlicher Behördendienst, gegründet von einer ehemaligen Mitarbeiterin eines internationalen Großunternehmens mit langjähriger praktischer Erfahrung im Bereich Visabetreuung und Expat-Support.",
+    aboutParagraph2: "Während ihrer Tätigkeit betreute sie koreanische Expatriates sowie lokal angestellte Mitarbeitende und bearbeitete Aufenthaltstitel, Arbeitsvisa, Familienzusammenführungen sowie Statusänderungen in enger Zusammenarbeit mit den Ausländerbehörden.",
+    aboutParagraph3: "This paragraph is deprecated but kept for compatibility.",
+    aboutIntro1: "HandokHelper ist ein persönlicher Behördendienst, gegründet von einer ehemaligen Mitarbeiterin eines internationalen Großunternehmens mit langjähriger praktischer Erfahrung im Bereich Visabetreuung und Expat-Support.",
+    aboutIntro2: "Während ihrer Tätigkeit betreute sie koreanische Expatriates sowie lokal angestellte Mitarbeitende und bearbeitete Aufenthaltstitel, Arbeitsvisa, Familienzusammenführungen sowie Statusänderungen in enger Zusammenarbeit mit den Ausländerbehörden.",
+    aboutExpertiseHeading: "Unsere Expertise",
+    aboutExpertise1Title: "Aufenthaltstitel",
+    aboutExpertise1Desc: "Professionelle Bearbeitung und Beantragung von Aufenthaltstiteln",
+    aboutExpertise2Title: "Arbeitsvisa",
+    aboutExpertise2Desc: "Unterstützung bei allen Arbeitsvisa-Angelegenheiten",
+    aboutExpertise3Title: "Familienzusammenführung",
+    aboutExpertise3Desc: "Begleitung durch den gesamten Prozess der Familienzusammenführung",
+    aboutExpertise4Title: "Statusänderungen",
+    aboutExpertise4Desc: "Reibungslose Abwicklung von Statusänderungen",
+    aboutRegionsHeading: "Unsere Regionen",
+    aboutRegionsIntro: "Wir arbeiten eng mit den Ausländerbehörden in folgenden Regionen zusammen:",
+    aboutValueProp: "💡 HandokHelper bietet keine standardisierte Abwicklung, sondern individuelle Lösungen auf Grundlage echter Praxiserfahrung aus zahlreichen erfolgreich abgeschlossenen Fällen.",
     aboutLanguages: "Gesprochene Sprachen",
 
     // FAQ Section
