@@ -1,3 +1,4 @@
+
 import { jsxLocPlugin } from "@builder.io/vite-plugin-jsx-loc";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
@@ -26,9 +27,52 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: (id) => {
-          // Vendor chunk for node_modules
           if (id.includes('node_modules')) {
-            return 'vendor';
+            // 1. Heavy libraries - Admin/Visualization specific
+            // Return undefined to let Vite/Rollup naturally split them (lazy load)
+            if (
+              id.includes('pdfkit') ||
+              id.includes('jspdf') ||
+              id.includes('html2canvas') ||
+              id.includes('recharts') ||
+              id.includes('drizzle-orm') ||
+              id.includes('@aws-sdk')
+            ) {
+              return undefined;
+            }
+
+            // 2. UI Libraries & Icons
+            if (
+              id.includes('@radix-ui') ||
+              id.includes('lucide-react') ||
+              id.includes('framer-motion') ||
+              id.includes('sonner') ||
+              id.includes('vaul') ||
+              id.includes('class-variance-authority') ||
+              id.includes('clsx') ||
+              id.includes('tailwind-merge') ||
+              id.includes('embla-carousel') ||
+              id.includes('react-day-picker')
+            ) {
+              return 'vendor-ui';
+            }
+
+            // 3. Core React ecosystem
+            if (
+              id.includes('/react/') || // matches node_modules/react/
+              id.includes('/react-dom/') ||
+              id.includes('wouter') ||
+              id.includes('react-helmet-async') ||
+              id.includes('@tanstack/react-query') ||
+              id.includes('@trpc') ||
+              id.includes('react-hook-form') ||
+              id.includes('zod')
+            ) {
+              return 'vendor-react';
+            }
+
+            // 4. Everything else (utils, small libs)
+            return 'vendor-utils';
           }
         },
       },
