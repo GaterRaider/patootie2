@@ -106,8 +106,7 @@ export default function Home() {
     } else {
       setSelectedSubServices([]);
     }
-    // Scroll to contact form
-    document.getElementById("contact-form-top")?.scrollIntoView({ behavior: "smooth" });
+
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -564,7 +563,7 @@ export default function Home() {
             <ServicesBentoGrid
               services={[
                 {
-                  id: "immigration",
+                  id: "housing",
                   icon: Plane,
                   title: t.serviceCard1Title,
                   tagline: t.serviceCard1Tagline,
@@ -575,7 +574,7 @@ export default function Home() {
                   ctaText: t.serviceCard1CTA,
                 },
                 {
-                  id: "registration",
+                  id: "legal",
                   icon: FileText,
                   title: t.serviceCard2Title,
                   isBundle: true,
@@ -584,7 +583,7 @@ export default function Home() {
                   ctaText: t.serviceCard2CTA,
                 },
                 {
-                  id: "pension",
+                  id: "finance",
                   icon: Users,
                   title: t.serviceCard3Title,
                   isBundle: true,
@@ -593,7 +592,7 @@ export default function Home() {
                   ctaText: t.serviceCard3CTA,
                 },
                 {
-                  id: "other",
+                  id: "daily",
                   icon: HelpCircle,
                   title: t.serviceCard4Title,
                   isBundle: true,

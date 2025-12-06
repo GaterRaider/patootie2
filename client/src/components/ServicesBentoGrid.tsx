@@ -74,7 +74,7 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
     const handleCtaClick = () => {
         if (selectedService) {
             onSelect(
-                selectedService.title,
+                selectedService.id,
                 selectedSubService || undefined,
                 selectedService.isBundle ? selectedSubServices : undefined
             );

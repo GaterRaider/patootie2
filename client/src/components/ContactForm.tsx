@@ -119,7 +119,7 @@ export function ContactForm({
 
   // Auto-scroll to footer on Category selection (Step 1) - only when navigating forward
   useEffect(() => {
-    if (currentStep === 0 && selectedService && !isNavigatingBackRef.current) {
+    if (currentStep === 0 && selectedService && !isNavigatingBackRef.current && !selectedViaCard) {
       const footer = document.getElementById('contact-form-footer');
       if (footer) {
         // Small timeout to allow state update and render

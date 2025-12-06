@@ -200,7 +200,13 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                                             <SelectValue placeholder={t.formCountryPlaceholder}>
                                                 {selectedCountry && (
                                                     <span className="flex items-center gap-2">
-                                                        <span>{selectedCountry.flag}</span>
+                                                        <img
+                                                            src={`https://flagcdn.com/w20/${selectedCountry.code.toLowerCase()}.png`}
+                                                            srcSet={`https://flagcdn.com/w40/${selectedCountry.code.toLowerCase()}.png 2x`}
+                                                            width="20"
+                                                            alt={`${selectedCountry.name} flag`}
+                                                            className="rounded-[2px]"
+                                                        />
                                                         <span>{selectedCountry.name}</span>
                                                     </span>
                                                 )}
@@ -212,7 +218,14 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                                                 {suggestedCountries.map((country) => (
                                                     <SelectItem key={`suggested-${country.code}`} value={country.name}>
                                                         <span className="flex items-center gap-2">
-                                                            <span>{country.flag}</span>
+                                                            <img
+                                                                src={`https://flagcdn.com/w20/${country.code.toLowerCase()}.png`}
+                                                                srcSet={`https://flagcdn.com/w40/${country.code.toLowerCase()}.png 2x`}
+                                                                width="20"
+                                                                alt={`${country.name} flag`}
+                                                                className="rounded-[2px]"
+                                                                loading="lazy"
+                                                            />
                                                             <span>{country.name}</span>
                                                         </span>
                                                     </SelectItem>
@@ -223,7 +236,14 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                                                 {otherCountries.map((country) => (
                                                     <SelectItem key={country.code} value={country.name}>
                                                         <span className="flex items-center gap-2">
-                                                            <span>{country.flag}</span>
+                                                            <img
+                                                                src={`https://flagcdn.com/w20/${country.code.toLowerCase()}.png`}
+                                                                srcSet={`https://flagcdn.com/w40/${country.code.toLowerCase()}.png 2x`}
+                                                                width="20"
+                                                                alt={`${country.name} flag`}
+                                                                className="rounded-[2px]"
+                                                                loading="lazy"
+                                                            />
                                                             <span>{country.name}</span>
                                                         </span>
                                                     </SelectItem>
@@ -300,6 +320,6 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                     </div>
                 </div>
             </SectionCard>
-        </motion.div>
+        </motion.div >
     );
 };
