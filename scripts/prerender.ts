@@ -220,7 +220,7 @@ async function prerender() {
     try {
       const appHtml = renderToString(
         React.createElement(
-          trpc.Provider,
+          trpc.Provider as any,
           { client: trpcClient, queryClient },
           React.createElement(
             QueryClientProvider,
@@ -229,9 +229,9 @@ async function prerender() {
               HelmetProvider,
               { context: helmetContext },
               React.createElement(
-                Router,
+                Router as any,
                 { hook: staticLocation(route.path === '/' ? `/${route.language}` : route.path) },
-                React.createElement(App, { initialLanguage: route.language })
+                React.createElement(App as any, { initialLanguage: route.language })
               )
             )
           )
@@ -295,7 +295,13 @@ async function prerender() {
   console.log('✓ SSG complete!');
 }
 
-prerender().catch((err) => {
-  console.error('Prerender failed:', err);
-  process.exit(1);
-});
+prerender()
+  .then(() => {
+    console.log('✓ Prerender completed successfully');
+    process.exit(0);
+  })
+  .catch((err) => {
+    console.error('Prerender failed:', err);
+    process.exit(1);
+  });
+
