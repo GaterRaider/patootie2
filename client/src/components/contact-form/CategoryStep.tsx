@@ -62,10 +62,6 @@ export const CategoryStep = ({ t, selectedService, setSelectedService, setValue,
 
     return (
         <motion.div
-            initial={{ opacity: 0, x: 10 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -10 }}
-            transition={{ duration: 0.15 }}
             className="w-full"
         >
             <input type="hidden" {...register('service', { required: t.errorRequired })} />

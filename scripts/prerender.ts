@@ -260,7 +260,7 @@ async function prerender() {
               { context: helmetContext },
               React.createElement(App as any, {
                 initialLanguage: route.language,
-                locationHook: staticLocation(route.path === '/' ? `/${route.language}` : route.path)
+                locationHook: staticLocation(route.path)
               })
             )
           )

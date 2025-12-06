@@ -22,7 +22,7 @@ import { BackToTop } from "@/components/BackToTop";
 import { HeroTestimonials } from "@/components/HeroTestimonials";
 
 // Lazy load heavy below-the-fold components
-const ContactForm = lazy(() => import("@/components/ContactForm").then(m => ({ default: m.ContactForm })));
+import { ContactForm } from "@/components/ContactForm";
 const FAQ = lazy(() => import("@/components/FAQ").then(m => ({ default: m.FAQ })));
 
 
@@ -657,26 +657,24 @@ export default function Home() {
               <div className="h-1 w-20 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full mx-auto"></div>
             </div>
 
-            <Suspense fallback={<div className="w-full max-w-[1100px] mx-auto h-[600px] bg-white dark:bg-slate-900 rounded-3xl shadow-[0_18px_45px_rgba(15,23,42,0.12)] border border-gray-200 dark:border-slate-800 animate-pulse" />}>
-              <ContactForm
-                key={formKey}
-                t={t}
-                selectedService={selectedService}
-                selectedSubService={selectedSubService}
-                selectedSubServices={selectedSubServices}
-                setSelectedService={setSelectedService}
-                setSelectedSubService={setSelectedSubService}
-                setSelectedSubServices={setSelectedSubServices}
-                selectedViaCard={selectedViaCard}
-                setSelectedViaCard={setSelectedViaCard}
-                onSubmit={handleSubmit}
-                isSubmitting={isSubmitting}
-                onLocationChange={setLocation}
-                isSuccess={showSuccess}
-                onReset={handleReset}
-                refId={refId}
-              />
-            </Suspense>
+            <ContactForm
+              key={formKey}
+              t={t}
+              selectedService={selectedService}
+              selectedSubService={selectedSubService}
+              selectedSubServices={selectedSubServices}
+              setSelectedService={setSelectedService}
+              setSelectedSubService={setSelectedSubService}
+              setSelectedSubServices={setSelectedSubServices}
+              selectedViaCard={selectedViaCard}
+              setSelectedViaCard={setSelectedViaCard}
+              onSubmit={handleSubmit}
+              isSubmitting={isSubmitting}
+              onLocationChange={setLocation}
+              isSuccess={showSuccess}
+              onReset={handleReset}
+              refId={refId}
+            />
           </div>
         </section>
 

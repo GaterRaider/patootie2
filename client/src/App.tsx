@@ -32,7 +32,7 @@ function RootRedirect() {
 
   // Optional: Show a loading spinner while determining language
   if (!isInitialized) {
-    return <div className="flex items-center justify-center min-h-screen"></div>;
+    return <div className="flex items-center justify-center min-h-screen pointer-events-none"></div>;
   }
 
   return null;
