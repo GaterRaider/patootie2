@@ -101,7 +101,7 @@ export function HeroTestimonials() {
                     <div className="flex items-center gap-3">
                         <Avatar className="h-9 w-9 md:h-10 md:w-10 border border-white dark:border-slate-800 shadow-sm shrink-0">
                             <AvatarImage src={activeItems[0].profilePicture} alt={activeItems[0].name} className="object-cover" />
-                            <AvatarFallback className="bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 font-medium text-xs">
+                            <AvatarFallback className="bg-slate-200 dark:bg-slate-800 text-muted-foreground font-medium text-xs">
                                 {activeItems[0].name.slice(0, 2).toUpperCase()}
                             </AvatarFallback>
                         </Avatar>
@@ -110,12 +110,12 @@ export function HeroTestimonials() {
                             <span className="text-slate-900 dark:text-slate-200 mx-0.5">|</span>
                             <div className="flex items-center gap-1.5 shrink-0">
                                 {renderStars(activeItems[0].rating)}
-                                <span className="font-bold text-foreground/70">{activeItems[0].rating.toFixed(1)}</span>
+                                <span className="font-bold text-muted-foreground">{activeItems[0].rating.toFixed(1)}</span>
                             </div>
                         </div>
                     </div>
                     {activeItems[0].text && (
-                        <p className="text-sm text-muted-foreground/80 line-clamp-2 leading-tight">{activeItems[0].text}</p>
+                        <p className="text-sm text-muted-foreground line-clamp-2 leading-tight">{activeItems[0].text}</p>
                     )}
                 </div>
             ) : (
@@ -129,7 +129,7 @@ export function HeroTestimonials() {
                                         <div className="flex items-center gap-3">
                                             <Avatar className="h-9 w-9 md:h-10 md:w-10 border border-white dark:border-slate-800 shadow-sm shrink-0">
                                                 <AvatarImage src={item.profilePicture} alt={item.name} className="object-cover" />
-                                                <AvatarFallback className="bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 font-medium text-xs">
+                                                <AvatarFallback className="bg-slate-200 dark:bg-slate-800 text-muted-foreground font-medium text-xs">
                                                     {item.name.slice(0, 2).toUpperCase()}
                                                 </AvatarFallback>
                                             </Avatar>
@@ -138,12 +138,12 @@ export function HeroTestimonials() {
                                                 <span className="text-slate-900 dark:text-slate-200 mx-0.5">|</span>
                                                 <div className="flex items-center gap-1.5 shrink-0">
                                                     {renderStars(item.rating)}
-                                                    <span className="font-bold text-foreground/70">{item.rating.toFixed(1)}</span>
+                                                    <span className="font-bold text-muted-foreground">{item.rating.toFixed(1)}</span>
                                                 </div>
                                             </div>
                                         </div>
                                         {item.text && (
-                                            <p className="text-sm text-muted-foreground/80 line-clamp-2 leading-tight">{item.text}</p>
+                                            <p className="text-sm text-muted-foreground line-clamp-2 leading-tight">{item.text}</p>
                                         )}
                                     </div>
                                 </div>

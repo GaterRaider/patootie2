@@ -110,7 +110,7 @@ export function FAQ({ items, language }: FAQProps) {
                                 <div className="relative px-6 py-3">
                                     <AccordionTrigger className="text-left hover:no-underline py-4 text-base md:text-lg font-semibold group-hover:text-primary transition-colors duration-300">
                                         <div className="flex items-start gap-3 pr-4">
-                                            <HelpCircle className="h-5 w-5 mt-0.5 text-primary/70 group-hover:text-primary transition-colors flex-shrink-0" />
+                                            <HelpCircle className="h-5 w-5 mt-0.5 text-primary group-hover:text-primary transition-colors flex-shrink-0" />
                                             <span>{item.question}</span>
                                         </div>
                                     </AccordionTrigger>
@@ -169,7 +169,7 @@ export function FAQ({ items, language }: FAQProps) {
                 >
                     <div className="relative inline-block">
                         <div className="absolute inset-0 bg-primary/10 rounded-full blur-2xl"></div>
-                        <FileQuestion className="relative h-20 w-20 mx-auto text-primary/60 mb-6" />
+                        <FileQuestion className="relative h-20 w-20 mx-auto text-muted-foreground mb-6" />
                     </div>
                     <p className="text-muted-foreground text-lg font-medium">
                         {noResultsText}

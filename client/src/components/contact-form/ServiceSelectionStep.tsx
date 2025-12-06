@@ -164,7 +164,7 @@ export const ServiceSelectionStep = ({
 
                                         {/* Description */}
                                         {service.description && (
-                                            <p className={`text-sm leading-relaxed mb-2 transition-colors ${isSelected ? 'text-indigo-700/80 dark:text-indigo-300/70' : 'text-gray-500 dark:text-slate-400'}`}>
+                                            <p className={`text-sm leading-relaxed mb-2 transition-colors ${isSelected ? 'text-indigo-700 dark:text-indigo-300' : 'text-gray-500 dark:text-slate-400'}`}>
                                                 {service.description}
                                             </p>
                                         )}

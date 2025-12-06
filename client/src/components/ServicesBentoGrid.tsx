@@ -101,7 +101,7 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
                     {service.title}
                 </CardTitle>
                 {service.tagline && (
-                    <p className="text-sm font-medium text-indigo-600/80 dark:text-indigo-400/80 mb-2">
+                    <p className="text-sm font-medium text-indigo-600 dark:text-indigo-400 mb-2">
                         {service.tagline}
                     </p>
                 )}
@@ -147,7 +147,7 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
                         key={index}
                         className={`h-2 rounded-full transition-all duration-300 ${index === activeIndex
                             ? 'w-8 bg-indigo-600'
-                            : 'w-2 bg-indigo-600/30'
+                            : 'w-2 bg-indigo-600/40'
                             }`}
                         aria-hidden="true"
                     />
@@ -166,7 +166,7 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
                         className="absolute right-4 top-4 rounded-full bg-[#f7f8fa] dark:bg-secondary/50 hover:bg-[#eff1f5] dark:hover:bg-secondary p-2 transition-colors z-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                         aria-label="Close"
                     >
-                        <X className="h-5 w-5 text-foreground/70" />
+                        <X className="h-5 w-5 text-muted-foreground" />
                     </button>
                     {selectedService && (
                         <>
@@ -220,9 +220,9 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
                                                 {/* Show sub-items if this is the Relocation Bundle item */}
                                                 {(item === "Relocation Bundle" || item === "이주 패키지" || item === "Umzugspaket") && t.relocationBundleItems && (
                                                     <div className="ml-4 mt-3 p-4 rounded-lg bg-secondary/30 border border-border/50 space-y-2.5 animate-in fade-in slide-in-from-top-2 duration-300">
-                                                        <div className="text-xs font-semibold text-primary/80 uppercase tracking-wider mb-2">{t.includedInBundle}</div>
+                                                        <div className="text-xs font-semibold text-primary uppercase tracking-wider mb-2">{t.includedInBundle}</div>
                                                         {t.relocationBundleItems.map((subItem, subIndex) => (
-                                                            <div key={subIndex} className="flex items-start gap-2.5 text-sm text-foreground/90">
+                                                            <div key={subIndex} className="flex items-start gap-2.5 text-sm text-foreground">
                                                                 <div className="mt-1 w-4 h-4 rounded-full bg-indigo-50 dark:bg-indigo-900/20 flex items-center justify-center shrink-0">
                                                                     {selectedSubServices.includes(item) && (
                                                                         <div className="w-1.5 h-1.5 rounded-full bg-indigo-600 animate-in zoom-in duration-200" />
