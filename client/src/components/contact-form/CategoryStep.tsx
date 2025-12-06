@@ -106,9 +106,9 @@ export const CategoryStep = ({ t, selectedService, setSelectedService, setValue,
                                         <Icon className="w-6 h-6" />
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className="font-semibold text-gray-900 dark:text-white text-base md:text-lg mb-1 transition-colors">
+                                        <h2 className="font-semibold text-gray-900 dark:text-white text-base md:text-lg mb-1 transition-colors">
                                             {category.title}
-                                        </h3>
+                                        </h2>
                                         <p className="text-xs text-gray-500 dark:text-slate-400 transition-colors">
                                             {category.caption}
                                         </p>

@@ -183,9 +183,9 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
                             </DialogHeader>
 
                             <div className="py-6">
-                                <h4 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">
+                                <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">
                                     {t.serviceSelectOptional}
-                                </h4>
+                                </h3>
                                 {selectedService.isBundle ? (
                                     <div className="grid gap-3">
                                         {selectedService.servicesList.map((item, index) => (

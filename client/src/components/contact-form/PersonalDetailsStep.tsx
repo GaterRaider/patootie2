@@ -52,7 +52,7 @@ export const PersonalDetailsStep = ({ t, errors, register, watch, language, cont
                 <div className="w-8 h-8 rounded-lg bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
                     <Icon className="w-4 h-4" />
                 </div>
-                <h3 className="text-base font-semibold text-gray-900 dark:text-white transition-colors">{title}</h3>
+                <h2 className="text-base font-semibold text-gray-900 dark:text-white transition-colors">{title}</h2>
             </div>
             {children}
         </div>
