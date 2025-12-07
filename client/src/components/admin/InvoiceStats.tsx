@@ -31,35 +31,35 @@ export function InvoiceStats() {
     };
 
     return (
-        <div className="grid gap-4 md:grid-cols-3 mb-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 mb-4 md:mb-6">
             <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium text-muted-foreground">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 p-3 pb-1 md:p-6 md:pb-2">
+                    <CardTitle className="text-xs md:text-sm font-medium text-muted-foreground whitespace-nowrap">
                         Total Unpaid
                     </CardTitle>
                 </CardHeader>
-                <CardContent>
-                    <div className="text-2xl font-bold">
+                <CardContent className="p-3 pt-0 md:p-6 md:pt-0">
+                    <div className="text-lg md:text-2xl font-bold">
                         {formatCurrency(stats?.unpaid.totalAmount || 0)}
                     </div>
                     {/* Placeholder for percentage if backend supported it, or static/calculated */}
-                    <p className="text-xs text-green-500 flex items-center mt-1">
+                    <p className="text-[10px] md:text-xs text-green-500 flex items-center mt-1">
                         +2.5% <span className="text-muted-foreground ml-1">last month</span>
                     </p>
                 </CardContent>
             </Card>
 
             <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium text-muted-foreground">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 p-3 pb-1 md:p-6 md:pb-2">
+                    <CardTitle className="text-xs md:text-sm font-medium text-muted-foreground whitespace-nowrap">
                         Total Overdue
                     </CardTitle>
                 </CardHeader>
-                <CardContent>
-                    <div className="text-2xl font-bold">
+                <CardContent className="p-3 pt-0 md:p-6 md:pt-0">
+                    <div className="text-lg md:text-2xl font-bold">
                         {formatCurrency(stats?.overdue.totalAmount || 0)}
                     </div>
-                    <p className={`text-xs flex items-center mt-1 ${(stats?.overdue.percentageChange || 0) > 0 ? 'text-red-500' : 'text-green-500'
+                    <p className={`text-[10px] md:text-xs flex items-center mt-1 ${(stats?.overdue.percentageChange || 0) > 0 ? 'text-red-500' : 'text-green-500'
                         }`}>
                         {(stats?.overdue.percentageChange || 0) > 0 ? '+' : ''}
                         {stats?.overdue.percentageChange}%
@@ -68,17 +68,17 @@ export function InvoiceStats() {
                 </CardContent>
             </Card>
 
-            <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium text-muted-foreground">
+            <Card className="col-span-2 md:col-span-1">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 p-3 pb-1 md:p-6 md:pb-2">
+                    <CardTitle className="text-xs md:text-sm font-medium text-muted-foreground whitespace-nowrap">
                         Revenue This Month
                     </CardTitle>
                 </CardHeader>
-                <CardContent>
-                    <div className="text-2xl font-bold">
+                <CardContent className="p-3 pt-0 md:p-6 md:pt-0">
+                    <div className="text-lg md:text-2xl font-bold">
                         {formatCurrency(stats?.revenue.thisMonth || 0)}
                     </div>
-                    <p className="text-xs text-green-500 flex items-center mt-1">
+                    <p className="text-[10px] md:text-xs text-green-500 flex items-center mt-1">
                         +8.2% <span className="text-muted-foreground ml-1">last month</span>
                     </p>
                 </CardContent>

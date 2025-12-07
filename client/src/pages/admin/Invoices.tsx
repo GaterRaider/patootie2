@@ -17,7 +17,14 @@ import {
 } from "@/components/ui/table";
 import { AnimatedTableRow } from "@/components/motion";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
-import { Loader2, Plus, Search, FileText, Trash2, Edit, Download, Mail, Eye, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
+    DropdownMenuContent,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Loader2, Plus, Search, FileText, Trash2, Edit, Download, Mail, Eye, ChevronLeft, ChevronRight, Settings2 } from "lucide-react";
+
 import { format } from "date-fns";
 import { toast } from "sonner";
 
@@ -28,6 +35,7 @@ export default function Invoices() {
     const [search, setSearch] = useState("");
     const [statusFilter, setStatusFilter] = useState<string>("all");
     const [selectedInvoices, setSelectedInvoices] = useState<number[]>([]);
+    const [showStats, setShowStats] = useState(true);
     const [visibleColumns, setVisibleColumns] = useState<Record<string, boolean>>({
         issueDate: false, // Hidden by default on mobile
         dueDate: false,   // Hidden by default on mobile
@@ -249,13 +257,30 @@ export default function Invoices() {
                 title="Invoices"
                 description="Manage and track your invoices"
             >
-                <Button onClick={() => setLocation("/invoices/new")}>
-                    <Plus className="mr-2 h-4 w-4" />
-                    Create Invoice
-                </Button>
+                <div className="flex gap-2">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="outline" size="icon">
+                                <Settings2 className="h-4 w-4" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuCheckboxItem
+                                checked={showStats}
+                                onCheckedChange={setShowStats}
+                            >
+                                Show Statistics
+                            </DropdownMenuCheckboxItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                    <Button onClick={() => setLocation("/invoices/new")}>
+                        <Plus className="mr-2 h-4 w-4" />
+                        Create Invoice
+                    </Button>
+                </div>
             </AdminPageHeader>
 
-            <InvoiceStats />
+            {showStats && <InvoiceStats />}
 
             <div className="flex flex-col md:flex-row gap-4 mb-6">
                 <div className="flex-1 relative">
@@ -264,35 +289,35 @@ export default function Invoices() {
                         placeholder="Search by invoice number, client name..."
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
-                        className="pl-10 bg-background/50 border-input"
+                        className="pl-10 bg-background/50 border-input md:h-12 md:text-base"
                     />
                 </div>
                 <div className="flex gap-2 overflow-x-auto pb-2 md:pb-0">
                     <Button
                         variant={statusFilter === "all" ? "default" : "outline"}
                         onClick={() => setStatusFilter("all")}
-                        className="min-w-[60px]"
+                        className="min-w-[60px] md:h-12 md:px-6"
                     >
                         All
                     </Button>
                     <Button
                         variant={statusFilter === "paid" ? "default" : "outline"}
                         onClick={() => setStatusFilter("paid")}
-                        className="min-w-[60px]"
+                        className="min-w-[60px] md:h-12 md:px-6"
                     >
                         Paid
                     </Button>
                     <Button
                         variant={statusFilter === "unpaid" ? "default" : "outline"}
                         onClick={() => setStatusFilter("sent")}
-                        className="min-w-[60px]"
+                        className="min-w-[60px] md:h-12 md:px-6"
                     >
                         Unpaid
                     </Button>
                     <Button
                         variant={statusFilter === "overdue" ? "default" : "outline"}
                         onClick={() => setStatusFilter("overdue")}
-                        className="min-w-[60px]"
+                        className="min-w-[60px] md:h-12 md:px-6"
                     >
                         Overdue
                     </Button>
@@ -301,7 +326,7 @@ export default function Invoices() {
                         value={["draft", "cancelled"].includes(statusFilter) ? statusFilter : ""}
                         onValueChange={setStatusFilter}
                     >
-                        <SelectTrigger className={`w-[130px] ${["draft", "cancelled"].includes(statusFilter) ? "bg-primary text-primary-foreground" : ""}`}>
+                        <SelectTrigger className={`w-[130px] md:h-12 md:w-[160px] ${["draft", "cancelled"].includes(statusFilter) ? "bg-primary text-primary-foreground" : ""}`}>
                             <SelectValue placeholder="Other" />
                         </SelectTrigger>
                         <SelectContent>
