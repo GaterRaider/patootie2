@@ -67,6 +67,9 @@ import {
   getInvoiceStatusDistribution,
   getResponseTimeMetrics,
   getTopServicesByRevenue,
+  getOverdueInvoices,
+  getUnpaidInvoices,
+  getRevenue,
 } from "./analytics";
 
 const COOKIE_NAME = "session_id"; // Session cookie name
@@ -822,6 +825,21 @@ export const appRouter = router({
           const invoices = await getAllInvoices(input);
           const total = await getInvoicesCount(input);
           return { invoices, total };
+        }),
+
+      stats: adminProcedure
+        .query(async () => {
+          const [unpaid, overdue, revenue] = await Promise.all([
+            getUnpaidInvoices(),
+            getOverdueInvoices(),
+            getRevenue(),
+          ]);
+
+          return {
+            unpaid,
+            overdue,
+            revenue
+          };
         }),
 
       getOne: adminProcedure

@@ -181,6 +181,67 @@ export async function getUnpaidInvoices() {
 }
 
 /**
+ * Get overdue invoice specific metrics
+ */
+export async function getOverdueInvoices() {
+    const db = await getDb();
+    if (!db) throw new Error("Database not available");
+
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentMonth = now.getMonth();
+
+    // Current Overdue Count & Amount
+    const currentResult = await db
+        .select({
+            count: count(),
+            total: sum(invoices.total),
+        })
+        .from(invoices)
+        .where(eq(invoices.status, 'overdue'));
+
+    // Logic for percentage change (comparing with 30 days ago approx, or previous month)
+    // For simplicity and stability, we'll check how many were overdue last month? 
+    // Comparing "Current Overdue" vs "Overdue at end of last month" is hard without history.
+    // Instead, let's compare: "Volume of invoices due in Current Month that are Overdue" vs "Volume due Last Month that are Overdue"
+
+    const thisMonthStart = new Date(currentYear, currentMonth, 1);
+    const lastMonthStart = new Date(currentYear, currentMonth - 1, 1);
+    const lastMonthEnd = new Date(currentYear, currentMonth, 0, 23, 59, 59);
+
+    const thisMonthOverdue = await db
+        .select({ total: sum(invoices.total) })
+        .from(invoices)
+        .where(and(
+            eq(invoices.status, 'overdue'),
+            gte(invoices.dueDate, thisMonthStart.toISOString())
+        ));
+
+    const lastMonthOverdue = await db
+        .select({ total: sum(invoices.total) })
+        .from(invoices)
+        .where(and(
+            eq(invoices.status, 'overdue'),
+            gte(invoices.dueDate, lastMonthStart.toISOString()),
+            lte(invoices.dueDate, lastMonthEnd.toISOString())
+        ));
+
+    const thisMonthVal = parseFloat(thisMonthOverdue[0]?.total || '0');
+    const lastMonthVal = parseFloat(lastMonthOverdue[0]?.total || '0');
+
+    const percentageChange = lastMonthVal > 0
+        ? ((thisMonthVal - lastMonthVal) / lastMonthVal) * 100
+        : thisMonthVal > 0 ? 100 : 0;
+
+    return {
+        count: currentResult[0]?.count || 0,
+        totalAmount: parseFloat(currentResult[0]?.total || '0'),
+        percentageChange: Math.round(percentageChange * 10) / 10,
+        currency: 'EUR',
+    };
+}
+
+/**
  * Get average response time (simplified - returns mock data for now)
  */
 export async function getAverageResponseTime(dateRange?: DateRange) {

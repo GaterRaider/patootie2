@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
+import { InvoiceStats } from "@/components/admin/InvoiceStats";
 import {
     Table,
     TableBody,
@@ -16,15 +17,7 @@ import {
 } from "@/components/ui/table";
 import { AnimatedTableRow } from "@/components/motion";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
-import {
-    DropdownMenu,
-    DropdownMenuCheckboxItem,
-    DropdownMenuContent,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Loader2, Plus, Search, FileText, Trash2, Edit, Download, Mail, Eye, Settings2 } from "lucide-react";
+import { Loader2, Plus, Search, FileText, Trash2, Edit, Download, Mail, Eye, ChevronLeft, ChevronRight } from "lucide-react";
 import { format } from "date-fns";
 import { toast } from "sonner";
 
@@ -34,14 +27,11 @@ export default function Invoices() {
     const [page, setPage] = useState(1);
     const [search, setSearch] = useState("");
     const [statusFilter, setStatusFilter] = useState<string>("all");
+    const [selectedInvoices, setSelectedInvoices] = useState<number[]>([]);
     const [visibleColumns, setVisibleColumns] = useState<Record<string, boolean>>({
         issueDate: false, // Hidden by default on mobile
         dueDate: false,   // Hidden by default on mobile
     });
-
-    const toggleColumn = (column: string) => {
-        setVisibleColumns(prev => ({ ...prev, [column]: !prev[column] }));
-    };
 
     const { data, isLoading } = trpc.admin.invoices.getAll.useQuery({
         page,
@@ -175,6 +165,80 @@ export default function Invoices() {
                 description: "Failed to generate PDF. Please try again.",
             });
         }
+    }
+
+    // Bulk Actions
+    const bulkUpdateMutation = trpc.admin.invoices.update.useMutation();
+    const bulkSendMutation = trpc.admin.invoices.send.useMutation();
+    const [isBulkActionLoading, setIsBulkActionLoading] = useState(false);
+
+    const handleBulkMarkAsPaid = async () => {
+        if (!confirm(`Are you sure you want to mark ${selectedInvoices.length} invoices as paid?`)) return;
+
+        setIsBulkActionLoading(true);
+        try {
+            await Promise.all(selectedInvoices.map(id =>
+                bulkUpdateMutation.mutateAsync({
+                    id,
+                    updates: { status: 'paid' }
+                })
+            ));
+
+            utils.admin.invoices.getAll.invalidate();
+            utils.admin.invoices.stats.invalidate();
+            setSelectedInvoices([]);
+            toast.success("Bulk Update Successful", {
+                description: `${selectedInvoices.length} invoices marked as paid.`,
+            });
+        } catch (error) {
+            console.error(error);
+            toast.error("Bulk Update Failed", {
+                description: "Some invoices could not be updated.",
+            });
+        } finally {
+            setIsBulkActionLoading(false);
+        }
+    };
+
+    const handleBulkSendEmails = async () => {
+        if (!confirm(`Are you sure you want to send emails for ${selectedInvoices.length} invoices?`)) return;
+
+        setIsBulkActionLoading(true);
+        try {
+            await Promise.all(selectedInvoices.map(id =>
+                bulkSendMutation.mutateAsync({ id })
+            ));
+
+            utils.admin.invoices.getAll.invalidate();
+            setSelectedInvoices([]);
+            toast.success("Bulk Send Successful", {
+                description: `Emails sent for ${selectedInvoices.length} invoices.`,
+            });
+        } catch (error) {
+            console.error(error);
+            toast.error("Bulk Send Failed", {
+                description: "Some emails could not be sent.",
+            });
+        } finally {
+            setIsBulkActionLoading(false);
+        }
+    };
+
+
+    const handleSelectAll = (checked: boolean) => {
+        if (checked && data?.invoices) {
+            setSelectedInvoices(data.invoices.map(inv => inv.id));
+        } else {
+            setSelectedInvoices([]);
+        }
+    };
+
+    const handleSelectRow = (id: number, checked: boolean) => {
+        if (checked) {
+            setSelectedInvoices(prev => [...prev, id]);
+        } else {
+            setSelectedInvoices(prev => prev.filter(i => i !== id));
+        }
     };
 
     const totalPages = data ? Math.ceil(data.total / 20) : 0;
@@ -191,58 +255,97 @@ export default function Invoices() {
                 </Button>
             </AdminPageHeader>
 
-            <Card>
-                <CardHeader>
-                    <div className="flex items-center gap-4">
-                        <div className="flex-1 relative">
-                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                            <Input
-                                placeholder="Search by client name..."
-                                value={search}
-                                onChange={(e) => setSearch(e.target.value)}
-                                className="pl-10"
-                            />
-                        </div>
-                        <Select value={statusFilter} onValueChange={setStatusFilter}>
-                            <SelectTrigger className="w-[180px]">
-                                <SelectValue placeholder="All Statuses" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="all">All Statuses</SelectItem>
-                                <SelectItem value="draft">Draft</SelectItem>
-                                <SelectItem value="sent">Sent</SelectItem>
-                                <SelectItem value="paid">Paid</SelectItem>
-                                <SelectItem value="overdue">Overdue</SelectItem>
-                                <SelectItem value="cancelled">Cancelled</SelectItem>
-                            </SelectContent>
-                        </Select>
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="outline" size="sm" className="ml-auto">
-                                    <Settings2 className="h-4 w-4 sm:mr-2" />
-                                    <span className="hidden sm:inline">Columns</span>
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                                <DropdownMenuLabel>Toggle Columns</DropdownMenuLabel>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuCheckboxItem
-                                    checked={visibleColumns.issueDate}
-                                    onCheckedChange={() => toggleColumn('issueDate')}
-                                >
-                                    Issue Date
-                                </DropdownMenuCheckboxItem>
-                                <DropdownMenuCheckboxItem
-                                    checked={visibleColumns.dueDate}
-                                    onCheckedChange={() => toggleColumn('dueDate')}
-                                >
-                                    Due Date
-                                </DropdownMenuCheckboxItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
+            <InvoiceStats />
+
+            <div className="flex flex-col md:flex-row gap-4 mb-6">
+                <div className="flex-1 relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                        placeholder="Search by invoice number, client name..."
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        className="pl-10 bg-background/50 border-input"
+                    />
+                </div>
+                <div className="flex gap-2 overflow-x-auto pb-2 md:pb-0">
+                    <Button
+                        variant={statusFilter === "all" ? "default" : "outline"}
+                        onClick={() => setStatusFilter("all")}
+                        className="min-w-[60px]"
+                    >
+                        All
+                    </Button>
+                    <Button
+                        variant={statusFilter === "paid" ? "default" : "outline"}
+                        onClick={() => setStatusFilter("paid")}
+                        className="min-w-[60px]"
+                    >
+                        Paid
+                    </Button>
+                    <Button
+                        variant={statusFilter === "unpaid" ? "default" : "outline"}
+                        onClick={() => setStatusFilter("sent")}
+                        className="min-w-[60px]"
+                    >
+                        Unpaid
+                    </Button>
+                    <Button
+                        variant={statusFilter === "overdue" ? "default" : "outline"}
+                        onClick={() => setStatusFilter("overdue")}
+                        className="min-w-[60px]"
+                    >
+                        Overdue
+                    </Button>
+
+                    <Select
+                        value={["draft", "cancelled"].includes(statusFilter) ? statusFilter : ""}
+                        onValueChange={setStatusFilter}
+                    >
+                        <SelectTrigger className={`w-[130px] ${["draft", "cancelled"].includes(statusFilter) ? "bg-primary text-primary-foreground" : ""}`}>
+                            <SelectValue placeholder="Other" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="draft">Draft</SelectItem>
+                            <SelectItem value="cancelled">Cancelled</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
+            </div>
+
+            {selectedInvoices.length > 0 && (
+                <div className="bg-primary/10 border border-primary/20 rounded-lg p-3 mb-4 flex items-center justify-between">
+                    <span className="text-sm font-medium text-primary">
+                        {selectedInvoices.length} {selectedInvoices.length === 1 ? 'invoice' : 'invoices'} selected
+                    </span>
+                    <div className="flex gap-2">
+                        <Button
+                            size="sm"
+                            variant="outline"
+                            className="bg-background"
+                            onClick={handleBulkMarkAsPaid}
+                            disabled={isBulkActionLoading}
+                        >
+                            {isBulkActionLoading && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
+                            Mark as Paid
+                        </Button>
+                        <Button
+                            size="sm"
+                            variant="outline"
+                            className="bg-background"
+                            onClick={handleBulkSendEmails}
+                            disabled={isBulkActionLoading}
+                        >
+                            {isBulkActionLoading && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
+                            Send Emails
+                        </Button>
                     </div>
+                </div>
+            )}
+
+            <Card className="border-none shadow-none bg-transparent">
+                <CardHeader className="p-0 hidden">
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-0">
                     {isLoading ? (
                         <div className="flex justify-center items-center h-64">
                             <Loader2 className="h-8 w-8 animate-spin" />
@@ -252,14 +355,20 @@ export default function Invoices() {
                             <div className="overflow-x-auto">
                                 <Table>
                                     <TableHeader>
-                                        <TableRow>
-                                            <TableHead>Invoice #</TableHead>
-                                            <TableHead>Client</TableHead>
-                                            <TableHead className={visibleColumns.issueDate ? "" : "hidden md:table-cell"}>Issue Date</TableHead>
-                                            <TableHead className={visibleColumns.dueDate ? "" : "hidden md:table-cell"}>Due Date</TableHead>
-                                            <TableHead>Amount</TableHead>
-                                            <TableHead>Status</TableHead>
-                                            <TableHead className="text-right">Actions</TableHead>
+                                        <TableRow className="bg-muted/50 hover:bg-muted/50">
+                                            <TableHead className="w-[40px]">
+                                                <Checkbox
+                                                    checked={!!data?.invoices?.length && selectedInvoices.length === data.invoices.length}
+                                                    onCheckedChange={(checked) => handleSelectAll(checked as boolean)}
+                                                />
+                                            </TableHead>
+                                            <TableHead>INVOICE #</TableHead>
+                                            <TableHead>CLIENT NAME</TableHead>
+                                            <TableHead className={visibleColumns.issueDate ? "" : "hidden md:table-cell"}>ISSUE DATE</TableHead>
+                                            <TableHead className={visibleColumns.dueDate ? "" : "hidden md:table-cell"}>DUE DATE</TableHead>
+                                            <TableHead>AMOUNT</TableHead>
+                                            <TableHead>STATUS</TableHead>
+                                            <TableHead className="text-right">ACTIONS</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
@@ -282,6 +391,12 @@ export default function Invoices() {
                                                     className="cursor-pointer hover:bg-muted/50"
                                                     onClick={() => setLocation(`/invoices/${invoice.id}/edit`)}
                                                 >
+                                                    <TableCell onClick={(e) => e.stopPropagation()}>
+                                                        <Checkbox
+                                                            checked={selectedInvoices.includes(invoice.id)}
+                                                            onCheckedChange={(checked) => handleSelectRow(invoice.id, checked as boolean)}
+                                                        />
+                                                    </TableCell>
                                                     <TableCell className="font-medium">
                                                         {invoice.invoiceNumber}
                                                     </TableCell>
@@ -381,7 +496,7 @@ export default function Invoices() {
                             {totalPages > 1 && (
                                 <div className="flex items-center justify-between mt-4">
                                     <p className="text-sm text-muted-foreground">
-                                        Page {page} of {totalPages}
+                                        Showing {(page - 1) * 20 + 1} to {Math.min(page * 20, data?.total || 0)} of {data?.total} results
                                     </p>
                                     <div className="flex gap-2">
                                         <Button
@@ -390,8 +505,14 @@ export default function Invoices() {
                                             onClick={() => setPage(page - 1)}
                                             disabled={page === 1}
                                         >
+                                            <ChevronLeft className="h-4 w-4 mr-2" />
                                             Previous
                                         </Button>
+                                        <div className="flex items-center gap-2">
+                                            <Button variant="outline" size="sm" className="h-8 w-8 p-0 bg-primary text-primary-foreground pointer-events-none">
+                                                {page}
+                                            </Button>
+                                        </div>
                                         <Button
                                             variant="outline"
                                             size="sm"
@@ -399,6 +520,7 @@ export default function Invoices() {
                                             disabled={page === totalPages}
                                         >
                                             Next
+                                            <ChevronRight className="h-4 w-4 ml-2" />
                                         </Button>
                                     </div>
                                 </div>
@@ -407,6 +529,6 @@ export default function Invoices() {
                     )}
                 </CardContent>
             </Card>
-        </div>
+        </div >
     );
 }
