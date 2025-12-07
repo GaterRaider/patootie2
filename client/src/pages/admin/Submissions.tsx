@@ -245,6 +245,7 @@ export default function AdminSubmissions() {
     };
 
     const selectedCount = Object.keys(rowSelection).length;
+    const totalPages = data ? Math.ceil(data.total / pageSize) : 0;
 
     const toggleableColumns = [
         { id: "refId", label: "Ref ID" },
@@ -542,55 +543,63 @@ export default function AdminSubmissions() {
                 )}
 
                 {/* Bottom Pagination */}
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="outline" size="sm" className="h-7 text-sm font-medium border-border">
-                                    Showing {data?.submissions.length ? ((page - 1) * pageSize + 1) : 0} to {data?.total ? Math.min(page * pageSize, data.total) : 0}
+                {totalPages > 0 && (
+                    <div className="flex items-center justify-between mt-4">
+                        <div className="flex items-center gap-2">
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button variant="outline" size="sm" className="h-7 text-sm font-medium border-border">
+                                        Showing {data?.submissions.length ? ((page - 1) * pageSize + 1) : 0} to {data?.total ? Math.min(page * pageSize, data.total) : 0}
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="start">
+                                    <DropdownMenuLabel>Results per page</DropdownMenuLabel>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem onClick={() => { setPageSize(10); setPage(1); }}>
+                                        10 per page
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => { setPageSize(25); setPage(1); }}>
+                                        25 per page
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => { setPageSize(50); setPage(1); }}>
+                                        50 per page
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => { setPageSize(100); setPage(1); }}>
+                                        100 per page
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                            <span className="text-sm text-muted-foreground">
+                                of {data?.total || 0} results
+                            </span>
+                        </div>
+                        <div className="flex gap-2">
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => setPage(page - 1)}
+                                disabled={page === 1}
+                            >
+                                <ChevronLeft className="h-4 w-4 mr-2" />
+                                Previous
+                            </Button>
+                            <div className="flex items-center gap-2">
+                                <Button variant="outline" size="sm" className="h-8 w-8 p-0 bg-primary text-primary-foreground pointer-events-none">
+                                    {page}
                                 </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="start">
-                                <DropdownMenuLabel>Results per page</DropdownMenuLabel>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem onClick={() => { setPageSize(10); setPage(1); }}>
-                                    10 per page
-                                </DropdownMenuItem>
-                                <DropdownMenuItem onClick={() => { setPageSize(25); setPage(1); }}>
-                                    25 per page
-                                </DropdownMenuItem>
-                                <DropdownMenuItem onClick={() => { setPageSize(50); setPage(1); }}>
-                                    50 per page
-                                </DropdownMenuItem>
-                                <DropdownMenuItem onClick={() => { setPageSize(100); setPage(1); }}>
-                                    100 per page
-                                </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                        <span className="text-sm text-muted-foreground">
-                            of {data?.total || 0} results
-                        </span>
+                            </div>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => setPage(page + 1)}
+                                disabled={page === totalPages}
+                            >
+                                Next
+                                <ChevronRight className="h-4 w-4 ml-2" />
+                            </Button>
+                        </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => setPage((p) => Math.max(1, p - 1))}
-                            disabled={page === 1 || isLoading}
-                        >
-                            Previous
-                        </Button>
-                        <span className="text-sm whitespace-nowrap">Page {page}</span>
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => setPage((p) => p + 1)}
-                            disabled={!data || data.submissions.length < pageSize || isLoading}
-                        >
-                            Next
-                        </Button>
-                    </div>
-                </div>
+                )}
             </div>
 
             {/* Save Filter Dialog */}

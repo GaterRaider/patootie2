@@ -246,9 +246,9 @@ export default function SubmissionsTable({
     });
 
     return (
-        <div className="rounded-md border">
+        <div className="rounded-md border bg-card">
             <Table>
-                <TableHeader>
+                <TableHeader className="bg-muted/50">
                     {table.getHeaderGroups().map((headerGroup) => (
                         <TableRow key={headerGroup.id}>
                             {headerGroup.headers.map((header) => (

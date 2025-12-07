@@ -22,8 +22,12 @@ import {
     DropdownMenuCheckboxItem,
     DropdownMenuContent,
     DropdownMenuTrigger,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
 import { Loader2, Plus, Search, FileText, Trash2, Edit, Download, Mail, Eye, ChevronLeft, ChevronRight, Settings2 } from "lucide-react";
+import { useEffect } from "react";
 
 import { format } from "date-fns";
 import { toast } from "sonner";
@@ -32,6 +36,25 @@ export default function Invoices() {
     const [, setLocation] = useLocation();
     const utils = trpc.useContext();
     const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(() => {
+        if (typeof window !== 'undefined') {
+            const saved = localStorage.getItem('invoices-page-size');
+            if (saved) {
+                try {
+                    return parseInt(saved);
+                } catch (e) {
+                    console.error('Failed to parse page size', e);
+                }
+            }
+        }
+        return 10;
+    });
+
+    // Persist page size to localStorage
+    useEffect(() => {
+        localStorage.setItem('invoices-page-size', pageSize.toString());
+    }, [pageSize]);
+
     const [search, setSearch] = useState("");
     const [statusFilter, setStatusFilter] = useState<string>("all");
     const [selectedInvoices, setSelectedInvoices] = useState<number[]>([]);
@@ -43,7 +66,7 @@ export default function Invoices() {
 
     const { data, isLoading } = trpc.admin.invoices.getAll.useQuery({
         page,
-        limit: 20,
+        limit: pageSize,
         clientName: search || undefined,
         status: (statusFilter && statusFilter !== "all") ? statusFilter : undefined,
     });
@@ -249,7 +272,7 @@ export default function Invoices() {
         }
     };
 
-    const totalPages = data ? Math.ceil(data.total / 20) : 0;
+    const totalPages = data ? Math.ceil(data.total / pageSize) : 0;
 
     return (
         <div className="space-y-6">
@@ -377,10 +400,10 @@ export default function Invoices() {
                         </div>
                     ) : (
                         <>
-                            <div className="overflow-x-auto">
+                            <div className="overflow-x-auto rounded-md border">
                                 <Table>
-                                    <TableHeader>
-                                        <TableRow className="bg-muted/50 hover:bg-muted/50">
+                                    <TableHeader className="bg-muted/50">
+                                        <TableRow>
                                             <TableHead className="w-[40px]">
                                                 <Checkbox
                                                     checked={!!data?.invoices?.length && selectedInvoices.length === data.invoices.length}
@@ -518,11 +541,36 @@ export default function Invoices() {
                                 </Table>
                             </div>
 
-                            {totalPages > 1 && (
+                            {totalPages > 0 && (
                                 <div className="flex items-center justify-between mt-4">
-                                    <p className="text-sm text-muted-foreground">
-                                        Showing {(page - 1) * 20 + 1} to {Math.min(page * 20, data?.total || 0)} of {data?.total} results
-                                    </p>
+                                    <div className="flex items-center gap-2">
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <Button variant="outline" size="sm" className="h-7 text-sm font-medium border-border">
+                                                    Showing {data?.invoices.length ? ((page - 1) * pageSize + 1) : 0} to {data?.total ? Math.min(page * pageSize, data.total) : 0}
+                                                </Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent align="start">
+                                                <DropdownMenuLabel>Results per page</DropdownMenuLabel>
+                                                <DropdownMenuSeparator />
+                                                <DropdownMenuItem onClick={() => { setPageSize(10); setPage(1); }}>
+                                                    10 per page
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem onClick={() => { setPageSize(25); setPage(1); }}>
+                                                    25 per page
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem onClick={() => { setPageSize(50); setPage(1); }}>
+                                                    50 per page
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem onClick={() => { setPageSize(100); setPage(1); }}>
+                                                    100 per page
+                                                </DropdownMenuItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
+                                        <span className="text-sm text-muted-foreground">
+                                            of {data?.total || 0} results
+                                        </span>
+                                    </div>
                                     <div className="flex gap-2">
                                         <Button
                                             variant="outline"

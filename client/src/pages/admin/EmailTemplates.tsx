@@ -109,13 +109,13 @@ export default function EmailTemplates() {
             </AdminPageHeader>
 
             {showCreateModal && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                <div className="fixed inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center z-50">
+                    <div className="bg-card rounded-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-border shadow-lg">
                         <div className="flex items-center justify-between mb-4">
-                            <h2 className="text-xl font-bold text-gray-900">Create New Template</h2>
+                            <h2 className="text-xl font-bold text-foreground">Create New Template</h2>
                             <button
                                 onClick={() => setShowCreateModal(false)}
-                                className="text-gray-400 hover:text-gray-600"
+                                className="text-muted-foreground hover:text-foreground"
                             >
                                 <X size={24} />
                             </button>
@@ -123,27 +123,27 @@ export default function EmailTemplates() {
 
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-foreground mb-2">
                                     Template Key
                                 </label>
                                 <input
                                     type="text"
                                     value={formData.templateKey}
                                     onChange={(e) => setFormData({ ...formData, templateKey: e.target.value })}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                    className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary bg-background text-foreground"
                                     placeholder="e.g., form_submission, admin_notification"
                                     required
                                 />
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-foreground mb-2">
                                     Language
                                 </label>
                                 <select
                                     value={formData.language}
                                     onChange={(e) => setFormData({ ...formData, language: e.target.value })}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                    className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary bg-background text-foreground"
                                     required
                                 >
                                     <option value="en">🇬🇧 English</option>
@@ -153,14 +153,14 @@ export default function EmailTemplates() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-foreground mb-2">
                                     Subject
                                 </label>
                                 <input
                                     type="text"
                                     value={formData.subject}
                                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                    className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary bg-background text-foreground"
                                     placeholder="Email subject line"
                                     required
                                 />
@@ -168,52 +168,52 @@ export default function EmailTemplates() {
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    <label className="block text-sm font-medium text-foreground mb-2">
                                         Sender Name
                                     </label>
                                     <input
                                         type="text"
                                         value={formData.senderName}
                                         onChange={(e) => setFormData({ ...formData, senderName: e.target.value })}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                        className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary bg-background text-foreground"
                                         placeholder="HandokHelper"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    <label className="block text-sm font-medium text-foreground mb-2">
                                         Sender Email
                                     </label>
                                     <input
                                         type="email"
                                         value={formData.senderEmail}
                                         onChange={(e) => setFormData({ ...formData, senderEmail: e.target.value })}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                        className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary bg-background text-foreground"
                                         placeholder="info@handokhelper.de"
                                     />
                                 </div>
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-foreground mb-2">
                                     HTML Content
                                 </label>
                                 <textarea
                                     value={formData.htmlContent}
                                     onChange={(e) => setFormData({ ...formData, htmlContent: e.target.value })}
-                                    className="w-full h-48 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono text-sm"
+                                    className="w-full h-48 px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary font-mono text-sm bg-background text-foreground"
                                     placeholder="HTML email content"
                                     required
                                 />
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-foreground mb-2">
                                     Plain Text Content (Optional)
                                 </label>
                                 <textarea
                                     value={formData.textContent}
                                     onChange={(e) => setFormData({ ...formData, textContent: e.target.value })}
-                                    className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono text-sm"
+                                    className="w-full h-32 px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary font-mono text-sm bg-background text-foreground"
                                     placeholder="Plain text fallback content"
                                 />
                             </div>
@@ -222,96 +222,97 @@ export default function EmailTemplates() {
                                 <button
                                     type="button"
                                     onClick={() => setShowCreateModal(false)}
-                                    className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors"
+                                    className="px-4 py-2 border border-border rounded-md text-foreground hover:bg-muted transition-colors"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
                                     disabled={createMutation.isPending}
-                                    className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                    className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                                 >
                                     {createMutation.isPending ? "Creating..." : "Create Template"}
                                 </button>
                             </div>
                         </form>
                     </div>
-                </div>
-            )}
+                </div >
+            )
+            }
 
-            <div className="bg-white shadow-sm rounded-lg border border-gray-200 overflow-hidden">
-                <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
+            <div className="bg-card shadow-sm rounded-lg border border-border overflow-hidden">
+                <table className="min-w-full divide-y divide-border">
+                    <thead className="bg-muted">
                         <tr>
                             <th
                                 scope="col"
-                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider"
                             >
                                 Template Name
                             </th>
                             <th
                                 scope="col"
-                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider"
                             >
                                 Language
                             </th>
                             <th
                                 scope="col"
-                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider"
                             >
                                 Subject
                             </th>
                             <th
                                 scope="col"
-                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider"
                             >
                                 Last Updated
                             </th>
                             <th
                                 scope="col"
-                                className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                className="px-6 py-3 text-right text-xs font-medium text-muted-foreground uppercase tracking-wider"
                             >
                                 Actions
                             </th>
                         </tr>
                     </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
+                    <tbody className="bg-card divide-y divide-border">
                         {templates?.map((template) => (
-                            <tr key={`${template.templateKey}-${template.language}`} className="hover:bg-gray-50">
+                            <tr key={`${template.templateKey}-${template.language}`} className="hover:bg-muted/50">
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     <div className="flex items-center">
-                                        <div className="flex-shrink-0 h-10 w-10 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600">
+                                        <div className="flex-shrink-0 h-10 w-10 bg-primary/10 rounded-full flex items-center justify-center text-primary">
                                             <Mail size={20} />
                                         </div>
                                         <div className="ml-4">
-                                            <div className="text-sm font-medium text-gray-900">
+                                            <div className="text-sm font-medium text-foreground">
                                                 {formatKey(template.templateKey)}
                                             </div>
-                                            <div className="text-xs text-gray-500">{template.templateKey}</div>
+                                            <div className="text-xs text-muted-foreground">{template.templateKey}</div>
                                         </div>
                                     </div>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
-                                    <div className="flex items-center text-sm text-gray-900">
+                                    <div className="flex items-center text-sm text-foreground">
                                         <span className="mr-2 text-xl">{getLanguageFlag(template.language)}</span>
                                         {getLanguageLabel(template.language)}
                                     </div>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
-                                    <div className="text-sm text-gray-900 max-w-xs truncate" title={template.subject}>
+                                    <div className="text-sm text-foreground max-w-xs truncate" title={template.subject}>
                                         {template.subject}
                                     </div>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
-                                    <div className="flex items-center text-sm text-gray-500">
-                                        <Calendar size={16} className="mr-2 text-gray-400" />
+                                    <div className="flex items-center text-sm text-muted-foreground">
+                                        <Calendar size={16} className="mr-2 text-muted-foreground/70" />
                                         {new Date(template.updatedAt).toLocaleDateString()}
                                     </div>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <Link
                                         to={`/emails/${template.templateKey}/${template.language}`}
-                                        className="text-indigo-600 hover:text-indigo-900 inline-flex items-center"
+                                        className="text-primary hover:text-primary/80 inline-flex items-center"
                                     >
                                         <Edit size={16} className="mr-1" />
                                         Edit
@@ -321,7 +322,7 @@ export default function EmailTemplates() {
                         ))}
                         {templates?.length === 0 && (
                             <tr>
-                                <td colSpan={5} className="px-6 py-12 text-center text-gray-500">
+                                <td colSpan={5} className="px-6 py-12 text-center text-muted-foreground">
                                     No templates found.
                                 </td>
                             </tr>
@@ -329,6 +330,6 @@ export default function EmailTemplates() {
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div >
     );
 }
