@@ -36,6 +36,7 @@ export interface Submission {
     lastName: string;
     email: string;
     service: string;
+    subServices: string[] | null;
     status: string;
     createdAt: string | Date;
     country: string;
@@ -89,7 +90,39 @@ export const columns = [
         header: "Email",
     }),
     columnHelper.accessor("service", {
-        header: "Service",
+        header: "Category",
+    }),
+    columnHelper.display({
+        id: "subServices",
+        header: "Service(s)",
+        cell: ({ row }) => {
+            const subs = row.original.subServices;
+            // Fallback for older submissions that might check 'subService' if we had it in the interface,
+            // but the request implies we want to show what user chose.
+            // If subServices is empty but we have a 'subService' text field in DB (not in this interface yet, but let's assume strict typing),
+            // let's just show subServices.
+            // Wait, looking at schema, we have `subService` AND `subServices`.
+            // The interface in this file didn't have `subService` string before?
+            // Ah, checking original file content...
+            // It just had `service: string`.
+            // Schema has `service`, `subService` (string), `subServices` (jsonb array).
+            // Let's rely on `subServices` array first.
+
+            if (subs && subs.length > 0) {
+                return (
+                    <div className="flex flex-col gap-1">
+                        {subs.map((s, i) => (
+                            <span key={i} className="text-xs bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-slate-600 dark:text-slate-300 w-fit">
+                                {s}
+                            </span>
+                        ))}
+                    </div>
+                );
+            }
+            // If no array, maybe check if we should add `subService` string to interface?
+            // The task was: "new column should be "Service(s)" what the user chose".
+            return <span className="text-muted-foreground text-xs">-</span>;
+        }
     }),
     columnHelper.accessor("status", {
         header: "Status",

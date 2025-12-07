@@ -242,7 +242,18 @@ export default function SubmissionDetail() {
                                 <p className="text-sm font-medium text-muted-foreground">Service Category</p>
                                 <p className="text-base font-medium">{submission.service}</p>
                             </div>
-                            {submission.subService && (
+                            {(submission.subServices && submission.subServices.length > 0) ? (
+                                <div>
+                                    <p className="text-sm font-medium text-muted-foreground">Selected Services</p>
+                                    <div className="flex flex-wrap gap-2 mt-1">
+                                        {submission.subServices.map((s: string, i: number) => (
+                                            <Badge key={i} variant="secondary" className="font-normal bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                                                {s}
+                                            </Badge>
+                                        ))}
+                                    </div>
+                                </div>
+                            ) : submission.subService && (
                                 <div>
                                     <p className="text-sm font-medium text-muted-foreground">Specific Service</p>
                                     <p className="text-base">{submission.subService}</p>

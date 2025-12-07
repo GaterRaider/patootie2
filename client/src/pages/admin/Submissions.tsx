@@ -71,7 +71,7 @@ export default function AdminSubmissions() {
             if (!data || data.length === 0) return;
 
             // Convert to CSV
-            const headers = ["ID", "Ref ID", "First Name", "Last Name", "Email", "Service", "Status", "Created At", "Tags"];
+            const headers = ["ID", "Ref ID", "First Name", "Last Name", "Email", "Category", "Service(s)", "Status", "Created At", "Tags"];
             const csvContent = [
                 headers.join(","),
                 ...data.map(row => [
@@ -81,6 +81,7 @@ export default function AdminSubmissions() {
                     `"${row.lastName}"`,
                     row.email,
                     row.service,
+                    `"${(row.subServices || []).join(", ") || row.subService || ""}"`,
                     row.status.charAt(0).toUpperCase() + row.status.slice(1),
                     row.createdAt,
                     `"${(row.tags || []).join(", ")}"`
@@ -219,7 +220,8 @@ export default function AdminSubmissions() {
         { id: "refId", label: "Ref ID" },
         { id: "firstName", label: "Name" },
         { id: "email", label: "Email" },
-        { id: "service", label: "Service" },
+        { id: "service", label: "Category" },
+        { id: "subServices", label: "Service(s)" },
         { id: "status", label: "Status" },
         { id: "country", label: "Country" },
         { id: "tags", label: "Tags" },

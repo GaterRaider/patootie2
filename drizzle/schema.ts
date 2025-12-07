@@ -40,7 +40,7 @@ export const contactSubmissions = pgTable("contactSubmissions", {
   // Service and personal information
   service: varchar("service", { length: 100 }).notNull(),
   subService: varchar("subService", { length: 100 }),
-  subServices: jsonb("subServices"),
+  subServices: jsonb("subServices").$type<string[] | null>(),
   salutation: varchar("salutation", { length: 50 }).notNull(),
   firstName: varchar("firstName", { length: 100 }).notNull(),
   lastName: varchar("lastName", { length: 100 }).notNull(),
