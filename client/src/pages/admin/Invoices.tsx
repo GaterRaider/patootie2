@@ -186,7 +186,7 @@ export default function Invoices() {
                         Manage and track your invoices
                     </p>
                 </div>
-                <Button onClick={() => setLocation("/admin/invoices/new")}>
+                <Button onClick={() => setLocation("/invoices/new")}>
                     <Plus className="mr-2 h-4 w-4" />
                     Create Invoice
                 </Button>
@@ -280,7 +280,7 @@ export default function Invoices() {
                                                 <TableRow
                                                     key={invoice.id}
                                                     className="cursor-pointer hover:bg-muted/50"
-                                                    onClick={() => setLocation(`/admin/invoices/${invoice.id}/edit`)}
+                                                    onClick={() => setLocation(`/invoices/${invoice.id}/edit`)}
                                                 >
                                                     <TableCell className="font-medium">
                                                         {invoice.invoiceNumber}
@@ -353,7 +353,7 @@ export default function Invoices() {
                                                                 size="sm"
                                                                 onClick={(e) => {
                                                                     e.stopPropagation();
-                                                                    setLocation(`/admin/invoices/${invoice.id}/edit`);
+                                                                    setLocation(`/invoices/${invoice.id}/edit`);
                                                                 }}
                                                             >
                                                                 <Edit className="h-4 w-4" />
