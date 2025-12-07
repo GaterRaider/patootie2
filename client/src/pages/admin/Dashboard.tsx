@@ -308,7 +308,7 @@ export default function AdminDashboard() {
                 <div className="flex gap-2 flex-wrap">
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="outline" size="sm">
+                            <Button variant="outline">
                                 <Settings2 className="mr-2 h-4 w-4" />
                                 <span className="hidden sm:inline">Customize</span>
                                 <span className="sm:hidden">Charts</span>

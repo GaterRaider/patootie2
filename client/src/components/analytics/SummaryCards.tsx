@@ -116,7 +116,7 @@ export function SummaryCards({ data }: SummaryCardsProps) {
                 {/* Revenue */}
                 <StaggerItem>
                     <motion.div {...scaleOnHover}>
-                        <Card className="shadow-modern hover:shadow-lg transition-shadow duration-300 border-indigo-500/20">
+                        <Card className="shadow-modern hover:shadow-lg transition-shadow duration-300">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                 <CardTitle className="text-sm font-medium">Revenue</CardTitle>
                                 <DollarSign className="h-4 w-4 text-indigo-600" />
@@ -179,7 +179,7 @@ export function SummaryCards({ data }: SummaryCardsProps) {
                 {/* Conversion Rate */}
                 <StaggerItem>
                     <motion.div {...scaleOnHover}>
-                        <Card className="shadow-modern hover:shadow-lg transition-shadow duration-300 border-purple-500/20">
+                        <Card className="shadow-modern hover:shadow-lg transition-shadow duration-300">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                 <CardTitle className="text-sm font-medium">Conversion Rate</CardTitle>
                                 <Target className="h-4 w-4 text-purple-600" />
