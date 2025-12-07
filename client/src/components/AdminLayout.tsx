@@ -60,6 +60,22 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     }
 
 
+    // Centralized navigation configuration - single source of truth for both desktop and mobile
+    const navigationItems = [
+        { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
+        { icon: FileStack, label: "Submissions", path: "/submissions" },
+        { icon: LayoutDashboard, label: "Board", path: "/board" },
+        { icon: FileText, label: "Invoices", path: "/invoices", matchPrefix: true },
+        { icon: Mail, label: "Emails", path: "/emails", matchPrefix: true },
+        { icon: HelpCircle, label: "FAQ", path: "/faq" },
+        { icon: ScrollText, label: "Activity Log", path: "/activity" },
+        { separator: true }, // Visual separator
+        { icon: SettingsIcon, label: "Site Settings", path: "/settings" },
+        { icon: Building2, label: "Company Settings", path: "/company-settings" },
+        { icon: Users, label: "Team Members", path: "/users" },
+        { icon: User, label: "Users", path: "/clients", matchPrefix: true },
+    ];
+
     // Sidebar content component (reused for both desktop and mobile)
     const SidebarContent = () => (
         <>
@@ -75,108 +91,32 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                 </div>
             </div>
             <nav className="flex-1 p-4 space-y-1 overflow-y-auto pb-32" role="navigation">
-                <Link href="/dashboard" className={cn(
-                    "flex items-center gap-3 rounded-md px-3 py-2 transition-all text-sm font-medium",
-                    location === "/dashboard"
-                        ? "bg-blue-600 text-white shadow-sm hover:bg-blue-700"
-                        : "text-muted-foreground hover:text-foreground hover:bg-muted"
-                )}>
-                    <LayoutDashboard className="h-4 w-4" />
-                    Dashboard
-                </Link>
-                <Link href="/submissions" className={cn(
-                    "flex items-center gap-3 rounded-md px-3 py-2 transition-all text-sm font-medium",
-                    location === "/submissions"
-                        ? "bg-blue-600 text-white shadow-sm hover:bg-blue-700"
-                        : "text-muted-foreground hover:text-foreground hover:bg-muted"
-                )}>
-                    <FileStack className="h-4 w-4" />
-                    Submissions
-                </Link>
-                <Link href="/board" className={cn(
-                    "flex items-center gap-3 rounded-md px-3 py-2 transition-all text-sm font-medium",
-                    location === "/board"
-                        ? "bg-blue-600 text-white shadow-sm hover:bg-blue-700"
-                        : "text-muted-foreground hover:text-foreground hover:bg-muted"
-                )}>
-                    <LayoutDashboard className="h-4 w-4" />
-                    Board
-                </Link>
-                <Link href="/invoices" className={cn(
-                    "flex items-center gap-3 rounded-md px-3 py-2 transition-all text-sm font-medium",
-                    location.startsWith("/invoices")
-                        ? "bg-blue-600 text-white shadow-sm hover:bg-blue-700"
-                        : "text-muted-foreground hover:text-foreground hover:bg-muted"
-                )}>
-                    <FileText className="h-4 w-4" />
-                    Invoices
-                </Link>
-                <Link href="/emails" className={cn(
-                    "flex items-center gap-3 rounded-md px-3 py-2 transition-all text-sm font-medium",
-                    location.startsWith("/emails")
-                        ? "bg-blue-600 text-white shadow-sm hover:bg-blue-700"
-                        : "text-muted-foreground hover:text-foreground hover:bg-muted"
-                )}>
-                    <Mail className="h-4 w-4" />
-                    Emails
-                </Link>
-                <Link href="/faq" className={cn(
-                    "flex items-center gap-3 rounded-md px-3 py-2 transition-all text-sm font-medium",
-                    location === "/faq"
-                        ? "bg-blue-600 text-white shadow-sm hover:bg-blue-700"
-                        : "text-muted-foreground hover:text-foreground hover:bg-muted"
-                )}>
-                    <HelpCircle className="h-4 w-4" />
-                    FAQ
-                </Link>
-                <Link href="/activity" className={cn(
-                    "flex items-center gap-3 rounded-md px-3 py-2 transition-all text-sm font-medium",
-                    location === "/activity"
-                        ? "bg-blue-600 text-white shadow-sm hover:bg-blue-700"
-                        : "text-muted-foreground hover:text-foreground hover:bg-muted"
-                )}>
-                    <ScrollText className="h-4 w-4" />
-                    Activity Log
-                </Link>
+                {navigationItems.map((item, index) => {
+                    if (item.separator) {
+                        return <div key={`separator-${index}`} className="my-4 border-t border-border/50 mx-2" />;
+                    }
 
-                <div className="my-4 border-t border-border/50 mx-2" />
+                    const Icon = item.icon!;
+                    const isActive = item.matchPrefix
+                        ? location.startsWith(item.path!)
+                        : location === item.path;
 
-                <Link href="/settings" className={cn(
-                    "flex items-center gap-3 rounded-md px-3 py-2 transition-all text-sm font-medium",
-                    location === "/settings"
-                        ? "bg-blue-600 text-white shadow-sm hover:bg-blue-700"
-                        : "text-muted-foreground hover:text-foreground hover:bg-muted"
-                )}>
-                    <SettingsIcon className="h-4 w-4" />
-                    Site Settings
-                </Link>
-                <Link href="/company-settings" className={cn(
-                    "flex items-center gap-3 rounded-md px-3 py-2 transition-all text-sm font-medium",
-                    location === "/company-settings"
-                        ? "bg-blue-600 text-white shadow-sm hover:bg-blue-700"
-                        : "text-muted-foreground hover:text-foreground hover:bg-muted"
-                )}>
-                    <Building2 className="h-4 w-4" />
-                    Company Settings
-                </Link>
-                <Link href="/users" className={cn(
-                    "flex items-center gap-3 rounded-md px-3 py-2 transition-all text-sm font-medium",
-                    location === "/users"
-                        ? "bg-blue-600 text-white shadow-sm hover:bg-blue-700"
-                        : "text-muted-foreground hover:text-foreground hover:bg-muted"
-                )}>
-                    <Users className="h-4 w-4" />
-                    Team Members
-                </Link>
-                <Link href="/clients" className={cn(
-                    "flex items-center gap-3 rounded-md px-3 py-2 transition-all text-sm font-medium",
-                    location.startsWith("/clients")
-                        ? "bg-blue-600 text-white shadow-sm hover:bg-blue-700"
-                        : "text-muted-foreground hover:text-foreground hover:bg-muted"
-                )}>
-                    <User className="h-4 w-4" />
-                    Users
-                </Link>
+                    return (
+                        <Link
+                            key={item.path}
+                            href={item.path!}
+                            className={cn(
+                                "flex items-center gap-3 rounded-md px-3 py-2 transition-all text-sm font-medium",
+                                isActive
+                                    ? "bg-blue-600 text-white shadow-sm hover:bg-blue-700"
+                                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                            )}
+                        >
+                            <Icon className="h-4 w-4" />
+                            {item.label}
+                        </Link>
+                    );
+                })}
             </nav>
             <div className="fixed bottom-0 left-0 w-64 p-4 border-t space-y-2 bg-white dark:bg-[#1C252D] hidden md:block border-border">
                 {toggleTheme && (
@@ -237,69 +177,30 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                         </button>
                     </div>
                     <nav className="flex-1 p-4 space-y-2 overflow-y-auto pb-32" role="navigation">
-                        <Link href="/dashboard" className={cn(
-                            "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                            location === "/dashboard" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
-                        )}>
-                            <LayoutDashboard className="h-4 w-4" />
-                            Dashboard
-                        </Link>
-                        <Link href="/submissions" className={cn(
-                            "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                            location === "/submissions" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
-                        )}>
-                            <FileStack className="h-4 w-4" />
-                            Submissions
-                        </Link>
-                        <Link href="/board" className={cn(
-                            "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                            location === "/board" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
-                        )}>
-                            <LayoutDashboard className="h-4 w-4" />
-                            Board
-                        </Link>
-                        <Link href="/invoices" className={cn(
-                            "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                            location.startsWith("/invoices") ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
-                        )}>
-                            <FileText className="h-4 w-4" />
-                            Invoices
-                        </Link>
-                        <Link href="/activity" className={cn(
-                            "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                            location === "/activity" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
-                        )}>
-                            <ScrollText className="h-4 w-4" />
-                            Activity Log
-                        </Link>
-                        <Link href="/settings" className={cn(
-                            "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                            location === "/settings" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
-                        )}>
-                            <SettingsIcon className="h-4 w-4" />
-                            Site Settings
-                        </Link>
-                        <Link href="/company-settings" className={cn(
-                            "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                            location === "/company-settings" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
-                        )}>
-                            <Building2 className="h-4 w-4" />
-                            Company Settings
-                        </Link>
-                        <Link href="/users" className={cn(
-                            "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                            location === "/users" ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
-                        )}>
-                            <Users className="h-4 w-4" />
-                            Team Members
-                        </Link>
-                        <Link href="/clients" className={cn(
-                            "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                            location.startsWith("/clients") ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
-                        )}>
-                            <Users className="h-4 w-4" />
-                            Users
-                        </Link>
+                        {navigationItems.map((item, index) => {
+                            if (item.separator) {
+                                return <div key={`mobile-separator-${index}`} className="my-4 border-t border-border/50 mx-2" />;
+                            }
+
+                            const Icon = item.icon!;
+                            const isActive = item.matchPrefix
+                                ? location.startsWith(item.path!)
+                                : location === item.path;
+
+                            return (
+                                <Link
+                                    key={`mobile-${item.path}`}
+                                    href={item.path!}
+                                    className={cn(
+                                        "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
+                                        isActive ? "bg-muted text-foreground font-medium" : "text-muted-foreground"
+                                    )}
+                                >
+                                    <Icon className="h-4 w-4" />
+                                    {item.label}
+                                </Link>
+                            );
+                        })}
                     </nav>
                     <div className="absolute bottom-0 left-0 right-0 p-4 border-t space-y-2 bg-white dark:bg-[#1C252D]">
                         {toggleTheme && (
