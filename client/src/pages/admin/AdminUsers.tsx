@@ -34,6 +34,7 @@ import { Label } from "@/components/ui/label";
 import { Loader2, Plus, Trash2, Key, UserCog } from "lucide-react";
 import { toast } from "sonner";
 import { format } from "date-fns";
+import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 
 export default function AdminUsers() {
     const [isCreateOpen, setIsCreateOpen] = useState(false);
@@ -109,13 +110,10 @@ export default function AdminUsers() {
 
     return (
         <div className="space-y-8">
-            <div className="flex justify-between items-center">
-                <div>
-                    <h1 className="text-3xl font-bold tracking-tight">Team Members</h1>
-                    <p className="text-muted-foreground">
-                        Manage team members who can access this dashboard
-                    </p>
-                </div>
+            <AdminPageHeader
+                title="Team Members"
+                description="Manage team members who can access this dashboard"
+            >
                 <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
                     <DialogTrigger asChild>
                         <Button>
@@ -167,7 +165,7 @@ export default function AdminUsers() {
                         </form>
                     </DialogContent>
                 </Dialog>
-            </div>
+            </AdminPageHeader>
 
             <div className="rounded-md border bg-card">
                 <Table>

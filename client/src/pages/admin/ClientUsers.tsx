@@ -22,6 +22,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Loader2, Search, Users as UsersIcon, Mail, Calendar, FileText, X, Settings2 } from "lucide-react";
 import { format } from "date-fns";
 import { useLocation } from "wouter";
+import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { AnimatedTableRow } from "@/components/motion";
 
 export default function ClientUsers() {
     const [, setLocation] = useLocation();
@@ -77,18 +79,15 @@ export default function ClientUsers() {
 
     return (
         <div className="space-y-8">
-            <div className="flex justify-between items-center">
-                <div>
-                    <h1 className="text-3xl font-bold tracking-tight">Users</h1>
-                    <p className="text-muted-foreground">
-                        Manage client relationships and view their complete history
-                    </p>
-                </div>
+            <AdminPageHeader
+                title="Users"
+                description="Manage client relationships and view their complete history"
+            >
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <UsersIcon className="h-4 w-4" />
                     <span>{data?.total || 0} total clients</span>
                 </div>
-            </div>
+            </AdminPageHeader>
 
             {/* Search and Columns */}
             <div className="flex items-center gap-4">
@@ -187,9 +186,10 @@ export default function ClientUsers() {
                                 </TableCell>
                             </TableRow>
                         ) : (
-                            data?.users.map((user) => (
-                                <TableRow
+                            data?.users.map((user, index) => (
+                                <AnimatedTableRow
                                     key={user.email}
+                                    index={index}
                                     className="cursor-pointer hover:bg-muted/50"
                                     onClick={() => setLocation(`/clients/${user.id}`)}
                                 >
@@ -240,7 +240,7 @@ export default function ClientUsers() {
                                             View Profile
                                         </Button>
                                     </TableCell>
-                                </TableRow>
+                                </AnimatedTableRow>
                             ))
                         )}
                     </TableBody>

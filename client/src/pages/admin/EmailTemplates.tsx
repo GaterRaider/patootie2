@@ -3,6 +3,7 @@ import { trpc } from "@/lib/trpc";
 import { Link } from "wouter";
 import { Edit, Mail, Calendar, Globe, Plus, X } from "lucide-react";
 import { toast } from "sonner";
+import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 
 export default function EmailTemplates() {
     const utils = trpc.useContext();
@@ -94,8 +95,10 @@ export default function EmailTemplates() {
 
     return (
         <div className="space-y-6">
-            <div className="flex items-center justify-between">
-                <h1 className="text-2xl font-bold text-gray-900">Email Templates</h1>
+            <AdminPageHeader
+                title="Email Templates"
+                description="Manage email templates for notifications and automated responses."
+            >
                 <button
                     onClick={() => setShowCreateModal(true)}
                     className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 flex items-center space-x-2 transition-colors"
@@ -103,7 +106,7 @@ export default function EmailTemplates() {
                     <Plus size={18} />
                     <span>Add Template</span>
                 </button>
-            </div>
+            </AdminPageHeader>
 
             {showCreateModal && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">

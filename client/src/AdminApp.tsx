@@ -16,6 +16,7 @@ import FAQManager from "./pages/admin/FAQManager";
 import ClientUsers from "./pages/admin/ClientUsers";
 import ClientUserDetail from "./pages/admin/ClientUserDetail";
 
+
 /**
  * Admin application router
  * All admin components are eagerly imported to eliminate loading screens
@@ -40,6 +41,7 @@ export default function AdminApp() {
                 <Route path="/faq" component={FAQManager} />
                 <Route path="/emails/:key/:language" component={EmailTemplateEditor} />
                 <Route path="/emails" component={EmailTemplates} />
+
 
                 {/* Fallback - redirect to dashboard */}
                 <Route path="/" component={AdminDashboard} />

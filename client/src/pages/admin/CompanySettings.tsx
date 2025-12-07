@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Loader2, Save, Building2, Receipt, Landmark, FileText } from "lucide-react";
 import { toast } from "sonner";
+import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 
 export default function Settings() {
     const [companyName, setCompanyName] = useState("");
@@ -81,12 +82,10 @@ export default function Settings() {
 
     return (
         <div className="space-y-8 pb-8">
-            <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tight">Company Settings</h1>
-                <p className="text-muted-foreground">
-                    Configure your company information for invoices
-                </p>
-            </div>
+            <AdminPageHeader
+                title="Company Settings"
+                description="Configure your company information for invoices"
+            />
 
             <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid gap-6 md:grid-cols-2">

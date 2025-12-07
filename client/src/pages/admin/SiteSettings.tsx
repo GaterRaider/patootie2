@@ -11,6 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Loader2, Save, Settings2, Clock, Plus, Trash2, Edit2, GripVertical, Star, Play } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 
 interface TestimonialItem {
     id: string;
@@ -193,12 +194,10 @@ export default function SiteSettings() {
 
     return (
         <div className="space-y-8 pb-8">
-            <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tight">Site Settings</h1>
-                <p className="text-muted-foreground">
-                    Configure public-facing website features
-                </p>
-            </div>
+            <AdminPageHeader
+                title="Site Settings"
+                description="Configure public-facing website features"
+            />
 
             <div className="grid gap-6 max-w-4xl">
                 {/* Hero Testimonials Configuration */}

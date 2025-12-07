@@ -14,6 +14,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { format } from "date-fns";
 import { Loader2, Search, Filter, X } from "lucide-react";
 import { useDebounce } from "@/hooks/use-debounce";
+import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { AnimatedTableRow } from "@/components/motion";
 
 const ACTIONS = [
     "LOGIN",
@@ -51,7 +53,7 @@ export default function ActivityLog() {
         action: actionFilter === "ALL" ? undefined : actionFilter,
         entityType: entityTypeFilter === "ALL" ? undefined : entityTypeFilter,
     }, {
-        keepPreviousData: true,
+        placeholderData: (previousData) => previousData,
     });
 
     const logs = data?.logs || [];
@@ -72,14 +74,10 @@ export default function ActivityLog() {
 
     return (
         <div className="space-y-6">
-            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                <div>
-                    <h1 className="text-3xl font-bold tracking-tight">Activity Log</h1>
-                    <p className="text-muted-foreground">
-                        Recent administrative actions and security events.
-                    </p>
-                </div>
-            </div>
+            <AdminPageHeader
+                title="Activity Log"
+                description="Recent administrative actions and security events."
+            />
 
             <div className="flex flex-col gap-4 md:flex-row md:items-center bg-card p-4 rounded-lg border">
                 <div className="relative flex-1">
@@ -144,8 +142,8 @@ export default function ActivityLog() {
                                 </TableCell>
                             </TableRow>
                         ) : logs.length > 0 ? (
-                            logs.map((log) => (
-                                <TableRow key={log.id}>
+                            logs.map((log, index) => (
+                                <AnimatedTableRow key={log.id} index={index}>
                                     <TableCell className="whitespace-nowrap text-xs text-muted-foreground">
                                         {format(new Date(log.createdAt), "MMM d, HH:mm:ss")}
                                     </TableCell>
@@ -166,7 +164,7 @@ export default function ActivityLog() {
                                     <TableCell className="text-xs text-muted-foreground">
                                         {log.ipAddress || "-"}
                                     </TableCell>
-                                </TableRow>
+                                </AnimatedTableRow>
                             ))
                         ) : (
                             <TableRow>

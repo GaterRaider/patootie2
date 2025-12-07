@@ -21,6 +21,7 @@ import EmailTemplateEditor from "./pages/admin/EmailTemplateEditor";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminLayout from "./components/AdminLayout";
 
+
 function AdminRouter() {
     return (
         <ErrorBoundary>
@@ -110,6 +111,8 @@ function AdminRouter() {
                                     <EmailTemplates />
                                 </AdminLayout>
                             </Route>
+
+
 
                             <Route path="/admin" component={() => <AdminLogin />} />
 

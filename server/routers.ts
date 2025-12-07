@@ -328,8 +328,15 @@ export const appRouter = router({
         return { success: true };
       }),
 
-      me: adminProcedure.query(({ ctx }) => {
-        return { adminId: ctx.adminId };
+      me: adminProcedure.query(async ({ ctx }) => {
+        const db = await getDb();
+        if (!db) return { adminId: ctx.adminId, username: 'Admin' };
+
+        const [admin] = await db.select().from(adminUsers).where(eq(adminUsers.id, ctx.adminId)).limit(1);
+        return {
+          adminId: ctx.adminId,
+          username: admin?.username || 'Admin'
+        };
       }),
     }),
 

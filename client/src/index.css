@@ -99,37 +99,33 @@
 }
 
 .dark {
-  /* Premium Palette - Dark Mode */
-  --background: oklch(0.15 0.03 270);
-  /* Deep Navy/Slate */
+  --background: oklch(0.22 0.015 270);
   --foreground: oklch(0.98 0.01 270);
 
-  --card: oklch(0.2 0.03 270);
-  /* Lighter Navy */
+  --card: oklch(0.28 0.015 270);
   --card-foreground: oklch(0.98 0.01 270);
 
-  --popover: oklch(0.2 0.03 270);
+  --popover: oklch(0.28 0.015 270);
   --popover-foreground: oklch(0.98 0.01 270);
 
-  --primary: oklch(0.6 0.18 270);
-  /* Lighter Indigo for Dark Mode */
+  --primary: oklch(0.7 0.18 270);
   --primary-foreground: oklch(0.98 0 0);
 
-  --secondary: oklch(0.25 0.03 270);
+  --secondary: oklch(0.32 0.015 270);
   --secondary-foreground: oklch(0.98 0.01 270);
 
   --accent: oklch(0.7 0.15 180);
   --accent-foreground: oklch(0.98 0 0);
 
-  --muted: oklch(0.25 0.03 270);
-  --muted-foreground: oklch(0.7 0.02 270);
+  --muted: oklch(0.32 0.015 270);
+  --muted-foreground: oklch(0.8 0.015 270);
 
   --destructive: oklch(0.6 0.2 25);
   --destructive-foreground: oklch(0.98 0 0);
 
-  --border: oklch(0.3 0.03 270);
-  --input: oklch(0.3 0.03 270);
-  --ring: oklch(0.6 0.18 270);
+  --border: oklch(0.4 0.015 270);
+  --input: oklch(0.4 0.015 270);
+  --ring: oklch(0.7 0.18 270);
 
   --chart-1: oklch(0.6 0.18 270);
   --chart-2: oklch(0.65 0.18 200);
@@ -137,14 +133,14 @@
   --chart-4: oklch(0.75 0.15 150);
   --chart-5: oklch(0.8 0.15 100);
 
-  --sidebar: oklch(0.2 0.03 270);
+  --sidebar: oklch(0.25 0.015 270);
   --sidebar-foreground: oklch(0.98 0.01 270);
-  --sidebar-primary: oklch(0.6 0.18 270);
+  --sidebar-primary: oklch(0.7 0.18 270);
   --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent: oklch(0.25 0.03 270);
+  --sidebar-accent: oklch(0.32 0.015 270);
   --sidebar-accent-foreground: oklch(0.98 0.01 270);
-  --sidebar-border: oklch(0.3 0.03 270);
-  --sidebar-ring: oklch(0.6 0.18 270);
+  --sidebar-border: oklch(0.4 0.015 270);
+  --sidebar-ring: oklch(0.7 0.18 270);
 
   color-scheme: dark;
 }
@@ -265,6 +261,10 @@
 }
 
 @layer utilities {
+
+  /* ========================================================================
+     PATTERN BACKGROUNDS
+     ======================================================================== */
   .bg-grid-pattern {
     background-size: 40px 40px;
     background-image: linear-gradient(to right, rgba(99, 102, 241, 0.12) 1px, transparent 1px),
@@ -283,6 +283,141 @@
 
   .dark .bg-dot-pattern {
     background-image: radial-gradient(rgba(99, 102, 241, 0.25) 1px, transparent 1px);
+  }
+
+  /* ========================================================================
+     GLASSMORPHISM
+     ======================================================================== */
+  .glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .dark .glass {
+    background: rgba(32, 32, 48, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .glass-strong {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .dark .glass-strong {
+    background: rgba(32, 32, 48, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  /* ========================================================================
+     MODERN SHADOWS
+     ======================================================================== */
+  .shadow-modern {
+    box-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.05),
+      0 10px 40px rgba(0, 0, 0, 0.08);
+  }
+
+  .dark .shadow-modern {
+    box-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.3),
+      0 10px 40px rgba(0, 0, 0, 0.4);
+  }
+
+  .shadow-glow {
+    box-shadow:
+      0 0 20px rgba(99, 102, 241, 0.15),
+      0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .dark .shadow-glow {
+    box-shadow:
+      0 0 20px rgba(99, 102, 241, 0.3),
+      0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  /* ========================================================================
+     GRADIENT BACKGROUNDS
+     ======================================================================== */
+  .gradient-primary {
+    background: linear-gradient(135deg,
+        oklch(0.45 0.2 270) 0%,
+        oklch(0.55 0.18 260) 100%);
+  }
+
+  .gradient-accent {
+    background: linear-gradient(135deg,
+        oklch(0.7 0.15 180) 0%,
+        oklch(0.65 0.18 200) 100%);
+  }
+
+  .gradient-radial {
+    background: radial-gradient(circle at top right,
+        oklch(0.45 0.2 270) 0%,
+        oklch(0.35 0.15 270) 50%,
+        oklch(0.25 0.1 270) 100%);
+  }
+
+  /* ========================================================================
+     ANIMATION UTILITIES
+     ======================================================================== */
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.4s ease-out;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.3s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* Respect reduced motion preference */
+  @media (prefers-reduced-motion: reduce) {
+
+    .animate-fade-in,
+    .animate-slide-up,
+    .animate-scale-in {
+      animation: none;
+    }
   }
 }
 

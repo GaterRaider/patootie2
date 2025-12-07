@@ -16,6 +16,8 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import { AnimatedTableRow } from "@/components/motion";
+import { AnimatedBadge, PulsingBadge } from "@/components/ui/animated-badge";
 import { format } from "date-fns";
 import { ArrowUpDown, MoreHorizontal, Mail, Tag, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -159,7 +161,10 @@ export const columns = [
                     className = "bg-secondary text-secondary-foreground hover:bg-secondary/80";
             }
 
-            return <Badge className={className} variant="outline">{label}</Badge>;
+            if (status === "new") {
+                return <PulsingBadge className={className} variant="outline">{label}</PulsingBadge>;
+            }
+            return <AnimatedBadge className={className} variant="outline">{label}</AnimatedBadge>;
         },
     }),
     columnHelper.accessor("country", {
@@ -261,8 +266,9 @@ export default function SubmissionsTable({
                 <TableBody>
                     {table.getRowModel().rows?.length ? (
                         table.getRowModel().rows.map((row) => (
-                            <TableRow
+                            <AnimatedTableRow
                                 key={row.id}
+                                index={table.getRowModel().rows.indexOf(row)}
                                 data-state={row.getIsSelected() && "selected"}
                                 className="cursor-pointer hover:bg-muted/50"
                                 onClick={(e) => {
@@ -279,7 +285,7 @@ export default function SubmissionsTable({
                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                     </TableCell>
                                 ))}
-                            </TableRow>
+                            </AnimatedTableRow>
                         ))
                     ) : (
                         <TableRow>

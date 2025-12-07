@@ -14,6 +14,8 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import { AnimatedTableRow } from "@/components/motion";
+import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
@@ -179,18 +181,15 @@ export default function Invoices() {
 
     return (
         <div className="space-y-6">
-            <div className="flex items-center justify-between">
-                <div>
-                    <h1 className="text-3xl font-bold">Invoices</h1>
-                    <p className="text-sm text-muted-foreground">
-                        Manage and track your invoices
-                    </p>
-                </div>
+            <AdminPageHeader
+                title="Invoices"
+                description="Manage and track your invoices"
+            >
                 <Button onClick={() => setLocation("/invoices/new")}>
                     <Plus className="mr-2 h-4 w-4" />
                     Create Invoice
                 </Button>
-            </div>
+            </AdminPageHeader>
 
             <Card>
                 <CardHeader>
@@ -276,9 +275,10 @@ export default function Invoices() {
                                                 </TableCell>
                                             </TableRow>
                                         ) : (
-                                            data?.invoices.map((invoice) => (
-                                                <TableRow
+                                            data?.invoices.map((invoice, index) => (
+                                                <AnimatedTableRow
                                                     key={invoice.id}
+                                                    index={index}
                                                     className="cursor-pointer hover:bg-muted/50"
                                                     onClick={() => setLocation(`/invoices/${invoice.id}/edit`)}
                                                 >
@@ -371,7 +371,7 @@ export default function Invoices() {
                                                             </Button>
                                                         </div>
                                                     </TableCell>
-                                                </TableRow>
+                                                </AnimatedTableRow>
                                             ))
                                         )}
                                     </TableBody>

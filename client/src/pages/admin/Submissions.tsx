@@ -30,6 +30,8 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import { MultiSelect } from "@/components/ui/multi-select";
+import { PageTransition } from "@/components/motion";
+import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 
 export default function AdminSubmissions() {
     const [rowSelection, setRowSelection] = useState({});
@@ -229,10 +231,11 @@ export default function AdminSubmissions() {
     ];
 
     return (
-        <>
-            <div className="flex justify-between items-center mb-6">
-                <h1 className="text-3xl font-bold">Submissions</h1>
-            </div>
+        <PageTransition>
+            <AdminPageHeader
+                title="Submissions"
+                description="Manage and track all contact form inquiries."
+            />
 
             <div className="space-y-4">
                 <div className="flex flex-col sm:flex-row gap-4 justify-between items-end sm:items-center">
@@ -497,6 +500,6 @@ export default function AdminSubmissions() {
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
-        </>
+        </PageTransition>
     );
 }

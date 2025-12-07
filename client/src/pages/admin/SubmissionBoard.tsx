@@ -26,6 +26,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { Loader2, Calendar, User, Mail, Phone, MapPin, MessageSquare, Layers, LayoutGrid, GripVertical } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
@@ -282,13 +283,10 @@ export default function SubmissionBoard() {
 
     return (
         <div className="h-[calc(100vh-100px)] flex flex-col">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-                <div>
-                    <h1 className="text-3xl font-bold tracking-tight">Submission Board</h1>
-                    <p className="text-muted-foreground">
-                        Manage submission workflow
-                    </p>
-                </div>
+            <AdminPageHeader
+                title="Submission Board"
+                description="Manage submission workflow"
+            >
                 <Button
                     variant="outline"
                     onClick={() => setGroupByService(!groupByService)}
@@ -297,7 +295,7 @@ export default function SubmissionBoard() {
                     {groupByService ? <LayoutGrid className="h-4 w-4" /> : <Layers className="h-4 w-4" />}
                     {groupByService ? "Default View" : "Group by Service"}
                 </Button>
-            </div>
+            </AdminPageHeader>
 
             <DndContext
                 sensors={sensors}

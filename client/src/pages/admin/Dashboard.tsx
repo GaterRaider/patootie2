@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Loader2, Settings2, GripVertical } from "lucide-react";
+import { DashboardSkeleton } from "@/components/ui/skeleton";
+import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
@@ -40,6 +42,7 @@ import {
     useSortable,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { PageTransition, StaggerContainer, StaggerItem } from '@/components/motion';
 
 type ChartId = 'submissionsOverTime' | 'submissionsByService' | 'revenueTrends' | 'invoiceStatus' | 'responseTime' | 'topServices' | 'recentActivity' | 'quickActions';
 
@@ -82,6 +85,7 @@ function SortableChart({ id, children }: SortableChartProps) {
 }
 
 export default function AdminDashboard() {
+    const { data: user } = trpc.admin.auth.me.useQuery();
     const [submissionsGroupBy, setSubmissionsGroupBy] = useState<'day' | 'week' | 'month'>('day');
     const [dateRange, setDateRange] = useState<{ startDate?: string; endDate?: string }>({});
     const [debouncedDateRange, setDebouncedDateRange] = useState<{ startDate?: string; endDate?: string }>({});
@@ -296,9 +300,11 @@ export default function AdminDashboard() {
     };
 
     return (
-        <>
-            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
-                <h1 className="text-3xl font-bold">Dashboard</h1>
+        <PageTransition>
+            <AdminPageHeader
+                title="Dashboard"
+                description={`Welcome back, ${user?.username || 'Admin'}! Here's what's happening.`}
+            >
                 <div className="flex gap-2 flex-wrap">
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -379,7 +385,7 @@ export default function AdminDashboard() {
                     </DropdownMenu>
                     <ExportButton onExportPDF={handleExportPDF} onExportCSV={handleExportCSV} />
                 </div>
-            </div>
+            </AdminPageHeader>
 
             {/* Date Range Picker */}
             <div className="mb-6">
@@ -394,9 +400,7 @@ export default function AdminDashboard() {
 
             {/* Analytics Section */}
             {metricsLoading && !summaryMetrics ? (
-                <div className="flex justify-center py-8 mb-8">
-                    <Loader2 className="h-8 w-8 animate-spin" />
-                </div>
+                <DashboardSkeleton />
             ) : summaryMetrics ? (
                 <div className="space-y-6 mb-8">
                     {/* Summary Cards */}
@@ -453,6 +457,6 @@ export default function AdminDashboard() {
                     </DndContext>
                 </div>
             ) : null}
-        </>
+        </PageTransition>
     );
 }

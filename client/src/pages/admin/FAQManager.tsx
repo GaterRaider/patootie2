@@ -8,6 +8,7 @@ import { Plus, Edit, Trash2, Eye, EyeOff, GripVertical, Download, Upload } from 
 import { toast } from "sonner";
 import { FAQItemForm } from "@/components/admin/FAQItemForm";
 import { SortableFAQItem } from "@/components/admin/SortableFAQItem";
+import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import type { FAQItem } from "../../../../drizzle/schema";
 import {
     DndContext,
@@ -272,14 +273,11 @@ export default function FAQManager() {
     };
 
     return (
-        <div className="container mx-auto py-8 px-4">
-            <div className="flex justify-between items-center mb-8">
-                <div>
-                    <h1 className="text-3xl font-bold">FAQ Management</h1>
-                    <p className="text-muted-foreground mt-1">
-                        Manage frequently asked questions for your website
-                    </p>
-                </div>
+        <div className="space-y-8">
+            <AdminPageHeader
+                title="FAQ Management"
+                description="Manage frequently asked questions for your website"
+            >
                 <div className="flex gap-2">
                     <input
                         type="file"
@@ -306,7 +304,7 @@ export default function FAQManager() {
                         Add FAQ
                     </Button>
                 </div>
-            </div>
+            </AdminPageHeader>
 
             <Tabs value={selectedLanguage} onValueChange={(value) => setSelectedLanguage(value as 'en' | 'ko' | 'de')}>
                 <TabsList className="mb-6">
