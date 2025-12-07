@@ -3,7 +3,7 @@ import SubmissionsTable from "@/components/SubmissionsTable";
 import { trpc } from "@/lib/trpc";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Loader2, Search, ChevronLeft, ChevronRight, Filter, Settings2, Bookmark, Star, Plus } from "lucide-react";
+import { Loader2, Search, ChevronLeft, ChevronRight, Filter, Settings2, Bookmark, Star, Plus, SlidersHorizontal } from "lucide-react";
 import { SortingState, VisibilityState } from "@tanstack/react-table";
 import {
     Select,
@@ -324,7 +324,79 @@ export default function AdminSubmissions() {
 
                     {/* Filters Row */}
                     <div className="flex flex-wrap gap-2 items-center justify-between">
-                        <div className="flex flex-wrap gap-2 items-center">
+                        {/* Mobile: Single consolidated Filters button */}
+                        <div className="flex md:hidden gap-2 items-center flex-1">
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button variant="outline" className="flex-1">
+                                        <SlidersHorizontal className="mr-2 h-4 w-4" />
+                                        Filters
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="start" className="w-72">
+                                    <DropdownMenuLabel>Filter Options</DropdownMenuLabel>
+                                    <DropdownMenuSeparator />
+
+                                    {/* Service Filter */}
+                                    <div className="px-2 py-2">
+                                        <label className="text-sm font-medium mb-2 block">Service Category</label>
+                                        <Select value={serviceFilter} onValueChange={setServiceFilter}>
+                                            <SelectTrigger className="w-full">
+                                                <SelectValue placeholder="All Services" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="all">All Services</SelectItem>
+                                                <SelectItem value="Immigration & Residence">Immigration & Residence</SelectItem>
+                                                <SelectItem value="Registration & Bureaucracy">Registration & Bureaucracy</SelectItem>
+                                                <SelectItem value="Pension and social benefits">Pension & Social Benefits</SelectItem>
+                                                <SelectItem value="Others requests">Other Requests</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
+
+                                    <DropdownMenuSeparator />
+
+                                    {/* Date Filter */}
+                                    <div className="px-2 py-2">
+                                        <label className="text-sm font-medium mb-2 block">Date Range</label>
+                                        <Input
+                                            type="date"
+                                            value={dateTo}
+                                            onChange={(e) => setDateTo(e.target.value)}
+                                            className="w-full"
+                                        />
+                                    </div>
+
+                                    <DropdownMenuSeparator />
+
+                                    {/* Saved Filters */}
+                                    <DropdownMenuLabel>Saved Filters</DropdownMenuLabel>
+                                    {savedFilters.length === 0 ? (
+                                        <div className="px-2 py-2 text-sm text-muted-foreground">
+                                            No saved filters
+                                        </div>
+                                    ) : (
+                                        savedFilters.map((filter) => (
+                                            <DropdownMenuItem
+                                                key={filter.id}
+                                                onClick={() => handleApplyFilter(filter.id)}
+                                            >
+                                                {filter.isDefault && <Star className="mr-2 h-3 w-3 fill-current text-yellow-500" />}
+                                                {filter.name}
+                                            </DropdownMenuItem>
+                                        ))
+                                    )}
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem onClick={() => setSaveFilterDialogOpen(true)}>
+                                        <Bookmark className="mr-2 h-4 w-4" />
+                                        Save Current Filter
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </div>
+
+                        {/* Desktop: Individual filter controls */}
+                        <div className="hidden md:flex flex-wrap gap-2 items-center">
                             <Select value={serviceFilter} onValueChange={setServiceFilter}>
                                 <SelectTrigger className="w-[180px]">
                                     <SelectValue placeholder="All Services" />
@@ -389,7 +461,7 @@ export default function AdminSubmissions() {
                                 type="date"
                                 value={dateTo}
                                 onChange={(e) => setDateTo(e.target.value)}
-                                className="w-[160px]"
+                                className="w-[160px] hidden md:block"
                                 placeholder="Date Range"
                             />
 
@@ -397,6 +469,7 @@ export default function AdminSubmissions() {
                                 <Button
                                     variant="ghost"
                                     size="sm"
+                                    className="hidden md:inline-flex"
                                     onClick={() => {
                                         setDateTo("");
                                         setSelectedTags([]);
