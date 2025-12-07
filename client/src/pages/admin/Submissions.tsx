@@ -4,6 +4,7 @@ import { trpc } from "@/lib/trpc";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2, Search, ChevronLeft, ChevronRight, Filter, Settings2, Bookmark, Star, Plus, SlidersHorizontal } from "lucide-react";
+import { SubmissionsDateRangePicker } from "@/components/admin/SubmissionsDateRangePicker";
 import { SortingState, VisibilityState } from "@tanstack/react-table";
 import {
     Select,
@@ -67,6 +68,7 @@ export default function AdminSubmissions() {
         return {};
     });
     const [serviceFilter, setServiceFilter] = useState<string>("all");
+    const [dateFrom, setDateFrom] = useState<string>("");
     const [dateTo, setDateTo] = useState<string>("");
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
     const [bulkStatus, setBulkStatus] = useState<string>("");
@@ -163,6 +165,7 @@ export default function AdminSubmissions() {
         sortBy: sorting.length > 0 ? sorting[0].id : undefined,
         sortOrder: sorting.length > 0 ? (sorting[0].desc ? "desc" : "asc") : undefined,
         service: serviceFilter !== "all" ? serviceFilter : undefined,
+        dateFrom: dateFrom || undefined,
         dateTo: dateTo || undefined,
         tags: selectedTags.length > 0 ? selectedTags : undefined,
     });
@@ -357,13 +360,15 @@ export default function AdminSubmissions() {
                                     <DropdownMenuSeparator />
 
                                     {/* Date Filter */}
-                                    <div className="px-2 py-2">
-                                        <label className="text-sm font-medium mb-2 block">Date Range</label>
-                                        <Input
-                                            type="date"
-                                            value={dateTo}
-                                            onChange={(e) => setDateTo(e.target.value)}
-                                            className="w-full"
+                                    <div className="px-2 py-2 space-y-2">
+                                        <label className="text-sm font-medium block">Date Range</label>
+                                        <SubmissionsDateRangePicker
+                                            dateFrom={dateFrom}
+                                            dateTo={dateTo}
+                                            onUpdate={(start, end) => {
+                                                setDateFrom(start || "");
+                                                setDateTo(end || "");
+                                            }}
                                         />
                                     </div>
 
@@ -457,20 +462,24 @@ export default function AdminSubmissions() {
                                 </DropdownMenuContent>
                             </DropdownMenu>
 
-                            <Input
-                                type="date"
-                                value={dateTo}
-                                onChange={(e) => setDateTo(e.target.value)}
-                                className="w-[160px] hidden md:block"
-                                placeholder="Date Range"
-                            />
+                            <div className="hidden md:block">
+                                <SubmissionsDateRangePicker
+                                    dateFrom={dateFrom}
+                                    dateTo={dateTo}
+                                    onUpdate={(start, end) => {
+                                        setDateFrom(start || "");
+                                        setDateTo(end || "");
+                                    }}
+                                />
+                            </div>
 
-                            {(dateTo || selectedTags.length > 0) && (
+                            {(dateFrom || dateTo || selectedTags.length > 0) && (
                                 <Button
                                     variant="ghost"
                                     size="sm"
                                     className="hidden md:inline-flex"
                                     onClick={() => {
+                                        setDateFrom("");
                                         setDateTo("");
                                         setSelectedTags([]);
                                     }}

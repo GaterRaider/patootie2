@@ -340,9 +340,19 @@ export async function getAllContactSubmissions(options?: {
   if (options?.dateFrom) {
     conditions.push(gte(contactSubmissions.createdAt, new Date(options.dateFrom)));
   }
-  if (options?.dateTo) {
+
+  // Determine effective end date (exclusive upper bound)
+  // If dateTo is provided, use it.
+  // If ONLY dateFrom is provided, limit to that day (effectively dateTo = dateFrom).
+  // If neither, no upper bound.
+  let endDateString = options?.dateTo;
+  if (!endDateString && options?.dateFrom) {
+    endDateString = options.dateFrom;
+  }
+
+  if (endDateString) {
     // Add 1 day to include the entire end date
-    const endDate = new Date(options.dateTo);
+    const endDate = new Date(endDateString);
     endDate.setDate(endDate.getDate() + 1);
     conditions.push(lte(contactSubmissions.createdAt, endDate));
   }
