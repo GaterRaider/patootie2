@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Loader2, ArrowLeft, FileText, Tag, X, Plus } from "lucide-react";
 import { format } from "date-fns";
 import { useState } from "react";
+import { getCategoryDisplayName } from "@/lib/categoryUtils";
 
 export default function SubmissionDetail() {
     const params = useParams();
@@ -240,7 +241,7 @@ export default function SubmissionDetail() {
                         <CardContent className="space-y-3">
                             <div>
                                 <p className="text-sm font-medium text-muted-foreground">Service Category</p>
-                                <p className="text-base font-medium">{submission.service}</p>
+                                <p className="text-base font-medium">{getCategoryDisplayName(submission.service)}</p>
                             </div>
                             {(submission.subServices && submission.subServices.length > 0) ? (
                                 <div>

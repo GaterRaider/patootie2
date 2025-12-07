@@ -28,6 +28,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SubmissionActions } from "./admin/SubmissionActions";
+import { getCategoryDisplayName } from "@/lib/categoryUtils";
 
 export interface Submission {
     id: number;
@@ -91,6 +92,7 @@ export const columns = [
     }),
     columnHelper.accessor("service", {
         header: "Category",
+        cell: (info) => getCategoryDisplayName(info.getValue()),
     }),
     columnHelper.display({
         id: "subServices",

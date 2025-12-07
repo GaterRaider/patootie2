@@ -74,13 +74,13 @@ export default function InvoiceForm() {
 
     const createMutation = trpc.admin.invoices.create.useMutation({
         onSuccess: () => {
-            setLocation("/admin/invoices");
+            setLocation("/invoices");
         },
     });
 
     const updateMutation = trpc.admin.invoices.update.useMutation({
         onSuccess: () => {
-            setLocation("/admin/invoices");
+            setLocation("/invoices");
         },
     });
 
@@ -196,7 +196,7 @@ export default function InvoiceForm() {
                         type="button"
                         variant="outline"
                         size="sm"
-                        onClick={() => setLocation("/admin/invoices")}
+                        onClick={() => setLocation("/invoices")}
                         className="gap-2 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 shadow-sm rounded-full hover:shadow-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-all"
                     >
                         <ArrowLeft className="h-4 w-4" />
@@ -212,7 +212,7 @@ export default function InvoiceForm() {
                     <Button
                         type="button"
                         variant="outline"
-                        onClick={() => setLocation("/admin/invoices")}
+                        onClick={() => setLocation("/invoices")}
                     >
                         Cancel
                     </Button>
