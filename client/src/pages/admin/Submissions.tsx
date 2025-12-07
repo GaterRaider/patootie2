@@ -37,7 +37,19 @@ export default function AdminSubmissions() {
     const [rowSelection, setRowSelection] = useState({});
     const utils = trpc.useContext();
     const [page, setPage] = useState(1);
-    const [pageSize, setPageSize] = useState(20);
+    const [pageSize, setPageSize] = useState(() => {
+        if (typeof window !== 'undefined') {
+            const saved = localStorage.getItem('submissions-page-size');
+            if (saved) {
+                try {
+                    return parseInt(saved);
+                } catch (e) {
+                    console.error('Failed to parse page size', e);
+                }
+            }
+        }
+        return 10;
+    });
     const [search, setSearch] = useState("");
     const [debouncedSearch, setDebouncedSearch] = useState("");
     const [sorting, setSorting] = useState<SortingState>([]);
@@ -66,6 +78,11 @@ export default function AdminSubmissions() {
     useEffect(() => {
         localStorage.setItem('submissions-column-visibility', JSON.stringify(columnVisibility));
     }, [columnVisibility]);
+
+    // Persist page size to localStorage
+    useEffect(() => {
+        localStorage.setItem('submissions-page-size', pageSize.toString());
+    }, [pageSize]);
 
     // Debounce search
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -445,13 +462,10 @@ export default function AdminSubmissions() {
                 {/* Bottom Pagination */}
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                        <span className="text-sm text-muted-foreground">
-                            Showing {data?.submissions.length ? ((page - 1) * pageSize + 1) : 0} to {data?.submissions.length ? ((page - 1) * pageSize + data.submissions.length) : 0} of
-                        </span>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button variant="outline" size="sm" className="h-7 text-sm font-medium border-border">
-                                    {data?.total || 0} results
+                                    Showing {data?.submissions.length ? ((page - 1) * pageSize + 1) : 0} to {data?.total ? Math.min(page * pageSize, data.total) : 0}
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="start">
@@ -471,6 +485,9 @@ export default function AdminSubmissions() {
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
+                        <span className="text-sm text-muted-foreground">
+                            of {data?.total || 0} results
+                        </span>
                     </div>
                     <div className="flex items-center gap-2">
                         <Button
