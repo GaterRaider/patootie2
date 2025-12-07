@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SubmissionsTable from "@/components/SubmissionsTable";
 import { trpc } from "@/lib/trpc";
 import { Input } from "@/components/ui/input";
@@ -41,7 +41,19 @@ export default function AdminSubmissions() {
     const [search, setSearch] = useState("");
     const [debouncedSearch, setDebouncedSearch] = useState("");
     const [sorting, setSorting] = useState<SortingState>([]);
-    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(() => {
+        if (typeof window !== 'undefined') {
+            const saved = localStorage.getItem('submissions-column-visibility');
+            if (saved) {
+                try {
+                    return JSON.parse(saved);
+                } catch (e) {
+                    console.error('Failed to parse column visibility settings', e);
+                }
+            }
+        }
+        return {};
+    });
     const [serviceFilter, setServiceFilter] = useState<string>("all");
     const [dateTo, setDateTo] = useState<string>("");
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -49,6 +61,11 @@ export default function AdminSubmissions() {
     const [saveFilterDialogOpen, setSaveFilterDialogOpen] = useState(false);
     const [filterName, setFilterName] = useState("");
     const [setAsDefault, setSetAsDefault] = useState(false);
+
+    // Persist column visibility to localStorage
+    useEffect(() => {
+        localStorage.setItem('submissions-column-visibility', JSON.stringify(columnVisibility));
+    }, [columnVisibility]);
 
     // Debounce search
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -218,7 +235,8 @@ export default function AdminSubmissions() {
         { id: "status", label: "Status" },
         { id: "country", label: "Country" },
         { id: "tags", label: "Tags" },
-        { id: "createdAt", label: "Date" },
+        { id: "createdAt", label: "Submission Date" },
+        { id: "actions", label: "Actions" },
     ];
 
     return (
@@ -269,7 +287,7 @@ export default function AdminSubmissions() {
                             </div>
                         </DropdownMenuContent>
                     </DropdownMenu>
-                    <Button>
+                    <Button className="bg-blue-600 hover:bg-blue-700 text-white shadow-sm">
                         <Plus className="mr-2 h-4 w-4" />
                         New Submission
                     </Button>
@@ -278,12 +296,12 @@ export default function AdminSubmissions() {
                 <div className="flex flex-col gap-4">
                     {/* Search Bar - Full Width */}
                     <div className="relative w-full">
-                        <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                        <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                         <Input
                             placeholder="Search by client name, service, or ID..."
                             value={search}
                             onChange={handleSearchChange}
-                            className="pl-8"
+                            className="pl-10 h-11"
                         />
                     </div>
 
@@ -426,8 +444,33 @@ export default function AdminSubmissions() {
 
                 {/* Bottom Pagination */}
                 <div className="flex items-center justify-between">
-                    <div className="text-sm text-muted-foreground">
-                        Showing {data?.submissions.length ? ((page - 1) * pageSize + 1) : 0} to {Math.min(page * pageSize, ((page - 1) * pageSize + (data?.submissions.length || 0)))} of {data?.total || 0} results
+                    <div className="flex items-center gap-2">
+                        <span className="text-sm text-muted-foreground">
+                            Showing {data?.submissions.length ? ((page - 1) * pageSize + 1) : 0} to {data?.submissions.length ? ((page - 1) * pageSize + data.submissions.length) : 0} of
+                        </span>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="outline" size="sm" className="h-7 text-sm font-medium border-border">
+                                    {data?.total || 0} results
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="start">
+                                <DropdownMenuLabel>Results per page</DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem onClick={() => { setPageSize(10); setPage(1); }}>
+                                    10 per page
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => { setPageSize(25); setPage(1); }}>
+                                    25 per page
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => { setPageSize(50); setPage(1); }}>
+                                    50 per page
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => { setPageSize(100); setPage(1); }}>
+                                    100 per page
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                     </div>
                     <div className="flex items-center gap-2">
                         <Button

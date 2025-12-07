@@ -162,7 +162,7 @@ export const columns = [
             }
 
             if (status === "new") {
-                return <PulsingBadge className={className} variant="outline">{label}</PulsingBadge>;
+                return <AnimatedBadge className={className} variant="outline">{label}</AnimatedBadge>;
             }
             return <AnimatedBadge className={className} variant="outline">{label}</AnimatedBadge>;
         },
@@ -193,7 +193,7 @@ export const columns = [
                     variant="ghost"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                    Date
+                    Submission Date
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             );
@@ -202,6 +202,7 @@ export const columns = [
     }),
     columnHelper.display({
         id: "actions",
+        header: "Actions",
         cell: ({ row }) => <SubmissionActions submission={row.original} />,
     }),
 ];
