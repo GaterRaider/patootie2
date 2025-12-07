@@ -3,7 +3,7 @@ import SubmissionsTable from "@/components/SubmissionsTable";
 import { trpc } from "@/lib/trpc";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Loader2, Search, ChevronLeft, ChevronRight, Filter, Settings2, Bookmark, Star } from "lucide-react";
+import { Loader2, Search, ChevronLeft, ChevronRight, Filter, Settings2, Bookmark, Star, Plus } from "lucide-react";
 import { SortingState, VisibilityState } from "@tanstack/react-table";
 import {
     Select,
@@ -43,7 +43,6 @@ export default function AdminSubmissions() {
     const [sorting, setSorting] = useState<SortingState>([]);
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
     const [serviceFilter, setServiceFilter] = useState<string>("all");
-    const [dateFrom, setDateFrom] = useState<string>("");
     const [dateTo, setDateTo] = useState<string>("");
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
     const [bulkStatus, setBulkStatus] = useState<string>("");
@@ -130,7 +129,6 @@ export default function AdminSubmissions() {
         sortBy: sorting.length > 0 ? sorting[0].id : undefined,
         sortOrder: sorting.length > 0 ? (sorting[0].desc ? "desc" : "asc") : undefined,
         service: serviceFilter !== "all" ? serviceFilter : undefined,
-        dateFrom: dateFrom || undefined,
         dateTo: dateTo || undefined,
         tags: selectedTags.length > 0 ? selectedTags : undefined,
     });
@@ -165,7 +163,6 @@ export default function AdminSubmissions() {
                 search: debouncedSearch || undefined,
                 service: serviceFilter !== "all" ? serviceFilter : undefined,
                 tags: selectedTags.length > 0 ? selectedTags : undefined,
-                dateFrom: dateFrom || undefined,
                 dateTo: dateTo || undefined,
             },
             isDefault: setAsDefault,
@@ -195,12 +192,6 @@ export default function AdminSubmissions() {
             setSelectedTags(filter.filters.tags);
         } else {
             setSelectedTags([]);
-        }
-
-        if (filter.filters.dateFrom) {
-            setDateFrom(filter.filters.dateFrom);
-        } else {
-            setDateFrom("");
         }
 
         if (filter.filters.dateTo) {
@@ -238,159 +229,159 @@ export default function AdminSubmissions() {
             />
 
             <div className="space-y-4">
-                <div className="flex flex-col sm:flex-row gap-4 justify-between items-end sm:items-center">
-                    <div className="flex flex-wrap gap-2 items-center w-full">
-                        <div className="relative w-full sm:w-72">
-                            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                            <Input
-                                placeholder="Search submissions..."
-                                value={search}
-                                onChange={handleSearchChange}
-                                className="pl-8"
-                            />
-                        </div>
-                        <Select value={serviceFilter} onValueChange={setServiceFilter}>
-                            <SelectTrigger className="w-full sm:w-[220px]">
-                                <Filter className="mr-2 h-4 w-4" />
-                                <SelectValue placeholder="Filter by Service" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="all">All Services</SelectItem>
-                                <SelectItem value="Immigration & Residence">Immigration & Residence</SelectItem>
-                                <SelectItem value="Registration & Bureaucracy">Registration & Bureaucracy</SelectItem>
-                                <SelectItem value="Pension and social benefits">Pension & Social Benefits</SelectItem>
-                                <SelectItem value="Others requests">Other Requests</SelectItem>
-                            </SelectContent>
-                        </Select>
-                        <Input
-                            type="date"
-                            value={dateFrom}
-                            onChange={(e) => setDateFrom(e.target.value)}
-                            className="w-[calc(50%-4px)] sm:w-[160px]"
-                            placeholder="From date"
-                        />
-                        <Input
-                            type="date"
-                            value={dateTo}
-                            onChange={(e) => setDateTo(e.target.value)}
-                            className="w-[calc(50%-4px)] sm:w-[160px]"
-                            placeholder="To date"
-                        />
-                        <MultiSelect
-                            options={availableTags.map(tag => ({ label: tag, value: tag }))}
-                            selected={selectedTags}
-                            onChange={setSelectedTags}
-                            placeholder="Filter by Tags"
-                            className="w-full sm:w-[200px]"
-                        />
-                        {(dateFrom || dateTo || selectedTags.length > 0) && (
-                            <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={() => {
-                                    setDateFrom("");
-                                    setDateTo("");
-                                    setSelectedTags([]);
-                                }}
-                            >
-                                Clear Filters
+                {/* Header with Settings and New Submission */}
+                <div className="flex justify-end gap-2">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="outline">
+                                <Settings2 className="mr-2 h-4 w-4" />
+                                Settings
                             </Button>
-                        )}
-                        <Select value={pageSize.toString()} onValueChange={(val) => { setPageSize(parseInt(val)); setPage(1); }}>
-                            <SelectTrigger className="w-[140px]">
-                                <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="10">Show 10</SelectItem>
-                                <SelectItem value="20">Show 20</SelectItem>
-                                <SelectItem value="50">Show 50</SelectItem>
-                                <SelectItem value="100">Show 100</SelectItem>
-                            </SelectContent>
-                        </Select>
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="outline" className="ml-2">
-                                    <Settings2 className="mr-2 h-4 w-4" />
-                                    Columns
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                                {toggleableColumns.map((column) => (
-                                    <DropdownMenuCheckboxItem
-                                        key={column.id}
-                                        className="capitalize"
-                                        checked={columnVisibility[column.id] !== false}
-                                        onCheckedChange={(value) =>
-                                            setColumnVisibility((prev) => ({
-                                                ...prev,
-                                                [column.id]: value,
-                                            }))
-                                        }
-                                    >
-                                        {column.label}
-                                    </DropdownMenuCheckboxItem>
-                                ))}
-                            </DropdownMenuContent>
-                        </DropdownMenu>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-64">
+                            <DropdownMenuLabel>Column Visibility</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            {toggleableColumns.map((column) => (
+                                <DropdownMenuCheckboxItem
+                                    key={column.id}
+                                    className="capitalize"
+                                    checked={columnVisibility[column.id] !== false}
+                                    onCheckedChange={(value) =>
+                                        setColumnVisibility((prev) => ({
+                                            ...prev,
+                                            [column.id]: value,
+                                        }))
+                                    }
+                                >
+                                    {column.label}
+                                </DropdownMenuCheckboxItem>
+                            ))}
+                            <DropdownMenuSeparator />
+                            <DropdownMenuLabel>Filter by Tags</DropdownMenuLabel>
+                            <div className="px-2 py-2">
+                                <MultiSelect
+                                    options={availableTags.map(tag => ({ label: tag, value: tag }))}
+                                    selected={selectedTags}
+                                    onChange={setSelectedTags}
+                                    placeholder="Select tags..."
+                                    className="w-full"
+                                />
+                            </div>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                    <Button>
+                        <Plus className="mr-2 h-4 w-4" />
+                        New Submission
+                    </Button>
+                </div>
 
-                        {/* Saved Filters Dropdown */}
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="outline" className="ml-2">
-                                    <Bookmark className="mr-2 h-4 w-4" />
-                                    Filters
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end" className="w-56">
-                                <DropdownMenuLabel>Saved Filters</DropdownMenuLabel>
-                                <DropdownMenuSeparator />
-                                {savedFilters.length === 0 ? (
-                                    <div className="px-2 py-6 text-center text-sm text-muted-foreground">
-                                        No saved filters yet
-                                    </div>
-                                ) : (
-                                    savedFilters.map((filter) => (
-                                        <div key={filter.id} className="flex items-center justify-between px-2 py-1.5 hover:bg-accent rounded-sm">
-                                            <button
-                                                onClick={() => handleApplyFilter(filter.id)}
-                                                className="flex-1 text-left text-sm flex items-center gap-2"
-                                            >
-                                                {filter.isDefault && <Star className="h-3 w-3 fill-current text-yellow-500" />}
-                                                {filter.name}
-                                            </button>
-                                            <Button
-                                                variant="ghost"
-                                                size="sm"
-                                                className="h-6 w-6 p-0"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    handleDeleteFilter(filter.id);
-                                                }}
-                                            >
-                                                ×
-                                            </Button>
-                                        </div>
-                                    ))
-                                )}
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem onClick={() => setSaveFilterDialogOpen(true)}>
-                                    <Bookmark className="mr-2 h-4 w-4" />
-                                    Save Current Filter
-                                </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
+                <div className="flex flex-col gap-4">
+                    {/* Search Bar - Full Width */}
+                    <div className="relative w-full">
+                        <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                        <Input
+                            placeholder="Search by client name, service, or ID..."
+                            value={search}
+                            onChange={handleSearchChange}
+                            className="pl-8"
+                        />
                     </div>
 
-                    <div className="flex flex-col sm:flex-row items-center gap-4 w-full">
-                        <div className="flex items-center gap-2 w-full sm:w-auto bg-muted px-3 py-1 rounded-md overflow-x-auto">
+                    {/* Filters Row */}
+                    <div className="flex flex-wrap gap-2 items-center justify-between">
+                        <div className="flex flex-wrap gap-2 items-center">
+                            <Select value={serviceFilter} onValueChange={setServiceFilter}>
+                                <SelectTrigger className="w-[180px]">
+                                    <SelectValue placeholder="All Services" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="all">All Services</SelectItem>
+                                    <SelectItem value="Immigration & Residence">Immigration & Residence</SelectItem>
+                                    <SelectItem value="Registration & Bureaucracy">Registration & Bureaucracy</SelectItem>
+                                    <SelectItem value="Pension and social benefits">Pension & Social Benefits</SelectItem>
+                                    <SelectItem value="Others requests">Other Requests</SelectItem>
+                                </SelectContent>
+                            </Select>
+
+                            {/* Saved Filters Dropdown */}
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button variant="outline">
+                                        <Bookmark className="mr-2 h-4 w-4" />
+                                        Filters
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="start" className="w-56">
+                                    <DropdownMenuLabel>Saved Filters</DropdownMenuLabel>
+                                    <DropdownMenuSeparator />
+                                    {savedFilters.length === 0 ? (
+                                        <div className="px-2 py-6 text-center text-sm text-muted-foreground">
+                                            No saved filters yet
+                                        </div>
+                                    ) : (
+                                        savedFilters.map((filter) => (
+                                            <div key={filter.id} className="flex items-center justify-between px-2 py-1.5 hover:bg-accent rounded-sm">
+                                                <button
+                                                    onClick={() => handleApplyFilter(filter.id)}
+                                                    className="flex-1 text-left text-sm flex items-center gap-2"
+                                                >
+                                                    {filter.isDefault && <Star className="h-3 w-3 fill-current text-yellow-500" />}
+                                                    {filter.name}
+                                                </button>
+                                                <Button
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    className="h-6 w-6 p-0"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleDeleteFilter(filter.id);
+                                                    }}
+                                                >
+                                                    ×
+                                                </Button>
+                                            </div>
+                                        ))
+                                    )}
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem onClick={() => setSaveFilterDialogOpen(true)}>
+                                        <Bookmark className="mr-2 h-4 w-4" />
+                                        Save Current Filter
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+
+                            <Input
+                                type="date"
+                                value={dateTo}
+                                onChange={(e) => setDateTo(e.target.value)}
+                                className="w-[160px]"
+                                placeholder="Date Range"
+                            />
+
+                            {(dateTo || selectedTags.length > 0) && (
+                                <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => {
+                                        setDateTo("");
+                                        setSelectedTags([]);
+                                    }}
+                                >
+                                    Clear Filters
+                                </Button>
+                            )}
+                        </div>
+
+                        {/* Bulk Actions */}
+                        <div className="flex items-center gap-2 bg-muted px-3 py-1.5 rounded-md">
                             <span className="text-sm font-medium whitespace-nowrap">{selectedCount} selected</span>
-                            <div className="h-4 w-[1px] bg-border mx-2" />
+                            <div className="h-4 w-[1px] bg-border mx-1" />
                             <Select
                                 value={bulkStatus}
                                 onValueChange={handleBulkStatusUpdate}
                                 disabled={selectedCount === 0}
                             >
-                                <SelectTrigger className="h-8 w-[140px] sm:w-[160px]">
+                                <SelectTrigger className="h-8 w-[140px] border-0 bg-transparent">
                                     <SelectValue placeholder="Update Status" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -414,26 +405,6 @@ export default function AdminSubmissions() {
                                 Export
                             </Button>
                         </div>
-
-                        <div className="flex items-center gap-2 ml-auto">
-                            <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => setPage((p) => Math.max(1, p - 1))}
-                                disabled={page === 1 || isLoading}
-                            >
-                                <ChevronLeft className="h-4 w-4" />
-                            </Button>
-                            <span className="text-sm whitespace-nowrap">Page {page}</span>
-                            <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => setPage((p) => p + 1)}
-                                disabled={!data || data.submissions.length < pageSize || isLoading}
-                            >
-                                <ChevronRight className="h-4 w-4" />
-                            </Button>
-                        </div>
                     </div>
                 </div>
 
@@ -452,6 +423,32 @@ export default function AdminSubmissions() {
                         onColumnVisibilityChange={setColumnVisibility}
                     />
                 )}
+
+                {/* Bottom Pagination */}
+                <div className="flex items-center justify-between">
+                    <div className="text-sm text-muted-foreground">
+                        Showing {data?.submissions.length ? ((page - 1) * pageSize + 1) : 0} to {Math.min(page * pageSize, ((page - 1) * pageSize + (data?.submissions.length || 0)))} of {data?.total || 0} results
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setPage((p) => Math.max(1, p - 1))}
+                            disabled={page === 1 || isLoading}
+                        >
+                            Previous
+                        </Button>
+                        <span className="text-sm whitespace-nowrap">Page {page}</span>
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setPage((p) => p + 1)}
+                            disabled={!data || data.submissions.length < pageSize || isLoading}
+                        >
+                            Next
+                        </Button>
+                    </div>
+                </div>
             </div>
 
             {/* Save Filter Dialog */}

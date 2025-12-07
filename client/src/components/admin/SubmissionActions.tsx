@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
@@ -26,7 +26,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { MoreHorizontal, Mail, Loader2 } from "lucide-react";
+import { Settings, Mail, Loader2 } from "lucide-react";
 import { useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
@@ -56,12 +56,16 @@ export function SubmissionActions({ submission }: SubmissionActionsProps) {
         { submissionId: submission.id, templateId: parseInt(selectedTemplateId) },
         {
             enabled: !!selectedTemplateId,
-            onSuccess: (data) => {
-                setSubject(data.subject);
-                setContent(data.text); // Default to text content for editing simplicity
-            },
         }
     );
+
+    // Update subject and content when preview data changes
+    useEffect(() => {
+        if (previewQuery.data) {
+            setSubject(previewQuery.data.subject);
+            setContent(previewQuery.data.text);
+        }
+    }, [previewQuery.data]);
 
     // Mutation
     const sendEmailMutation = trpc.admin.submissions.sendEmail.useMutation({
@@ -102,7 +106,7 @@ export function SubmissionActions({ submission }: SubmissionActionsProps) {
                 <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="h-8 w-8 p-0">
                         <span className="sr-only">Open menu</span>
-                        <MoreHorizontal className="h-4 w-4" />
+                        <Settings className="h-4 w-4" />
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
