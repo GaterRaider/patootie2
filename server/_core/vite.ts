@@ -15,7 +15,7 @@ export async function setupVite(app: Express, server: Server) {
   };
 
   const vite = await createViteServer({
-    ...viteConfig,
+    ...viteConfig({ mode: 'development', command: 'serve' }),
     configFile: false,
     server: serverOptions,
     appType: "custom",
