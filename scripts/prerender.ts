@@ -14,6 +14,7 @@ import prettier from 'prettier';
 
 // Import server router for direct calling
 import { appRouter } from '../server/routers';
+import { getDb } from '../server/db';
 
 // Mock browser environment BEFORE imports that might use them
 if (typeof window === 'undefined') {
@@ -172,12 +173,19 @@ async function prerender() {
 
   const template = fs.readFileSync(templatePath, 'utf-8');
 
+
   // Create tRPC caller for direct database access
   // Mock context - public procedures don't need real request/response
+  const db = await getDb();
+  if (!db) {
+    throw new Error('Failed to initialize database connection');
+  }
+
   const caller = appRouter.createCaller({
     req: {} as any,
     res: {} as any,
     user: null,
+    db,
   });
 
   // Setup providers
