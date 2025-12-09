@@ -327,7 +327,10 @@ export const appRouter = router({
 
       logout: publicProcedure.mutation(({ ctx }) => {
         const cookieOptions = getSessionCookieOptions(ctx.req);
-        ctx.res.clearCookie("admin_token", { ...cookieOptions, maxAge: -1 });
+        // Explicitly overwrite the cookie with an empty string and immediate expiration
+        // We use both clearCookie AND setting an empty expired cookie to be safe
+        ctx.res.clearCookie("admin_token", cookieOptions);
+        ctx.res.cookie("admin_token", "", { ...cookieOptions, maxAge: 0, expires: new Date(0) });
         return { success: true };
       }),
 

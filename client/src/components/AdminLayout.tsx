@@ -20,8 +20,10 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     });
 
     const logoutMutation = trpc.admin.auth.logout.useMutation({
-        onSuccess: () => {
-            setLocation("/login");
+        onSuccess: async () => {
+            // Force a hard reload to the login page to ensure all client state is cleared
+            // and cookies are definitely gone from the browser's view
+            window.location.href = "/admin/login";
         },
     });
 
