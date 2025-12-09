@@ -298,7 +298,7 @@ export const appRouter = router({
           // Record successful attempt
           await recordAdminLoginAttempt(ipAddress, input.username, true);
 
-          const token = await signAdminToken(admin.id, input.keepMeLoggedIn);
+          const token = await signAdminToken(admin.id, admin.tokenVersion, input.keepMeLoggedIn);
           const cookieOptions = getSessionCookieOptions(ctx.req);
           const cookieConfig: any = { ...cookieOptions };
 

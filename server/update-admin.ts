@@ -44,9 +44,13 @@ async function main() {
     console.log(`🔐 Hashing new password...`);
     const passwordHash = await hashPassword(newPassword);
 
-    console.log(`💾 Updating database...`);
+    // Get current tokenVersion (default to 0 if not set)
+    const currentVersion = users[0].tokenVersion || 0;
+    const newTokenVersion = currentVersion + 1;
+
+    console.log(`💾 Updating database (incrementing token version to ${newTokenVersion})...`);
     await db.update(adminUsers)
-        .set({ username: newUsername, passwordHash })
+        .set({ username: newUsername, passwordHash, tokenVersion: newTokenVersion })
         .where(eq(adminUsers.username, currentUsername));
 
     console.log("✅ Credentials updated successfully!");

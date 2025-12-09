@@ -116,6 +116,7 @@ export const adminUsers = pgTable("adminUsers", {
   id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
   username: varchar("username", { length: 50 }).notNull().unique(),
   passwordHash: text("passwordHash").notNull(),
+  tokenVersion: integer("tokenVersion").default(0).notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
