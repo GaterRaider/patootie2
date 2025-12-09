@@ -10,13 +10,14 @@ test.describe('Email Templates Admin', () => {
     test('should allow creating a new email template', async ({ page }) => {
 
         // --- Login Step ---
-        await page.goto('/admin/login');
+        const username = process.env.E2E_ADMIN_USERNAME || 'admin';
+        const password = process.env.E2E_ADMIN_PASSWORD || 'admin123';
 
-        // Wait for page to load
+        await page.goto('/admin/login');
         await page.waitForLoadState('networkidle');
 
-        await page.fill('input#username', 'admin');
-        await page.fill('input#password', 'admin123');
+        await page.fill('input#username', username);
+        await page.fill('input#password', password);
         await page.click('button[type="submit"]');
 
         // Wait for redirect to dashboard with a longer timeout

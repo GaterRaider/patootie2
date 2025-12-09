@@ -7,8 +7,11 @@ test.describe('Admin Login and Navigation', () => {
         await page.goto('/admin/login');
         await page.waitForLoadState('networkidle');
 
-        await page.fill('input#username', 'admin');
-        await page.fill('input#password', 'admin123');
+        const username = process.env.E2E_ADMIN_USERNAME || 'admin';
+        const password = process.env.E2E_ADMIN_PASSWORD || 'admin123';
+
+        await page.fill('input#username', username);
+        await page.fill('input#password', password);
         await page.click('button[type="submit"]');
 
         // Wait for successful login and redirect
