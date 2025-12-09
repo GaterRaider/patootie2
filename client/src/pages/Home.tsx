@@ -170,7 +170,7 @@ export default function Home() {
         <html lang={language} suppressHydrationWarning />
 
         {/* Preload LCP Image */}
-        <link rel="preload" as="image" href="/images/patootie-portrait.webp" fetchPriority="high" />
+        <link rel="preload" as="image" href="/images/patootie-portrait.webp" type="image/webp" fetchPriority="high" />
 
         {/* Primary Meta Tags */}
         <title>
