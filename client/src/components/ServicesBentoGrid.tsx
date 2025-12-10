@@ -48,15 +48,22 @@ export function ServicesBentoGrid({ services, onSelect, language }: ServicesBent
         const container = scrollContainerRef.current;
         if (!container) return;
 
+        let rafId: number;
         const handleScroll = () => {
-            const scrollLeft = container.scrollLeft;
-            const cardWidth = container.scrollWidth / services.length;
-            const newIndex = Math.round(scrollLeft / cardWidth);
-            setActiveIndex(newIndex);
+            cancelAnimationFrame(rafId);
+            rafId = requestAnimationFrame(() => {
+                const scrollLeft = container.scrollLeft;
+                const cardWidth = container.scrollWidth / services.length;
+                const newIndex = Math.round(scrollLeft / cardWidth);
+                setActiveIndex(newIndex);
+            });
         };
 
         container.addEventListener('scroll', handleScroll);
-        return () => container.removeEventListener('scroll', handleScroll);
+        return () => {
+            container.removeEventListener('scroll', handleScroll);
+            cancelAnimationFrame(rafId);
+        };
     }, [services.length]);
 
     const handleCardClick = (service: ServiceItem) => {

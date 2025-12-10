@@ -83,7 +83,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         <>
             <div className="p-6 flex items-center gap-3">
                 <img
-                    src="/images/HandokHelperLogoOnly.webp"
+                    src="/images/HandokHelperLogoOnly-128.webp"
                     alt="HandokHelper Logo"
                     className="h-10 w-10 flex-shrink-0 object-contain"
                 />
