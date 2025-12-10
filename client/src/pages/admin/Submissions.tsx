@@ -4,6 +4,7 @@ import { trpc } from "@/lib/trpc";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2, Search, ChevronLeft, ChevronRight, Filter, Settings2, Bookmark, Star, Plus, SlidersHorizontal } from "lucide-react";
+import { Link } from "wouter";
 import { SubmissionsDateRangePicker } from "@/components/admin/SubmissionsDateRangePicker";
 import { SortingState, VisibilityState } from "@tanstack/react-table";
 import {
@@ -311,10 +312,12 @@ export default function AdminSubmissions() {
                             </div>
                         </DropdownMenuContent>
                     </DropdownMenu>
-                    <Button className="bg-blue-600 hover:bg-blue-700 text-white shadow-sm">
-                        <Plus className="mr-2 h-4 w-4" />
-                        New Submission
-                    </Button>
+                    <Link href="/submissions/create">
+                        <Button className="bg-blue-600 hover:bg-blue-700 text-white shadow-sm">
+                            <Plus className="mr-2 h-4 w-4" />
+                            New Submission
+                        </Button>
+                    </Link>
                 </div>
 
                 <div className="flex flex-col gap-4">

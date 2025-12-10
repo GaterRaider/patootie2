@@ -693,6 +693,76 @@ export const appRouter = router({
 
           return { success: true };
         }),
+      create: adminProcedure
+        .input(
+          z.object({
+            service: z.string().min(1, "Service is required"),
+            subService: z.string().optional(),
+            subServices: z.array(z.string()).optional(),
+            salutation: z.string().min(1, "Salutation is required"),
+            firstName: z.string().min(1, "First name is required"),
+            lastName: z.string().min(1, "Last name is required"),
+            dateOfBirth: z.string().min(1, "Date of birth is required"),
+            email: z.string().email("Valid email is required"),
+            phoneNumber: z.string().min(1, "Phone number is required"),
+            street: z.string().min(1, "Street address is required"),
+            addressLine2: z.string().optional(),
+            postalCode: z.string().min(1, "Postal code is required"),
+            city: z.string().min(1, "City is required"),
+            stateProvince: z.string().optional(),
+            country: z.string().min(1, "Country is required"),
+            currentResidence: z.string().optional(),
+            preferredLanguage: z.string().optional(),
+            message: z.string().min(1, "Message is required"),
+            status: z.string().default("new"),
+          })
+        )
+        .mutation(async ({ input, ctx }) => {
+          const { createContactSubmission } = await import("./db");
+
+          // Create submission record
+          const submission = {
+            service: input.service,
+            subService: input.subService || null,
+            subServices: input.subServices || null,
+            salutation: input.salutation,
+            firstName: input.firstName,
+            lastName: input.lastName,
+            dateOfBirth: input.dateOfBirth,
+            email: input.email,
+            phoneNumber: input.phoneNumber,
+            street: input.street,
+            addressLine2: input.addressLine2 || null,
+            postalCode: input.postalCode,
+            city: input.city,
+            stateProvince: input.stateProvince || null,
+            country: input.country,
+            currentResidence: input.currentResidence || null,
+            preferredLanguage: input.preferredLanguage || null,
+            message: input.message,
+            contactConsent: true, // Admin created, assume consent
+            privacyConsent: true, // Admin created, assume consent
+            submitterIp: ctx.req.ip || ctx.req.socket.remoteAddress || "admin",
+            userAgent: "Admin Panel",
+            tags: [],
+            status: input.status,
+          };
+
+          const result = await createContactSubmission(submission);
+
+          // Log activity
+          await logActivity({
+            adminId: ctx.adminId,
+            action: "CREATE_SUBMISSION",
+            entityType: "SUBMISSION",
+            entityId: undefined, // We don't have the numeric ID returned from createContactSubmission yet, only refId. Ideally createContactSubmission should return the full object or ID.
+            details: { refId: result.refId },
+            ipAddress: ctx.req.ip || ctx.req.socket.remoteAddress,
+            userAgent: ctx.req.headers["user-agent"],
+          });
+
+          return { success: true, refId: result.refId };
+        }),
     }),
 
     savedFilters: router({

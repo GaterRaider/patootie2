@@ -15,7 +15,7 @@ import AdminUsers from "./pages/admin/AdminUsers";
 import FAQManager from "./pages/admin/FAQManager";
 import ClientUsers from "./pages/admin/ClientUsers";
 import ClientUserDetail from "./pages/admin/ClientUserDetail";
-
+import CreateSubmissionPage from "./pages/admin/CreateSubmissionPage";
 
 /**
  * Admin application router
@@ -26,6 +26,7 @@ export default function AdminApp() {
         <AdminLayout>
             <Switch>
                 <Route path="/dashboard" component={AdminDashboard} />
+                <Route path="/submissions/create" component={CreateSubmissionPage} />
                 <Route path="/submissions/:id" component={SubmissionDetail} />
                 <Route path="/submissions" component={AdminSubmissions} />
                 <Route path="/board" component={SubmissionBoard} />
