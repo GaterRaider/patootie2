@@ -345,7 +345,7 @@ export default function Home() {
             }}
             className="flex items-center gap-2 md:gap-3 flex-1 md:flex-initial justify-center md:justify-start min-w-0 cursor-pointer group"
           >
-            <img src="/images/HandokHelperLogoOnly-128.webp" alt="HandokHelper Logo" className="h-8 md:h-10 w-auto flex-shrink-0 object-contain transition-transform duration-300 group-hover:scale-105" />
+            <img src="/images/HandokHelperLogoOnly.webp" alt="HandokHelper Logo" className="h-8 md:h-10 w-auto flex-shrink-0 object-contain transition-transform duration-300 group-hover:scale-105" />
             <div className="text-base md:text-xl font-bold leading-tight whitespace-nowrap transition-colors duration-300 group-hover:text-indigo-600">
               <span className="hidden sm:inline">{t.siteTitle}</span>
               <span className="sm:hidden">HandokHelper</span>
@@ -534,9 +534,7 @@ export default function Home() {
               <div className="relative">
                 <div className="aspect-square rounded-2xl overflow-hidden shadow-2xl">
                   <img
-                    src="/images/patootie-portrait-800.webp"
-                    srcSet="/images/patootie-portrait-400.webp 400w, /images/patootie-portrait-800.webp 800w"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
+                    src="/images/patootie-portrait.webp"
                     alt="Kwon EasyBureau"
                     fetchPriority="high"
                     loading="eager"
