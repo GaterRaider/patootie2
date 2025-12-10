@@ -65,7 +65,10 @@ export default function AdminSubmissions() {
                 }
             }
         }
-        return {};
+        return {
+            subServices: false,
+            tags: false,
+        };
     });
     const [serviceFilter, setServiceFilter] = useState<string>("all");
     const [dateFrom, setDateFrom] = useState<string>("");

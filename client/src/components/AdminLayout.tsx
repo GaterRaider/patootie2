@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, Link } from "wouter";
 import { trpc } from "@/lib/trpc";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Loader2, LayoutDashboard, LogOut, ScrollText, FileText, Settings as SettingsIcon, Moon, Sun, Menu, X, FileStack, Mail, Users, HelpCircle, Building2, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/contexts/ThemeContext";
@@ -68,14 +68,13 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         { icon: FileStack, label: "Submissions", path: "/submissions" },
         { icon: LayoutDashboard, label: "Board", path: "/board" },
         { icon: FileText, label: "Invoices", path: "/invoices", matchPrefix: true },
+        { icon: User, label: "User database", path: "/clients", matchPrefix: true },
         { icon: Mail, label: "Emails", path: "/emails", matchPrefix: true },
         { icon: HelpCircle, label: "FAQ", path: "/faq" },
         { icon: ScrollText, label: "Activity Log", path: "/activity" },
         { separator: true }, // Visual separator
-        { icon: SettingsIcon, label: "Site Settings", path: "/settings" },
         { icon: Building2, label: "Company Settings", path: "/company-settings" },
         { icon: Users, label: "Team Members", path: "/users" },
-        { icon: User, label: "Users", path: "/clients", matchPrefix: true },
     ];
 
     // Sidebar content component (reused for both desktop and mobile)
@@ -121,6 +120,13 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                 })}
             </nav>
             <div className="fixed bottom-0 left-0 w-64 p-4 border-t space-y-2 bg-white dark:bg-[#1C252D] hidden md:block border-border">
+                <Link href="/settings" className={cn(
+                    buttonVariants({ variant: location === "/settings" ? "default" : "outline" }),
+                    "w-full justify-start"
+                )}>
+                    <SettingsIcon className="mr-2 h-4 w-4" />
+                    Settings
+                </Link>
                 {toggleTheme && (
                     <Button
                         variant="outline"
@@ -205,6 +211,13 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                         })}
                     </nav>
                     <div className="absolute bottom-0 left-0 right-0 p-4 border-t space-y-2 bg-white dark:bg-[#1C252D]">
+                        <Link href="/settings" className={cn(
+                            buttonVariants({ variant: location === "/settings" ? "default" : "outline" }),
+                            "w-full justify-start"
+                        )}>
+                            <SettingsIcon className="mr-2 h-4 w-4" />
+                            Settings
+                        </Link>
                         {toggleTheme && (
                             <Button
                                 variant="outline"

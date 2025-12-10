@@ -100,7 +100,7 @@ export default function AdminDashboard() {
             invoiceStatus: true,
             responseTime: true,
             topServices: true,
-            recentActivity: true,
+            recentActivity: false,
             quickActions: true,
         };
 
@@ -112,7 +112,7 @@ export default function AdminDashboard() {
 
                     // Migration: Add new widgets if they don't exist in saved visibility
                     if (!('recentActivity' in parsedVisibility)) {
-                        parsedVisibility.recentActivity = true;
+                        parsedVisibility.recentActivity = false;
                     }
                     if (!('quickActions' in parsedVisibility)) {
                         parsedVisibility.quickActions = true;
@@ -129,7 +129,7 @@ export default function AdminDashboard() {
 
     // Chart order state
     const [chartOrder, setChartOrder] = useState<ChartId[]>(() => {
-        const defaultOrder: ChartId[] = ['recentActivity', 'quickActions', 'submissionsOverTime', 'submissionsByService', 'revenueTrends', 'invoiceStatus', 'responseTime', 'topServices'];
+        const defaultOrder: ChartId[] = ['submissionsByService', 'submissionsOverTime', 'quickActions', 'revenueTrends', 'invoiceStatus', 'responseTime', 'topServices', 'recentActivity'];
 
         if (typeof window !== 'undefined') {
             const saved = localStorage.getItem("dashboard-chart-order");
@@ -144,7 +144,7 @@ export default function AdminDashboard() {
                     if (!hasRecentActivity || !hasQuickActions) {
                         const migratedOrder = [...parsedOrder];
                         if (!hasRecentActivity) {
-                            migratedOrder.unshift('recentActivity');
+                            migratedOrder.push('recentActivity');
                         }
                         if (!hasQuickActions) {
                             // Insert after recentActivity if it exists, otherwise at the beginning

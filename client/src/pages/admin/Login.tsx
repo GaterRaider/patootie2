@@ -37,7 +37,7 @@ export default function AdminLogin() {
     const currentYear = new Date().getFullYear();
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-blue-50/50 relative overflow-hidden">
+        <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 relative overflow-hidden">
             {/* Background decoration - optional subtle waves could be added here with SVG or CSS */}
             <div className="absolute inset-0 z-0 pointer-events-none">
                 <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-100/40 via-transparent to-transparent"></div>
@@ -68,7 +68,7 @@ export default function AdminLogin() {
                                     placeholder="Username"
                                     value={username}
                                     onChange={(e) => setUsername(e.target.value)}
-                                    className="pl-10 h-11 bg-slate-50 border-slate-200 focus:bg-white transition-colors"
+                                    className="pl-10 h-11 bg-[#F8FAFC] dark:bg-[#F8FAFC] border-slate-200 dark:border-slate-200 focus:bg-white dark:focus:bg-white transition-colors text-slate-900 dark:text-slate-900 placeholder:text-slate-400 dark:placeholder:text-slate-400"
                                     required
                                 />
                             </div>
@@ -82,7 +82,7 @@ export default function AdminLogin() {
                                     placeholder="Password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="pl-10 h-11 bg-slate-50 border-slate-200 focus:bg-white transition-colors"
+                                    className="pl-10 h-11 bg-[#F8FAFC] dark:bg-[#F8FAFC] border-slate-200 dark:border-slate-200 focus:bg-white dark:focus:bg-white transition-colors text-slate-900 dark:text-slate-900 placeholder:text-slate-400 dark:placeholder:text-slate-400"
                                     required
                                 />
                             </div>
@@ -93,7 +93,7 @@ export default function AdminLogin() {
                                 id="keepMeLoggedIn"
                                 checked={keepMeLoggedIn}
                                 onCheckedChange={(checked) => setKeepMeLoggedIn(!!checked)}
-                                className="data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
+                                className="data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600 bg-[#F8FAFC] dark:bg-[#F8FAFC] border-slate-200 dark:border-slate-200"
                             />
                             <Label
                                 htmlFor="keepMeLoggedIn"
