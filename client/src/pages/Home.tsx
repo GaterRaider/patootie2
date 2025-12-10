@@ -642,9 +642,7 @@ export default function Home() {
               </div>
             </div>
 
-            <p className="text-center text-xs md:text-sm text-muted-foreground mt-6 md:mt-8 max-w-2xl mx-auto">
-              {t.processNote}
-            </p>
+
           </div>
         </section>
 

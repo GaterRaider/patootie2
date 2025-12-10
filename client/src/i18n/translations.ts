@@ -54,7 +54,6 @@ export interface Translations {
   processStep2Desc: string;
   processStep3Title: string;
   processStep3Desc: string;
-  processNote: string;
 
   // Contact Form
   contactHeading: string;
@@ -288,7 +287,6 @@ export const translations: Record<Language, Translations> = {
     processStep2Desc: "HandokHelper reviews your situation and contacts you.",
     processStep3Title: "Start working together",
     processStep3Desc: "After agreement on fees, HandokHelper assists with your case.",
-    processNote: "Note: submitting the form does not create a binding contract; HandokHelper will first provide an offer.",
 
     // Contact Form
     contactHeading: "Get in Touch",
@@ -520,7 +518,6 @@ export const translations: Record<Language, Translations> = {
     processStep2Desc: "한독헬퍼가 상황을 검토하고 연락드립니다.",
     processStep3Title: "협력 시작",
     processStep3Desc: "비용 합의 후 한독헬퍼가 귀하의 사례를 지원합니다.",
-    processNote: "참고: 양식 제출이 구속력 있는 계약을 생성하지 않습니다. 한독헬퍼가 먼저 견적을 제공합니다.",
 
     // Contact Form
     contactHeading: "문의하기",
@@ -752,7 +749,6 @@ export const translations: Record<Language, Translations> = {
     processStep2Desc: "HandokHelper prüft Ihre Situation und kontaktiert Sie.",
     processStep3Title: "Zusammenarbeit starten",
     processStep3Desc: "Nach Einigung über die Kosten unterstützt HandokHelper Ihren Fall.",
-    processNote: "Hinweis: Das Absenden des Formulars stellt keinen verbindlichen Vertragsabschluss dar. HandokHelper wird Ihnen zunächst ein unverbindliches Angebot unterbreiten.",
 
     // Contact Form
     contactHeading: "Kontakt aufnehmen",
